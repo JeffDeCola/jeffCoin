@@ -1,9 +1,14 @@
 # jeffCoin
 
 ```text
-*** THE DEPLOY IS UNDER CONSTRUCTION - CHECK BACK SOON ***
-For testing the deploy, I'm using using mesos/marathon.
+*** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
 ```
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/JeffDeCola/my-go-examples)](https://goreportcard.com/report/github.com/JeffDeCola/my-go-examples)
+[![GoDoc](https://godoc.org/github.com/JeffDeCola/my-go-examples?status.svg)](https://godoc.org/github.com/JeffDeCola/my-go-examples)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3c5477c63d77a071fdff/maintainability)](https://codeclimate.com/github/JeffDeCola/my-go-examples/maintainability)
+[![Issue Count](https://codeclimate.com/github/JeffDeCola/my-go-examples/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/my-go-examples/issues)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
 `jeffCoin` _tbd._
 
