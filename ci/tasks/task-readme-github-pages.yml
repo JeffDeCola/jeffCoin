@@ -1,0 +1,19 @@
+# jeffCoin task-readme-github-pages.yml
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: golang
+    tag: 1.7.1
+
+inputs:
+- name: jeffCoin
+
+outputs:
+- name: jeffCoin-updated
+
+run:
+  path: ./jeffCoin/ci/scripts/readme-github-pages.sh
+  # args: [-debug]
