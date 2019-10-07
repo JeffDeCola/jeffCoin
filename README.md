@@ -10,7 +10,7 @@
 [![Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
-`jeffCoin` _tbd._
+_A decentralized cryptocurrency coin using a simple blockchain and sh256 hashing._
 
 Table of Contents,
 
