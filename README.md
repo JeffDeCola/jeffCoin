@@ -1,8 +1,19 @@
-# multi-node-blockchain-with-REST-and-tcp-ip example
+# jeffCoin
 
-_A cryptocurrency (transaction based data) built on a multi node P2P open network
-using a sha256 blockchain with a REST JSON API and a tcp server to communicate
-between the nodes over ip._
+```text
+*** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
+```
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/JeffDeCola/jeffCoin)](https://goreportcard.com/report/github.com/JeffDeCola/jeffCoin)
+[![GoDoc](https://godoc.org/github.com/JeffDeCola/jeffCoin?status.svg)](https://godoc.org/github.com/JeffDeCola/jeffCoin)
+[![Maintainability](https://api.codeclimate.com/v1/badges/0c7cf619a01dd65fc06b/maintainability)](https://codeclimate.com/github/JeffDeCola/jeffCoin/maintainability)
+[![Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
+
+_A cryptocurrency (transaction based data) built on a multi node
+decentralized P2P open network using a sha256 Proof of Work blockchain
+with a REST JSON API and a TCP Server to communicate between
+the nodes over ip._
 
 Table of Contents,
 
@@ -10,11 +21,11 @@ Table of Contents,
 
 Documentation and reference,
 
-* The blockchain is built from my
+* The Blockchain is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-* The webserver is built from my
+* The Webserver is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
-* The tcp server is built from my
+* The TCP Server is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * Refer to my
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
@@ -25,7 +36,7 @@ Documentation and reference,
 
 ## OVERVIEW
 
-This code is broken up into four separate parts,
+This code is broken up into four main parts,
 
 * [BLOCKCHAIN](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/blockchain)
   The Blockchain code
@@ -40,12 +51,12 @@ This code is broken up into four separate parts,
 * [WALLET](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/wallet)
   To hold the cryptocurrency
 
-I also added a webserver for a GUI,
+I also added a WebServer for a GUI,
 
 * [WEBSERVER](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/webserver)
   The API and GUI
 
-This example is pretty ambitious and will,
+jeffCoin will,
 
 * Allow multi node with P2P Architecture
 * Create a Blockchain
@@ -56,7 +67,7 @@ This example is pretty ambitious and will,
 
 This illustration may help,
 
-![IMAGE - multi-node-blockchain-with-REST-and-tcp-ip - IMAGE](https://github.com/JeffDeCola/my-go-examples/blob/master/docs/pics/multi-node-blockchain-with-REST-and-tcp-ip.jpg)
+![IMAGE - jeffCoin - IMAGE](../docs/pics/jeffCoin.jpg)
 
 ## BLOCKCHAIN
 
@@ -135,3 +146,34 @@ Now add a block or transaction,
 ADDBLOCK or AB
 ADDTRANSACTION or AT
 ```
+
+## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
+
+For fun, I use concourse to update
+[jeffCoin GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
+and alert me of the changes via repo status and slack.
+
+A pipeline file [pipeline.yml](https://github.com/JeffDeCola/jeffCoin/tree/master/ci/pipeline.yml)
+shows the entire ci flow. Visually, it looks like,
+
+![IMAGE - jeffCoin concourse ci pipeline - IMAGE](docs/pics/jeffCoin-pipeline.jpg)
+
+The `jobs` and `tasks` are,
+
+* `job-readme-github-pages` runs task
+  [readme-github-pages.sh](https://github.com/JeffDeCola/jeffCoin/tree/master/ci/scripts/readme-github-pages.sh).
+
+The concourse `resources types` are,
+
+* `jeffCoin` uses a resource type
+  [docker-image](https://hub.docker.com/r/concourse/git-resource/)
+  to PULL a repo from github.
+* `resource-slack-alert` uses a resource type
+  [docker image](https://hub.docker.com/r/cfcommunity/slack-notification-resource)
+  that will notify slack on your progress.
+* `resource-repo-status` uses a resource type
+  [docker image](https://hub.docker.com/r/dpb587/github-status-resource)
+  that will update your git status for that particular commit.
+
+For more information on using concourse for continuous integration,
+refer to my cheat sheet on [concourse](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/operations-tools/continuous-integration-continuous-deployment/concourse-cheat-sheet).
