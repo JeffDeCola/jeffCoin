@@ -67,7 +67,7 @@ jeffCoin will,
 
 This illustration may help,
 
-![IMAGE - jeffCoin - IMAGE](../docs/pics/jeffCoin.jpg)
+![IMAGE - jeffCoin-overview - IMAGE](docs/pics/jeffCoin-overview.jpg)
 
 ## BLOCKCHAIN
 
