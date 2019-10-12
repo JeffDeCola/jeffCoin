@@ -13,7 +13,7 @@
 _A cryptocurrency (transaction based data) built on a multi node
 decentralized P2P open network using a sha256 Proof of Work blockchain
 with a REST JSON API and a TCP Server to communicate between
-the nodes over ip._
+the nodes over IP._
 
 Table of Contents,
 

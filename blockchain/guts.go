@@ -5,12 +5,20 @@ package blockchain
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 )
+
+func checkErr(err error) {
+	if err != nil {
+		fmt.Printf("Error is %+v\n", err)
+		log.Fatal("ERROR:", err)
+	}
+}
 
 // GET HASH
 // SHA256 hasing
