@@ -21,8 +21,9 @@ const (
 	toolVersion = "1.0.1"
 )
 
-var createBlockchainPtr *bool
-var ipPtr, webPortPtr, tcpPortPtr *string
+var genesisBlockchainPtr *bool
+var yourIPPtr, yourWebPortPtr, yourTCPPortPtr *string
+var networkIPPtr, networkTCPPortPtr *string
 
 func checkErr(err error) {
 	if err != nil {
@@ -78,13 +79,17 @@ func init() {
 	// VERSION FLAG
 	versionPtr := flag.Bool("v", false, "prints current version")
 	// CREATEBLOCKCHAIN
-	createBlockchainPtr = flag.Bool("b", false, "Create a blockchain")
-	// IP
-	ipPtr = flag.String("i", "127.0.0.1", "IP")
-	// WEB PORT
-	webPortPtr = flag.String("p", "1234", "Port")
-	// TCP PORT
-	tcpPortPtr = flag.String("t", "3333", "Port")
+	genesisBlockchainPtr = flag.Bool("genesis", false, "Create a blockchain")
+	// YOUR IP
+	yourIPPtr = flag.String("ip", "127.0.0.1", "Your IP")
+	// YOUR WEB PORT
+	yourWebPortPtr = flag.String("wp", "1234", "Your Web Port")
+	// YOUR TCP PORT
+	yourTCPPortPtr = flag.String("tp", "3333", "Your TCP Port")
+	// NETWORK NODE IP
+	networkIPPtr = flag.String("netip", "192.169.20.100", "Network IP")
+	// NETWORK NODE TCP PORT
+	networkTCPPortPtr = flag.String("netport", "3333", "Network TCP Port")
 	// Parse the flags
 	flag.Parse()
 
@@ -102,21 +107,21 @@ func main() {
 	fmt.Println("Press return to exit\n")
 
 	// START WEBSERVER
-	go startWebServer(*ipPtr, *webPortPtr)
+	go startWebServer(*yourIPPtr, *yourWebPortPtr)
 
 	// START ROUTING NODE (TCP SERVER)
-	go startRoutingNode(*ipPtr, *tcpPortPtr)
+	go startRoutingNode(*yourIPPtr, *yourTCPPortPtr)
 
 	time.Sleep(2 * time.Second)
 
-	// CREATE BLOCKCHAIN
-	if *createBlockchainPtr {
+	// GENESIS BLOCKCHAIN
+	if *genesisBlockchainPtr {
 		firstTransaction := "create chain"
 		difficulty := 1
-		blockchain.CreateBlockchain(firstTransaction, difficulty)
+		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 	} else {
 		// LOAD BLOCKCHAIN FROM ANOTHER NODE
-		err := blockchain.LoadBlockchain(*ipPtr, *tcpPortPtr)
+		err := blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 	}
 

@@ -58,7 +58,7 @@ func handleAddTransaction(rw *bufio.ReadWriter) {
 
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
-	s := "Going to Send Entire Blockchain to another node"
+	s := "Going to Send entire Blockchain to another Node"
 	log.Println("ROUTINGNODE:    " + s)
 
 	// SEND ENTIRE BLOCKCHAIN

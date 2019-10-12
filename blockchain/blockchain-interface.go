@@ -18,8 +18,8 @@ import (
 
 var mutex = &sync.Mutex{}
 
-// CreateBlockchain - Create a blockchain
-func CreateBlockchain(transaction string, difficulty int) {
+// GenesisBlockchain - Create a blockchain
+func GenesisBlockchain(transaction string, difficulty int) {
 
 	t := time.Now()
 	firstBlock := BlockStruct{}
