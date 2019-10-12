@@ -56,7 +56,7 @@ func LoadBlockchain(ip string, tcpPort string) error {
 	checkErr(err)
 
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	fmt.Print("        Message from server1: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
@@ -65,17 +65,20 @@ func LoadBlockchain(ip string, tcpPort string) error {
 	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
 
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	fmt.Print("        Message from server1: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
 	}
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	fmt.Print("        Message from server1: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
 	}
+
+	// LOAD UP THE BLOCKCHAIN FROM THE STRING
+	json.Unmarshal([]byte(message), &Blockchain)
 
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)

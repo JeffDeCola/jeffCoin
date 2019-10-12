@@ -109,14 +109,13 @@ go run jeffCoin.go \
        -genesis \
        -ip 192.168.20.100 \
        -wp 1234 \
-       -tp 3333 \
+       -tp 3333
 ```
 
 If you are a new node connecting to a network,
 
 ```bash
 go run jeffCoin.go \
-       -b \
        -ip 192.168.20.103 \
        -wp 1234 \
        -tp 3333 \
