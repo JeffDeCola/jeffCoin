@@ -63,7 +63,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 
 	// SEND ENTIRE BLOCKCHAIN
 	sendBlockchain := blockchain.GetBlockchain()
-	js, _ := json.MarshalIndent(sendBlockchain, "", "    ")
+	js, _ := json.Marshal(sendBlockchain)
 	s = string(js)
 	_, err := rw.WriteString(s + "\n")
 	checkErr(err)
