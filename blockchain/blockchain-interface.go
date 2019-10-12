@@ -3,11 +3,15 @@
 package blockchain
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
+	"net"
 	"strconv"
 	"sync"
 	"time"
+
+	errors "github.com/pkg/errors"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -42,6 +46,41 @@ func GetBlockchain() BlockchainSlice {
 
 	return Blockchain
 
+}
+
+// LoadBlockchain - Load the Blockchain
+func LoadBlockchain(ip string, tcpPort string) error {
+
+	// TELL ROUTING NODE TO GET THE ENTIRE BLOCKCHAIN
+	conn, err := net.Dial("tcp", ip+":"+tcpPort)
+	checkErr(err)
+
+	message, _ := bufio.NewReader(conn).ReadString('\n')
+	fmt.Print("        Message from server1: " + message)
+	if message == "ERROR" {
+		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
+		return errors.New("Could not get blockchain from node")
+	}
+
+	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
+
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	fmt.Print("        Message from server1: " + message)
+	if message == "ERROR" {
+		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
+		return errors.New("Could not get blockchain from node")
+	}
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	fmt.Print("        Message from server1: " + message)
+	if message == "ERROR" {
+		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
+		return errors.New("Could not get blockchain from node")
+	}
+
+	fmt.Fprintf(conn, "EOF\n")
+	time.Sleep(2 * time.Second)
+	conn.Close()
+	return nil
 }
 
 // GetBlock - Get a Block from the chain

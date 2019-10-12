@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -17,13 +18,11 @@ import (
 )
 
 const (
-	ip          = "127.0.0.1"
-	webPort     = "1234"
-	tcpPort     = "3333"
 	toolVersion = "1.0.1"
 )
 
 var createBlockchainPtr *bool
+var ipPtr, webPortPtr, tcpPortPtr *string
 
 func checkErr(err error) {
 	if err != nil {
@@ -32,7 +31,7 @@ func checkErr(err error) {
 	}
 }
 
-func startWebServer() {
+func startWebServer(ip string, webPort string) {
 
 	// CREATE ROUTER
 	myRouter := webserver.JeffsRouter()
@@ -43,7 +42,7 @@ func startWebServer() {
 
 }
 
-func startRoutingNode() {
+func startRoutingNode(ip string, tcpPort string) {
 
 	// LISTEN ON IP AND PORT
 	fmt.Printf("\nTCP Server listening on %s:%s\n\n", ip, tcpPort)
@@ -80,6 +79,12 @@ func init() {
 	versionPtr := flag.Bool("v", false, "prints current version")
 	// CREATEBLOCKCHAIN
 	createBlockchainPtr = flag.Bool("b", false, "Create a blockchain")
+	// IP
+	ipPtr = flag.String("i", "127.0.0.1", "IP")
+	// WEB PORT
+	webPortPtr = flag.String("p", "1234", "Port")
+	// TCP PORT
+	tcpPortPtr = flag.String("t", "3333", "Port")
 	// Parse the flags
 	flag.Parse()
 
@@ -94,6 +99,15 @@ func init() {
 func main() {
 
 	fmt.Printf("\nSTARTING...\n")
+	fmt.Println("Press return to exit\n")
+
+	// START WEBSERVER
+	go startWebServer(*ipPtr, *webPortPtr)
+
+	// START ROUTING NODE (TCP SERVER)
+	go startRoutingNode(*ipPtr, *tcpPortPtr)
+
+	time.Sleep(2 * time.Second)
 
 	// CREATE BLOCKCHAIN
 	if *createBlockchainPtr {
@@ -101,20 +115,12 @@ func main() {
 		difficulty := 1
 		blockchain.CreateBlockchain(firstTransaction, difficulty)
 	} else {
-		// GET BLOCKCHAIN
-		firstTransaction := "get chain"
-		difficulty := 1
-		blockchain.CreateBlockchain(firstTransaction, difficulty)
+		// LOAD BLOCKCHAIN FROM ANOTHER NODE
+		err := blockchain.LoadBlockchain(*ipPtr, *tcpPortPtr)
+		checkErr(err)
 	}
 
-	// START WEBSERVER
-	go startWebServer()
-
-	// START ROUTING NODE (TCP SERVER)
-	go startRoutingNode()
-
 	// PRESS RETURN TO EXIT
-	fmt.Println("\nPress return to exit\n")
 	fmt.Scanln()
 	fmt.Println("\n...DONE\n")
 }

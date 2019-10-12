@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
+	log "github.com/sirupsen/logrus"
 )
 
 func handleAddBlock(rw *bufio.ReadWriter) {
@@ -33,7 +34,7 @@ func handleAddBlock(rw *bufio.ReadWriter) {
 
 }
 
-func handleTransaction(rw *bufio.ReadWriter) {
+func handleAddTransaction(rw *bufio.ReadWriter) {
 
 	s := "Please enter the Transaction for the latest block"
 	returnMessage(s, rw)
@@ -53,4 +54,22 @@ func handleTransaction(rw *bufio.ReadWriter) {
 	s = "Added Transaction to Block:\n" + string(js)
 	returnMessage(s, rw)
 
+}
+
+func handleSendBlockchain(rw *bufio.ReadWriter) {
+
+	s := "Going to Send Entire Blockchain to another node"
+	log.Println("ROUTINGNODE:    " + s)
+
+	// SEND ENTIRE BLOCKCHAIN
+	sendBlockchain := blockchain.GetBlockchain()
+	js, _ := json.MarshalIndent(sendBlockchain, "", "    ")
+	s = string(js)
+	_, err := rw.WriteString(s + "\n")
+	checkErr(err)
+	err = rw.Flush()
+	checkErr(err)
+
+	s = "Sent Entire Blockchain to another node"
+	log.Println("ROUTINGNODE:    " + s)
 }
