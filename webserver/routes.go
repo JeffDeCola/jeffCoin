@@ -1,4 +1,4 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip routes.go
+// jeffCoin routes.go
 
 package webserver
 
@@ -20,7 +20,7 @@ var routes = Routes{
 		"GetIndex",
 		"GET",
 		"/",
-		rootHandler,
+		indexHandler,
 	},
 	Route{
 		"ShowBlock",
@@ -29,9 +29,9 @@ var routes = Routes{
 		showBlockHandler,
 	},
 	Route{
-		"AddBlock",
-		"POST",
-		"/addblock",
-		addBlockHandler,
+		"ShowChain",
+		"GET",
+		"/showchain",
+		showChainHandler,
 	},
 }

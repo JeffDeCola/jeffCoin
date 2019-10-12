@@ -1,16 +1,26 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip router.go
+// jeffCoin router.go
 
 package webserver
 
 import (
+	"fmt"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 )
 
+func checkErr(err error) {
+	if err != nil {
+		fmt.Printf("Error is %+v\n", err)
+		log.Fatal("ERROR:", err)
+	}
+}
+
 // Message takes incoming JSON payload for writing data
 type Message struct {
-	Data string  `json:"data"`
+	Data string `json:"data"`
 }
 
 // JeffsRouter is the router
@@ -35,5 +45,7 @@ func JeffsRouter() *mux.Router {
 			Handler(handler)
 	}
 
+    // ADD THE CSS DIRECTORY - TOOK ME FOREVER TO FIGURE THIS OUT
+	router.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("webserver/css"))))
 	return router
 }

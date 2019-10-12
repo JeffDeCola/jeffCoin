@@ -1,6 +1,6 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip requests.go
+// jeffCoin requests.go
 
-package tcpserver
+package routingnode
 
 import (
 	"bufio"
