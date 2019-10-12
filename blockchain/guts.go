@@ -1,4 +1,4 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip guts.go
+// jeffCoin guts.go
 
 package blockchain
 

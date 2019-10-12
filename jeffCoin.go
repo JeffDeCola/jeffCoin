@@ -1,4 +1,4 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip.go
+// jeffcoin.go
 
 package main
 
@@ -11,9 +11,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	blockchain "github.com/JeffDeCola/my-go-examples/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/blockchain"
-	tcpserver "github.com/JeffDeCola/my-go-examples/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/tcpserver"
-	webserver "github.com/JeffDeCola/my-go-examples/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/webserver"
+	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
+	routingnode "github.com/JeffDeCola/jeffCoin/routingnode"
+	webserver "github.com/JeffDeCola/jeffCoin/webserver"
 )
 
 const (
@@ -43,7 +43,7 @@ func startWebServer() {
 
 }
 
-func startTCPServer() {
+func startRoutingNode() {
 
 	// LISTEN ON IP AND PORT
 	fmt.Printf("\nTCP Server listening on %s:%s\n\n", ip, tcpPort)
@@ -59,7 +59,7 @@ func startTCPServer() {
 		conn, err := server.Accept()
 		checkErr(err)
 
-		go tcpserver.HandleRequest(conn)
+		go routingnode.HandleRequest(conn)
 	}
 }
 
@@ -110,8 +110,8 @@ func main() {
 	// START WEBSERVER
 	go startWebServer()
 
-	// START TCP SERVER
-	go startTCPServer()
+	// START ROUTING NODE (TCP SERVER)
+	go startRoutingNode()
 
 	// PRESS RETURN TO EXIT
 	fmt.Println("\nPress return to exit\n")

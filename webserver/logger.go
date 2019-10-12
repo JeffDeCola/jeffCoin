@@ -1,4 +1,4 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip logger.go
+// jeffCoin logger.go
 
 package webserver
 

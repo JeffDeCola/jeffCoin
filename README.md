@@ -25,7 +25,7 @@ Documentation and reference,
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
 * The Webserver is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
-* The TCP Server is built from my
+* The Routing Node (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * Refer to my
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
@@ -38,22 +38,22 @@ Documentation and reference,
 
 This code is broken up into four main parts,
 
-* [BLOCKCHAIN](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/blockchain)
+* [BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
   The Blockchain code
   * **Guts**
     The guts deal directly with the blockchain
   * **Blockchain Interface**
     The interface to the blockchain
-* [MINER](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/miner)
+* [MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
   To mine the cryptocurrency
-* [ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/routing-node)
+* [ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routing-node)
   To communicate between the P2P nodes
-* [WALLET](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/wallet)
+* [WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
   To hold the cryptocurrency
 
 I also added a WebServer for a GUI,
 
-* [WEBSERVER](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/webserver)
+* [WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
   The API and GUI
 
 jeffCoin will,
@@ -91,17 +91,24 @@ type BlockStruct struct {
 
 ## WEBSERVER
 
+A user interface and API.
+
+### API
+
+```txt
+/showBlock/{blockID}
+/showChain
+```
+
 ## RUN
 
 ```bash
-go run multi-node-blockchain-with-REST-and-tcp-ip.go
+go run jeffCoin.go
 ```
 
 ### WEBSERVER AND API
 
-#### GET (View the entire Blockchain)
-
-Then you can goto the webpage to see your first block,
+The user GUI,
 
 [localhost:1234/](http://localhost:1234/)
 
@@ -111,28 +118,15 @@ You could also use curl from the command line,
 curl localhost:1234
 ```
 
-#### GET (Show a Particular Block)
+Show a Particular Block,
 
 [localhost:1234//showblock/0](http://localhost:1234/showblock/0)
 
-```go
-curl localhost:1234/showblock/0
-```
+Show the Chain,
 
-#### POST (Add a Block)
+[localhost:1234//showchain](http://localhost:1234/showchain)
 
-```bash
-curl -H "Content-Type: application/json" \
-     -X POST \
-     -d '{"data":"Add this data for new block"}' \
-     localhost:1234/addblock
-```
-
-Check,
-
-[localhost:1234/](http://localhost:1234/)
-
-### TCP SERVER
+### ROUTING NODE
 
 Open a connection,
 
@@ -143,7 +137,6 @@ netcat -q -1 localhost 3333
 Now add a block or transaction,
 
 ```txt
-ADDBLOCK or AB
 ADDTRANSACTION or AT
 ```
 

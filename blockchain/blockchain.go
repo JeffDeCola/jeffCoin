@@ -1,4 +1,4 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip blockchain.go
+// jeffCoin blockchain.go
 
 package blockchain
 

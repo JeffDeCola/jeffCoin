@@ -1,13 +1,13 @@
-// my-go-examples multi-node-blockchain-with-REST-and-tcp-ip handlers.go
+// jeffCoin handlers.go
 
-package tcpserver
+package routingnode
 
 import (
 	"bufio"
 	"encoding/json"
 	"strings"
 
-	blockchain "github.com/JeffDeCola/my-go-examples/blockchain/multi-node-blockchain-with-REST-and-tcp-ip/blockchain"
+	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 )
 
 func handleAddBlock(rw *bufio.ReadWriter) {
