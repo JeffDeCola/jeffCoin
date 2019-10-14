@@ -18,13 +18,12 @@ import (
 
 var mutex = &sync.Mutex{}
 
-// GenesisBlockchain - Create a blockchain
+// GenesisBlockchain - Creates the Blockchain (Only run once)
 func GenesisBlockchain(transaction string, difficulty int) {
 
 	t := time.Now()
-	firstBlock := BlockStruct{}
 
-	firstBlock = BlockStruct{
+	firstBlock := BlockStruct{
 		Index:      0,
 		Timestamp:  t.String(),
 		Data:       append(firstBlock.Data, transaction),
@@ -41,22 +40,22 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	Blockchain = append(Blockchain, firstBlock)
 }
 
-// GetBlockchain - Get the Blockchain
+// GetBlockchain - Gets the Blockchain
 func GetBlockchain() BlockchainSlice {
 
 	return Blockchain
 
 }
 
-// LoadBlockchain - Load the Blockchain
+// LoadBlockchain - -
 func LoadBlockchain(ip string, tcpPort string) error {
 
-	// TELL ROUTING NODE TO GET THE ENTIRE BLOCKCHAIN
+	// GET THE ENTIRE BLOCKCHAIN
 	conn, err := net.Dial("tcp", ip+":"+tcpPort)
 	checkErr(err)
 
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
@@ -65,18 +64,19 @@ func LoadBlockchain(ip string, tcpPort string) error {
 	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
 
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
 	}
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Node: " + message)
+	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
 	if message == "ERROR" {
 		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
 		return errors.New("Could not get blockchain from node")
 	}
 
+	fmt.Println(message)
 	// LOAD UP THE BLOCKCHAIN FROM THE STRING
 	json.Unmarshal([]byte(message), &Blockchain)
 
@@ -86,7 +86,7 @@ func LoadBlockchain(ip string, tcpPort string) error {
 	return nil
 }
 
-// GetBlock - Get a Block from the chain
+// GetBlock - Get a Block (via Index number) from the Blockchain
 func GetBlock(id string) BlockStruct {
 
 	log.Println("BLOCKCHAIN I/F: Get a block from blockchain")
@@ -105,7 +105,8 @@ func GetBlock(id string) BlockStruct {
 	return item
 }
 
-// AddBlockToChain - Add a Block to the chain
+// AddBlockToChain - Add a Block to the Blockchain
+// ?????????????????????????? UPDATE
 func AddBlockToChain(firstTransaction string) BlockStruct {
 
 	log.Println("BLOCKCHAIN I/F: Started to add block to blockchain")

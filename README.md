@@ -71,6 +71,8 @@ This illustration may help,
 
 ## BLOCKCHAIN
 
+A block in the chain is the following struct,
+
 ```go
 type BlockStruct struct {
     Index      int      `json:"index"`
@@ -83,9 +85,56 @@ type BlockStruct struct {
 }
 ```
 
+The states of a block,
+
+* Part of chain - These are already in the chain
+* **LockedBlock** - Going to be added to the chain (No more transactions)
+* **CurrentBlock** - Receiving transactions and not part of chain
+
+Functions,
+
+* **GenesisBlockchain()** - Creates the Blockchain (Only run once)
+* **GetBlockchain()** - Gets the Blockchain
+* **LoadBlockchain()**  -Loads the Blockchain. LockedBlock and CurrentBlock
+  from a Network Node
+  * Uses **SENDBLOCKCHAIN** Request
+* **GetBlock()** - Get a Block (via Index number) from the Blockchain
+* **AddBlockToChain()** - Add a Block to the Blockchain ???????????????????UPDATE
+* **AddTransactionToBlock()** - Add a Transaction to current Block
+
 ## MINER
 
-## ROUTING NODE (TCP Server)
+## ROUTING NODE
+
+The routing Node has two parts, the nodelist and handling Node requests (TCP Server).
+
+### NODELIST
+
+A Node in the Nodelist is the following struct
+
+```go
+type NodeStruct struct {
+    Index     int      `json:"index"`
+    Timestamp string   `json:"timestamp"`
+    IP        []string `json:"ip"`
+    Port      []string `json:"port"`
+}
+```
+
+### HANDLING REQUESTS (TCP SERver)
+
+REQUESTS,
+
+* **ADDBLOCK (AB)** - REMOVE ???????
+* **ADDTRANSACTION (AT)** - Add Transaction to Current Block
+* **SENDBLOCKCHAIN (SB)** - Send Blockchain, LockedBlock &
+  CurrentBlock to another Node
+* **NEWNODE (NN)** - Add Node to Node List
+
+Functions,
+
+* **NewNode** -  Broadcast New Node to Network & Receive Node List
+  * Uses **NEWNODE** Request
 
 ## WALLET
 
@@ -102,53 +151,61 @@ A user interface and API.
 
 ## RUN
 
-If this is you first time running, you only do this once.
+If this is you first time running, you need to create the blockchain,
+You only do this once.
 
 ```bash
 go run jeffCoin.go \
        -genesis \
-       -ip 192.168.20.100 \
+       -ip 192.168.20.103 \
        -wp 1234 \
        -tp 3333
 ```
 
-If you are a new node connecting to a network,
+Then all other nodes, you do something like this to hook
+up to the network.  You need the ip of a network node.
 
 ```bash
 go run jeffCoin.go \
-       -ip 192.168.20.103 \
+       -ip 192.168.20.100 \
        -wp 1234 \
        -tp 3333 \
-       -netip 192.168.20.100 \
+       -netip 192.168.20.103 \
        -netport 3333
 ```
+
+This will,
+
+* Add you Node to the node list
+  * That list will be updated with existing nodes
+* Receive the blockchain
 
 ### WEBSERVER AND API
 
 The user GUI,
 
-[localhost:1234/](http://localhost:1234/)
+[192.168.20.100:1234/](http://localhost:1234/)
 
 You could also use curl from the command line,
 
 ```go
-curl localhost:1234
+curl 192.168.20.100:1234
 ```
 
 Show a Particular Block,
 
-[localhost:1234//showblock/0](http://localhost:1234/showblock/0)
+[192.168.20.100:1234//showblock/0](http://192.168.20.100:1234/showblock/0)
 
 Show the Chain,
 
-[localhost:1234//showchain](http://localhost:1234/showchain)
+[192.168.20.100:1234//showchain](http://192.168.20.100:1234/showchain)
 
 ### ROUTING NODE
 
 Open a connection,
 
 ```txt
-netcat -q -1 localhost 3333
+netcat -q -1 192.168.20.100 3333
 ```
 
 Now add a block or transaction,

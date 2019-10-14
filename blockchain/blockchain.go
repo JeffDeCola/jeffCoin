@@ -13,6 +13,12 @@ type BlockStruct struct {
 	Nonce      string   `json:"nonce"`
 }
 
+// CurrentBlock - Receiving transactions and not part of chain
+var CurrentBlock = BlockStruct{}
+
+// LockedBlock - Going to be added to the chain (No more transactions)
+var LockedBlock = BlockStruct{}
+
 // BlockchainSlice is my type
 type BlockchainSlice []BlockStruct
 

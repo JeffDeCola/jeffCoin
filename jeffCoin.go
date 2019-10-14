@@ -116,11 +116,14 @@ func main() {
 
 	// GENESIS BLOCKCHAIN
 	if *genesisBlockchainPtr {
-		firstTransaction := "create chain"
+		firstTransaction := "Created Blockchain"
 		difficulty := 1
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 	} else {
-		// LOAD BLOCKCHAIN FROM ANOTHER NODE
+		// BROADCAST NODE TO NETWORK - RECEIVE NODE LIST
+		err := routingnode.NewNode(*yourIPPtr, *yourTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
+		checkErr(err)
+		// LOAD BLOCKCHAIN FROM ANOTHER NODE - RECEIVE BLOCKCHAIN
 		err := blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 	}
