@@ -26,7 +26,7 @@ type htmlData struct {
 func indexHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "START: indexHandler - GET: /"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 	t, err := template.ParseFiles("webserver/index.html")
 	checkErr(err)
@@ -45,7 +45,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	checkErr(err)
 
 	s = "END: indexHandler - GET: /"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 }
 
@@ -53,7 +53,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "START: showBlockchainHandler - GET: /showblockchain"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -65,11 +65,11 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 	// respondMessage(s, res)
 	js, _ := json.MarshalIndent(theBlockchain, "", "    ")
 	s = string(js)
-	log.Println("WEBSERVER:      " + "Blockchain too long, not shown")
+	log.Println("WEBSERVER:          " + "Blockchain too long, not shown")
 	io.WriteString(res, s+"\n")
 
 	s = "END: showBlockchainHandler - GET: /showblockchain"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 }
 
@@ -77,7 +77,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "START: showBlockHandler - GET: /showblock/{blockID}"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -96,14 +96,15 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END: showBlockHandler - GET: /showblock/{blockID}"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
+
 }
 
 // showNodeListHandler - GET: /shownodelist
 func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "START: showNodeListHandler - GET: /shownodelist"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -115,11 +116,11 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	// respondMessage(s, res)
 	js, _ := json.MarshalIndent(theNodeList, "", "    ")
 	s = string(js)
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 	io.WriteString(res, s+"\n")
 
 	s = "END: showNodeListHandler - GET: /shownodelist"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 }
 
@@ -127,7 +128,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "START: showNodeHandler - GET: /shownode/{nodeID}"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -146,12 +147,13 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END: showNodeHandler - GET: /shownode/{nodeID}"
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
+
 }
 
 func respondMessage(s string, res http.ResponseWriter) {
 
-	log.Println("WEBSERVER:      " + s)
+	log.Println("WEBSERVER:          " + s)
 	io.WriteString(res, s+"\n")
 
 }

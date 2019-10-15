@@ -48,15 +48,15 @@ Documentation and reference,
 
 This code is broken up into four main parts,
 
-1. [BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
+* [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
   The Blockchain code
   * **Guts**
     The guts deal directly with the blockchain
   * **Blockchain Interface**
     The interface to the blockchain
-2.  [MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
+* [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
   To mine the cryptocurrency
-3. [ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
+* [3. ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
   To communicate between the P2P nodes (network)
   * **Requests & Handlers**
     The TCP Server
@@ -64,12 +64,12 @@ This code is broken up into four main parts,
     The guts deal directly with the NodeList
   * **RoutingNode Interface**
     The interface to the routingnode
-4. [WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
+* [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
   To hold the cryptocurrency
 
 I also added a WebServer for a GUI and an API,
 
-5. [WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
+* [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
   The API and GUI
 
 jeffCoin will,
@@ -120,6 +120,14 @@ Functions in Blockchain Interface,
 * **AddBlockToChain()** Add a Block to the Blockchain ???????????????????UPDATE
 * **AddTransactionToCurrentBlock()** Add a Transaction to **CurrentBlock**
 
+And the guts will deal directly with the chain,
+
+* **calculateBlockHash** SHA256 hasing
+* **isBlockValid** Check that the newBlock is valid
+* **addLockedBlock** Add LockedBlock to the Blockchain
+* **addTransaction** Add Transaction to CurrentBlock
+* **replaceChain** Replace chain with a Longer one
+
 ## 2. MINER
 
 ## 3. ROUTING NODE
@@ -153,26 +161,30 @@ Handling TCP Server Requests,
 * **ADDTRANSACTION (AT)** Add Transaction to CurrentBlock
 * **SENDBLOCKCHAIN (SB)** Send Blockchain, LockedBlock &
   CurrentBlock to another Node
-* **SENDNODELIST (GN)**
-* **ADDNEWNODE (NN)**
+* **SENDNODELIST (GN)** Send NodeList to another Node
+* **ADDNEWNODE (NN)** Add Node to NodeList
 * **EOF**
 
 ## 4. WALLET
 
 ## 5. WEBSERVER
 
-A user interface and API.
+GUI,
+
+Just the root index.
 
 API,
 
 ```txt
+/showBlockchain
 /showBlock/{blockID}
-/showChain
+/shownodelist
+/shownode/{nodeID}
 ```
 
 ## RUN
 
-If this is you first time running, you need to create the blockchain,
+If this is you first time running, you need to create the first node.
 You only do this once.
 
 ### GENESIS NODE
@@ -188,7 +200,7 @@ go run jeffCoin.go \
 ### NEW NODE
 
 Then all other nodes, you do something like this to hook
-up to the network.  You need the ip of a network node.
+up to the network.  You need the ip of a network node,
 
 ```bash
 go run jeffCoin.go \
@@ -201,8 +213,8 @@ go run jeffCoin.go \
 
 This will,
 
-* Add you Node to the node list
-  * That list will be updated with existing nodes
+* Add your Node to the node list
+  * That list will be updated with the network nodes
 * Receive the blockchain
 
 ### WEBSERVER AND API
