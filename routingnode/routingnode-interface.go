@@ -18,7 +18,7 @@ import (
 func GenesisNodeList(yourIP string, yourTCPPort string) {
 
 	s := "START: GenesisNodeList - Creates the NodeList (Only run once)"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	t := time.Now()
 
@@ -36,7 +36,7 @@ func GenesisNodeList(yourIP string, yourTCPPort string) {
 	NodeList = append(NodeList, firstNode)
 
 	s = "END: GenesisNodeList - Creates the NodeList (Only run once)"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 }
 
@@ -44,10 +44,10 @@ func GenesisNodeList(yourIP string, yourTCPPort string) {
 func GetNodeList() NodeSlice {
 
 	s := "START: GetNodeList - Gets the NodeList"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	s = "END: GetNodeList - Gets the NodeList"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	// ?????????????????? GET FROM GUTS
 	return NodeList
@@ -58,7 +58,7 @@ func GetNodeList() NodeSlice {
 func GetNode(id string) NodeStruct {
 
 	s := "START: GetNode - Get a Node (via Index number) from the NodeList"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	var item NodeStruct
 
@@ -67,14 +67,14 @@ func GetNode(id string) NodeStruct {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
 			s = "END: GetNode - Get a Node (via Index number) from the NodeList"
-			log.Println("ROUTINGNODE I/F: " + s)
+			log.Println("ROUTINGNODE I/F:          " + s)
 			return item
 		}
 	}
 
 	// RETURN NOT FOUND
 	s = "END (ITEM NOT FOUND): GetNode - Get a Node (via Index number) from the NodeList"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 	return item
 }
 
@@ -82,7 +82,7 @@ func GetNode(id string) NodeStruct {
 func LoadNodeList(networkIP string, networkTCPPort string) error {
 
 	s := "START: LoadNewNode - Loads the NodeList from the Network Node"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	// SETUP THE CONNECTION
 	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
@@ -91,10 +91,10 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	// GET THE RESPONSE MESSAGE
 	message, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Println("ROUTINGNODE I/F: " + s)
+		log.Println("ROUTINGNODE I/F:          " + s)
 		return errors.New(s)
 	}
 
@@ -104,10 +104,10 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	// GET THE NODELIST
 	message, _ = bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Println("ROUTINGNODE I/F: " + s)
+		log.Println("ROUTINGNODE I/F:          " + s)
 		return errors.New(s)
 	}
 
@@ -125,7 +125,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	conn.Close()
 
 	s = "END: LoadNodeList - Loads the NodeList from the Network Node"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	return nil
 
@@ -135,7 +135,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 func BroadcastNewNode(yourIP string, yourTCPPort string, networkIP string, networkTCPPort string) error {
 
 	s := "START: BroadcastNewNode	- Broadcase this Nod to the Network to add to their NodeLists"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	// SETUP THE CONNECTION
 	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
@@ -144,10 +144,10 @@ func BroadcastNewNode(yourIP string, yourTCPPort string, networkIP string, netwo
 	// GET THE RESPONSE MESSAGE
 	message, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Println("ROUTINGNODE I/F: " + s)
+		log.Println("ROUTINGNODE I/F:          " + s)
 		return errors.New(s)
 	}
 
@@ -157,10 +157,10 @@ func BroadcastNewNode(yourIP string, yourTCPPort string, networkIP string, netwo
 	// GET THE ????????????
 	message, _ = bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Println("ROUTINGNODE I/F: " + s)
+		log.Println("ROUTINGNODE I/F:          " + s)
 		return errors.New(s)
 	}
 
@@ -174,7 +174,7 @@ func BroadcastNewNode(yourIP string, yourTCPPort string, networkIP string, netwo
 	conn.Close()
 
 	s = "END: BroadcastNewNode	- Broadcase this Nod to the Network to add to their NodeLists"
-	log.Println("ROUTINGNODE I/F: " + s)
+	log.Println("ROUTINGNODE I/F:          " + s)
 
 	return nil
 }
