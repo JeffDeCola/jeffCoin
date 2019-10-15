@@ -100,8 +100,8 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	log.Println("ROUTINGNODE:RCV     " + s)
 
 	s = "END: handleSendNodeList - Send NodeList to another Node"
-    log.Println("ROUTINGNODE:RCV     " + s)
-    
+	log.Println("ROUTINGNODE:RCV     " + s)
+
 }
 
 // handleAddNewNode - Add Node to NodeList
@@ -113,7 +113,6 @@ func handleAddNewNode(rw *bufio.ReadWriter) {
 	t := time.Now()
 
 	newNode := NodeStruct{
-		Index:     0,
 		Timestamp: t.String(),
 		IP:        "adsf?????",
 		Port:      "asdf?????",
@@ -122,6 +121,6 @@ func handleAddNewNode(rw *bufio.ReadWriter) {
 	NodeList = append(NodeList, newNode)
 
 	s = "END: handleNewNode - Add Node to NodeList"
-    log.Println("ROUTINGNODE:RCV     " + s)
-    
+	log.Println("ROUTINGNODE:RCV     " + s)
+
 }
