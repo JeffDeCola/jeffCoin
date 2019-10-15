@@ -22,7 +22,7 @@ const (
 )
 
 var genesisPtr *bool
-var yourIPPtr, yourWebPortPtr, yourTCPPortPtr *string
+var nodeIPPtr, nodeWebPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
 func checkErr(err error) {
@@ -32,22 +32,28 @@ func checkErr(err error) {
 	}
 }
 
-func startWebServer(ip string, webPort string) {
+// startWebServer - Start the WebServer
+func startWebServer(nodeIP string, nodeWebPort string) {
+
+	s := "Web Server listening on " + nodeIP + nodeWebPort
+	log.Println("jeffCoin            " + s)
 
 	// CREATE ROUTER
 	myRouter := webserver.JeffsRouter()
 
 	// LISTEN ON IP AND PORT
-	fmt.Printf("Webserver listening on %s:%s\n\n", ip, webPort)
-	log.Fatal(http.ListenAndServe(ip+":"+webPort, myRouter))
+	log.Fatal(http.ListenAndServe(nodeIP+":"+nodeWebPort, myRouter))
 
 }
 
-func startRoutingNode(ip string, tcpPort string) {
+// startRoutingNode - Start the Routing Node (TCP Server)
+func startRoutingNode(nodeIP string, nodeTCPPort string) {
+
+	s := "TCP Server listening on " + nodeIP + nodeTCPPort
+	log.Println("jeffCoin            " + s)
 
 	// LISTEN ON IP AND PORT
-	fmt.Printf("\nTCP Server listening on %s:%s\n\n", ip, tcpPort)
-	server, err := net.Listen("tcp", ip+":"+tcpPort)
+	server, err := net.Listen("tcp", nodeIP+":"+nodeTCPPort)
 	checkErr(err)
 	defer server.Close()
 
@@ -81,11 +87,11 @@ func init() {
 	// CREATE FIRST NODE (GENISIS)
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// YOUR IP
-	yourIPPtr = flag.String("ip", "127.0.0.1", "Your IP")
+	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
-	yourWebPortPtr = flag.String("wp", "1234", "Your Web Port")
+	nodeWebPortPtr = flag.String("wp", "1234", "Node Web Port")
 	// YOUR TCP PORT
-	yourTCPPortPtr = flag.String("tp", "3333", "Your TCP Port")
+	nodeTCPPortPtr = flag.String("tp", "3333", "Node TCP Port")
 	// NETWORK NODE IP
 	networkIPPtr = flag.String("netip", "192.169.20.100", "Network IP")
 	// NETWORK NODE TCP PORT
@@ -107,16 +113,16 @@ func main() {
 	fmt.Println("Press return to exit\n")
 
 	// START WEBSERVER
-	go startWebServer(*yourIPPtr, *yourWebPortPtr)
+	go startWebServer(*nodeIPPtr, *nodeWebPortPtr)
 
 	// START ROUTING NODE (TCP SERVER)
-	go startRoutingNode(*yourIPPtr, *yourTCPPortPtr)
+	go startRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
 	// ALWAYS HAVE YOUR NODE FIRST IN LIST
-	routingnode.GenesisNodeList(*yourIPPtr, *yourTCPPortPtr)
+	routingnode.GenesisNodeList(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// IS THIS GENESIS
 	if *genesisPtr {
@@ -133,7 +139,7 @@ func main() {
 		checkErr(err)
 
 		// BROADCAST THIS NODE TO THE NETWORK
-		err = routingnode.BroadcastNewNode(*yourIPPtr, *yourTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
+		err = routingnode.BroadcastNewNode(*nodeIPPtr, *nodeTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 
 		// LOAD BLOCKCHAIN FROM THE NETWORK

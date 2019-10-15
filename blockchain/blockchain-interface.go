@@ -39,7 +39,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 
 	fmt.Printf("\nCongrats, your first Block in your blockchain is:\n\n")
 	js, _ := json.MarshalIndent(firstBlock, "", "    ")
-	fmt.Printf("%v\n", string(js))
+	fmt.Printf("%v\n\n", string(js))
 
 	Blockchain = append(Blockchain, firstBlock)
 
@@ -170,7 +170,7 @@ func AddBlockToChain(firstTransaction string) BlockStruct {
 
 	// JUST TO MAKE SURE CAN'T MAKE A NEW BLOCK AT THE SAME TIME
 	mutex.Lock()
-	newBlock := addBlock(currentBlock, firstTransaction)
+	newBlock := addLockedBlock(currentBlock, firstTransaction)
 	mutex.Unlock()
 
 	// CHECK IF NEWBLOCK IS VALID
