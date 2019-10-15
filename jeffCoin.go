@@ -35,7 +35,7 @@ func checkErr(err error) {
 // startWebServer - Start the WebServer
 func startWebServer(nodeIP string, nodeWebPort string) {
 
-	s := "Web Server listening on " + nodeIP + nodeWebPort
+	s := "Web Server listening on " + nodeIP + ":" + nodeWebPort
 	log.Println("jeffCoin            " + s)
 
 	// CREATE ROUTER
@@ -49,7 +49,7 @@ func startWebServer(nodeIP string, nodeWebPort string) {
 // startRoutingNode - Start the Routing Node (TCP Server)
 func startRoutingNode(nodeIP string, nodeTCPPort string) {
 
-	s := "TCP Server listening on " + nodeIP + nodeTCPPort
+	s := "TCP Server listening on " + nodeIP + ":" + nodeTCPPort
 	log.Println("jeffCoin            " + s)
 
 	// LISTEN ON IP AND PORT
@@ -121,7 +121,7 @@ func main() {
 	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
-	// ALWAYS HAVE YOUR NODE FIRST IN LIST
+	// PLACE YOUR NODE IN THE LIST
 	routingnode.GenesisNodeList(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// IS THIS GENESIS
@@ -129,7 +129,7 @@ func main() {
 
 		// GENESIS NODE
 		firstTransaction := "Created Blockchain"
-		difficulty := 1
+		difficulty := 10
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
 	} else {
