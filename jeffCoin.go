@@ -21,7 +21,7 @@ const (
 	toolVersion = "1.0.1"
 )
 
-var genesisBlockchainPtr *bool
+var genesisPtr *bool
 var yourIPPtr, yourWebPortPtr, yourTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
@@ -78,8 +78,8 @@ func init() {
 
 	// VERSION FLAG
 	versionPtr := flag.Bool("v", false, "prints current version")
-	// CREATEBLOCKCHAIN
-	genesisBlockchainPtr = flag.Bool("genesis", false, "Create a blockchain")
+	// CREATE FIRST NODE (GENISIS)
+	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// YOUR IP
 	yourIPPtr = flag.String("ip", "127.0.0.1", "Your IP")
 	// YOUR WEB PORT
@@ -112,19 +112,32 @@ func main() {
 	// START ROUTING NODE (TCP SERVER)
 	go startRoutingNode(*yourIPPtr, *yourTCPPortPtr)
 
+	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
-	// GENESIS BLOCKCHAIN
-	if *genesisBlockchainPtr {
+	// ALWAYS HAVE YOUR NODE FIRST IN LIST
+	routingnode.GenesisNodeList(*yourIPPtr, *yourTCPPortPtr)
+
+	// IS THIS GENESIS
+	if *genesisPtr {
+
+		// GENESIS NODE
 		firstTransaction := "Created Blockchain"
 		difficulty := 1
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
+
 	} else {
-		// BROADCAST NODE TO NETWORK - RECEIVE NODE LIST
-		err := routingnode.NewNode(*yourIPPtr, *yourTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
+
+		// LOAD NODELIST FROM THE NETWORK
+		err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
-		// LOAD BLOCKCHAIN FROM ANOTHER NODE - RECEIVE BLOCKCHAIN
-		err := blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
+
+		// BROADCAST THIS NODE TO THE NETWORK
+		err = routingnode.BroadcastNewNode(*yourIPPtr, *yourTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
+		checkErr(err)
+
+		// LOAD BLOCKCHAIN FROM THE NETWORK
+		err = blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 	}
 

@@ -21,9 +21,13 @@ var mutex = &sync.Mutex{}
 // GenesisBlockchain - Creates the Blockchain (Only run once)
 func GenesisBlockchain(transaction string, difficulty int) {
 
-	t := time.Now()
+	s := "START: GenesisBlockchain - Creates the Blockchain (Only run once)"
+	log.Println("BLOCKCHAIN I/F: " + s)
 
-	firstBlock := BlockStruct{
+	t := time.Now()
+	firstBlock := BlockStruct{}
+
+	firstBlock = BlockStruct{
 		Index:      0,
 		Timestamp:  t.String(),
 		Data:       append(firstBlock.Data, transaction),
@@ -38,58 +42,31 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	fmt.Printf("%v\n", string(js))
 
 	Blockchain = append(Blockchain, firstBlock)
+
+	s = "END: GenesisBlockchain - Creates the Blockchain (Only run once)"
+	log.Println("BLOCKCHAIN I/F: " + s)
+
 }
 
 // GetBlockchain - Gets the Blockchain
 func GetBlockchain() BlockchainSlice {
 
+	s := "START: GetBlockchain - Gets the Blockchain"
+	log.Println("BLOCKCHAIN I/F: " + s)
+
+	s = "END: GetBlockchain - Gets the Blockchain"
+	log.Println("BLOCKCHAIN I/F: " + s)
+
+	// ?????????????????? GET FROM GUTS
 	return Blockchain
 
-}
-
-// LoadBlockchain - -
-func LoadBlockchain(ip string, tcpPort string) error {
-
-	// GET THE ENTIRE BLOCKCHAIN
-	conn, err := net.Dial("tcp", ip+":"+tcpPort)
-	checkErr(err)
-
-	message, _ := bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
-	if message == "ERROR" {
-		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
-		return errors.New("Could not get blockchain from node")
-	}
-
-	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
-
-	message, _ = bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
-	if message == "ERROR" {
-		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
-		return errors.New("Could not get blockchain from node")
-	}
-	message, _ = bufio.NewReader(conn).ReadString('\n')
-	log.Println("BLOCKCHAIN I/F: Message from Network Node: " + message)
-	if message == "ERROR" {
-		log.Println("BLOCKCHAIN I/F: Could not get blockchain from node")
-		return errors.New("Could not get blockchain from node")
-	}
-
-	fmt.Println(message)
-	// LOAD UP THE BLOCKCHAIN FROM THE STRING
-	json.Unmarshal([]byte(message), &Blockchain)
-
-	fmt.Fprintf(conn, "EOF\n")
-	time.Sleep(2 * time.Second)
-	conn.Close()
-	return nil
 }
 
 // GetBlock - Get a Block (via Index number) from the Blockchain
 func GetBlock(id string) BlockStruct {
 
-	log.Println("BLOCKCHAIN I/F: Get a block from blockchain")
+	s := "START: GetBlock - Get a Block (via Index number) from the Blockchain"
+	log.Println("BLOCKCHAIN I/F: " + s)
 
 	var item BlockStruct
 
@@ -97,19 +74,93 @@ func GetBlock(id string) BlockStruct {
 	for _, item := range Blockchain {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
+			s = "END: GetBlock - Get a Block (via Index number) from the Blockchain"
+			log.Println("BLOCKCHAIN I/F: " + s)
 			return item
 		}
 	}
 
 	// RETURN NOT FOUND
+	s = "END (ITEM NOT FOUND): GetBlock - Get a Block (via Index number) from the Blockchain"
+	log.Println("BLOCKCHAIN I/F: " + s)
 	return item
+}
+
+// LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node
+func LoadBlockchain(networkIP string, networkTCPPort string) error {
+
+	s := "START: LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node"
+	log.Println("BLOCKCHAIN I/F: " + s)
+
+	// SETUP THE CONNECTION
+	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
+	checkErr(err)
+
+	// GET THE RESPONSE MESSAGE
+	message, _ := bufio.NewReader(conn).ReadString('\n')
+	s = "Message from Network Node: " + message
+	log.Println("BLOCKCHAIN I/F: " + s)
+	if message == "ERROR" {
+		s = "ERROR: Could not get blockchain from node"
+		log.Println("BLOCKCHAIN I/F: " + s)
+		return errors.New(s)
+	}
+
+	// SEND THE REQUEST
+	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
+
+	// GET THE BLOCKCHAIN
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "Message from Network Node: " + message
+	log.Println("BLOCKCHAIN I/F: " + s)
+	if message == "ERROR" {
+		s = "ERROR: Could not get blockchain from node"
+		log.Println("BLOCKCHAIN I/F: " + s)
+		return errors.New(s)
+	}
+
+	// GET THE LockedBlock
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "Message from Network Node: " + message
+	log.Println("BLOCKCHAIN I/F: " + s)
+	if message == "ERROR" {
+		s = "ERROR: Could not get blockchain from node"
+		log.Println("BLOCKCHAIN I/F: " + s)
+		return errors.New(s)
+	}
+
+	// GET THE CurrentBlock
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "Message from Network Node: " + message
+	log.Println("BLOCKCHAIN I/F: " + s)
+	if message == "ERROR" {
+		s = "ERROR: Could not get blockchain from node"
+		log.Println("BLOCKCHAIN I/F: " + s)
+		return errors.New(s)
+	}
+
+	fmt.Println(message)
+	// LOAD UP THE BLOCKCHAIN FROM THE STRING
+	// CHANGE SEND TO GUTS????????????????????????????????????
+	json.Unmarshal([]byte(message), &Blockchain)
+
+	// CLOSE CONNECTION
+	fmt.Fprintf(conn, "EOF\n")
+	time.Sleep(2 * time.Second)
+	conn.Close()
+
+	s = "END: LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node"
+	log.Println("BLOCKCHAIN I/F: " + s)
+
+	return nil
 }
 
 // AddBlockToChain - Add a Block to the Blockchain
 // ?????????????????????????? UPDATE
 func AddBlockToChain(firstTransaction string) BlockStruct {
 
-	log.Println("BLOCKCHAIN I/F: Started to add block to blockchain")
+	s := "Started to add block to blockchain"
+	log.Println("BLOCKCHAIN I/F: " + s)
 
 	var blankBlock BlockStruct
 
@@ -129,27 +180,27 @@ func AddBlockToChain(firstTransaction string) BlockStruct {
 		return newBlock
 	}
 
-	log.Println("BLOCKCHAIN I/F: Block is NOT valid")
+	s = "Block is NOT valid"
+	log.Println("BLOCKCHAIN I/F: " + s)
 	return blankBlock
 
 }
 
-// AddTransactionToBlock - Add a Transaction to current Block
-func AddTransactionToBlock(transaction string) BlockStruct {
+// AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock
+func AddTransactionToCurrentBlock(transaction string) BlockStruct {
 
-	log.Println("BLOCKCHAIN I/F: Started to add transaction to current Block")
-
-	currentBlock := Blockchain[len(Blockchain)-1]
+	s := "START: AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock"
+	log.Println("BLOCKCHAIN I/F: " + s)
 
 	// JUST TO MAKE SURE CAN'T UPDATE A BLOCK AT THE SAME TIME
+	// ??????????????????????????? FIX KEEP CURRENT BLOCK IN GUTS
 	mutex.Lock()
-	updatedBlock := addTransaction(currentBlock, transaction)
+	currentBlock := addTransaction(CurrentBlock, transaction)
 	mutex.Unlock()
 
-	// REPLACE CURRENT BLOCK WITH UPDATED ONE
-	Blockchain[len(Blockchain)-1] = updatedBlock
+	s = "END: AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock"
+	log.Println("BLOCKCHAIN I/F: " + s)
 
-	log.Println("BLOCKCHAIN I/F: Added transaction")
-	return updatedBlock
+	return currentBlock
 
 }

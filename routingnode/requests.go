@@ -4,20 +4,12 @@ package routingnode
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"net"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
-
-func checkErr(err error) {
-	if err != nil {
-		fmt.Printf("Error is %+v\n", err)
-		log.Fatal("ERROR:", err)
-	}
-}
 
 // HandleRequest handles TCP requests
 func HandleRequest(conn net.Conn) {
@@ -33,7 +25,7 @@ func HandleRequest(conn net.Conn) {
 	// READ FROM CONN UTIL EOF
 	for {
 
-		s := "Waiting for command: ADDNEWBLOCK (AB), ADDTRANSACTION (AT), SENDBLOCKCHAIN (SB), NEWNODE (NN) or EOF"
+		s := "Waiting for command: ADDTRANSACTION (AT), SENDBLOCKCHAIN (SB), NEWNODE (NN) or EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
@@ -41,7 +33,7 @@ func HandleRequest(conn net.Conn) {
 		cmd = strings.Trim(cmd, "\n ")
 
 		s = "Received command and working on it: " + cmd
-        log.Println("ROUTINGNODE:    " + s)
+		log.Println("ROUTINGNODE:    " + s)
 
 		// CHECK FOR EOF
 		switch {
@@ -63,14 +55,14 @@ func HandleRequest(conn net.Conn) {
 		// ADDNEWBLOCK
 		// Otherwise close connection
 		switch {
-		case cmd == "ADDBLOCK" || cmd == "AB":
-			handleAddBlock(rw)
 		case cmd == "ADDTRANSACTION" || cmd == "AT":
 			handleAddTransaction(rw)
 		case cmd == "SENDBLOCKCHAIN" || cmd == "SB":
 			handleSendBlockchain(rw)
-		case cmd == "NEWNODE" || cmd == "NN":
-			handleNewNode(rw)
+		case cmd == "SENDNODELIST" || cmd == "SN":
+			handleSendNodeList(rw)
+		case cmd == "ADDNEWNODE" || cmd == "NN":
+			handleAddNewNode(rw)
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Println("ROUTINGNODE:    " + s)

@@ -20,23 +20,30 @@ func checkErr(err error) {
 	}
 }
 
-// GET HASH
-// SHA256 hasing
+// calculateBlockHash - SHA256 hasing
 func calculateBlockHash(block BlockStruct) string {
+
+	s := "START: calculateBlockHash - SHA256 hasing"
+	log.Println("BLOCKCHAIN GUTS: " + s)
 
 	record := strconv.Itoa(block.Index) + block.Timestamp + strings.Join(block.Data, " ") + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)
 	log.Println("GUTS:           Calculated Block Hash")
+
+	s = "END: calculateBlockHash - SHA256 hasing"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 	return hex.EncodeToString(hashed)
 
 }
 
-// CHECK THAT A NEW BLOCK IS VALID
+// isBlockValid - Check that the newBlock is valid
 func isBlockValid(checkBlock, oldBlock BlockStruct) bool {
 
-	log.Println("GUTS:           Checking if Block is valid")
+	s := "START: isBlockValid - Check that the newBlock is valid"
+	log.Println("BLOCKCHAIN GUTS: " + s)
 
 	// Check index
 	if oldBlock.Index+1 != checkBlock.Index {
@@ -53,11 +60,17 @@ func isBlockValid(checkBlock, oldBlock BlockStruct) bool {
 		return false
 	}
 
+	s = "END: isBlockValid - Check that the newBlock is valid"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 	return true
 }
 
-// ADD NEW BLOCK
+// addBlock - Add a block to the Blockchain
 func addBlock(currentBlock BlockStruct, data string) BlockStruct {
+
+	s := "START: addBlock - Add a block to the Blockchain"
+	log.Println("BLOCKCHAIN GUTS: " + s)
 
 	var newBlock BlockStruct
 
@@ -71,12 +84,18 @@ func addBlock(currentBlock BlockStruct, data string) BlockStruct {
 	newBlock.Hash = calculateBlockHash(newBlock)
 	newBlock.Nonce = ""
 
-	log.Println("GUTS:           Created New Block")
+	s = "END: addBlock - Add a block to the Blockchain"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 	return newBlock
+
 }
 
-// ADD TRANSACTION TO BLOCK
+// addTransaction - Add Transaction to a block
 func addTransaction(block BlockStruct, transaction string) BlockStruct {
+
+	s := "START: addTransaction - Add Transaction to a block"
+	log.Println("BLOCKCHAIN GUTS: " + s)
 
 	var updateBlock BlockStruct
 
@@ -88,17 +107,29 @@ func addTransaction(block BlockStruct, transaction string) BlockStruct {
 	updateBlock.Hash = block.Hash
 	updateBlock.Nonce = block.Nonce
 
-	log.Println("GUTS:           Added Transcation to Block")
+	s = "END: addTransaction - Add Transaction to a block"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 	return updateBlock
+
 }
 
-// REPLACE CHAIN WITH LONGER ONE
+// replaceChain - Replace chain with Longer one
 func replaceChain(newBlock BlockchainSlice) {
 
+	s := "START: replaceChain - Replace chain with Longer one"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 	if len(newBlock) > len(Blockchain) {
-		log.Println("GUTS:           New Block added to chain")
+		s = "New Block added to chain"
+		log.Println("BLOCKCHAIN GUTS: " + s)
 		Blockchain = newBlock
 	} else {
-		log.Println("GUTS:           New Block NOT added to chain")
+		s = "New Block NOT added to chain"
+		log.Println("BLOCKCHAIN GUTS: " + s)
 	}
+
+	s = "END: replaceChain - Replace chain with Longer one"
+	log.Println("BLOCKCHAIN GUTS: " + s)
+
 }
