@@ -25,7 +25,7 @@ func HandleRequest(conn net.Conn) {
 	// READ FROM CONN UTIL EOF
 	for {
 
-		s := "Waiting for command: ADDTRANSACTION (AT), SENDBLOCKCHAIN (SB), NEWNODE (NN) or EOF"
+		s := "Waiting for command: ADDTRANSACTION (AT), SENDBLOCKCHAIN (SB), ADDNEWNODE (NN). SENDNODELIST (SN) or EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
@@ -59,10 +59,10 @@ func HandleRequest(conn net.Conn) {
 			handleAddTransaction(rw)
 		case cmd == "SENDBLOCKCHAIN" || cmd == "SB":
 			handleSendBlockchain(rw)
-		case cmd == "SENDNODELIST" || cmd == "SN":
-			handleSendNodeList(rw)
 		case cmd == "ADDNEWNODE" || cmd == "NN":
 			handleAddNewNode(rw)
+		case cmd == "SENDNODELIST" || cmd == "SN":
+			handleSendNodeList(rw)
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Println("ROUTINGNODE:    " + s)

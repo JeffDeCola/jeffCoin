@@ -7,8 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
-	"strconv"
-	"sync"
 	"time"
 
 	errors "github.com/pkg/errors"
@@ -16,32 +14,21 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var mutex = &sync.Mutex{}
-
 // GenesisBlockchain - Creates the Blockchain (Only run once)
 func GenesisBlockchain(transaction string, difficulty int) {
 
 	s := "START: GenesisBlockchain - Creates the Blockchain (Only run once)"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	t := time.Now()
-	firstBlock := BlockStruct{}
+	refreshCurrentBlock(transaction)
+	addTransactionCurrentBlock("remove me TEST") // REMOVE THIS
+	lockCurrentBlock(difficulty)
+	newBlock := appendLockedBlock()
+	refreshCurrentBlock("Refreshed")
 
-	firstBlock = BlockStruct{
-		Index:      0,
-		Timestamp:  t.String(),
-		Data:       append(firstBlock.Data, transaction),
-		Hash:       calculateBlockHash(firstBlock),
-		PrevHash:   "",
-		Difficulty: difficulty,
-		Nonce:      "",
-	}
-
-	fmt.Printf("\nCongrats, your first Block in your blockchain is:\n\n")
-	js, _ := json.MarshalIndent(firstBlock, "", "    ")
+	fmt.Printf("\nCongrats, your first Block in your Blockchain is:\n\n")
+	js, _ := json.MarshalIndent(newBlock, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
-
-	Blockchain = append(Blockchain, firstBlock)
 
 	s = "END: GenesisBlockchain - Creates the Blockchain (Only run once)"
 	log.Println("BLOCKCHAIN I/F:     " + s)
@@ -54,11 +41,12 @@ func GetBlockchain() BlockchainSlice {
 	s := "START: GetBlockchain - Gets the Blockchain"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
+	theBlockchain := getBlockchain()
+
 	s = "END: GetBlockchain - Gets the Blockchain"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	// ?????????????????? GET FROM GUTS
-	return Blockchain
+	return theBlockchain
 
 }
 
@@ -68,22 +56,13 @@ func GetBlock(id string) BlockStruct {
 	s := "START: GetBlock - Get a Block (via Index number) from the Blockchain"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	var item BlockStruct
-
-	// SEARCH DATA FOR blockID
-	for _, item := range Blockchain {
-		if strconv.Itoa(item.Index) == id {
-			// RETURN ITEM
-			s = "END: GetBlock - Get a Block (via Index number) from the Blockchain"
-			log.Println("BLOCKCHAIN I/F:     " + s)
-			return item
-		}
-	}
+	theBlock := getBlock(id)
 
 	// RETURN NOT FOUND
-	s = "END (ITEM NOT FOUND): GetBlock - Get a Block (via Index number) from the Blockchain"
+	s = "END GetBlock - Get a Block (via Index number) from the Blockchain"
 	log.Println("BLOCKCHAIN I/F:     " + s)
-	return item
+
+	return theBlock
 
 }
 
@@ -159,34 +138,34 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
 // AddBlockToChain - Add a Block to the Blockchain
 // ?????????????????????????? UPDATE
-func AddBlockToChain(firstTransaction string) BlockStruct {
+//func AddBlockToChain(firstTransaction string) BlockStruct {
 
-	s := "Started to add block to blockchain"
-	log.Println("BLOCKCHAIN I/F:     " + s)
+//	s := "Started to add block to blockchain"
+//log.Println("BLOCKCHAIN I/F:     " + s)
 
-	var blankBlock BlockStruct
+//var blankBlock BlockStruct
 
-	currentBlock := Blockchain[len(Blockchain)-1]
+//currentBlock := Blockchain[len(Blockchain)-1]
 
-	// JUST TO MAKE SURE CAN'T MAKE A NEW BLOCK AT THE SAME TIME
-	mutex.Lock()
-	newBlock := addLockedBlock(currentBlock, firstTransaction)
-	mutex.Unlock()
+// JUST TO MAKE SURE CAN'T MAKE A NEW BLOCK AT THE SAME TIME
+//mutex.Lock()
+//newBlock := appendLockedBlock(currentBlock, firstTransaction)
+//mutex.Unlock()
 
-	// CHECK IF NEWBLOCK IS VALID
-	if isBlockValid(newBlock, currentBlock) {
-		log.Println("BLOCKCHAIN I/F:     Block is valid")
-		newBlockchain := append(Blockchain, newBlock)
-		// REPLACE WITH LONGER ONE
-		replaceChain(newBlockchain)
-		return newBlock
-	}
+// CHECK IF NEWBLOCK IS VALID
+//if isBlockValid(newBlock, currentBlock) {
+//	log.Println("BLOCKCHAIN I/F:     Block is valid")
+//	newBlockchain := append(Blockchain, newBlock)
+// REPLACE WITH LONGER ONE
+//	replaceChain(newBlockchain)
+//	return newBlock
+//}
 
-	s = "Block is NOT valid"
-	log.Println("BLOCKCHAIN I/F:     " + s)
-	return blankBlock
+//s = "Block is NOT valid"
+//	log.Println("BLOCKCHAIN I/F:     " + s)
+//	return blankBlock
 
-}
+//}
 
 // AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock
 func AddTransactionToCurrentBlock(transaction string) BlockStruct {
@@ -196,13 +175,12 @@ func AddTransactionToCurrentBlock(transaction string) BlockStruct {
 
 	// JUST TO MAKE SURE CAN'T UPDATE A BLOCK AT THE SAME TIME
 	// ??????????????????????????? FIX KEEP CURRENT BLOCK IN GUTS
-	mutex.Lock()
-	currentBlock := addTransaction(CurrentBlock, transaction)
-	mutex.Unlock()
+	addTransactionCurrentBlock(transaction)
 
 	s = "END: AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	return currentBlock
+	// FIX THIS??????????????????????
+	return CurrentBlock
 
 }

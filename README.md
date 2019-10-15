@@ -120,13 +120,17 @@ Functions in Blockchain Interface,
 * **AddBlockToChain()** Add a Block to the Blockchain ???????????????????UPDATE
 * **AddTransactionToCurrentBlock()** Add a Transaction to **CurrentBlock**
 
-And the guts will deal directly with the chain,
+And the guts will deal directly with the Blockchain,
 
-* **calculateBlockHash** SHA256 hasing
-* **isBlockValid** Check that the newBlock is valid
-* **addLockedBlock** Add LockedBlock to the Blockchain
-* **addTransaction** Add Transaction to CurrentBlock
-* **replaceChain** Replace chain with a Longer one
+* **getBlockchain()** Get the Blockchain
+* **getBlock()** Get a Block in the Blockchain
+* **calculateBlockHash()** SHA256 hashing
+* **isBlockValid()** Check that the newBlock is valid
+* **refreshCurrentBlock()** Refresh the CurrentBlock
+* **addTransactionCurrentBlock()** Add Transaction to CurrentBlock
+* **lockCurrentBlock()** Move CurrentBlock to LockedBlock (ResetCurrentBlock)
+* **appendLockedBlock()** Append LockedBlock to the Blockchain
+* **replaceChain()** Replace chain with a Longer one
 
 ## 2. MINER
 
@@ -151,9 +155,9 @@ Functions in RoutingNode Interface,
 * **GenesisNodeList()** Creates the NodeList (Only run once)
 * **GetNodeList()** Gets the NodeList
 * **GetNode()** Get a Node (via Index number) from the NodeList
-* **LoadNodeList** Receive NodeList from the network
+* **LoadNodeList()** Receive NodeList from the network
   * **SENDNODELIST** Request
-* **BroadcastNewNode** Broadcast New Node to the Network
+* **BroadcastNewNode()** Broadcast New Node to the Network
   * **ADDNEWNODE** Request
 
 Handling TCP Server Requests,
@@ -161,9 +165,15 @@ Handling TCP Server Requests,
 * **ADDTRANSACTION (AT)** Add Transaction to CurrentBlock
 * **SENDBLOCKCHAIN (SB)** Send Blockchain, LockedBlock &
   CurrentBlock to another Node
-* **SENDNODELIST (GN)** Send NodeList to another Node
 * **ADDNEWNODE (NN)** Add Node to NodeList
+* **SENDNODELIST (GN)** Send NodeList to another Node
 * **EOF**
+
+And the guts will deal directly with the Nodelist,
+
+* **getNodeList()** Get the Nodelist
+* **getNode()** Get a Node in the Nodelist
+* **appendNode()** Append Node to the NodeList
 
 ## 4. WALLET
 

@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"net"
-	"strconv"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -20,19 +19,11 @@ func GenesisNodeList(nodeIP string, nodeTCPPort string) {
 	s := "START: GenesisNodeList - Creates the NodeList (Only run once)"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
-	t := time.Now()
-
-	firstNode := NodeStruct{
-		Timestamp: t.String(),
-		IP:        nodeIP,
-		Port:      nodeTCPPort,
-	}
+	newNode := appendNode(nodeIP, nodeTCPPort)
 
 	fmt.Printf("\nCongrats, your first Node in your Network is:\n\n")
-	js, _ := json.MarshalIndent(firstNode, "", "    ")
+	js, _ := json.MarshalIndent(newNode, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
-
-	NodeList = append(NodeList, firstNode)
 
 	s = "END: GenesisNodeList - Creates the NodeList (Only run once)"
 	log.Println("ROUTINGNODE I/F:    " + s)
@@ -45,11 +36,12 @@ func GetNodeList() NodeSlice {
 	s := "START: GetNodeList - Gets the NodeList"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
+	theNodeList := getNodeList()
+
 	s = "END: GetNodeList - Gets the NodeList"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
-	// ?????????????????? GET FROM GUTS
-	return NodeList
+	return theNodeList
 
 }
 
@@ -59,22 +51,14 @@ func GetNode(id string) NodeStruct {
 	s := "START: GetNode - Get a Node (via Index number) from the NodeList"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
-	var item NodeStruct
-
-	// SEARCH DATA FOR blockID
-	for _, item := range NodeList {
-		if strconv.Itoa(item.Index) == id {
-			// RETURN ITEM
-			s = "END: GetNode - Get a Node (via Index number) from the NodeList"
-			log.Println("ROUTINGNODE I/F:    " + s)
-			return item
-		}
-	}
+	theNode := getNode(id)
 
 	// RETURN NOT FOUND
-	s = "END (ITEM NOT FOUND): GetNode - Get a Node (via Index number) from the NodeList"
+	s = "END: GetNode - Get a Node (via Index number) from the NodeList"
 	log.Println("ROUTINGNODE I/F:    " + s)
-	return item
+
+	return theNode
+
 }
 
 // LoadNodeList - Loads the NodeList from the Network Node

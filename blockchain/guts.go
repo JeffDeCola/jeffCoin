@@ -8,16 +8,55 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 )
+
+var mutex = &sync.Mutex{}
 
 func checkErr(err error) {
 	if err != nil {
 		fmt.Printf("Error is %+v\n", err)
 		log.Fatal("ERROR:", err)
 	}
+}
+
+// getBlockchain - Get the Blockchain
+func getBlockchain() BlockchainSlice {
+
+	s := "START: getBlockchain - Get the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	s = "END: getBlockchain - Get the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	return Blockchain
+}
+
+// getBlock - Get a Block the Blockchain
+func getBlock(id string) BlockStruct {
+
+	s := "START: getBlock - Get a Block the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	var item BlockStruct
+
+	// SEARCH DATA FOR blockID
+	for _, item := range Blockchain {
+		if strconv.Itoa(item.Index) == id {
+			// RETURN ITEM
+			s = "END: getBlock - Get a Block the Blockchain"
+            log.Println("BLOCKCHAIN GUTS:    " + s)
+			return item
+		}
+	}
+
+	s = "END: getBlock - Get a Block the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	return item
 }
 
 // calculateBlockHash - SHA256 hasing
@@ -68,51 +107,78 @@ func isBlockValid(checkBlock, oldBlock BlockStruct) bool {
 
 }
 
-// addLockedBlock - Add LockedBlock to the Blockchain
-func addLockedBlock(currentBlock BlockStruct, data string) BlockStruct {
+// refreshCurrentBlock - Refresh the CurrentBlock
+func refreshCurrentBlock(transaction string) {
 
-	s := "START: addLockedBlock - Add a LockedBlock to the Blockchain"
+	s := "START: refreshCurrentBlock - Refresh the CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
-
-	var newBlock BlockStruct
 
 	t := time.Now()
 
-	newBlock.Index = currentBlock.Index + 1
-	newBlock.Timestamp = t.String()
-	newBlock.Data = append(newBlock.Data, data)
-	newBlock.PrevHash = currentBlock.Hash
-	newBlock.Difficulty = currentBlock.Difficulty
-	newBlock.Hash = calculateBlockHash(newBlock)
-	newBlock.Nonce = ""
+	CurrentBlock.Index = 0
+	CurrentBlock.Timestamp = t.String()
+	CurrentBlock.Data = append(CurrentBlock.Data, transaction)
+	CurrentBlock.PrevHash = CurrentBlock.Hash
+	CurrentBlock.Difficulty = CurrentBlock.Difficulty
+	CurrentBlock.Hash = ""
+	CurrentBlock.Nonce = ""
 
-	s = "END: addLockedBlock - Add a LockedBlock to the Blockchain"
+	s = "END: refreshCurrentBlock - Refresh the CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
-
-	return newBlock
 
 }
 
-// addTransaction - Add Transaction to CurrentBlock
-func addTransaction(block BlockStruct, transaction string) BlockStruct {
+// addTransactionCurrentBlock - Add Transaction to CurrentBlock
+func addTransactionCurrentBlock(transaction string) {
 
-	s := "START: addTransaction - Add Transaction to a block"
+	s := "START: addTransactionCurrentBlock - Add Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
 
-	var updateBlock BlockStruct
+	CurrentBlock.Data = append(CurrentBlock.Data, transaction)
 
-	updateBlock.Index = block.Index
-	updateBlock.Timestamp = block.Timestamp
-	updateBlock.Data = append(block.Data, transaction)
-	updateBlock.PrevHash = block.Hash
-	updateBlock.Difficulty = block.Difficulty
-	updateBlock.Hash = block.Hash
-	updateBlock.Nonce = block.Nonce
-
-	s = "END: addTransaction - Add Transaction to a block"
+	s = "END: addTransactionCurrentBlock - Add Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
 
-	return updateBlock
+}
+
+// lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)
+func lockCurrentBlock(difficulty int) {
+
+	s := "START: lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	CurrentBlock.Hash = calculateBlockHash(CurrentBlock)
+	CurrentBlock.Difficulty = difficulty
+
+	LockedBlock = CurrentBlock
+
+	s = "END: lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+}
+
+// appendLockedBlock - Append LockedBlock to the Blockchain
+func appendLockedBlock() BlockStruct {
+
+	s := "START: appendLockedBlock - Append LockedBlock to the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	//newBlock.Index = currentBlock.Index + 1
+	//newBlock.Timestamp = t.String()
+	//newBlock.Data = append(newBlock.Data, data)
+	//newBlock.PrevHash = currentBlock.Hash
+	//newBlock.Difficulty = currentBlock.Difficulty
+	//newBlock.Hash = calculateBlockHash(newBlock)
+	//newBlock.Nonce = ""
+
+	mutex.Lock()
+	Blockchain = append(Blockchain, LockedBlock)
+	mutex.Unlock()
+
+	s = "END: appendLockedBlock - Append LockedBlock to the Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	return LockedBlock
 
 }
 
