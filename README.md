@@ -87,20 +87,20 @@ type BlockStruct struct {
 
 The states of a block,
 
-* Part of chain - These are already in the chain
+* Part of chain - These are already in the **Blockchain**
 * **LockedBlock** - Going to be added to the chain (No more transactions)
 * **CurrentBlock** - Receiving transactions and not part of chain
 
-Functions,
+Functions in Blockchain Interface,
 
 * **GenesisBlockchain()** - Creates the Blockchain (Only run once)
 * **GetBlockchain()** - Gets the Blockchain
-* **LoadBlockchain()**  -Loads the Blockchain. LockedBlock and CurrentBlock
+* **GetBlock()** - Get a Block (via Index number) from the Blockchain
+* **LoadBlockchain()** - Loads the Blockchain, LockedBlock and CurrentBlock
   from a Network Node
   * Uses **SENDBLOCKCHAIN** Request
-* **GetBlock()** - Get a Block (via Index number) from the Blockchain
 * **AddBlockToChain()** - Add a Block to the Blockchain ???????????????????UPDATE
-* **AddTransactionToBlock()** - Add a Transaction to current Block
+* **AddTransactionToCurrentBlock()** - Add a Transaction to **CurrentBlock**
 
 ## MINER
 
@@ -108,33 +108,35 @@ Functions,
 
 The routing Node has two parts, the nodelist and handling Node requests (TCP Server).
 
-### NODELIST
-
 A Node in the Nodelist is the following struct
 
 ```go
 type NodeStruct struct {
-    Index     int      `json:"index"`
-    Timestamp string   `json:"timestamp"`
-    IP        []string `json:"ip"`
-    Port      []string `json:"port"`
+    Index     int       `json:"index"`
+    Timestamp string    `json:"timestamp"`
+    IP        string    `json:"ip"`
+    Port      string    `json:"port"`
 }
 ```
 
-### HANDLING REQUESTS (TCP SERver)
+Functions in RoutingNode Interface,
 
-REQUESTS,
+* **GenesisBlockchain()** - Creates the NodeList (Only run once)
+* **GetNodeList()** - Gets the NodeList
+* **GetNode()** - Get a Node (via Index number) from the NodeList
+* **LoadNodeList** - Receive NodeList from the network
+  * Uses **SENDNODELIST** Request
+* **BroadcastNewNode** - Broadcast New Node to the Network
+  * Uses **ADDNEWNODE** Request
 
-* **ADDBLOCK (AB)** - REMOVE ???????
-* **ADDTRANSACTION (AT)** - Add Transaction to Current Block
+HANDLING REQUESTS (TCP SERVER),
+
+* **ADDTRANSACTION (AT)** - Add Transaction to CurrentBlock
 * **SENDBLOCKCHAIN (SB)** - Send Blockchain, LockedBlock &
   CurrentBlock to another Node
-* **NEWNODE (NN)** - Add Node to Node List
-
-Functions,
-
-* **NewNode** -  Broadcast New Node to Network & Receive Node List
-  * Uses **NEWNODE** Request
+* **SENDNODELIST (GN)** - 
+* **ADDNEWNODE (NN)** - 
+* **EOF** - 
 
 ## WALLET
 
@@ -157,7 +159,7 @@ You only do this once.
 ```bash
 go run jeffCoin.go \
        -genesis \
-       -ip 192.168.20.103 \
+       -ip 192.168.20.100 \
        -wp 1234 \
        -tp 3333
 ```
@@ -168,9 +170,9 @@ up to the network.  You need the ip of a network node.
 ```bash
 go run jeffCoin.go \
        -ip 192.168.20.100 \
-       -wp 1234 \
-       -tp 3333 \
-       -netip 192.168.20.103 \
+       -wp 1235 \
+       -tp 3334 \
+       -netip 192.168.20.100 \
        -netport 3333
 ```
 
