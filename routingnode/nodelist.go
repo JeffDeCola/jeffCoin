@@ -3,7 +3,7 @@
 package routingnode
 
 // NodeStruct is your node info
-type NodeStruct struct {
+type nodeStruct struct {
 	Index     int    `json:"index"`
 	Status    string `json:"status"`
 	Timestamp string `json:"timestamp"`
@@ -11,8 +11,11 @@ type NodeStruct struct {
 	Port      string `json:"port"`
 }
 
+// thisNode - The Current Node Info
+var thisNode = nodeStruct{}
+
 // NodeSlice is my type
-type NodeSlice []NodeStruct
+type nodeSlice []nodeStruct
 
 // NodeList is the the Node List
-var NodeList = NodeSlice{}
+var nodeList = nodeSlice{}

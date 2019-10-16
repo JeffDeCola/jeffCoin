@@ -6,7 +6,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"strings"
-	"time"
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 	log "github.com/sirupsen/logrus"
@@ -16,10 +15,10 @@ import (
 func handleAddTransaction(rw *bufio.ReadWriter) {
 
 	s := "START: handleAddTransaction - Add Transaction to CurrentBlock"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the Transaction for the latest block"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 	returnMessage(s, rw)
 
 	// WAITING FOR TRANSACTION
@@ -27,25 +26,25 @@ func handleAddTransaction(rw *bufio.ReadWriter) {
 	checkErr(err)
 	transaction = strings.Trim(transaction, "\n ")
 	s = "Received TRANSACTION: " + transaction
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// ADD TRANSACTION TO BLOCK
 	s = "Sending request to add block to the Blockchain"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 	currentBlock := blockchain.AddTransactionToCurrentBlock(transaction)
 	js, _ := json.MarshalIndent(currentBlock, "", "    ")
 	s = "Added Transaction to Block:\n" + string(js)
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	s = "END: handleAddTransaction - Add Transaction to CurrentBlock"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	s = "END:   handleAddTransaction - Add Transaction to CurrentBlock"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
 // handleSendBlockchain - Send Blockchain, LockedBlock & CurrentBlock to another Node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
 	s := "START: handleSendBlockchain - Send Blockchain, LockedBlock & CurrentBlock to another Node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND ENTIRE BLOCKCHAIN
 	sendBlockchain := blockchain.GetBlockchain()
@@ -56,7 +55,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	err = rw.Flush()
 	checkErr(err)
 	s = "Sent Blockchain to another node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND LockedBlock
 	sendBlockchain = blockchain.GetBlockchain()
@@ -67,7 +66,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	err = rw.Flush()
 	checkErr(err)
 	s = "Sent LockedBlock to another node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND CurrentBlock
 	sendBlockchain = blockchain.GetBlockchain()
@@ -78,15 +77,15 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	err = rw.Flush()
 	checkErr(err)
 
-	s = "END: handleSendBlockchain - Send Blockchain, LockedBlock & CurrentBlock to another Node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	s = "END:   handleSendBlockchain - Send Blockchain, LockedBlock & CurrentBlock to another Node"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
 // handleSendNodeList - Send NodeList to another Node
 func handleSendNodeList(rw *bufio.ReadWriter) {
 
 	s := "START: handleSendNodeList - Send NodeList to another Node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND NODELIST
 	sendNodeList := GetNodeList()
@@ -97,30 +96,51 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	err = rw.Flush()
 	checkErr(err)
 	s = "Sent Nodelist to another node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	s = "END: handleSendNodeList - Send NodeList to another Node"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	s = "END:   handleSendNodeList - Send NodeList to another Node"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 }
 
 // handleAddNewNode - Add Node to NodeList
 func handleAddNewNode(rw *bufio.ReadWriter) {
 
-	s := "START: handleNewNode - Add Node to NodeList"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	s := "START: handleAddNewNode - Add Node to NodeList"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	t := time.Now()
+	// RESPOND - SEND NEW NODE
+	s = "Sent The New Node"
+	_, err := rw.WriteString(s + "\n")
+	checkErr(err)
+	err = rw.Flush()
+	checkErr(err)
+	s = "Sent The New Node"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	newNode := NodeStruct{
-		Timestamp: t.String(),
-		IP:        "adsf?????",
-		Port:      "asdf?????",
-	}
+	// RECEIVE THE NEW NODE
+	messageNewNode, err := rw.ReadString('\n')
+	checkErr(err)
+	// TRIM CMD
+	messageNewNode = strings.Trim(messageNewNode, "\n ")
 
-	NodeList = append(NodeList, newNode)
+	// APPEND
+	newNode := AppendNewNode(messageNewNode)
 
-	s = "END: handleNewNode - Add Node to NodeList"
-	log.Println("ROUTINGNODE:RCV     " + s)
+	js, _ := json.MarshalIndent(newNode, "", "    ")
+	s = "Appended new Node to the NodeList:\n" + string(js)
+	log.Trace("ROUTINGNODE: RCV    " + s)
+
+	// RESPOND - THANK YOU
+	s = "Thank you"
+	_, err = rw.WriteString(s + "\n")
+	checkErr(err)
+	err = rw.Flush()
+	checkErr(err)
+	s = "Thank you"
+	log.Info("ROUTINGNODE: RCV            " + s)
+
+	s = "END:   handleAddNewNode - Add Node to NodeList"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 
 }
