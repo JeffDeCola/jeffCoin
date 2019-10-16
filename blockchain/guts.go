@@ -60,6 +60,30 @@ func getBlock(id string) blockStruct {
 	return item
 }
 
+// getLockedBlock - Get the lockedBlock
+func getLockedBlock() blockStruct {
+
+	s := "START: getLockedBlock - Get the lockedBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	s = "END:   getLockedBlock - Get the lockedBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return lockedBlock
+}
+
+// getCurrentBlock - Get the currentBlock
+func getCurrentBlock() blockStruct {
+
+	s := "START: getCurrentBlock - Get the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	s = "END:   getCurrentBlock - Get the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return currentBlock
+}
+
 // loadBlockchain - Loads blockchain
 func loadBlockchain(message string) {
 
@@ -146,7 +170,7 @@ func refreshCurrentBlock(transaction string) {
 
 	currentBlock.Index = 0
 	currentBlock.Timestamp = t.String()
-	currentBlock.Data = append(currentBlock.Data, transaction)
+	currentBlock.Data = []string{transaction}
 	currentBlock.PrevHash = currentBlock.Hash
 	currentBlock.Difficulty = currentBlock.Difficulty
 	currentBlock.Hash = ""

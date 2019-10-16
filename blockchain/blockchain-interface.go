@@ -65,6 +65,38 @@ func GetBlock(id string) blockStruct {
 
 }
 
+// GetLockedBlock - Get the lockedBlock
+func GetLockedBlock() blockStruct {
+
+	s := "START: GetLockedBlock - Get the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlock := getLockedBlock()
+
+	// RETURN NOT FOUND
+	s = "END:  GetLockedBlock - Get the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlock
+
+}
+
+// GetCurrentBlock - Get the currentBlock
+func GetCurrentBlock() blockStruct {
+
+	s := "START: GetCurrentBlock - Get the currentBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlock := getCurrentBlock()
+
+	// RETURN NOT FOUND
+	s = "END:   GetCurrentBlock - Get the currentBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlock
+
+}
+
 // LoadBlockchain - Loads the blockchain and CurrentBlock from a Network Node
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
@@ -98,7 +130,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 		return errors.New(s)
 	}
 
-	// GET THE CurrentBlock
+	// GET THE currentBlock
 	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
 	log.Info("BLOCKCHAIN:  I/F           " + s)

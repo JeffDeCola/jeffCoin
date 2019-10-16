@@ -28,6 +28,7 @@ func getNodeList() nodeSlice {
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return nodeList
+
 }
 
 // getNode - Get a Node in the nodeList
@@ -57,6 +58,7 @@ func getNode(id string) nodeStruct {
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return item
+
 }
 
 // loadThisNode - Load thisNode
@@ -95,6 +97,7 @@ func appendThisNode() nodeStruct {
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return thisNode
+
 }
 
 // getThisNode - Get thisNode
@@ -107,9 +110,10 @@ func getThisNode() nodeStruct {
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return thisNode
+
 }
 
-// checkIfThisNodeinNodeList - check if thisNode is already in the nodeList
+// checkIfThisNodeinNodeList - Check if thisNode is already in the nodeList
 func checkIfThisNodeinNodeList() bool {
 
 	s := "START: checkIfThisNodeinNodeList - check if thisNode is already in the nodeList"

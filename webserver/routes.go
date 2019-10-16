@@ -21,8 +21,8 @@ var routes = Routes{
 		"GET",
 		"/",
 		indexHandler,
-    },
-    Route{
+	},
+	Route{
 		"ShowBlockchain",
 		"GET",
 		"/showblockchain",
@@ -35,15 +35,33 @@ var routes = Routes{
 		showBlockHandler,
 	},
 	Route{
+		"ShowLockedBlock",
+		"GET",
+		"/showlockedblock/",
+		showLockedBlockHandler,
+	},
+	Route{
+		"ShowCurrentBlock",
+		"GET",
+		"/showcurrentblock",
+		showCurrentBlockHandler,
+	},
+	Route{
 		"ShowNodeList",
 		"GET",
 		"/shownodelist",
 		showNodeListHandler,
-    },
-    Route{
+	},
+	Route{
 		"ShowNode",
 		"GET",
 		"/shownode/{nodeID}",
 		showNodeHandler,
+	},
+	Route{
+		"ShowThisNode",
+		"GET",
+		"/showthisnode",
+		showThisNodeHandler,
 	},
 }
