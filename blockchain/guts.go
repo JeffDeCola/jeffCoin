@@ -5,6 +5,7 @@ package blockchain
 import (
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -48,7 +49,7 @@ func getBlock(id string) BlockStruct {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
 			s = "END: getBlock - Get a Block the Blockchain"
-            log.Println("BLOCKCHAIN GUTS:    " + s)
+			log.Println("BLOCKCHAIN GUTS:    " + s)
 			return item
 		}
 	}
@@ -57,6 +58,34 @@ func getBlock(id string) BlockStruct {
 	log.Println("BLOCKCHAIN GUTS:    " + s)
 
 	return item
+}
+
+// loadBlockchain - Loads Blockchain
+func loadBlockchain(message string) {
+
+	s := "START: loadBlockchain - Loads Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	// LOAD
+	json.Unmarshal([]byte(message), &Blockchain)
+
+	s = "END: loadBlockchain - Loads Blockchain"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+}
+
+// loadCurrentBlock - Loads CurrentBlock
+func loadCurrentBlock(message string) {
+
+	s := "START: loadCurrentBlock - Loads CurrentBlock"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	// LOAD
+	json.Unmarshal([]byte(message), &CurrentBlock)
+
+	s = "END: loadCurrentBlock - Loads CurrentBlock"
+	log.Println("BLOCKCHAIN GUTS:    " + s)
+
 }
 
 // calculateBlockHash - SHA256 hasing
@@ -128,16 +157,18 @@ func refreshCurrentBlock(transaction string) {
 
 }
 
-// addTransactionCurrentBlock - Add Transaction to CurrentBlock
-func addTransactionCurrentBlock(transaction string) {
+// addTransactionToCurrentBlock - Add Transaction to CurrentBlock
+func addTransactionToCurrentBlock(transaction string) BlockStruct {
 
-	s := "START: addTransactionCurrentBlock - Add Transaction to CurrentBlock"
+	s := "START: addTransactionToCurrentBlock - Add Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
 
 	CurrentBlock.Data = append(CurrentBlock.Data, transaction)
 
-	s = "END: addTransactionCurrentBlock - Add Transaction to CurrentBlock"
+	s = "END: addTransactionToCurrentBlock - Add Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN GUTS:    " + s)
+
+	return CurrentBlock
 
 }
 

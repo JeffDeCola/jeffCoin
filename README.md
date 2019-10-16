@@ -105,29 +105,32 @@ type BlockStruct struct {
 
 The states of a block are,
 
-* **Part of chain** These are already in the **Blockchain**
-* **LockedBlock** Going to be added to the chain (No more transactions)
 * **CurrentBlock** Receiving transactions and not part of chain
+* **LockedBlock** Going to be added to the chain (No more transactions).
+  This one is the one to be mined
+* **Part of Chain** These are already in the **Blockchain**
 
 Functions in Blockchain Interface,
 
 * **GenesisBlockchain()** Creates the Blockchain (Only run once)
 * **GetBlockchain()** Gets the Blockchain
 * **GetBlock()** Get a Block (via Index number) from the Blockchain
-* **LoadBlockchain()** Loads the Blockchain, LockedBlock and CurrentBlock
+* **LoadBlockchain()** Loads the Blockchain and CurrentBlock
   from a Network Node
   * **SENDBLOCKCHAIN** Request
-* **AddBlockToChain()** Add a Block to the Blockchain ???????????????????UPDATE
+* **AddBlockToChain()** Add a Block to the Blockchain
 * **AddTransactionToCurrentBlock()** Add a Transaction to **CurrentBlock**
 
 And the guts will deal directly with the Blockchain,
 
 * **getBlockchain()** Get the Blockchain
-* **getBlock()** Get a Block in the Blockchain
+* **getBlock()** Get a Block in the Blockchain*
+* **loadBlockchain()** Loads entire Blockchain
+* **loadCurrentBlock()** Loads CurrentBlock
 * **calculateBlockHash()** SHA256 hashing
 * **isBlockValid()** Check that the newBlock is valid
 * **refreshCurrentBlock()** Refresh the CurrentBlock
-* **addTransactionCurrentBlock()** Add Transaction to CurrentBlock
+* **addTransactionToCurrentBlock()** Add Transaction to CurrentBlock
 * **lockCurrentBlock()** Move CurrentBlock to LockedBlock (ResetCurrentBlock)
 * **appendLockedBlock()** Append LockedBlock to the Blockchain
 * **replaceChain()** Replace chain with a Longer one
@@ -157,6 +160,7 @@ Functions in RoutingNode Interface,
 * **GetNode()** Get a Node (via Index number) from the NodeList
 * **LoadNodeList()** Receive NodeList from the network
   * **SENDNODELIST** Request
+* **AppendNode** Add Node to NodeList  
 * **BroadcastNewNode()** Broadcast New Node to the Network
   * **ADDNEWNODE** Request
 
@@ -173,6 +177,7 @@ And the guts will deal directly with the Nodelist,
 
 * **getNodeList()** Get the Nodelist
 * **getNode()** Get a Node in the Nodelist
+* **loadNodeList()** Loads entire Nodelist
 * **appendNode()** Append Node to the NodeList
 
 ## 4. WALLET
@@ -207,7 +212,7 @@ go run jeffCoin.go \
        -tp 3333
 ```
 
-### NEW NODE
+### NEW NODES
 
 Then all other nodes, you do something like this to hook
 up to the network.  You need the ip of a network node,
@@ -219,6 +224,15 @@ go run jeffCoin.go \
        -tp 3334 \
        -netip 192.168.20.100 \
        -netport 3333
+```
+
+```bash
+go run jeffCoin.go \
+       -ip 192.168.20.100 \
+       -wp 1236 \
+       -tp 3335 \
+       -netip 192.168.20.100 \
+       -netport 3334
 ```
 
 This will,

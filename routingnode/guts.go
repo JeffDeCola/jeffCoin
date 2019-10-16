@@ -3,6 +3,7 @@
 package routingnode
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"time"
@@ -53,8 +54,22 @@ func getNode(id string) NodeStruct {
 	return item
 }
 
+// loadNodeList - Load NodeList
+func loadNodeList(message string) {
+
+	s := "START: loadNodeList -  Load NodeList"
+	log.Println("ROUTINGNODE GUTS:   " + s)
+
+	// LOAD
+	json.Unmarshal([]byte(message), &NodeList)
+
+	s = "END: loadNodeList -  Load NodeList"
+	log.Println("ROUTINGNODE GUTS:   " + s)
+
+}
+
 // appendNode - Append Node to the NodeList
-func appendNode(nodeIP string, nodeTCPPort string) NodeStruct {
+func appendNode(ip string, tcpPort string) NodeStruct {
 
 	s := "START: appendNode - Append Node to the NodeList"
 	log.Println("ROUTINGNODE GUTS:   " + s)
@@ -63,9 +78,10 @@ func appendNode(nodeIP string, nodeTCPPort string) NodeStruct {
 
 	newNode := NodeStruct{
 		Index:     0,
+		Status:    "active",
 		Timestamp: t.String(),
-		IP:        nodeIP,
-		Port:      nodeTCPPort,
+		IP:        ip,
+		Port:      tcpPort,
 	}
 
 	NodeList = append(NodeList, newNode)

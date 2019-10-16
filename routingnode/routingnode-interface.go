@@ -76,7 +76,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	s = "Message from Network Node: " + message
 	log.Println("ROUTINGNODE I/F:    " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Could not setup connection"
 		log.Println("ROUTINGNODE I/F:    " + s)
 		return errors.New(s)
 	}
@@ -84,8 +84,8 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	// SEND THE REQUEST
 	fmt.Fprintf(conn, "SENDNODELIST\n")
 
-	// GET THE NODELIST
-	message, _ = bufio.NewReader(conn).ReadString('\n')
+	// GET THE NodeList
+	messageNodeList, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
 	log.Println("ROUTINGNODE I/F:    " + s)
 	if message == "ERROR" {
@@ -94,13 +94,8 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 		return errors.New(s)
 	}
 
-	fmt.Println(message)
-	// LOAD UP THE NODELIST FROM THE STRING STARTING AT index 1
-	// CHANGE SEND TO GUTS????????????????????????????????????
-	NewNodeSlice := NodeSlice{}
-	json.Unmarshal([]byte(message), &NewNodeSlice)
-	// This was tricky but I figured it out
-	NodeList = append(NodeList, NewNodeSlice...)
+	// LOAD THE NodeList
+	loadNodeList(messageNodeList)
 
 	// CLOSE CONNECTION
 	fmt.Fprintf(conn, "EOF\n")
@@ -114,10 +109,23 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 
 }
 
+// AppendNode - Add Node to NodeList
+func AppendNode(ip string, tcpPort string) {
+
+	s := "START: AppendNode - Add Node to NodeList"
+	log.Println("ROUTINGNODE I/F:    " + s)
+
+	appendNode(ip, tcpPort)
+
+	s = "END: AppendNode - Add Node to NodeList"
+	log.Println("ROUTINGNODE I/F:    " + s)
+
+}
+
 // BroadcastNewNode	- Broadcasts this Node to the Network to add to their NodeLists
 func BroadcastNewNode(nodeIP string, nodeTCPPort string, networkIP string, networkTCPPort string) error {
 
-	s := "START: BroadcastNewNode	- Broadcase this Nod to the Network to add to their NodeLists"
+	s := "START: BroadcastNewNode - Broadcase this Node to the Network to add to their NodeLists"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
 	// SETUP THE CONNECTION
@@ -129,7 +137,7 @@ func BroadcastNewNode(nodeIP string, nodeTCPPort string, networkIP string, netwo
 	s = "Message from Network Node: " + message
 	log.Println("ROUTINGNODE I/F:    " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Could not setup connection"
 		log.Println("ROUTINGNODE I/F:    " + s)
 		return errors.New(s)
 	}
@@ -156,7 +164,7 @@ func BroadcastNewNode(nodeIP string, nodeTCPPort string, networkIP string, netwo
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END: BroadcastNewNode	- Broadcase this Nod to the Network to add to their NodeLists"
+	s = "END: BroadcastNewNode - Broadcast this Node to the Network to add to their NodeLists"
 	log.Println("ROUTINGNODE I/F:    " + s)
 
 	return nil

@@ -121,9 +121,6 @@ func main() {
 	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
-	// PLACE YOUR NODE IN THE LIST
-	routingnode.GenesisNodeList(*nodeIPPtr, *nodeTCPPortPtr)
-
 	// IS THIS GENESIS
 	if *genesisPtr {
 
@@ -138,6 +135,9 @@ func main() {
 		err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 
+        // APPEND YOUR NODE IN THE LIST
+        routingnode.AppendNode(*nodeIPPtr, *nodeTCPPortPtr)
+    
 		// BROADCAST THIS NODE TO THE NETWORK
 		err = routingnode.BroadcastNewNode(*nodeIPPtr, *nodeTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)

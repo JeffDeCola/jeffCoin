@@ -21,7 +21,6 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
 	refreshCurrentBlock(transaction)
-	addTransactionCurrentBlock("remove me TEST") // REMOVE THIS
 	lockCurrentBlock(difficulty)
 	newBlock := appendLockedBlock()
 	refreshCurrentBlock("Refreshed")
@@ -66,10 +65,10 @@ func GetBlock(id string) BlockStruct {
 
 }
 
-// LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node
+// LoadBlockchain - Loads the Blockchain and CurrentBlock from a Network Node
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START: LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node"
+	s := "START: LoadBlockchain - Loads the Blockchain and CurrentBlock from a Network Node"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
 	// SETUP THE CONNECTION
@@ -89,18 +88,8 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	// SEND THE REQUEST
 	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
 
-	// GET THE BLOCKCHAIN
-	message, _ = bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Println("BLOCKCHAIN I/F:     " + s)
-	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
-		log.Println("BLOCKCHAIN I/F:     " + s)
-		return errors.New(s)
-	}
-
-	// GET THE LockedBlock
-	message, _ = bufio.NewReader(conn).ReadString('\n')
+	// GET THE Blockchain
+	messageBlockchain, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
 	log.Println("BLOCKCHAIN I/F:     " + s)
 	if message == "ERROR" {
@@ -110,7 +99,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	}
 
 	// GET THE CurrentBlock
-	message, _ = bufio.NewReader(conn).ReadString('\n')
+	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "Message from Network Node: " + message
 	log.Println("BLOCKCHAIN I/F:     " + s)
 	if message == "ERROR" {
@@ -119,17 +108,18 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 		return errors.New(s)
 	}
 
-	fmt.Println(message)
-	// LOAD UP THE BLOCKCHAIN FROM THE STRING
-	// CHANGE SEND TO GUTS????????????????????????????????????
-	json.Unmarshal([]byte(message), &Blockchain)
+	// LOAD THE Blockchain
+	loadBlockchain(messageBlockchain)
+
+	// LOAD THE CurrentBlock
+	loadCurrentBlock(messageCurrentBlock)
 
 	// CLOSE CONNECTION
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END: LoadBlockchain - Loads the Blockchain, LockedBlock and CurrentBlock from a Network Node"
+	s = "END: LoadBlockchain - Loads the Blockchain and CurrentBlock from a Network Node"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
 	return nil
@@ -173,14 +163,11 @@ func AddTransactionToCurrentBlock(transaction string) BlockStruct {
 	s := "START: AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	// JUST TO MAKE SURE CAN'T UPDATE A BLOCK AT THE SAME TIME
-	// ??????????????????????????? FIX KEEP CURRENT BLOCK IN GUTS
-	addTransactionCurrentBlock(transaction)
+	theCurrentBlock := addTransactionToCurrentBlock(transaction)
 
 	s = "END: AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock"
 	log.Println("BLOCKCHAIN I/F:     " + s)
 
-	// FIX THIS??????????????????????
-	return CurrentBlock
+	return theCurrentBlock
 
 }
