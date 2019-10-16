@@ -36,7 +36,7 @@ func checkErr(err error) {
 func startWebServer(nodeIP string, nodeWebPort string) {
 
 	s := "Web Server listening on " + nodeIP + ":" + nodeWebPort
-	log.Println("jeffCoin            " + s)
+	log.Debug("jeffCoin                   " + s)
 
 	// CREATE ROUTER
 	myRouter := webserver.JeffsRouter()
@@ -50,7 +50,7 @@ func startWebServer(nodeIP string, nodeWebPort string) {
 func startRoutingNode(nodeIP string, nodeTCPPort string) {
 
 	s := "TCP Server listening on " + nodeIP + ":" + nodeTCPPort
-	log.Println("jeffCoin            " + s)
+	log.Debug("jeffCoin                   " + s)
 
 	// LISTEN ON IP AND PORT
 	server, err := net.Listen("tcp", nodeIP+":"+nodeTCPPort)
@@ -121,30 +121,37 @@ func main() {
 	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
+	// LOAD thisNode
+	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr)
+
 	// IS THIS GENESIS
 	if *genesisPtr {
 
-		// GENESIS NODE
+		// GENESIS blockchain
 		firstTransaction := "Created Blockchain"
 		difficulty := 10
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
+		// GENESIS nodeList
+		routingnode.GenesisNodeList()
+
 	} else {
 
-		// LOAD NODELIST FROM THE NETWORK
+		// LOAD nodeList FROM THE NETWORK
 		err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
 
-        // APPEND YOUR NODE IN THE LIST
-        routingnode.AppendNode(*nodeIPPtr, *nodeTCPPortPtr)
-    
-		// BROADCAST THIS NODE TO THE NETWORK
-		err = routingnode.BroadcastNewNode(*nodeIPPtr, *nodeTCPPortPtr, *networkIPPtr, *networkTCPPortPtr)
+		// BROADCAST thisNode TO THE NETWORK
+		err = routingnode.BroadcastThisNode()
 		checkErr(err)
 
-		// LOAD BLOCKCHAIN FROM THE NETWORK
+		// APPEND thisNode to nodeList
+		routingnode.AppendThisNode()
+
+		// LOAD blockchain FROM THE NETWORK
 		err = blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
 		checkErr(err)
+
 	}
 
 	// PRESS RETURN TO EXIT

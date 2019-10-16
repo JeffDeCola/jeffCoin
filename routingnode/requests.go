@@ -18,9 +18,9 @@ func HandleRequest(conn net.Conn) {
 	rw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
 
 	s := "Opening a connection"
-	log.Println("ROUTINGNODE:    " + s)
+	log.Info("ROUTINGNODE: REQ            " + s)
 	s = "----------------------------------------------------------------"
-	log.Println("ROUTINGNODE:    " + s)
+	log.Info("ROUTINGNODE: REQ            " + s)
 
 	// READ FROM CONN UTIL EOF
 	for {
@@ -29,25 +29,26 @@ func HandleRequest(conn net.Conn) {
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
+		//checkErr(err)
 		// TRIM CMD
 		cmd = strings.Trim(cmd, "\n ")
 
 		s = "Received command and working on it: " + cmd
-		log.Println("ROUTINGNODE:    " + s)
+		log.Info("ROUTINGNODE: REQ            " + s)
 
 		// CHECK FOR EOF
 		switch {
 		case err == io.EOF:
 			s = "Reached EOF"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "Closing this connection"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "----------------------------------------------------------------"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			return
 		case err != nil:
 			s = "ERROR reading command. Got: " + cmd
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			return
 		}
 
@@ -65,26 +66,26 @@ func HandleRequest(conn net.Conn) {
 			handleSendNodeList(rw)
 		case cmd == "EOF":
 			s = "Received EOF"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "Closing this connection"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "----------------------------------------------------------------"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			return
 		default:
 			s = "Did not get correct command. Received: " + cmd
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "Closing this connection"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			s = "----------------------------------------------------------------"
-			log.Println("ROUTINGNODE:    " + s)
+			log.Info("ROUTINGNODE: REQ            " + s)
 			return
 		}
 	}
 }
 
 func returnMessage(s string, rw *bufio.ReadWriter) {
-	log.Println("ROUTINGNODE:    " + s)
+	log.Info("ROUTINGNODE: REQ            " + s)
 	_, err := rw.WriteString("--- " + s + "\n")
 	checkErr(err)
 	err = rw.Flush()

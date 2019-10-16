@@ -105,17 +105,17 @@ type BlockStruct struct {
 
 The states of a block are,
 
-* **CurrentBlock** Receiving transactions and not part of chain
-* **LockedBlock** Going to be added to the chain (No more transactions).
+* **currentBlock** Receiving transactions and not part of chain
+* **lockedBlock** Going to be added to the chain (No more transactions).
   This one is the one to be mined
-* **Part of Chain** These are already in the **Blockchain**
+* **Part of Chain** These are already in the **blockchain**
 
 Functions in Blockchain Interface,
 
 * **GenesisBlockchain()** Creates the Blockchain (Only run once)
 * **GetBlockchain()** Gets the Blockchain
 * **GetBlock()** Get a Block (via Index number) from the Blockchain
-* **LoadBlockchain()** Loads the Blockchain and CurrentBlock
+* **LoadBlockchain()** Receives the Blockchain and CurrentBlock
   from a Network Node
   * **SENDBLOCKCHAIN** Request
 * **AddBlockToChain()** Add a Block to the Blockchain
@@ -155,13 +155,16 @@ type NodeStruct struct {
 
 Functions in RoutingNode Interface,
 
-* **GenesisNodeList()** Creates the NodeList (Only run once)
-* **GetNodeList()** Gets the NodeList
-* **GetNode()** Get a Node (via Index number) from the NodeList
-* **LoadNodeList()** Receive NodeList from the network
+* **GenesisNodeList()** Creates the nodeList (Only run once)
+* **GetNodeList()** Gets the nodeList
+* **GetNode()** Get a Node (via Index number) from the nodeList
+* **LoadNodeList()** Receive nodeList from a network Node
   * **SENDNODELIST** Request
-* **AppendNode** Add Node to NodeList  
-* **BroadcastNewNode()** Broadcast New Node to the Network
+* **LoadThisNode()** - Load thisNode  
+* **AppendThisNode()** Append thisNode to nodeList  
+* **GetThisNode()** Get thisNode  
+* **AppendNewNode()** Add New Node to nodeList  
+* **BroadcastThisNode()** Broadcast thisNode to the Network
   * **ADDNEWNODE** Request
 
 Handling TCP Server Requests,
@@ -169,16 +172,19 @@ Handling TCP Server Requests,
 * **ADDTRANSACTION (AT)** Add Transaction to CurrentBlock
 * **SENDBLOCKCHAIN (SB)** Send Blockchain, LockedBlock &
   CurrentBlock to another Node
-* **ADDNEWNODE (NN)** Add Node to NodeList
+* **ADDNEWNODE (NN)** Add Node to nodeList
 * **SENDNODELIST (GN)** Send NodeList to another Node
 * **EOF**
 
 And the guts will deal directly with the Nodelist,
 
-* **getNodeList()** Get the Nodelist
-* **getNode()** Get a Node in the Nodelist
-* **loadNodeList()** Loads entire Nodelist
-* **appendNode()** Append Node to the NodeList
+* **getNodeList()** Get the nodelist
+* **getNode()** Get a Node in the nodelist
+* **loadThisNode()** Load thisNode
+* **appendThisNode()** Append thisNode to nodeList
+* **getThisNode()** Get thisNode
+* **loadNodeList()** Loads entire nodelist
+* **appendNewNode()** Append Node to the nodeList
 
 ## 4. WALLET
 
@@ -209,7 +215,7 @@ go run jeffCoin.go \
        -genesis \
        -ip 192.168.20.100 \
        -wp 1234 \
-       -tp 3333
+       -tp 3334
 ```
 
 ### NEW NODES
@@ -221,19 +227,36 @@ up to the network.  You need the ip of a network node,
 go run jeffCoin.go \
        -ip 192.168.20.100 \
        -wp 1235 \
-       -tp 3334 \
+       -tp 3335 \
        -netip 192.168.20.100 \
-       -netport 3333
+       -netport 3334
 ```
 
 ```bash
 go run jeffCoin.go \
        -ip 192.168.20.100 \
        -wp 1236 \
-       -tp 3335 \
+       -tp 3336 \
        -netip 192.168.20.100 \
-       -netport 3334
+       -netport 3335
 ```
+
+```bash
+go run jeffCoin.go \
+       -ip 192.168.20.100 \
+       -wp 1237 \
+       -tp 3337 \
+       -netip 192.168.20.100 \
+       -netport 3336
+```
+
+go run jeffCoin.go \
+       -ip 192.168.20.100 \
+       -wp 1234 \
+       -tp 3334 \
+       -netip 192.168.20.100 \
+       -netport 3337
+
 
 This will,
 

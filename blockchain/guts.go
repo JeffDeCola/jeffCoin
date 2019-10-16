@@ -24,95 +24,95 @@ func checkErr(err error) {
 	}
 }
 
-// getBlockchain - Get the Blockchain
-func getBlockchain() BlockchainSlice {
+// getBlockchain - Get the blockchain
+func getBlockchain() blockchainSlice {
 
-	s := "START: getBlockchain - Get the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: getBlockchain - Get the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	s = "END: getBlockchain - Get the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   getBlockchain - Get the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return Blockchain
+	return blockchain
 }
 
-// getBlock - Get a Block the Blockchain
-func getBlock(id string) BlockStruct {
+// getBlock - Get a block the blockchain
+func getBlock(id string) blockStruct {
 
-	s := "START: getBlock - Get a Block the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: getBlock - Get a block the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	var item BlockStruct
+	var item blockStruct
 
 	// SEARCH DATA FOR blockID
-	for _, item := range Blockchain {
+	for _, item := range blockchain {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
-			s = "END: getBlock - Get a Block the Blockchain"
-			log.Println("BLOCKCHAIN GUTS:    " + s)
+			s = "END:   getBlock - Get a block the blockchain"
+			log.Trace("BLOCKCHAIN:  GUTS   " + s)
 			return item
 		}
 	}
 
-	s = "END: getBlock - Get a Block the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   getBlock - Get a block the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return item
 }
 
-// loadBlockchain - Loads Blockchain
+// loadBlockchain - Loads blockchain
 func loadBlockchain(message string) {
 
-	s := "START: loadBlockchain - Loads Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: loadBlockchain - Loads blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// LOAD
-	json.Unmarshal([]byte(message), &Blockchain)
+	json.Unmarshal([]byte(message), &blockchain)
 
-	s = "END: loadBlockchain - Loads Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   loadBlockchain - Loads blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
 
-// loadCurrentBlock - Loads CurrentBlock
+// loadCurrentBlock - Loads currentBlock
 func loadCurrentBlock(message string) {
 
-	s := "START: loadCurrentBlock - Loads CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: loadCurrentBlock - Loads currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// LOAD
-	json.Unmarshal([]byte(message), &CurrentBlock)
+	json.Unmarshal([]byte(message), &currentBlock)
 
-	s = "END: loadCurrentBlock - Loads CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   loadCurrentBlock - Loads currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
 
 // calculateBlockHash - SHA256 hasing
-func calculateBlockHash(block BlockStruct) string {
+func calculateBlockHash(block blockStruct) string {
 
 	s := "START: calculateBlockHash - SHA256 hasing"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	record := strconv.Itoa(block.Index) + block.Timestamp + strings.Join(block.Data, " ") + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)
-	s = "Calculated Block Hash"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "Calculated block Hash"
+	log.Info("BLOCKCHAIN:  GUTS          " + s)
 
-	s = "END: calculateBlockHash - SHA256 hasing"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   calculateBlockHash - SHA256 hasing"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return hex.EncodeToString(hashed)
 
 }
 
 // isBlockValid - Check that the newBlock is valid
-func isBlockValid(checkBlock, oldBlock BlockStruct) bool {
+func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 
 	s := "START: isBlockValid - Check that the newBlock is valid"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// Check index
 	if oldBlock.Index+1 != checkBlock.Index {
@@ -129,70 +129,70 @@ func isBlockValid(checkBlock, oldBlock BlockStruct) bool {
 		return false
 	}
 
-	s = "END: isBlockValid - Check that the newBlock is valid"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   isBlockValid - Check that the newBlock is valid"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return true
 
 }
 
-// refreshCurrentBlock - Refresh the CurrentBlock
+// refreshCurrentBlock - Refresh the currentBlock
 func refreshCurrentBlock(transaction string) {
 
-	s := "START: refreshCurrentBlock - Refresh the CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: refreshCurrentBlock - Refresh the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	t := time.Now()
 
-	CurrentBlock.Index = 0
-	CurrentBlock.Timestamp = t.String()
-	CurrentBlock.Data = append(CurrentBlock.Data, transaction)
-	CurrentBlock.PrevHash = CurrentBlock.Hash
-	CurrentBlock.Difficulty = CurrentBlock.Difficulty
-	CurrentBlock.Hash = ""
-	CurrentBlock.Nonce = ""
+	currentBlock.Index = 0
+	currentBlock.Timestamp = t.String()
+	currentBlock.Data = append(currentBlock.Data, transaction)
+	currentBlock.PrevHash = currentBlock.Hash
+	currentBlock.Difficulty = currentBlock.Difficulty
+	currentBlock.Hash = ""
+	currentBlock.Nonce = ""
 
-	s = "END: refreshCurrentBlock - Refresh the CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   refreshCurrentBlock - Refresh the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
 
 // addTransactionToCurrentBlock - Add Transaction to CurrentBlock
-func addTransactionToCurrentBlock(transaction string) BlockStruct {
+func addTransactionToCurrentBlock(transaction string) blockStruct {
 
-	s := "START: addTransactionToCurrentBlock - Add Transaction to CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: addTransactionToCurrentBlock - Add Transaction to currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	CurrentBlock.Data = append(CurrentBlock.Data, transaction)
+	currentBlock.Data = append(currentBlock.Data, transaction)
 
-	s = "END: addTransactionToCurrentBlock - Add Transaction to CurrentBlock"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   addTransactionToCurrentBlock - Add Transaction to currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return CurrentBlock
+	return currentBlock
 
 }
 
-// lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)
+// lockCurrentBlock - Move currentBlock to lockedBlock (ResetCurrentBlock)
 func lockCurrentBlock(difficulty int) {
 
-	s := "START: lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: lockCurrentBlock - Move currentBlock to lockedBlock (ResetCurrentBlock)"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	CurrentBlock.Hash = calculateBlockHash(CurrentBlock)
-	CurrentBlock.Difficulty = difficulty
+	currentBlock.Hash = calculateBlockHash(currentBlock)
+	currentBlock.Difficulty = difficulty
 
-	LockedBlock = CurrentBlock
+	lockedBlock = currentBlock
 
-	s = "END: lockCurrentBlock - Move CurrentBlock to LockedBlock (ResetCurrentBlock)"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   lockCurrentBlock - Move currentBlock to lockedBlock (ResetCurrentBlock)"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
 
-// appendLockedBlock - Append LockedBlock to the Blockchain
-func appendLockedBlock() BlockStruct {
+// appendLockedBlock - Append lockedBlock to the Blockchain
+func appendLockedBlock() blockStruct {
 
-	s := "START: appendLockedBlock - Append LockedBlock to the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s := "START: appendLockedBlock - Append lockedBlock to the Blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	//newBlock.Index = currentBlock.Index + 1
 	//newBlock.Timestamp = t.String()
@@ -203,32 +203,32 @@ func appendLockedBlock() BlockStruct {
 	//newBlock.Nonce = ""
 
 	mutex.Lock()
-	Blockchain = append(Blockchain, LockedBlock)
+	blockchain = append(blockchain, lockedBlock)
 	mutex.Unlock()
 
-	s = "END: appendLockedBlock - Append LockedBlock to the Blockchain"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   appendLockedBlock - Append lockedBlock to the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return LockedBlock
+	return lockedBlock
 
 }
 
 // replaceChain - Replace a chain with a Longer one
-func replaceChain(newBlock BlockchainSlice) {
+func replaceChain(newBlock blockchainSlice) {
 
 	s := "START: replaceChain - Replace a chain with a Longer one"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	if len(newBlock) > len(Blockchain) {
-		s = "New Block added to chain"
-		log.Println("BLOCKCHAIN GUTS:    " + s)
-		Blockchain = newBlock
+	if len(newBlock) > len(blockchain) {
+		s = "New block added to chain"
+		log.Info("BLOCKCHAIN:  GUTS           " + s)
+		blockchain = newBlock
 	} else {
 		s = "New Block NOT added to chain"
-		log.Println("BLOCKCHAIN GUTS:    " + s)
+		log.Info("BLOCKCHAIN:  GUTS           " + s)
 	}
 
-	s = "END: replaceChain - Replace a chain with a Longer one"
-	log.Println("BLOCKCHAIN GUTS:    " + s)
+	s = "END:   replaceChain - Replace a chain with a Longer one"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
