@@ -105,8 +105,8 @@ type BlockStruct struct {
 
 The states of a block are,
 
-* **currentBlock** Receiving transactions and not part of chain
-* **lockedBlock** Going to be added to the chain (No more transactions).
+* **currentBlock** Receiving transactions and not part of blockchain
+* **lockedBlock** Going to be added to the blockchain.
   This one is the one to be mined
 * **Part of Chain** These are already in the **blockchain**
 
@@ -115,16 +115,19 @@ Functions in Blockchain Interface,
 * **GenesisBlockchain()** Creates the Blockchain (Only run once)
 * **GetBlockchain()** Gets the Blockchain
 * **GetBlock()** Get a Block (via Index number) from the Blockchain
+* **GetLockedBlock** Get the lockedBlock
+* **GetCurrentBlock** Get the currentBlock
 * **LoadBlockchain()** Receives the Blockchain and CurrentBlock
   from a Network Node
   * **SENDBLOCKCHAIN** Request
-* **AddBlockToChain()** Add a Block to the Blockchain
 * **AddTransactionToCurrentBlock()** Add a Transaction to **CurrentBlock**
 
 And the guts will deal directly with the Blockchain,
 
 * **getBlockchain()** Get the Blockchain
-* **getBlock()** Get a Block in the Blockchain*
+* **getBlock()** Get a Block in the Blockchain
+* **getLockedBlock** Get the lockedBlock
+* **getCurrentBlock** Get the currentBlock
 * **loadBlockchain()** Loads entire Blockchain
 * **loadCurrentBlock()** Loads CurrentBlock
 * **calculateBlockHash()** SHA256 hashing
@@ -183,6 +186,7 @@ And the guts will deal directly with the Nodelist,
 * **loadThisNode()** Load thisNode
 * **appendThisNode()** Append thisNode to nodeList
 * **getThisNode()** Get thisNode
+* **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 * **loadNodeList()** Loads entire nodelist
 * **appendNewNode()** Append Node to the nodeList
 
@@ -199,8 +203,11 @@ API,
 ```txt
 /showBlockchain
 /showBlock/{blockID}
+/showlockedblock
+/showcurrentblock
 /shownodelist
 /shownode/{nodeID}
+/showthisnode
 ```
 
 ## RUN
@@ -250,14 +257,6 @@ go run jeffCoin.go \
        -netport 3336
 ```
 
-go run jeffCoin.go \
-       -ip 192.168.20.100 \
-       -wp 1234 \
-       -tp 3334 \
-       -netip 192.168.20.100 \
-       -netport 3337
-
-
 This will,
 
 * Add your Node to the node list
@@ -289,10 +288,10 @@ Show the Chain,
 Since no security has been setup yet, you can open a connection,
 
 ```txt
-netcat -q -1 192.168.20.100 3333
+netcat -q -1 192.168.20.100 3334
 ```
 
-Now add a block or transaction,
+Now add a transaction,
 
 ```txt
 ADDTRANSACTION or AT

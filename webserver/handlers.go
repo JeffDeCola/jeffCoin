@@ -100,6 +100,48 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
+// showLockedBlockHandler - GET: /showlockedblock
+func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showLockedBlockHandler - GET: /showlockedblock"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET lockedBlock
+	theLockedBlock := blockchain.GetLockedBlock()
+
+	// RESPOND BLOCK
+	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showLockedBlockHandler - GET: /showlockedblock"
+	log.Trace("WEBSERVER:          " + s)
+
+}
+
+// showCurrentBlockHandler - GET: /showcurrentblock
+func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showCurrentBlockHandler - GET: /showcurrentblock"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET currentBlock
+	theCurrentBlock := blockchain.GetCurrentBlock()
+
+	// RESPOND BLOCK
+	js, _ := json.MarshalIndent(theCurrentBlock, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showCurrentBlockHandler - GET: /showcurrentblock"
+	log.Trace("WEBSERVER:          " + s)
+
+}
+
 // showNodeListHandler - GET: /shownodelist
 func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 
@@ -155,5 +197,26 @@ func respondMessage(s string, res http.ResponseWriter) {
 
 	log.Trace("WEBSERVER:          " + s)
 	io.WriteString(res, s+"\n")
+
+}
+
+// showThisNodeHandler - GET: /showthisnode
+func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showThisNodeHandler - GET: /showthisnode"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET thisNode
+	gotThisNode := routingnode.GetThisNode()
+
+	// RESPOND BLOCK
+	js, _ := json.MarshalIndent(gotThisNode, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showThisNodeHandler - GET: /showthisnode"
+	log.Trace("WEBSERVER:          " + s)
 
 }
