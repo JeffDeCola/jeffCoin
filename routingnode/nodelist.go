@@ -4,7 +4,8 @@ package routingnode
 
 // NodeStruct is your node info
 type NodeStruct struct {
-    Index      int      `json:"index"`
+	Index     int    `json:"index"`
+	Status    string `json:"status"`
 	Timestamp string `json:"timestamp"`
 	IP        string `json:"ip"`
 	Port      string `json:"port"`
