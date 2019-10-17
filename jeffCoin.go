@@ -89,9 +89,9 @@ func init() {
 	// YOUR IP
 	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
-	nodeWebPortPtr = flag.String("wp", "1234", "Node Web Port")
+	nodeWebPortPtr = flag.String("webport", "1234", "Node Web Port")
 	// YOUR TCP PORT
-	nodeTCPPortPtr = flag.String("tp", "3333", "Node TCP Port")
+	nodeTCPPortPtr = flag.String("tcpport", "3333", "Node TCP Port")
 	// NETWORK NODE IP
 	networkIPPtr = flag.String("netip", "192.169.20.100", "Network IP")
 	// NETWORK NODE TCP PORT

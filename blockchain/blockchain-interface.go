@@ -14,93 +14,32 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// GenesisBlockchain - Creates the Blockchain (Only run once)
+// BLOCKCHAIN ************************************************************************************************************
+
+// GenesisBlockchain - Creates the blockchain
 func GenesisBlockchain(transaction string, difficulty int) {
 
-	s := "START: GenesisBlockchain - Creates the blockchain (Only run once)"
+	s := "START: GenesisBlockchain - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
-	refreshCurrentBlock(transaction)
+	resetCurrentBlock(transaction)
 	lockCurrentBlock(difficulty)
 	newBlock := appendLockedBlock()
-	refreshCurrentBlock("Refreshed")
+	resetCurrentBlock("Refreshed")
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
 	js, _ := json.MarshalIndent(newBlock, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   GenesisBlockchain - Creates the blockchain (Only run once)"
+	s = "END:   GenesisBlockchain - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 }
 
-// GetBlockchain - Gets the blockchain
-func GetBlockchain() blockchainSlice {
-
-	s := "START: GetBlockchain - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	theBlockchain := getBlockchain()
-
-	s = "END:   GetBlockchain - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	return theBlockchain
-
-}
-
-// GetBlock - Get a Block (via Index number) from the blockchain
-func GetBlock(id string) blockStruct {
-
-	s := "START: GetBlock - Get a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	theBlock := getBlock(id)
-
-	// RETURN NOT FOUND
-	s = "END:   GetBlock - Get a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	return theBlock
-
-}
-
-// GetLockedBlock - Get the lockedBlock
-func GetLockedBlock() blockStruct {
-
-	s := "START: GetLockedBlock - Get the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	theBlock := getLockedBlock()
-
-	// RETURN NOT FOUND
-	s = "END:  GetLockedBlock - Get the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	return theBlock
-
-}
-
-// GetCurrentBlock - Get the currentBlock
-func GetCurrentBlock() blockStruct {
-
-	s := "START: GetCurrentBlock - Get the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	theBlock := getCurrentBlock()
-
-	// RETURN NOT FOUND
-	s = "END:   GetCurrentBlock - Get the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	return theBlock
-
-}
-
-// LoadBlockchain - Loads the blockchain and CurrentBlock from a Network Node
+// LoadBlockchain - Receives the blockchain and the currentBlock
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START: LoadBlockchain - Loads the blockchain and CurrentBlock from a Network Node"
+	s := "START: LoadBlockchain - Receives the blockchain and the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -151,22 +90,91 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   LoadBlockchain - Loads the blockchain and CurrentBlock from a Network Node"
+	s = "END:   LoadBlockchain - Receives the blockchain and the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return nil
 
 }
 
-// AddTransactionToCurrentBlock - Add a Transaction to CurrentBlock
+// GetBlockchain - Gets the blockchain
+func GetBlockchain() blockchainSlice {
+
+	s := "START: GetBlockchain - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlockchain := getBlockchain()
+
+	s = "END:   GetBlockchain - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlockchain
+
+}
+
+// BLOCK *****************************************************************************************************************
+
+// GetBlock - Gets a block (via Index number) from the blockchain
+func GetBlock(id string) blockStruct {
+
+	s := "START: GetBlock - Gets a block (via Index number) from the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlock := getBlock(id)
+
+	// RETURN NOT FOUND
+	s = "END:   GetBlock - Gets a block (via Index number) from the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlock
+
+}
+
+// LOCKED BLOCK **********************************************************************************************************
+
+// GetLockedBlock - Gets the lockedBlock
+func GetLockedBlock() blockStruct {
+
+	s := "START: GetLockedBlock - Gets the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlock := getLockedBlock()
+
+	// RETURN NOT FOUND
+	s = "END:  GetLockedBlock - Gets the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlock
+
+}
+
+// CURRENT BLOCK *********************************************************************************************************
+
+// GetCurrentBlock - Gets the currentBlock
+func GetCurrentBlock() blockStruct {
+
+	s := "START: GetCurrentBlock - Gets the currentBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlock := getCurrentBlock()
+
+	// RETURN NOT FOUND
+	s = "END:   GetCurrentBlock - Gets the currentBlock"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlock
+
+}
+
+// AddTransactionToCurrentBlock - Adds a transaction to the currentBlock
 func AddTransactionToCurrentBlock(transaction string) blockStruct {
 
-	s := "START: AddTransactionToCurrentBlock - Add a Transaction to currentBlock"
+	s := "START: AddTransactionToCurrentBlock - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theCurrentBlock := addTransactionToCurrentBlock(transaction)
 
-	s = "END:   AddTransactionToCurrentBlock - Add a Transaction to currentBlock"
+	s = "END:   AddTransactionToCurrentBlock - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theCurrentBlock
