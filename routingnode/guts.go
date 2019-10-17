@@ -18,23 +18,41 @@ func checkErr(err error) {
 	}
 }
 
-// getNodeList - Get the nodeList
-func getNodeList() nodeSlice {
+// NODELIST ************************************************************************************************************
 
-	s := "START: getNodeList - Get the blockchain"
+// loadNodeList - Loads the entire nodeList
+func loadNodeList(message string) {
+
+	s := "START: loadNodeList -  Loads the entire nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	s = "END:   getNodeList - Get the blockchain"
+	// LOAD
+	json.Unmarshal([]byte(message), &nodeList)
+
+	s = "END:   loadNodeList -  Loads the entire nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+}
+
+// getNodeList - Gets the nodeList
+func getNodeList() nodeSlice {
+
+	s := "START: getNodeList - Gets the nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	s = "END:   getNodeList - Gets the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return nodeList
 
 }
 
-// getNode - Get a Node in the nodeList
+// NODE ****************************************************************************************************************
+
+// getNode - Gets a node in the nodeList
 func getNode(id string) nodeStruct {
 
-	s := "START: getNode - Get a Node in the nodeList"
+	s := "START: getNode - Gets a node in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	var item nodeStruct
@@ -48,50 +66,44 @@ func getNode(id string) nodeStruct {
 	for _, item := range nodeList {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
-			s = "END:   getNode - Get a Node in the nodeList"
+			s = "END:   getNode - Gets a node in the nodeList"
 			log.Trace("ROUTINGNODE: GUTS   " + s)
 			return item
 		}
 	}
 
-	s = "END:   getNode - FAILED - Did Not get a Node in the nodeList"
+	s = "END:   getNode - FAILED - Did Not get a node in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return item
 
 }
 
-// getThisNode - Get thisNode
-func getThisNode() nodeStruct {
+// appendNewNode - Appends a node to the nodeList
+func appendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: getThisNode - Get thisNode"
+	s := "START: appendNewNode - Appends a node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	s = "END:   getThisNode - Get thisNode"
+	newNode := nodeStruct{}
+	json.Unmarshal([]byte(messageNewNode), &newNode)
+
+	newNode.Index = len(nodeList)
+	nodeList = append(nodeList, newNode)
+
+	s = "END:   appendNewNode - Appends a node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	return thisNode
+	return newNode
 
 }
 
-// loadNodeList - Load nodeList
-func loadNodeList(message string) {
+// THIS NODE ***********************************************************************************************************
 
-	s := "START: loadNodeList -  Load nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	// LOAD
-	json.Unmarshal([]byte(message), &nodeList)
-
-	s = "END:   loadNodeList -  Load nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-}
-
-// loadThisNode - Load thisNode
+// loadThisNode - Loads thisNode
 func loadThisNode(ip string, tcpPort string) {
 
-	s := "START: loadThisNode - Load thisNode"
+	s := "START: loadThisNode - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	t := time.Now()
@@ -104,15 +116,28 @@ func loadThisNode(ip string, tcpPort string) {
 		Port:      tcpPort,
 	}
 
-	s = "END:   loadThisNode - Load thisNode"
+	s = "END:   loadThisNode - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 }
 
-// appendThisNode - Append thisNode to nodeList
+// getThisNode - Gets thisNode
+func getThisNode() nodeStruct {
+
+	s := "START: getThisNode - Gets thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	s = "END:   getThisNode - Gets thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	return thisNode
+
+}
+
+// appendThisNode - Appends thisNode to the nodeList
 func appendThisNode() nodeStruct {
 
-	s := "START: appendThisNode - Append thisNode to nodeList"
+	s := "START: appendThisNode - Appends thisNode to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	thisNode.Index = len(nodeList)
@@ -120,36 +145,17 @@ func appendThisNode() nodeStruct {
 	// APPEND
 	nodeList = append(nodeList, thisNode)
 
-	s = "END:   appendThisNode - Append thisNode to nodeList"
+	s = "END:   appendThisNode - Appends thisNode to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return thisNode
 
 }
 
-// appendNewNode - Append New Node to the nodeList
-func appendNewNode(messageNewNode string) nodeStruct {
-
-	s := "START: appendNewNode - Append New Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	newNode := nodeStruct{}
-	json.Unmarshal([]byte(messageNewNode), &newNode)
-
-	newNode.Index = len(nodeList)
-	nodeList = append(nodeList, newNode)
-
-	s = "END:   appendNewNode - Append New Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	return newNode
-
-}
-
 // checkIfThisNodeinNodeList - Check if thisNode is already in the nodeList
 func checkIfThisNodeinNodeList() bool {
 
-	s := "START: checkIfThisNodeinNodeList - check if thisNode is already in the nodeList"
+	s := "START: checkIfThisNodeinNodeList - Check if thisNode is already in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	// FOR EACH NODE IN NODELIST
@@ -161,7 +167,7 @@ func checkIfThisNodeinNodeList() bool {
 			s = "ThisNode is already in the nodeList"
 			log.Warn("ROUTINGNODE: GUTS          " + s)
 
-			s = "END:   checkIfThisNodeinNodeList - check if thisNode is already in the nodeList"
+			s = "END:   checkIfThisNodeinNodeList - Check if thisNode is already in the nodeList"
 			log.Trace("ROUTINGNODE: GUTS   " + s)
 
 			return true

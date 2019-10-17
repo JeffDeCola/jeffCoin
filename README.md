@@ -86,13 +86,12 @@ This illustration may help,
 
 ## 1. BLOCKCHAIN
 
-The blockchain section is the core of the entire design.  It contains the data
-in a open format.
+The blockchain section is the core of the entire design.
 
-A block in the chain made from following struct,
+A block in the blockchain made from following struct,
 
 ```go
-type BlockStruct struct {
+type blockStruct struct {
     Index      int      `json:"index"`
     Timestamp  string   `json:"timestamp"`
     Data       []string `json:"data"`
@@ -118,6 +117,7 @@ Functions in Blockchain Interface,
     from a Network Node
     * **SENDBLOCKCHAIN** Request
   * **GetBlockchain()** Gets the blockchain
+* BLOCK  
   * **GetBlock()** Gets a block (via Index number) from the blockchain
 * LOCKED BLOCK
   * **GetLockedBlock** Gets the lockedBlock
@@ -125,16 +125,16 @@ Functions in Blockchain Interface,
   * **GetCurrentBlock** Gets the currentBlock
   * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
 
-And the guts will deal directly with the Blockchain,
+The guts will deal directly with the blockchain,
 
 * BLOCKCHAIN
   * **loadBlockchain()** Loads the entire blockchain
   * **getBlockchain()** Gets the blockchain
-  * **replaceChain()** Replaces chain with the longer one
+  * **replaceBlockchain()** Replaces chain with the longer one
 * BLOCK
   * **getBlock()** Gets a block in the blockchain
   * **calculateBlockHash()** Calculates SHA256 hash on a block
-  * **isBlockValid()** Checks if Block is valid ???????????????????????????
+  * **isBlockValid()** Checks if block is valid
 * LOCKED BLOCK
   * **getLockedBlock** Gets the lockedBlock
   * **appendLockedBlock()** Appends the lockedBlock to the blockchain
@@ -150,52 +150,50 @@ And the guts will deal directly with the Blockchain,
 
 ## 3. ROUTING NODE
 
-The routing Node has two main parts, the nodelist
+The Routing Node has two main parts, the nodeList
 and the ability to handling Node Requests (TCP Server).
 
-A Node in the Nodelist is the following struct,
+A node in the nodelist is the following struct,
 
 ```go
-type NodeStruct struct {
-    Index     int       `json:"index"`
-    Timestamp string    `json:"timestamp"`
-    IP        string    `json:"ip"`
-    Port      string    `json:"port"`
+type nodeStruct struct {
+    Index     int    `json:"index"`
+    Status    string `json:"status"`
+    Timestamp string `json:"timestamp"`
+    IP        string `json:"ip"`
+    Port      string `json:"port"`
 }
 ```
 
 Functions in RoutingNode Interface,
 
-* GENESIS
+* NODELIST
   * **GenesisNodeList()** Creates the nodeList
-* GET INFO
-  * **GetNodeList()** Gets the nodeList
-  * **GetNode()** Get a Node (via Index number) from the nodeList
-  * **GetThisNode()** Gets thisNode  
-* LOAD
-  * **LoadNodeList()** Receive the nodeList from a Network Node
+  * **LoadNodeList()** Receives the nodeList from a Network Node
     * **SENDNODELIST** Request
-  * **LoadThisNode()** - Loads thisNode
-* APPEND
-  * **AppendThisNode()** Appends thisNode to the nodeList  
+  * **GetNodeList()** Gets the nodeList
+* NODE
+  * **GetNode()** Gets a Node (via Index number) from the nodeList
   * **AppendNewNode()** Appends a New Node to the nodeList  
-* BROADCAST
+* THIS NODE
+  * **LoadThisNode()** Loads thisNode
+  * **GetThisNode()** Gets thisNode  
+  * **AppendThisNode()** Appends thisNode to the nodeList  
   * **BroadcastThisNode()** Broadcasts thisNode to the Network
     * **ADDNEWNODE** Request
 
-And the guts will deal directly with the Nodelist,
+The guts will deal directly with the nodeList,
 
-* GET INFO
+* NODELIST
+  * **loadNodeList()** Loads the entire nodeList
   * **getNodeList()** Gets the nodeList
+* NODE
   * **getNode()** Gets a node in the nodeList
-  * **getThisNode()** Gets thisNode
-* LOAD
-  * **loadNodeList()** Loads the nodeList
-  * **loadThisNode()** Loads thisNode
-* APPEND
-  * **appendThisNode()** Appends thisNode to the nodeList
   * **appendNewNode()** Appends a node to the nodeList
-* CHECKS
+* THIS NODE
+  * **loadThisNode()** Loads thisNode
+  * **getThisNode()** Gets thisNode
+  * **appendThisNode()** Appends thisNode to the nodeList
   * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 
 Handling TCP Server Requests,
@@ -211,21 +209,19 @@ Handling TCP Server Requests,
 
 ## 5. WEBSERVER
 
-GUI,
+The user GUI,
 
-Just the root index.
+[192.168.20.100:1234/](http://localhost:1234/)
 
-API,
+The API commands,
 
-```txt
-/showBlockchain
-/showBlock/{blockID}
-/showlockedblock
-/showcurrentblock
-/shownodelist
-/shownode/{nodeID}
-/showthisnode
-```
+* /showBlockchain
+* /showBlock/{blockID}
+* /showlockedblock
+* /showcurrentblock
+* /shownodelist
+* /shownode/{nodeID}
+* /showthisnode
 
 ## RUN
 
@@ -238,20 +234,20 @@ You only do this once.
 go run jeffCoin.go \
        -genesis \
        -ip 192.168.20.100 \
-       -wp 1234 \
-       -tp 3334
+       -webport 1234 \
+       -tcpport 3334
 ```
 
 ### NEW NODES
 
 Then all other nodes, you do something like this to hook
-up to the network.  You need the ip of a network node,
+up to the network.  You need the ip of any working network node,
 
 ```bash
 go run jeffCoin.go \
        -ip 192.168.20.100 \
-       -wp 1235 \
-       -tp 3335 \
+       -webport 1235 \
+       -tcpport 3335 \
        -netip 192.168.20.100 \
        -netport 3334
 ```
@@ -259,8 +255,8 @@ go run jeffCoin.go \
 ```bash
 go run jeffCoin.go \
        -ip 192.168.20.100 \
-       -wp 1236 \
-       -tp 3336 \
+       -webport 1236 \
+       -tcpport 3336 \
        -netip 192.168.20.100 \
        -netport 3335
 ```
@@ -268,8 +264,8 @@ go run jeffCoin.go \
 ```bash
 go run jeffCoin.go \
        -ip 192.168.20.100 \
-       -wp 1237 \
-       -tp 3337 \
+       -webport 1237 \
+       -tcpport 3337 \
        -netip 192.168.20.100 \
        -netport 3336
 ```
