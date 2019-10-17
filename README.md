@@ -112,31 +112,39 @@ The states of a block are,
 
 Functions in Blockchain Interface,
 
-* **GenesisBlockchain()** Creates the Blockchain (Only run once)
-* **GetBlockchain()** Gets the Blockchain
-* **GetBlock()** Get a Block (via Index number) from the Blockchain
-* **GetLockedBlock** Get the lockedBlock
-* **GetCurrentBlock** Get the currentBlock
-* **LoadBlockchain()** Receives the Blockchain and CurrentBlock
-  from a Network Node
-  * **SENDBLOCKCHAIN** Request
-* **AddTransactionToCurrentBlock()** Add a Transaction to **CurrentBlock**
+* BLOCKCHAIN
+  * **GenesisBlockchain()** Creates the blockchain
+  * **LoadBlockchain()** Receives the blockchain and the currentBlock
+    from a Network Node
+    * **SENDBLOCKCHAIN** Request
+  * **GetBlockchain()** Gets the blockchain
+  * **GetBlock()** Gets a block (via Index number) from the blockchain
+* LOCKED BLOCK
+  * **GetLockedBlock** Gets the lockedBlock
+* CURRENT BLOCK
+  * **GetCurrentBlock** Gets the currentBlock
+  * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
 
 And the guts will deal directly with the Blockchain,
 
-* **getBlockchain()** Get the Blockchain
-* **getBlock()** Get a Block in the Blockchain
-* **getLockedBlock** Get the lockedBlock
-* **getCurrentBlock** Get the currentBlock
-* **loadBlockchain()** Loads entire Blockchain
-* **loadCurrentBlock()** Loads CurrentBlock
-* **calculateBlockHash()** SHA256 hashing
-* **isBlockValid()** Check that the newBlock is valid
-* **refreshCurrentBlock()** Refresh the CurrentBlock
-* **addTransactionToCurrentBlock()** Add Transaction to CurrentBlock
-* **lockCurrentBlock()** Move CurrentBlock to LockedBlock (ResetCurrentBlock)
-* **appendLockedBlock()** Append LockedBlock to the Blockchain
-* **replaceChain()** Replace chain with a Longer one
+* BLOCKCHAIN
+  * **loadBlockchain()** Loads the entire blockchain
+  * **getBlockchain()** Gets the blockchain
+  * **replaceChain()** Replaces chain with the longer one
+* BLOCK
+  * **getBlock()** Gets a block in the blockchain
+  * **calculateBlockHash()** Calculates SHA256 hash on a block
+  * **isBlockValid()** Checks if Block is valid ???????????????????????????
+* LOCKED BLOCK
+  * **getLockedBlock** Gets the lockedBlock
+  * **appendLockedBlock()** Appends the lockedBlock to the blockchain
+* CURRENT BLOCK
+  * **loadCurrentBlock()** Loads the currentBlock
+  * **resetCurrentBlock()** Resets the currentBlock
+  * **getCurrentBlock** Gets the currentBlock
+  * **addTransactionToCurrentBlock()** Adds a transaction to the currentBlock
+  * **lockCurrentBlock()** Moves the currentBlock to the lockedBlock
+    and resets the currentBlock
 
 ## 2. MINER
 
@@ -158,17 +166,37 @@ type NodeStruct struct {
 
 Functions in RoutingNode Interface,
 
-* **GenesisNodeList()** Creates the nodeList (Only run once)
-* **GetNodeList()** Gets the nodeList
-* **GetNode()** Get a Node (via Index number) from the nodeList
-* **LoadNodeList()** Receive nodeList from a network Node
-  * **SENDNODELIST** Request
-* **LoadThisNode()** - Load thisNode  
-* **AppendThisNode()** Append thisNode to nodeList  
-* **GetThisNode()** Get thisNode  
-* **AppendNewNode()** Add New Node to nodeList  
-* **BroadcastThisNode()** Broadcast thisNode to the Network
-  * **ADDNEWNODE** Request
+* GENESIS
+  * **GenesisNodeList()** Creates the nodeList
+* GET INFO
+  * **GetNodeList()** Gets the nodeList
+  * **GetNode()** Get a Node (via Index number) from the nodeList
+  * **GetThisNode()** Gets thisNode  
+* LOAD
+  * **LoadNodeList()** Receive the nodeList from a Network Node
+    * **SENDNODELIST** Request
+  * **LoadThisNode()** - Loads thisNode
+* APPEND
+  * **AppendThisNode()** Appends thisNode to the nodeList  
+  * **AppendNewNode()** Appends a New Node to the nodeList  
+* BROADCAST
+  * **BroadcastThisNode()** Broadcasts thisNode to the Network
+    * **ADDNEWNODE** Request
+
+And the guts will deal directly with the Nodelist,
+
+* GET INFO
+  * **getNodeList()** Gets the nodeList
+  * **getNode()** Gets a node in the nodeList
+  * **getThisNode()** Gets thisNode
+* LOAD
+  * **loadNodeList()** Loads the nodeList
+  * **loadThisNode()** Loads thisNode
+* APPEND
+  * **appendThisNode()** Appends thisNode to the nodeList
+  * **appendNewNode()** Appends a node to the nodeList
+* CHECKS
+  * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 
 Handling TCP Server Requests,
 
@@ -178,17 +206,6 @@ Handling TCP Server Requests,
 * **ADDNEWNODE (NN)** Add Node to nodeList
 * **SENDNODELIST (GN)** Send NodeList to another Node
 * **EOF**
-
-And the guts will deal directly with the Nodelist,
-
-* **getNodeList()** Get the nodelist
-* **getNode()** Get a Node in the nodelist
-* **loadThisNode()** Load thisNode
-* **appendThisNode()** Append thisNode to nodeList
-* **getThisNode()** Get thisNode
-* **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
-* **loadNodeList()** Loads entire nodelist
-* **appendNewNode()** Append Node to the nodeList
 
 ## 4. WALLET
 

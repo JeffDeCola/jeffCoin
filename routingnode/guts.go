@@ -61,6 +61,33 @@ func getNode(id string) nodeStruct {
 
 }
 
+// getThisNode - Get thisNode
+func getThisNode() nodeStruct {
+
+	s := "START: getThisNode - Get thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	s = "END:   getThisNode - Get thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	return thisNode
+
+}
+
+// loadNodeList - Load nodeList
+func loadNodeList(message string) {
+
+	s := "START: loadNodeList -  Load nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	// LOAD
+	json.Unmarshal([]byte(message), &nodeList)
+
+	s = "END:   loadNodeList -  Load nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+}
+
 // loadThisNode - Load thisNode
 func loadThisNode(ip string, tcpPort string) {
 
@@ -100,16 +127,22 @@ func appendThisNode() nodeStruct {
 
 }
 
-// getThisNode - Get thisNode
-func getThisNode() nodeStruct {
+// appendNewNode - Append New Node to the nodeList
+func appendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: getThisNode - Get thisNode"
+	s := "START: appendNewNode - Append New Node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	s = "END:   getThisNode - Get thisNode"
+	newNode := nodeStruct{}
+	json.Unmarshal([]byte(messageNewNode), &newNode)
+
+	newNode.Index = len(nodeList)
+	nodeList = append(nodeList, newNode)
+
+	s = "END:   appendNewNode - Append New Node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	return thisNode
+	return newNode
 
 }
 
@@ -140,38 +173,5 @@ func checkIfThisNodeinNodeList() bool {
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return false
-
-}
-
-// loadNodeList - Load nodeList
-func loadNodeList(message string) {
-
-	s := "START: loadNodeList -  Load nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	// LOAD
-	json.Unmarshal([]byte(message), &nodeList)
-
-	s = "END:   loadNodeList -  Load nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-}
-
-// appendNewNode - Append New Node to the nodeList
-func appendNewNode(messageNewNode string) nodeStruct {
-
-	s := "START: appendNewNode - Append New Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	newNode := nodeStruct{}
-	json.Unmarshal([]byte(messageNewNode), &newNode)
-
-	newNode.Index = len(nodeList)
-	nodeList = append(nodeList, newNode)
-
-	s = "END:   appendNewNode - Append New Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	return newNode
 
 }

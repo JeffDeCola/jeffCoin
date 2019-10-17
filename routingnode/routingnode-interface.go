@@ -61,6 +61,20 @@ func GetNode(id string) nodeStruct {
 
 }
 
+// GetThisNode - Get thisNode
+func GetThisNode() nodeStruct {
+
+	s := "START: GetThisNode - Get thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	theNode := getThisNode()
+
+	s = "END:   GetThisNode - Get thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	return theNode
+}
+
 // LoadNodeList - Loads the nodeList from the Network Node
 func LoadNodeList(networkIP string, networkTCPPort string) error {
 
@@ -140,29 +154,15 @@ func AppendThisNode() {
 
 }
 
-// GetThisNode - Get thisNode
-func GetThisNode() nodeStruct {
-
-	s := "START: GetThisNode - Get thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	theNode := getThisNode()
-
-	s = "END:   GetThisNode - Get thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	return theNode
-}
-
-// AppendNewNode - Add Node to nodeList
+// AppendNewNode - Append New Node to nodeList
 func AppendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: AppendNode - Add Node to nodeList "
+	s := "START: AppendNode - Append New Node to nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	newNode := appendNewNode(messageNewNode)
 
-	s = "END:   AppendNewNode - Add Node to nodeList "
+	s = "END:   AppendNewNode - Append New Node to nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return newNode
