@@ -112,6 +112,21 @@ func loadCurrentBlock(message string) {
 
 }
 
+// addTransactionToCurrentBlock - Add Transaction to CurrentBlock
+func addTransactionToCurrentBlock(transaction string) blockStruct {
+
+	s := "START: addTransactionToCurrentBlock - Add Transaction to currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	currentBlock.Data = append(currentBlock.Data, transaction)
+
+	s = "END:   addTransactionToCurrentBlock - Add Transaction to currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return currentBlock
+
+}
+
 // calculateBlockHash - SHA256 hasing
 func calculateBlockHash(block blockStruct) string {
 
@@ -160,10 +175,10 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 
 }
 
-// refreshCurrentBlock - Refresh the currentBlock
-func refreshCurrentBlock(transaction string) {
+// resetCurrentBlock - Resets the currentBlock
+func resetCurrentBlock(transaction string) {
 
-	s := "START: refreshCurrentBlock - Refresh the currentBlock"
+	s := "START: resetCurrentBlock - Resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	t := time.Now()
@@ -176,23 +191,8 @@ func refreshCurrentBlock(transaction string) {
 	currentBlock.Hash = ""
 	currentBlock.Nonce = ""
 
-	s = "END:   refreshCurrentBlock - Refresh the currentBlock"
+	s = "END:   resetCurrentBlock - Resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-}
-
-// addTransactionToCurrentBlock - Add Transaction to CurrentBlock
-func addTransactionToCurrentBlock(transaction string) blockStruct {
-
-	s := "START: addTransactionToCurrentBlock - Add Transaction to currentBlock"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	currentBlock.Data = append(currentBlock.Data, transaction)
-
-	s = "END:   addTransactionToCurrentBlock - Add Transaction to currentBlock"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	return currentBlock
 
 }
 
