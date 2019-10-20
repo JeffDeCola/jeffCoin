@@ -234,3 +234,27 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 	log.Trace("WEBSERVER:          " + s)
 
 }
+
+// showJeffCoinAddressHandler - GET: /showjeffcoinaddress
+func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET wallet
+	gotWallet := wallet.GetWallet()
+
+	// GET jeffCoin Address
+	jeffCoinAddress := gotWallet.JeffCoinAddress
+
+	// RESPOND with wallet
+	js, _ := json.MarshalIndent(jeffCoinAddress, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
+	log.Trace("WEBSERVER:          " + s)
+
+}
