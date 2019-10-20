@@ -4,9 +4,9 @@ package wallet
 
 // walletStruct is your Wallet
 type walletStruct struct {
-	PrivateKey []byte `json:"privateKey"`
-	PublicKey  []byte `json:"publicKey"`
-	Address    string `json:"address"`
+	PrivateKeyHex   string `json:"privateKeyHex"`
+	PublicKeyHex    string `json:"publicKeyHex"`
+	JeffCoinAddress string `json:"jeffCoinAddress"`
 }
 
 // Wallet - The Wallet

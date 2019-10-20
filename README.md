@@ -33,7 +33,7 @@ Documentation and reference,
 
 * The Blockchain is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-* The Webserver is built from my
+* The Webserver (GUI & REST JSON API) is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
 * The Routing Node (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
@@ -221,9 +221,9 @@ A wallet is the following struct,
 
 ```go
 type walletStruct struct {
-    privateKey ecdsa.PrivateKey
-    publicKey  []byte
-    address    []byte
+    PrivateKeyHex   string `json:"privateKeyHex"`
+    PublicKeyHex    string `json:"publicKeyHex"`
+    JeffCoinAddress string `json:"jeffCoinAddress"`
 }
 ```
 
@@ -237,7 +237,16 @@ The guts deal directly with the wallet,
 
 * WALLET
   * **getWallet()** Gets the wallet
-  * tbd
+  * **makeWallet()** Creates wallet with Keys and jeffCoin address
+* KEYS
+  * **generateECDSASKeys()** - Generate privateKeyHex and publicKeyHex
+  * **encodeKeys()** - Encodes privateKeyRaw and publicKeyRaw
+  * **decodeKeys()** - Decodes privateKeyRaw and publicKeyRaw
+* ADDRESS
+  * **generateBitcoinAddress()** - Creates jeffCoinAddress
+  * **hashPublicKey()** - Hashes publicKeyHex
+  * **checksumKeyHash()** - Checksums verPublicKeyHash
+  * **encodeKeyHash()** - Encodes verPublicKeyHash & checkSum
 
 ## 5. WEBSERVER
 
