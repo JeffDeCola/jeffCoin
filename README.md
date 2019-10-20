@@ -267,6 +267,7 @@ The API commands,
   * /showthisnode
 * WALLET
   * /showwallet
+  * /showjeffcoinaddress
 
 ## RUN
 

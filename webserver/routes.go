@@ -70,4 +70,10 @@ var routes = Routes{
 		"/showwallet",
 		showWalletHandler,
 	},
+	Route{
+		"ShowJeffCoinAddress",
+		"GET",
+		"/showjeffcoinaddress",
+		showJeffCoinAddressHandler,
+	},
 }
