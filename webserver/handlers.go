@@ -12,6 +12,7 @@ import (
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 	routingnode "github.com/JeffDeCola/jeffCoin/routingnode"
+	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 
 	"github.com/gorilla/mux"
 )
@@ -60,9 +61,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 	// GET BLOCKCHAIN
 	theBlockchain := blockchain.GetBlockchain()
 
-	// RESPOND BLOCKCHAIN
-	// s := "The entire Blockchain:"
-	// respondMessage(s, res)
+	// RESPOND with blockchain
 	js, _ := json.MarshalIndent(theBlockchain, "", "    ")
 	s = string(js)
 	log.Info("WEBSERVER:                 " + "Blockchain too long, not shown")
@@ -88,9 +87,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// GET BLOCK
 	theBlock := blockchain.GetBlock(blockID)
 
-	// RESPOND BLOCK
-	// s := "The Block you requested:"
-	// respondMessage(s, res)
+	// RESPOND with block
 	js, _ := json.MarshalIndent(theBlock, "", "    ")
 	s = string(js)
 	respondMessage(s, res)
@@ -111,7 +108,7 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// GET lockedBlock
 	theLockedBlock := blockchain.GetLockedBlock()
 
-	// RESPOND BLOCK
+	// RESPOND with lockedBlock
 	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
 	s = string(js)
 	respondMessage(s, res)
@@ -132,7 +129,7 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// GET currentBlock
 	theCurrentBlock := blockchain.GetCurrentBlock()
 
-	// RESPOND BLOCK
+	// RESPOND with currentBlock
 	js, _ := json.MarshalIndent(theCurrentBlock, "", "    ")
 	s = string(js)
 	respondMessage(s, res)
@@ -153,9 +150,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	// GET NODELIST
 	theNodeList := routingnode.GetNodeList()
 
-	// RESPOND NODELIST
-	// s := "The entire Blockchain:"
-	// respondMessage(s, res)
+	// RESPOND with nodeList
 	js, _ := json.MarshalIndent(theNodeList, "", "    ")
 	s = string(js)
 	log.Trace("WEBSERVER:                 " + "NodeList too long, not shown")
@@ -181,9 +176,7 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	// GET NODE
 	theNode := routingnode.GetNode(nodeID)
 
-	// RESPOND BLOCK
-	// s := "The Block you requested:"
-	// respondMessage(s, res)
+	// RESPOND with node
 	js, _ := json.MarshalIndent(theNode, "", "    ")
 	s = string(js)
 	respondMessage(s, res)
@@ -211,12 +204,33 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	// GET thisNode
 	gotThisNode := routingnode.GetThisNode()
 
-	// RESPOND BLOCK
+	// RESPOND with thisNode
 	js, _ := json.MarshalIndent(gotThisNode, "", "    ")
 	s = string(js)
 	respondMessage(s, res)
 
 	s = "END:   showThisNodeHandler - GET: /showthisnode"
+	log.Trace("WEBSERVER:          " + s)
+
+}
+
+// showWalletHandler - GET: /showwallet
+func showWalletHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showWalletHandler - GET: /showwallet"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET wallet
+	gotWallet := wallet.GetWallet()
+
+	// RESPOND with wallet
+	js, _ := json.MarshalIndent(gotWallet, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showWalletHandler - GET: /showwallet"
 	log.Trace("WEBSERVER:          " + s)
 
 }

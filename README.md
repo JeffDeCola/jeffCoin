@@ -10,8 +10,8 @@
 [![Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
-_A cryptocurrency (transaction based data) built on a multi node
-decentralized P2P open network using a sha256 Proof of Work blockchain
+_A cryptocurrency (transaction based data) built on decentralized
+multi node P2P open network using a sha256 Proof of Work blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
@@ -37,6 +37,8 @@ Documentation and reference,
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
 * The Routing Node (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
+* Generating Keys and creating the jeffCoin address was built from
+  [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
 * Refer to my
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration from
@@ -49,9 +51,9 @@ Documentation and reference,
 This code is broken up into four main parts,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
-  The Blockchain code
+  The blockchain code
   * **Guts**
-    The guts deal directly with the blockchain
+    Deals directly with the blockchain
   * **Blockchain Interface**
     The interface to the blockchain
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
@@ -61,7 +63,7 @@ This code is broken up into four main parts,
   * **Requests & Handlers**
     The TCP Server
   * **Guts**
-    The guts deal directly with the NodeList
+    The guts deal directly with the nodeList
   * **RoutingNode Interface**
     The interface to the routingnode
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
@@ -74,11 +76,10 @@ I also added a WebServer for a GUI and an API,
 
 jeffCoin will,
 
-* Blockchain using sha256 hash
-* Allow multi node with open P2P Architecture
-* Maintain a network of Nodes
-* View the Entire Blockchain via a web GUI
-* View the Entire Nodelist via a web GUI
+* Implement a blockchain using a sha256 hash
+* Decentralized multi nodes with an open P2P Architecture
+* Maintain a network of nodes
+* A GUI and API
 
 This illustration may help,
 
@@ -86,9 +87,10 @@ This illustration may help,
 
 ## 1. BLOCKCHAIN
 
-The blockchain section is the core of the entire design.
+The blockchain section is the core of the entire design. It will keep the
+transactions secure. A transaction is a transfer of value between Bitcoin wallets.
 
-A block in the blockchain made from following struct,
+A block in the blockchain is the following struct,
 
 ```go
 type blockStruct struct {
@@ -105,9 +107,8 @@ type blockStruct struct {
 The states of a block are,
 
 * **currentBlock** Receiving transactions and not part of blockchain
-* **lockedBlock** Going to be added to the blockchain.
-  This one is the one to be mined
-* **Part of Chain** These are already in the **blockchain**
+* **lockedBlock** To be mined and added to the blockchain.
+* **Part of Chain** Already in the **blockchain**
 
 Functions in Blockchain Interface,
 
@@ -125,7 +126,7 @@ Functions in Blockchain Interface,
   * **GetCurrentBlock** Gets the currentBlock
   * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
 
-The guts will deal directly with the blockchain,
+The guts deal directly with the blockchain,
 
 * BLOCKCHAIN
   * **loadBlockchain()** Loads the entire blockchain
@@ -147,6 +148,8 @@ The guts will deal directly with the blockchain,
     and resets the currentBlock
 
 ## 2. MINER
+
+The miner
 
 ## 3. ROUTING NODE
 
@@ -182,7 +185,7 @@ Functions in RoutingNode Interface,
   * **BroadcastThisNode()** Broadcasts thisNode to the Network
     * **ADDNEWNODE** Request
 
-The guts will deal directly with the nodeList,
+The guts deal directly with the nodeList,
 
 * NODELIST
   * **loadNodeList()** Loads the entire nodeList
@@ -196,16 +199,45 @@ The guts will deal directly with the nodeList,
   * **appendThisNode()** Appends thisNode to the nodeList
   * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 
-Handling TCP Server Requests,
+The TCP Server requests,
 
-* **ADDTRANSACTION (AT)** Add Transaction to CurrentBlock
-* **SENDBLOCKCHAIN (SB)** Send Blockchain, LockedBlock &
-  CurrentBlock to another Node
-* **ADDNEWNODE (NN)** Add Node to nodeList
-* **SENDNODELIST (GN)** Send NodeList to another Node
+* **ADDTRANSACTION (AT)** Adds a transaction to the currentBlock
+* **SENDBLOCKCHAIN (SB)** Sends the blockchain & currentBlock to another node
+* **ADDNEWNODE (NN)** Adds a node to the nodeList
+* **SENDNODELIST (GN)** Sends the nodeList to another node
 * **EOF**
 
 ## 4. WALLET
+
+To make things simpler,
+
+* All wallets will have addresses to keep the jeffCoin
+* A transaction is a transfer of value (coins) between jeffCoin wallets
+* Can only do a 1 to 1 transaction.
+* All transactions are broadcast to the network and if valid added to blockchain
+* Receiver must wait until in blockchain to see transaction completed.
+
+A wallet is the following struct,
+
+```go
+type walletStruct struct {
+    privateKey ecdsa.PrivateKey
+    publicKey  []byte
+    address    []byte
+}
+```
+
+Functions in Wallet Interface,
+
+* WALLET
+  * **GenesisWallet()** Creates the wallet
+  * **GetWallet()** Gets the wallet
+
+The guts deal directly with the wallet,
+
+* WALLET
+  * **getWallet()** Gets the wallet
+  * tbd
 
 ## 5. WEBSERVER
 
@@ -215,13 +247,17 @@ The user GUI,
 
 The API commands,
 
-* /showBlockchain
-* /showBlock/{blockID}
-* /showlockedblock
-* /showcurrentblock
-* /shownodelist
-* /shownode/{nodeID}
-* /showthisnode
+* BLOCKCHAIN
+  * /showBlockchain
+  * /showBlock/{blockID}
+  * /showlockedblock
+  * /showcurrentblock
+* NODELIST
+  * /shownodelist
+  * /shownode/{nodeID}
+  * /showthisnode
+* WALLET
+  * /showwallet
 
 ## RUN
 
@@ -288,26 +324,24 @@ You could also use curl from the command line,
 curl 192.168.20.100:1234
 ```
 
-Show a Particular Block,
+The main page will list the various API command.
+
+For example, show a Particular Block,
 
 [192.168.20.100:1234//showblock/0](http://192.168.20.100:1234/showblock/0)
 
-Show the Chain,
-
-[192.168.20.100:1234//showchain](http://192.168.20.100:1234/showchain)
-
 ### ROUTING NODE
 
-Since no security has been setup yet, you can open a connection,
+Since their is no security setup yet, you can open a connection to the TCP server,
 
 ```txt
 netcat -q -1 192.168.20.100 3334
 ```
 
-Now add a transaction,
+And request commands such as,
 
 ```txt
-ADDTRANSACTION or AT
+ADDTRANSACTION
 ```
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
