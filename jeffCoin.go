@@ -14,6 +14,7 @@ import (
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 	routingnode "github.com/JeffDeCola/jeffCoin/routingnode"
+	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 	webserver "github.com/JeffDeCola/jeffCoin/webserver"
 )
 
@@ -134,6 +135,9 @@ func main() {
 
 		// GENESIS nodeList
 		routingnode.GenesisNodeList()
+
+		// GENESIS wallet
+		wallet.GenesisWallet()
 
 	} else {
 

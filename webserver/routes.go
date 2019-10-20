@@ -64,4 +64,10 @@ var routes = Routes{
 		"/showthisnode",
 		showThisNodeHandler,
 	},
+	Route{
+		"ShowWallet",
+		"GET",
+		"/showwallet",
+		showWalletHandler,
+	},
 }

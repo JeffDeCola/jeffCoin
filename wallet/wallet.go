@@ -2,10 +2,12 @@
 
 package wallet
 
-import (
-    "fmt"
-)
-
-func main {
-    fmt.Println("Wallet coming soon")
+// walletStruct is your Wallet
+type walletStruct struct {
+	PrivateKey []byte `json:"privateKey"`
+	PublicKey  []byte `json:"publicKey"`
+	Address    string `json:"address"`
 }
+
+// Wallet - The Wallet
+var wallet = walletStruct{}
