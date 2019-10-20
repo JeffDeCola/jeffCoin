@@ -153,7 +153,7 @@ func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 
 }
 
-// ADDRESS **************************************************************************************************************
+// JEFFCOIN ADDRESS *******************************************************************************************************
 
 // generatejeffCoinAddress - Creates jeffCoinAddress
 func generatejeffCoinAddress(publicKeyHex string) string {

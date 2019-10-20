@@ -39,6 +39,8 @@ Documentation and reference,
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * Generating Keys and creating the jeffCoin address was built from
   [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
+* ECDSA digital signature verification was built from
+  [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
 * Refer to my
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration from
@@ -110,7 +112,7 @@ The states of a block are,
 * **lockedBlock** To be mined and added to the blockchain.
 * **Part of Chain** Already in the **blockchain**
 
-Functions in Blockchain Interface,
+**[BLOCKCHAIN-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
 * BLOCKCHAIN
   * **GenesisBlockchain()** Creates the blockchain
@@ -126,7 +128,7 @@ Functions in Blockchain Interface,
   * **GetCurrentBlock** Gets the currentBlock
   * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
 
-The guts deal directly with the blockchain,
+**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
 
 * BLOCKCHAIN
   * **loadBlockchain()** Loads the entire blockchain
@@ -149,7 +151,7 @@ The guts deal directly with the blockchain,
 
 ## 2. MINER
 
-The miner
+The miner. tbd.
 
 ## 3. ROUTING NODE
 
@@ -168,7 +170,7 @@ type nodeStruct struct {
 }
 ```
 
-Functions in RoutingNode Interface,
+**[ROUTINGNODE-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-interface.go)**
 
 * NODELIST
   * **GenesisNodeList()** Creates the nodeList
@@ -185,7 +187,7 @@ Functions in RoutingNode Interface,
   * **BroadcastThisNode()** Broadcasts thisNode to the Network
     * **ADDNEWNODE** Request
 
-The guts deal directly with the nodeList,
+**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
 
 * NODELIST
   * **loadNodeList()** Loads the entire nodeList
@@ -199,7 +201,7 @@ The guts deal directly with the nodeList,
   * **appendThisNode()** Appends thisNode to the nodeList
   * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 
-The TCP Server requests,
+**[REQUESTS HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * **ADDTRANSACTION (AT)** Adds a transaction to the currentBlock
 * **SENDBLOCKCHAIN (SB)** Sends the blockchain & currentBlock to another node
@@ -227,13 +229,13 @@ type walletStruct struct {
 }
 ```
 
-Functions in Wallet Interface,
+**[WALLET INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
 
 * WALLET
   * **GenesisWallet()** Creates the wallet
   * **GetWallet()** Gets the wallet
 
-The guts deal directly with the wallet,
+**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
 * WALLET
   * **getWallet()** Gets the wallet
@@ -242,7 +244,7 @@ The guts deal directly with the wallet,
   * **generateECDSASKeys()** - Generate privateKeyHex and publicKeyHex
   * **encodeKeys()** - Encodes privateKeyRaw and publicKeyRaw
   * **decodeKeys()** - Decodes privateKeyRaw and publicKeyRaw
-* ADDRESS
+* JEFFCOIN ADDRESS
   * **generateBitcoinAddress()** - Creates jeffCoinAddress
   * **hashPublicKey()** - Hashes publicKeyHex
   * **checksumKeyHash()** - Checksums verPublicKeyHash
@@ -250,11 +252,11 @@ The guts deal directly with the wallet,
 
 ## 5. WEBSERVER
 
-The user GUI,
+**GUI**
 
-[192.168.20.100:1234/](http://localhost:1234/)
+* [192.168.20.100:1234](http://localhost:1234/)
 
-The API commands,
+**[API COMMANDS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/handlers.go)**
 
 * BLOCKCHAIN
   * /showBlockchain
