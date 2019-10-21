@@ -125,6 +125,9 @@ func main() {
 	// LOAD thisNode
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr)
 
+	// GENESIS wallet
+	wallet.GenesisWallet()
+
 	// IS THIS GENESIS
 	if *genesisPtr {
 
@@ -135,9 +138,6 @@ func main() {
 
 		// GENESIS nodeList
 		routingnode.GenesisNodeList()
-
-		// GENESIS wallet
-		wallet.GenesisWallet()
 
 	} else {
 
