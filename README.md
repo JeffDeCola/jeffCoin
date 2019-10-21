@@ -54,20 +54,10 @@ This code is broken up into four main parts,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
   The blockchain code
-  * **Guts**
-    Deals directly with the blockchain
-  * **Blockchain Interface**
-    The interface to the blockchain
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
   To mine the cryptocurrency
 * [3. ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
   To communicate between the P2P nodes (network)
-  * **Requests & Handlers**
-    The TCP Server
-  * **Guts**
-    The guts deal directly with the nodeList
-  * **RoutingNode Interface**
-    The interface to the routingnode
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
   To hold the cryptocurrency
 
