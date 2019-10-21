@@ -15,6 +15,8 @@ multi node P2P open network using a sha256 Proof of Work blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
+Or more simply a distributed, decentralized, public ledger.
+
 Table of Contents,
 
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
@@ -138,6 +140,10 @@ The states of a block are,
   * **addTransactionToCurrentBlock()** Adds a transaction to the currentBlock
   * **lockCurrentBlock()** Moves the currentBlock to the lockedBlock
     and resets the currentBlock
+
+**[TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
+
+* ???
 
 ## 2. MINER
 
