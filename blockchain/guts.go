@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
 
@@ -50,6 +49,7 @@ func getBlockchain() blockchainSlice {
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return blockchain
+
 }
 
 // replaceBlockchain - Replaces chain with the longer one
@@ -104,10 +104,18 @@ func calculateBlockHash(block blockStruct) string {
 	s := "START: calculateBlockHash - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	record := strconv.Itoa(block.Index) + block.Timestamp + strings.Join(block.Data, " ") + block.PrevHash
+	transactionBytes := []byte{}
+
+	for _, item := range block.Transactions {
+		jsonBytes, _ := json.Marshal(item)
+		fmt.Printf("ffffffffffffffffffffffffffffffffffffffffff%v\n\n", string(jsonBytes))
+	}
+
+	record := strconv.Itoa(block.Index) + block.Timestamp + string(transactionBytes) + block.PrevHash + block.Difficulty + block.Nonce
 	h := sha256.New()
 	h.Write([]byte(record))
 	hashed := h.Sum(nil)
+
 	s = "Calculated block Hash"
 	log.Info("BLOCKCHAIN:  GUTS          " + s)
 
@@ -166,14 +174,6 @@ func appendLockedBlock() blockStruct {
 	s := "START: appendLockedBlock - Appends the lockedBlock to the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	//newBlock.Index = currentBlock.Index + 1
-	//newBlock.Timestamp = t.String()
-	//newBlock.Data = append(newBlock.Data, data)
-	//newBlock.PrevHash = currentBlock.Hash
-	//newBlock.Difficulty = currentBlock.Difficulty
-	//newBlock.Hash = calculateBlockHash(newBlock)
-	//newBlock.Nonce = ""
-
 	mutex.Lock()
 	blockchain = append(blockchain, lockedBlock)
 	mutex.Unlock()
@@ -209,9 +209,29 @@ func resetCurrentBlock(transaction string) {
 
 	t := time.Now()
 
+	// DO STUFF WITH STRING????????????????????????????????????????????????????
+	transaction1 := []transactionStruct{
+		{
+			ID: "01",
+			Inputs: []txInput{
+				{
+					TXID:          "tbd",
+					ReferenceTXID: "33",
+					Signature:     "tbd",
+				},
+			},
+			Outputs: []txOutput{
+				{
+					JeffCoinAddress: "tbd",
+					Value:           2,
+				},
+			},
+		},
+	}
+
 	currentBlock.Index = 0
 	currentBlock.Timestamp = t.String()
-	currentBlock.Data = []string{transaction}
+	currentBlock.Transactions = transaction1
 	currentBlock.PrevHash = currentBlock.Hash
 	currentBlock.Difficulty = currentBlock.Difficulty
 	currentBlock.Hash = ""
@@ -240,7 +260,10 @@ func addTransactionToCurrentBlock(transaction string) blockStruct {
 	s := "START: addTransactionToCurrentBlock - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	currentBlock.Data = append(currentBlock.Data, transaction)
+	// DO STUFF WITH STRING????????????????????????????????????????????????????
+	transaction1 := transactionStruct{}
+
+	currentBlock.Transactions = append(currentBlock.Transactions, transaction1)
 
 	s = "END:   addTransactionToCurrentBlock - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)

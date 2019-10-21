@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	toolVersion = "1.0.1"
+	toolVersion = "1.0.3"
 )
 
 var genesisPtr *bool
@@ -132,7 +132,7 @@ func main() {
 	if *genesisPtr {
 
 		// GENESIS blockchain
-		firstTransaction := "Created Blockchain"
+		firstTransaction := "some string"
 		difficulty := 10
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
