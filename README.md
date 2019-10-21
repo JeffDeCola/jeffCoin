@@ -145,6 +145,10 @@ The states of a block are,
 
 * ???
 
+This may help understand transactions,
+
+![IMAGE - transactions-and-ledger - IMAGE](docs/pics/transactions-and-ledger.jpg)
+
 ## 2. MINER
 
 The miner. tbd.
