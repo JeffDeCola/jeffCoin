@@ -25,7 +25,7 @@ func HandleRequest(conn net.Conn) {
 	// READ FROM CONN UTIL EOF
 	for {
 
-		s := "Waiting for command: ADDTRANSACTION (AT), SENDBLOCKCHAIN (SB), ADDNEWNODE (NN). SENDNODELIST (SN) or EOF"
+		s := "Waiting for command: SENDBLOCKCHAIN (SB), ADDNEWNODE (NN), SENDNODELIST (SN), SENDADDRESSBALANCE (SAB), TRANSACTIONREQUEST (TR) or EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')

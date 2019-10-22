@@ -255,9 +255,8 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	// GET jeffCoin Address
 	jeffCoinAddress := gotWallet.JeffCoinAddress
 
-	// RESPOND with wallet
-	js, _ := json.MarshalIndent(jeffCoinAddress, "", "    ")
-	s = string(js)
+	// RESPOND with jeffCoin Address
+	s = jeffCoinAddress
 	respondMessage(s, res)
 
 	s = "END:   showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
@@ -286,9 +285,8 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	gotAddressBalance, err := wallet.GetAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
 	checkErr(err)
 
-	// RESPOND with wallet
-	js, _ := json.MarshalIndent(gotAddressBalance, "", "    ")
-	s = string(js)
+	// RESPOND with Address Balance
+	s = gotAddressBalance
 	respondMessage(s, res)
 
 	s = "END:   showAddressBalanceHandler - GET: /showaddressbalance"
@@ -318,9 +316,8 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	IDONTKNOW, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, jeffCoinAddress, value)
 	checkErr(err)
 
-	// RESPOND with node
-	js, _ := json.MarshalIndent(IDONTKNOW, "", "    ")
-	s = string(js)
+	// RESPOND with IDONTKNOW
+	s = IDONTKNOW
 	respondMessage(s, res)
 
 	s = "END:   transactionRequestHandler - GET: /transactionrequest/{address}/{value}"

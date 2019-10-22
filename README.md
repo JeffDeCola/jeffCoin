@@ -217,8 +217,8 @@ type nodeStruct struct {
 * WALLET
   * **SENDADDRESSBALANCE (SAB)** Sends the coin balance for a jeffCoin Address
   * **TRANSACTIONREQUEST (TR)** Request to Transfer Coins to a jeffCoin Address
-
-* **EOF**
+* EOF
+  * **EOF**
 
 ## 4. WALLET
 

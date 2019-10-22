@@ -210,29 +210,19 @@ func resetCurrentBlock(transaction string) {
 
 	t := time.Now()
 
-	// DO STUFF WITH STRING????????????????????????????????????????????????????
-	transaction1 := []transactionStruct{
-		{
-			ID: "01",
-			Inputs: []txInput{
-				{
-					TXID:          "tbd",
-					ReferenceTXID: "33",
-					Signature:     "tbd",
-				},
-			},
-			Outputs: []txOutput{
-				{
-					JeffCoinAddress: "tbd",
-					Value:           2,
-				},
-			},
-		},
-	}
+	// Place data in struct
+	transactionByte := []byte(transaction)
+	var theTransactionStruct transactionStruct
+	err := json.Unmarshal(transactionByte, &theTransactionStruct)
+	checkErr(err)
+
+	// Place data in slice
+	var transactionSlice []transactionStruct
+	transactionSlice = append(transactionSlice, theTransactionStruct)
 
 	currentBlock.Index = 0
 	currentBlock.Timestamp = t.String()
-	currentBlock.Transactions = transaction1
+	currentBlock.Transactions = transactionSlice
 	currentBlock.PrevHash = currentBlock.Hash
 	currentBlock.Difficulty = currentBlock.Difficulty
 	currentBlock.Hash = ""
@@ -297,6 +287,7 @@ func getAddressBalance(jeffCoinAddress string) string {
 	s := "START: getAddressBalance - Gets jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
+	// Go threw the ledger to get the balance.
 	balance := "333333"
 
 	s = "END:   getAddressBalance - Gets jeffCoin Address balance"

@@ -126,13 +126,30 @@ func main() {
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// GENESIS wallet
-	wallet.GenesisWallet()
+	JeffCoinAddress := wallet.GenesisWallet()
+	fmt.Println(JeffCoinAddress)
 
 	// IS THIS GENESIS
 	if *genesisPtr {
 
 		// GENESIS blockchain
-		firstTransaction := "some string"
+		firstTransaction := `
+        {
+            "ID": 0,
+            "inputs": [
+                {
+                    "txID": 0,
+                    "referenceTXID": -1,
+                    "signature": ""
+                }
+            ],
+            "outputs": [
+                {
+                    "jeffCoinAddress": "` + JeffCoinAddress + `",
+                    "value": 1000
+                }
+            ]
+        }`
 		difficulty := 10
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
