@@ -25,7 +25,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	resetCurrentBlock(transaction)
 	lockCurrentBlock(difficulty)
 	newBlock := appendLockedBlock()
-	resetCurrentBlock(transaction)
+	// resetCurrentBlock(transaction)
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
 	js, _ := json.MarshalIndent(newBlock, "", "    ")

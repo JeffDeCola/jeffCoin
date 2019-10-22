@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net"
+	"strings"
 	"time"
 
 	errors "github.com/pkg/errors"
@@ -17,7 +18,7 @@ import (
 // WALLET ************************************************************************************************************
 
 // GenesisWallet - Creates the Wallet
-func GenesisWallet() {
+func GenesisWallet() string {
 
 	s := "START: GenesisWallet - Creates the Wallet"
 	log.Trace("WALLET:      I/F    " + s)
@@ -30,7 +31,8 @@ func GenesisWallet() {
 
 	s = "END:   GenesisWallet - Creates the Wallet"
 	log.Trace("WALLET:      I/F    " + s)
-
+    
+    return theWallet.JeffCoinAddress
 }
 
 // GetWallet - Gets the wallet
@@ -88,7 +90,9 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 
 	// GET THE BALANCE
 	theBalance, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
+	theBalance = strings.Trim(theBalance, "--- ")
+	theBalance = strings.Trim(theBalance, "\n")
+	s = "Message from Network Node: " + theBalance
 	log.Info("WALLET: I/F                " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
@@ -146,6 +150,8 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, jeffCoinAddress strin
 
 	// GET THE IDONTKNOW
 	IDONTKNOW, _ := bufio.NewReader(conn).ReadString('\n')
+	IDONTKNOW = strings.Trim(IDONTKNOW, "--- ")
+	IDONTKNOW = strings.Trim(IDONTKNOW, "\n")
 	s = "Message from Network Node: " + IDONTKNOW
 	log.Info("WALLET: I/F                " + s)
 	if IDONTKNOW == "ERROR" {

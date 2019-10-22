@@ -4,6 +4,8 @@ package blockchain
 
 import log "github.com/sirupsen/logrus"
 
+// TRANSACTIONS ************************************************************************************************************
+
 // transactionRequest - Request to Transfer Coins to a jeffCoin Address
 func transactionRequest(whoknowsyet string) string {
 

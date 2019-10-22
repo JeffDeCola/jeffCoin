@@ -31,7 +31,7 @@ var blockchain = blockchainSlice{}
 
 // transactionStruct is your transaction - To be place in block
 type transactionStruct struct {
-	ID    string     `json:"ID"`
+	ID      int64      `json:"ID"`
 	Inputs  []txInput  `json:"inputs"`
 	Outputs []txOutput `json:"outputs"`
 }
@@ -41,8 +41,8 @@ var transactions = transactionStruct{}
 
 // txInput
 type txInput struct {
-    TXID           string `json:"txID"`
-	ReferenceTXID string `json:"referenceTXID"`
+	TXID          int64  `json:"txID"`
+	ReferenceTXID int64  `json:"referenceTXID"`
 	Signature     string `json:"signature"`
 }
 

@@ -129,7 +129,7 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the jeffCoinAddress you want the balance for"
-	log.Info("ROUTINGNODE: RCV    " + s)
+	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
 	// WAITING FOR JEFFCOINADDRESS
@@ -137,12 +137,12 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	checkErr(err)
 	jeffCoinAddress = strings.Trim(jeffCoinAddress, "\n ")
 	s = "Received jeffCoinAddress: " + jeffCoinAddress
-	log.Info("ROUTINGNODE: RCV    " + s)
+	log.Info("ROUTINGNODE: RCV           " + s)
 
 	// GET ADDRESS BALANCE
 	theBalance := blockchain.GetAddressBalance(jeffCoinAddress)
 	s = "The balance for address " + jeffCoinAddress + " is " + theBalance
-	log.Info("ROUTINGNODE: RCV    " + s)
+	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
 	s = "END:   handleSendAddressBalance - Gets jeffCoin Address balance"
@@ -168,8 +168,7 @@ func handleTransactionRequest(rw *bufio.ReadWriter) {
 
 	// TRANSACTION REQUEST
 	IDONTKNOW := blockchain.TransactionRequest(transactionRequest)
-	js, _ := json.MarshalIndent(IDONTKNOW, "", "    ")
-	s = "I DONTKNOW ?????" + string(js)
+	s = "I DONTKNOW ?????: " + IDONTKNOW
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
