@@ -56,14 +56,16 @@ func HandleRequest(conn net.Conn) {
 		// ADDNEWBLOCK
 		// Otherwise close connection
 		switch {
-		case cmd == "ADDTRANSACTION" || cmd == "AT":
-			handleAddTransaction(rw)
 		case cmd == "SENDBLOCKCHAIN" || cmd == "SB":
 			handleSendBlockchain(rw)
 		case cmd == "ADDNEWNODE" || cmd == "NN":
 			handleAddNewNode(rw)
 		case cmd == "SENDNODELIST" || cmd == "SN":
 			handleSendNodeList(rw)
+		case cmd == "SENDADDRESSBALANCE" || cmd == "SAB":
+			handleSendAddressBalance(rw)
+		case cmd == "TRANSACTIONREQUEST" || cmd == "TR":
+			handleTransactionRequest(rw)
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Info("ROUTINGNODE: REQ           " + s)

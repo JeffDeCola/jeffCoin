@@ -50,6 +50,15 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
+func respondMessage(s string, res http.ResponseWriter) {
+
+	log.Trace("WEBSERVER:                 " + s)
+	io.WriteString(res, s+"\n")
+
+}
+
+// BLOCKCHAIN ********************************************************************************************************
+
 // showBlockchainHandler - GET: /showblockchain
 func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 
@@ -139,6 +148,8 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
+// NODELIST ********************************************************************************************************
+
 // showNodeListHandler - GET: /shownodelist
 func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 
@@ -186,13 +197,6 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-func respondMessage(s string, res http.ResponseWriter) {
-
-	log.Trace("WEBSERVER:          " + s)
-	io.WriteString(res, s+"\n")
-
-}
-
 // showThisNodeHandler - GET: /showthisnode
 func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 
@@ -213,6 +217,8 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	log.Trace("WEBSERVER:          " + s)
 
 }
+
+// WALLET ********************************************************************************************************
 
 // showWalletHandler - GET: /showwallet
 func showWalletHandler(res http.ResponseWriter, req *http.Request) {
@@ -255,6 +261,69 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END:   showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
+	log.Trace("WEBSERVER:          " + s)
+
+}
+
+// showAddressBalanceHandler - GET: /showaddressbalance
+func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: showAddressBalanceHandler - GET: /showaddressbalance"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET nodeIP & nodeTCPPort from thisNode
+	thisNode := routingnode.GetThisNode()
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.Port
+
+	// GET jeffCoinAddress from wallet
+	gotWallet := wallet.GetWallet()
+	jeffCoinAddress := gotWallet.JeffCoinAddress
+
+	// GET ADDRESS BALANCE
+	gotAddressBalance, err := wallet.GetAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	checkErr(err)
+
+	// RESPOND with wallet
+	js, _ := json.MarshalIndent(gotAddressBalance, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   showAddressBalanceHandler - GET: /showaddressbalance"
+	log.Trace("WEBSERVER:          " + s)
+
+}
+
+// transactionRequestHandler - GET: /transactionrequest/{address}/{value}
+func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "START: transactionRequestHandler - GET: /transactionrequest/{address}/{value}"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(req)
+
+	// GET ADDRESS & VALUE
+	jeffCoinAddress := params["address"]
+	value := params["value"]
+
+	// GET nodeIP & nodeTCPPort from thisNode
+	thisNode := routingnode.GetThisNode()
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.Port
+
+	// REQUEST TRANSACTION TO SEND COINS
+	IDONTKNOW, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, jeffCoinAddress, value)
+	checkErr(err)
+
+	// RESPOND with node
+	js, _ := json.MarshalIndent(IDONTKNOW, "", "    ")
+	s = string(js)
+	respondMessage(s, res)
+
+	s = "END:   transactionRequestHandler - GET: /transactionrequest/{address}/{value}"
 	log.Trace("WEBSERVER:          " + s)
 
 }
