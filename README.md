@@ -119,6 +119,10 @@ The states of a block are,
 * CURRENT BLOCK
   * **GetCurrentBlock** Gets the currentBlock
   * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
+* COINS
+  * **GetAddressBalance()** Gets jeffCoin Address balance
+* TRANSACTIONS
+  * **TransactionRequest()** Request to Transfer Coins to a jeffCoin Address
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
 
@@ -140,10 +144,12 @@ The states of a block are,
   * **addTransactionToCurrentBlock()** Adds a transaction to the currentBlock
   * **lockCurrentBlock()** Moves the currentBlock to the lockedBlock
     and resets the currentBlock
+* COINS
+  * **getAddressBalance()** Gets jeffCoin Address balance
 
 **[TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
 
-* ???
+* **transactionRequest()** Request to Transfer Coins to a jeffCoin Address
 
 This may help understand transactions,
 
@@ -203,10 +209,15 @@ type nodeStruct struct {
 
 **[REQUESTS HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
-* **ADDTRANSACTION (AT)** Adds a transaction to the currentBlock
-* **SENDBLOCKCHAIN (SB)** Sends the blockchain & currentBlock to another node
-* **ADDNEWNODE (NN)** Adds a node to the nodeList
-* **SENDNODELIST (GN)** Sends the nodeList to another node
+* BLOCKCHAIN
+  * **SENDBLOCKCHAIN (SB)** Sends the blockchain & currentBlock to another node
+* ROUTINGNODE
+  * **ADDNEWNODE (NN)** Adds a node to the nodeList
+  * **SENDNODELIST (GN)** Sends the nodeList to another node
+* WALLET
+  * **SENDADDRESSBALANCE (SAB)** Sends the coin balance for a jeffCoin Address
+  * **TRANSACTIONREQUEST (TR)** Request to Transfer Coins to a jeffCoin Address
+
 * **EOF**
 
 ## 4. WALLET
@@ -215,7 +226,7 @@ To make things simpler,
 
 * All wallets will have addresses to keep the jeffCoin
 * A transaction is a transfer of value (coins) between jeffCoin wallets
-* Can only do a 1 to 1 transaction.
+* Can only do a 1 to 1 transaction
 * All transactions are broadcast to the network and if valid added to blockchain
 * Receiver must wait until in blockchain to see transaction completed.
 
@@ -234,6 +245,11 @@ type walletStruct struct {
 * WALLET
   * **GenesisWallet()** Creates the wallet
   * **GetWallet()** Gets the wallet
+* COINS
+  * **GetAddressBalance()** Gets the coin balance for a jeffCoin Address
+    * **SENDADDRESSBALANCE** Request
+  * **TransactionRequest()** Request to Transfer Coins to a jeffCoin Address
+    * **TRANSACTIONREQUEST** Request
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
@@ -270,6 +286,8 @@ type walletStruct struct {
 * WALLET
   * /showwallet
   * /showjeffcoinaddress
+  * /showaddressbalance
+  * /transactionrequest/{address}/{value}
 
 ## RUN
 

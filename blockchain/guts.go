@@ -104,17 +104,18 @@ func calculateBlockHash(block blockStruct) string {
 	s := "START: calculateBlockHash - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
+	// GET ALL THE TRANSACTIONS
 	transactionBytes := []byte{}
-
 	for _, item := range block.Transactions {
-		jsonBytes, _ := json.Marshal(item)
-		fmt.Printf("ffffffffffffffffffffffffffffffffffffffffff%v\n\n", string(jsonBytes))
+		transactionBytes, _ = json.Marshal(item)
 	}
 
-	record := strconv.Itoa(block.Index) + block.Timestamp + string(transactionBytes) + block.PrevHash + block.Difficulty + block.Nonce
-	h := sha256.New()
-	h.Write([]byte(record))
-	hashed := h.Sum(nil)
+	hashMe := strconv.Itoa(block.Index) + block.Timestamp + string(transactionBytes) + block.PrevHash + string(block.Difficulty) + block.Nonce
+	hashedByte := sha256.Sum256([]byte(hashMe))
+
+	//h := sha256.New()
+	//h.Write([]byte(record))
+	//hashed := h.Sum(nil)
 
 	s = "Calculated block Hash"
 	log.Info("BLOCKCHAIN:  GUTS          " + s)
@@ -122,7 +123,7 @@ func calculateBlockHash(block blockStruct) string {
 	s = "END:   calculateBlockHash - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return hex.EncodeToString(hashed)
+	return hex.EncodeToString(hashedByte[:])
 
 }
 
@@ -285,5 +286,22 @@ func lockCurrentBlock(difficulty int) {
 
 	s = "END:   lockCurrentBlock -  Moves the currentBlock to the lockedBlock and resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+}
+
+// COINS *********************************************************************************************************
+
+// getAddressBalance - Gets jeffCoin Address balance
+func getAddressBalance(jeffCoinAddress string) string {
+
+	s := "START: getAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	balance := "333333"
+
+	s = "END:   getAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return balance
 
 }

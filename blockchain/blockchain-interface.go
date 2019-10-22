@@ -180,3 +180,37 @@ func AddTransactionToCurrentBlock(transaction string) blockStruct {
 	return theCurrentBlock
 
 }
+
+// COINS ****************************************************************************************************************
+
+// GetAddressBalance - Gets jeffCoin Address balance
+func GetAddressBalance(jeffCoinAddress string) string {
+
+	s := "START: GetAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	balance := getAddressBalance(jeffCoinAddress)
+
+	s = "END:   GetAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return balance
+
+}
+
+// TRANSACTIONS ****************************************************************************************************************
+
+// TransactionRequest - Request to Transfer Coins to a jeffCoin Address
+func TransactionRequest(idontreallyknow string) string {
+
+	s := "START: TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	idontknow := transactionRequest(idontreallyknow)
+
+	s = "END:   TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return idontknow
+
+}

@@ -11,34 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// handleAddTransaction - Adds a transaction to the currentBlock
-func handleAddTransaction(rw *bufio.ReadWriter) {
-
-	s := "START: handleAddTransaction - Adds a transaction to the currentBlock"
-	log.Trace("ROUTINGNODE: RCV    " + s)
-
-	s = "Please enter the Transaction for the latest block"
-	log.Info("ROUTINGNODE: RCV    " + s)
-	returnMessage(s, rw)
-
-	// WAITING FOR TRANSACTION
-	transaction, err := rw.ReadString('\n')
-	checkErr(err)
-	transaction = strings.Trim(transaction, "\n ")
-	s = "Received TRANSACTION: " + transaction
-	log.Info("ROUTINGNODE: RCV    " + s)
-
-	// ADD TRANSACTION TO BLOCK
-	s = "Sending request to add block to the Blockchain"
-	log.Info("ROUTINGNODE: RCV    " + s)
-	currentBlock := blockchain.AddTransactionToCurrentBlock(transaction)
-	js, _ := json.MarshalIndent(currentBlock, "", "    ")
-	s = "Added Transaction to Block:\n" + string(js)
-	log.Info("ROUTINGNODE: RCV    " + s)
-
-	s = "END:   handleAddTransaction - Adds a transaction to the currentBlock"
-	log.Trace("ROUTINGNODE: RCV    " + s)
-}
+// BLOCKCHAIN **********************************************************************************************
 
 // handleSendBlockchain - Sends the blockchain & currentBlock to another node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
@@ -80,6 +53,8 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	s = "END:   handleSendBlockchain - Sends the blockchain & currentBlock to another node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
+
+// ROUTING NODE **********************************************************************************************
 
 // handleAddNewNode - Adds a node to the nodeList
 func handleAddNewNode(rw *bufio.ReadWriter) {
@@ -143,4 +118,61 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	s = "END:   handleSendNodeList - Sends the nodeList to another node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
+}
+
+// WALLET **********************************************************************************************
+
+// handleSendAddressBalance - Gets jeffCoin Address balance
+func handleSendAddressBalance(rw *bufio.ReadWriter) {
+
+	s := "START: handleSendAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+
+	s = "Please enter the jeffCoinAddress you want the balance for"
+	log.Info("ROUTINGNODE: RCV    " + s)
+	returnMessage(s, rw)
+
+	// WAITING FOR JEFFCOINADDRESS
+	jeffCoinAddress, err := rw.ReadString('\n')
+	checkErr(err)
+	jeffCoinAddress = strings.Trim(jeffCoinAddress, "\n ")
+	s = "Received jeffCoinAddress: " + jeffCoinAddress
+	log.Info("ROUTINGNODE: RCV    " + s)
+
+	// GET ADDRESS BALANCE
+	theBalance := blockchain.GetAddressBalance(jeffCoinAddress)
+	s = "The balance for address " + jeffCoinAddress + " is " + theBalance
+	log.Info("ROUTINGNODE: RCV    " + s)
+	returnMessage(s, rw)
+
+	s = "END:   handleSendAddressBalance - Gets jeffCoin Address balance"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+}
+
+// handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address
+func handleTransactionRequest(rw *bufio.ReadWriter) {
+
+	s := "START: handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+
+	s = "Please enter the Address and value????????????????????????????????"
+	log.Info("ROUTINGNODE: RCV           " + s)
+	returnMessage(s, rw)
+
+	// WAITING FOR TRANSACTION REQUEST
+	transactionRequest, err := rw.ReadString('\n')
+	checkErr(err)
+	transactionRequest = strings.Trim(transactionRequest, "\n ")
+	s = "Received TRANSACTION: " + transactionRequest
+	log.Info("ROUTINGNODE: RCV           " + s)
+
+	// TRANSACTION REQUEST
+	IDONTKNOW := blockchain.TransactionRequest(transactionRequest)
+	js, _ := json.MarshalIndent(IDONTKNOW, "", "    ")
+	s = "I DONTKNOW ?????" + string(js)
+	log.Info("ROUTINGNODE: RCV           " + s)
+	returnMessage(s, rw)
+
+	s = "END:   handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 }

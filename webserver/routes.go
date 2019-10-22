@@ -76,4 +76,16 @@ var routes = Routes{
 		"/showjeffcoinaddress",
 		showJeffCoinAddressHandler,
 	},
+	Route{
+		"ShowAddressBalance",
+		"GET",
+		"/showaddressbalance",
+		showAddressBalanceHandler,
+	},
+	Route{
+		"TransactionRequest",
+		"GET",
+		"/transactionrequest/{address}/{value}",
+		transactionRequestHandler,
+	},
 }
