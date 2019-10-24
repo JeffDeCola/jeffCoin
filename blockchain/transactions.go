@@ -7,8 +7,8 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"math/big"
+	"strconv"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -27,16 +27,16 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 	err := json.Unmarshal(transactionRequestMessageSignedByte, &theTransactionRequestMessageStruct)
 	checkErr(err)
 
-    // EXTRACT WHAT YOU NEED
-    signature := theTransactionRequestMessageStruct.Signature
-    theRequestMessageStruct := theTransactionRequestMessageStruct.RequestMessage
-    theRequestMessageByte:= json.Marshal(theRequestMessageStruct)
-    plainText := string(theRequestMessageByte)
+	// EXTRACT WHAT YOU NEED
+	signature := theTransactionRequestMessageStruct.Signature
+	theRequestMessageStruct := theTransactionRequestMessageStruct.RequestMessage
+	theRequestMessageByte := json.Marshal(theRequestMessageStruct)
+	plainText := string(theRequestMessageByte)
 
-    // GET THE KEY
-    
-    // VERIFY THIS IS FROM THE SENDER
-    verifyStatus := verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plainText string) {
+	// GET THE KEY
+
+	// VERIFY THIS IS FROM THE SENDER
+	verifyStatus := verifySignature(senderPublicKeyRaw, signature, plainText)
 
 	// ADD TRANSACTIONS TO CURRENT BLOCK
 

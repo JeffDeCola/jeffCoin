@@ -15,22 +15,22 @@ multi node P2P open network using a sha256 Proof of Work blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
-**Or more simply a distributed, decentralized public ledger.**
+**Or more simply, a distributed decentralized public ledger.**
 
 Table of Contents,
 
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
-  * [BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#blockchain)
-  * [TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#transactions)
+  * [1.1 BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#11-blockchain)
+  * [1.2 TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#12-transactions)
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin#2-miner)
 * [3. ROUTING NODE](https://github.com/JeffDeCola/jeffCoin#3-routing-node)
-  * [NODELIST](https://github.com/JeffDeCola/jeffCoin#nodelist)
-  * [REQUESTS AND HANDLERS](https://github.com/JeffDeCola/jeffCoin#requests-and-handlers)
+  * [3.1 NODELIST](https://github.com/JeffDeCola/jeffCoin#31-nodelist)
+  * [3.2 REQUESTS AND HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-requests-and-handlers)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
-  * [GUI](https://github.com/JeffDeCola/jeffCoin#gui)
-  * [REST API](https://github.com/JeffDeCola/jeffCoin#rest-api)
+  * [5.1 GUI](https://github.com/JeffDeCola/jeffCoin#51-gui)
+  * [5.2 REST API](https://github.com/JeffDeCola/jeffCoin#52-rest-api)
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
   * [GENESIS NODE](https://github.com/JeffDeCola/jeffCoin#genesis-node)
   * [NEW NODES](https://github.com/JeffDeCola/jeffCoin#new-nodes)
@@ -40,7 +40,7 @@ Table of Contents,
 
 This project was built from a foundation of some of my other projects,
 
-* The Blockchain is built from my
+* The blockchain is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
 * The Webserver (GUI & REST JSON API) is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
@@ -63,18 +63,17 @@ Documentation and reference,
 ## OVERVIEW
 
 `jeffCoin` is my interpretation of a transaction based (ledger) blockchain.
-It's a work in progress, but I feel it can be used as a foundation to
+It's a work in progress but I feel it can be used as a foundation to
 build bigger and better things.
 
 jeffCoin has the following,
 
 * Implements a blockchain using the sha256 hash
-* A decentralized multi node P2P architecture
-* Maintains a network of nodes
+* A decentralized multi node P2P architecture maintaining a network of nodes
 * A Webserver with GUI and a REST API
 * A TCP Server for inter node communication
 * ECDSA Private & Public Key generation
-* Creating the jeffCoin address from Public Key (similar to bitcoin)
+* Creating the jeffCoin address from Public Key (Just like bitcoin)
 * ECDSA Digital Signature Verification
 
 What it does not have,
@@ -85,9 +84,7 @@ What it does not have,
 The code is broken up into four main areas,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
-  The blockchain code
-  * Blockchain
-  * Transactions
+  The blockchain and transactions
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
   To mine the cryptocurrency
 * [3. ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
@@ -110,12 +107,12 @@ The blockchain section is the core of the entire design. It will keep the
 transactions secure. A transaction is a transfer of value (coins) between
 jeffCoin addresses.
 Like bitcoin, the value (coins) is all contained in the ledger.
-The wallets just hold the private keys to make the transactions.
+The wallets just hold the private keys to request a transaction.
 
 The code is divided between the blockchain and the transactions
-(data on the blockchain).
+(the data on the blockchain).
 
-### BLOCKCHAIN
+### 1.1 BLOCKCHAIN
 
 A block in the blockchain is the following go struct,
 
@@ -148,9 +145,9 @@ The states of a block are,
 * BLOCK  
   * **GetBlock()** Gets a block (via Index number) from the blockchain
 * LOCKED BLOCK
-  * **GetLockedBlock** Gets the lockedBlock
+  * **GetLockedBlock()** Gets the lockedBlock
 * CURRENT BLOCK
-  * **GetCurrentBlock** Gets the currentBlock
+  * **GetCurrentBlock()** Gets the currentBlock
   * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
 * COINS
   * **GetAddressBalance()** Gets jeffCoin Address balance
@@ -173,14 +170,14 @@ The states of a block are,
 * CURRENT BLOCK
   * **loadCurrentBlock()** Loads the currentBlock
   * **resetCurrentBlock()** Resets the currentBlock
-  * **getCurrentBlock** Gets the currentBlock
+  * **getCurrentBlock()** Gets the currentBlock
   * **addTransactionToCurrentBlock()** Adds a transaction to the currentBlock
   * **lockCurrentBlock()** Moves the currentBlock to the lockedBlock
     and resets the currentBlock
 * COINS
   * **getAddressBalance()** Gets jeffCoin Address balance
 
-### TRANSACTIONS
+### 1.2 TRANSACTIONS
 
 Transaction are at the heart of jeffCoin, allowing the transfer of value (coins)
 from one address to another.  A transaction request comes from the wallet which holds
@@ -211,9 +208,9 @@ The miner. tbd.
 ## 3. ROUTING NODE
 
 The Routing Node has two main parts, the nodeList
-and the ability to handling Node Requests (TCP Server).
+and the ability to handle the Node Requests (TCP Server).
 
-### NODELIST
+### 3.1 NODELIST
 
 A node in the nodelist is the following go struct,
 
@@ -256,9 +253,9 @@ type nodeStruct struct {
   * **loadThisNode()** Loads thisNode
   * **getThisNode()** Gets thisNode
   * **appendThisNode()** Appends thisNode to the nodeList
-  * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
+  * **checkIfThisNodeinNodeList()** - Check if thisNode is already in the nodeList
 
-### REQUESTS AND HANDLERS
+### 3.2 REQUESTS AND HANDLERS
 
 Incoming requests to the TCP server from other nodes or TCP connection.
 
@@ -271,7 +268,10 @@ Incoming requests to the TCP server from other nodes or TCP connection.
   * **SENDNODELIST (GN)** Sends the nodeList to another node
 * WALLET
   * **SENDADDRESSBALANCE (SAB)** Sends the coin balance for a jeffCoin Address
-  * **TRANSACTIONREQUEST (TR)** Request to Transfer Coins to a jeffCoin Address
+  * **TRANSACTIONREQUEST (TR)**
+    Request from Wallet to Transfer Coins to a jeffCoin Address
+  * **BROADCASTTRANSACTIONREQUEST (BTR)**
+    Request from Node to Transfer Coins to a jeffCoin Address
 * EOF
   * **EOF**
 
@@ -279,7 +279,7 @@ Incoming requests to the TCP server from other nodes or TCP connection.
 
 Wallets keep the Public Key, the Private Key and the jeffCoin address.
 Wallets do not have value.  The value is in the blockchains
-transactions.
+transactions (ledger).
 
 A wallet has the following go struct,
 
@@ -328,13 +328,13 @@ type walletStruct struct {
 
 The Webserver has two main parts, the GUI and the REST API.
 
-### GUI
+### 5.1 GUI
 
-Currently, there is the main page that also lists the API available.
+Currently, there is the main page that also lists the available APIs.
 
 * [192.168.20.100:1234](http://localhost:1234/)
 
-### REST API
+### 5.2 REST API
 
 **[API COMMANDS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/handlers.go)**
 
@@ -400,12 +400,6 @@ go run jeffCoin.go \
        -netport 3336
 ```
 
-This will,
-
-* Add your Node to the node list
-  * That list will be updated with the network nodes
-* Receive the blockchain
-
 ### WEBSERVER AND API
 
 The user GUI,
@@ -418,7 +412,7 @@ You could also use curl from the command line,
 curl 192.168.20.100:1234
 ```
 
-The main page will list the various API command.
+The main page will list the various API commands.
 
 For example, show a Particular Block,
 
@@ -426,7 +420,7 @@ For example, show a Particular Block,
 
 ### ROUTING NODE
 
-Since their is no security setup yet, you can open a connection to the TCP server,
+You can also bypass the API and just open a connection to the TCP server itself,
 
 ```txt
 netcat -q -1 192.168.20.100 3334
@@ -435,7 +429,7 @@ netcat -q -1 192.168.20.100 3334
 And request commands such as,
 
 ```txt
-ADDTRANSACTION
+SENDADDRESSBALANCE
 ```
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)

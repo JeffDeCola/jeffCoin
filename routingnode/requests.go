@@ -24,8 +24,9 @@ func HandleRequest(conn net.Conn) {
 
 	// READ FROM CONN UTIL EOF
 	for {
-
-		s := "Waiting for command: SENDBLOCKCHAIN (SB), ADDNEWNODE (NN), SENDNODELIST (SN), SENDADDRESSBALANCE (SAB), TRANSACTIONREQUEST (TR) or EOF"
+		o
+		s := "Waiting for command: SENDBLOCKCHAIN (SB), ADDNEWNODE (NN), SENDNODELIST (SN), " +
+			"SENDADDRESSBALANCE (SAB), TRANSACTIONREQUEST (TR),  BROADCASTTRANSACTIONREQUEST (BTR) or EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
@@ -66,6 +67,8 @@ func HandleRequest(conn net.Conn) {
 			handleSendAddressBalance(rw)
 		case cmd == "TRANSACTIONREQUEST" || cmd == "TR":
 			handleTransactionRequest(rw)
+		case cmd == "BROADCASTTRANSACTIONREQUEST" || cmd == "BTR":
+			handleBroadcastTransactionRequest(rw)
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Info("ROUTINGNODE: REQ           " + s)
