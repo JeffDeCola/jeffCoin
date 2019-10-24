@@ -155,20 +155,20 @@ func handleTransactionRequest(rw *bufio.ReadWriter) {
 	s := "START: handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	s = "Please enter the Address and value????????????????????????????????"
+	s = "Please enter the transactionRequestMessageSigned"
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
 	// WAITING FOR TRANSACTION REQUEST
-	transactionRequest, err := rw.ReadString('\n')
+	transactionRequestMessageSigned, err := rw.ReadString('\n')
 	checkErr(err)
-	transactionRequest = strings.Trim(transactionRequest, "\n ")
-	s = "Received TRANSACTION: " + transactionRequest
+	transactionRequestMessageSigned = strings.Trim(transactionRequestMessageSigned, "\n ")
+	s = "Received TRANSACTION: " + transactionRequestMessageSigned
 	log.Info("ROUTINGNODE: RCV           " + s)
 
 	// TRANSACTION REQUEST
-	IDONTKNOW := blockchain.TransactionRequest(transactionRequest)
-	s = "I DONTKNOW ?????: " + IDONTKNOW
+	status := blockchain.TransactionRequest(transactionRequestMessageSigned)
+	s = "The Status is: " + status
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 

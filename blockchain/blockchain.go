@@ -31,23 +31,38 @@ var blockchain = blockchainSlice{}
 
 // transactionStruct is your transaction - To be place in block
 type transactionStruct struct {
-	ID      int64      `json:"ID"`
-	Inputs  []txInput  `json:"inputs"`
-	Outputs []txOutput `json:"outputs"`
+	ID      int64            `json:"ID"`
+	Inputs  []txInputStruct  `json:"inputs"`
+	Outputs []txOutputStruct `json:"outputs"`
 }
 
 // transaction is the transaction
 var transactions = transactionStruct{}
 
 // txInput
-type txInput struct {
+type txInputStruct struct {
 	TXID          int64  `json:"txID"`
 	ReferenceTXID int64  `json:"referenceTXID"`
 	Signature     string `json:"signature"`
 }
 
 // txOutput - This is where the money is stored
-type txOutput struct {
+type txOutputStruct struct {
 	JeffCoinAddress string `json:"jeffCoinAddress"`
 	Value           int64  `json:"value"`
+}
+
+// TRANSACTION REQUESTS *************************************************************************************
+
+// transactionRequestMessageStruct is your transaction request
+type transactionRequestMessageStruct struct {
+	RequestMessage requestMessageStruct `json:"requestMessage"`
+	Signature      string               `json:"signature"`
+}
+
+// requestMessageStruct
+type requestMessageStruct struct {
+	SourceAddress      string `json:"sourceAddress"`
+	DestinationAddress string `json:"destinationAddress"`
+	Value              int64  `json:"value"`
 }

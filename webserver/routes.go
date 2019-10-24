@@ -85,7 +85,7 @@ var routes = Routes{
 	Route{
 		"TransactionRequest",
 		"GET",
-		"/transactionrequest/{address}/{value}",
+		"/transactionrequest/{destinationaddress}/{value}",
 		transactionRequestHandler,
 	},
 }
