@@ -127,9 +127,8 @@ func main() {
 
 	// GENESIS wallet
 	JeffCoinAddress := wallet.GenesisWallet()
-	fmt.Println(JeffCoinAddress)
 
-	// IS THIS GENESIS
+	// IS THIS GENESIS?
 	if *genesisPtr {
 
 		// GENESIS blockchain

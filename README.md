@@ -15,23 +15,30 @@ multi node P2P open network using a sha256 Proof of Work blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
-Or more simply a distributed, decentralized, public ledger.
+**Or more simply a distributed, decentralized public ledger.**
 
 Table of Contents,
 
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
+  * [BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#blockchain)
+  * [TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#transactions)
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin#2-miner)
 * [3. ROUTING NODE](https://github.com/JeffDeCola/jeffCoin#3-routing-node)
+  * [NODELIST](https://github.com/JeffDeCola/jeffCoin#nodelist)
+  * [REQUESTS AND HANDLERS](https://github.com/JeffDeCola/jeffCoin#requests-and-handlers)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
+  * [GUI](https://github.com/JeffDeCola/jeffCoin#gui)
+  * [REST API](https://github.com/JeffDeCola/jeffCoin#rest-api)
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
   * [GENESIS NODE](https://github.com/JeffDeCola/jeffCoin#genesis-node)
-  * [NEW NODE](https://github.com/JeffDeCola/jeffCoin#new-node)
+  * [NEW NODES](https://github.com/JeffDeCola/jeffCoin#new-nodes)
   * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
   * [ROUTING NODE](https://github.com/JeffDeCola/jeffCoin#routing-node)
+* [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
 
-Documentation and reference,
+This project was built from a foundation of some of my other projects,
 
 * The Blockchain is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
@@ -43,6 +50,9 @@ Documentation and reference,
   [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
 * ECDSA digital signature verification was built from
   [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+
+Documentation and reference,
+
 * Refer to my
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration from
@@ -52,10 +62,32 @@ Documentation and reference,
 
 ## OVERVIEW
 
-This code is broken up into four main parts,
+`jeffCoin` is my interpretation of a transaction based (ledger) blockchain.
+It's a work in progress, but I feel it can be used as a foundation to
+build bigger and better things.
+
+jeffCoin has the following,
+
+* Implements a blockchain using the sha256 hash
+* A decentralized multi node P2P architecture
+* Maintains a network of nodes
+* A Webserver with GUI and a REST API
+* A TCP Server for inter node communication
+* ECDSA Private & Public Key generation
+* Creating the jeffCoin address from Public Key (similar to bitcoin)
+* ECDSA Digital Signature Verification
+
+What it does not have,
+
+* No database, so if all the network dies, the chain dies
+* Rigorous testing of all corner cases
+
+The code is broken up into four main areas,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
   The blockchain code
+  * Blockchain
+  * Transactions
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
   To mine the cryptocurrency
 * [3. ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
@@ -63,17 +95,10 @@ This code is broken up into four main parts,
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
   To hold the cryptocurrency
 
-I also added a WebServer for a GUI and an API,
+I also added a WebServer for a GUI and REST API,
 
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
   The API and GUI
-
-jeffCoin will,
-
-* Implement a blockchain using a sha256 hash
-* Decentralized multi nodes with an open P2P Architecture
-* Maintain a network of nodes
-* A GUI and API
 
 This illustration may help,
 
@@ -82,26 +107,34 @@ This illustration may help,
 ## 1. BLOCKCHAIN
 
 The blockchain section is the core of the entire design. It will keep the
-transactions secure. A transaction is a transfer of value between Bitcoin wallets.
+transactions secure. A transaction is a transfer of value (coins) between
+jeffCoin addresses.
+Like bitcoin, the value (coins) is all contained in the ledger.
+The wallets just hold the private keys to make the transactions.
 
-A block in the blockchain is the following struct,
+The code is divided between the blockchain and the transactions
+(data on the blockchain).
+
+### BLOCKCHAIN
+
+A block in the blockchain is the following go struct,
 
 ```go
 type blockStruct struct {
-    Index      int      `json:"index"`
-    Timestamp  string   `json:"timestamp"`
-    Data       []string `json:"data"`
-    Hash       string   `json:"hash"`
-    PrevHash   string   `json:"prevhash"`
-    Difficulty int      `json:"difficulty"`
-    Nonce      string   `json:"nonce"`
+    Index        int                 `json:"index"`
+    Timestamp    string              `json:"timestamp"`
+    Transactions []transactionStruct `json:"transactions"`
+    Hash         string              `json:"hash"`
+    PrevHash     string              `json:"prevhash"`
+    Difficulty   int                 `json:"difficulty"`
+    Nonce        string              `json:"nonce"`
 }
 ```
 
 The states of a block are,
 
 * **currentBlock** Receiving transactions and not part of blockchain
-* **lockedBlock** To be mined and added to the blockchain.
+* **lockedBlock** To be mined and added to the blockchain
 * **Part of Chain** Already in the **blockchain**
 
 **[BLOCKCHAIN-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
@@ -147,11 +180,27 @@ The states of a block are,
 * COINS
   * **getAddressBalance()** Gets jeffCoin Address balance
 
+### TRANSACTIONS
+
+Transaction are at the heart of jeffCoin, allowing the transfer of value (coins)
+from one address to another.  A transaction request comes from the wallet which holds
+the private key. All transaction requests are broadcast to the entire network
+before it is validated. Each node does its own work.
+
 **[TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
 
-* **transactionRequest()** Request to Transfer Coins to a jeffCoin Address
+* TRANSACTIONS
+  * **transactionRequest()** Request to Transfer Coins to a jeffCoin Address
+* SIGNATURE
+  * **verifySignature()** - Verify a ECDSA Digital Signature
 
-This may help understand transactions,
+This illustration shows transaction requests, verification for that request
+and addition onto the currentBlock.  A transaction is never valid until
+the transaction is added onto the blockchain,
+
+![IMAGE - transaction-request-verification-and-addition - IMAGE](docs/pics/transaction-request-verification-and-addition.jpg)
+
+This illustration shows the ledger,
 
 ![IMAGE - transactions-and-ledger - IMAGE](docs/pics/transactions-and-ledger.jpg)
 
@@ -164,7 +213,9 @@ The miner. tbd.
 The Routing Node has two main parts, the nodeList
 and the ability to handling Node Requests (TCP Server).
 
-A node in the nodelist is the following struct,
+### NODELIST
+
+A node in the nodelist is the following go struct,
 
 ```go
 type nodeStruct struct {
@@ -207,6 +258,10 @@ type nodeStruct struct {
   * **appendThisNode()** Appends thisNode to the nodeList
   * **checkIfThisNodeinNodeList** - Check if thisNode is already in the nodeList
 
+### REQUESTS AND HANDLERS
+
+Incoming requests to the TCP server from other nodes or TCP connection.
+
 **[REQUESTS HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * BLOCKCHAIN
@@ -222,15 +277,11 @@ type nodeStruct struct {
 
 ## 4. WALLET
 
-To make things simpler,
+Wallets keep the Public Key, the Private Key and the jeffCoin address.
+Wallets do not have value.  The value is in the blockchains
+transactions.
 
-* All wallets will have addresses to keep the jeffCoin
-* A transaction is a transfer of value (coins) between jeffCoin wallets
-* Can only do a 1 to 1 transaction
-* All transactions are broadcast to the network and if valid added to blockchain
-* Receiver must wait until in blockchain to see transaction completed.
-
-A wallet is the following struct,
+A wallet has the following go struct,
 
 ```go
 type walletStruct struct {
@@ -245,11 +296,16 @@ type walletStruct struct {
 * WALLET
   * **GenesisWallet()** Creates the wallet
   * **GetWallet()** Gets the wallet
+* KEYS
+  * **EncodeKeys()** Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
+  * **DecodeKeys()** Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
 * COINS
   * **GetAddressBalance()** Gets the coin balance for a jeffCoin Address
     * **SENDADDRESSBALANCE** Request
   * **TransactionRequest()** Request to Transfer Coins to a jeffCoin Address
     * **TRANSACTIONREQUEST** Request
+* SIGNATURE
+  * **CreateSignature()** - Create a ECDSA Digital Signature
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
@@ -258,19 +314,27 @@ type walletStruct struct {
   * **makeWallet()** Creates wallet with Keys and jeffCoin address
 * KEYS
   * **generateECDSASKeys()** - Generate privateKeyHex and publicKeyHex
-  * **encodeKeys()** - Encodes privateKeyRaw and publicKeyRaw
-  * **decodeKeys()** - Decodes privateKeyRaw and publicKeyRaw
+  * **encodeKeys()** - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
+  * **decodeKeys()** - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
 * JEFFCOIN ADDRESS
-  * **generateBitcoinAddress()** - Creates jeffCoinAddress
+  * **generateJeffCoinAddress()** - Creates jeffCoinAddress
   * **hashPublicKey()** - Hashes publicKeyHex
   * **checksumKeyHash()** - Checksums verPublicKeyHash
   * **encodeKeyHash()** - Encodes verPublicKeyHash & checkSum
+* SIGNATURE
+  * **createSignature()** - Create a ECDSA Digital Signature
 
 ## 5. WEBSERVER
 
-**GUI**
+The Webserver has two main parts, the GUI and the REST API.
+
+### GUI
+
+Currently, there is the main page that also lists the API available.
 
 * [192.168.20.100:1234](http://localhost:1234/)
+
+### REST API
 
 **[API COMMANDS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/handlers.go)**
 
@@ -287,7 +351,7 @@ type walletStruct struct {
   * /showwallet
   * /showjeffcoinaddress
   * /showaddressbalance
-  * /transactionrequest/{address}/{value}
+  * /transactionrequest/{destinationaddress}/{value}
 
 ## RUN
 

@@ -3,9 +3,9 @@
 package miner
 
 import (
-    "fmt"
+	"fmt"
 )
 
-func main {
-    fmt.Println("Miner coming soon")
+func main() {
+	fmt.Println("Miner coming soon")
 }

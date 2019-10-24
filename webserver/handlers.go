@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 
@@ -304,7 +305,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 
 	// GET ADDRESS & VALUE
-	jeffCoinAddress := params["address"]
+	destinationAddress := params["destinationaddress"]
 	value := params["value"]
 
 	// GET nodeIP & nodeTCPPort from thisNode
@@ -312,12 +313,46 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	nodeIP := thisNode.IP
 	nodeTCPPort := thisNode.Port
 
+	// GET wallet
+	gotWallet := wallet.GetWallet()
+
+	// GET sourceAddress FROM wallet
+	sourceAddress := gotWallet.JeffCoinAddress
+
+	// GET ENCODED KEYS FROM wallet
+	privateKeyHex := gotWallet.PrivateKeyHex
+	publicKeyHex := gotWallet.PublicKeyHex
+
+	// DECODE KEYS
+	privateKeyRaw, _ := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
+
+	// BUILD TRANSACTION REQUEST MESSAGE
+	requestMessage := `
+        { 
+            "sourceAddress": "` + sourceAddress + `",
+            "destinationAddress": "` + destinationAddress + `",
+            "value" : ` + value + `
+        }`
+
+	// SIGN YOUR MESSAGE
+	signature := wallet.CreateSignature(privateKeyRaw, requestMessage)
+
+	// SIGNED TRANSACTION REQUEST MESSAGE
+	transactionRequestMessageSigned := `
+        {
+            "requestMessage": ` + requestMessage + `,
+            "signature" : "` + signature + `"
+        }`
+	// Make a long string - Remove /n and whitespace
+	transactionRequestMessageSigned = strings.Replace(transactionRequestMessageSigned, "\n", "", -1)
+	transactionRequestMessageSigned = strings.Replace(transactionRequestMessageSigned, " ", "", -1)
+
 	// REQUEST TRANSACTION TO SEND COINS
-	IDONTKNOW, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, jeffCoinAddress, value)
+	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, transactionRequestMessageSigned)
 	checkErr(err)
 
-	// RESPOND with IDONTKNOW
-	s = IDONTKNOW
+	// RESPOND with status
+	s = status
 	respondMessage(s, res)
 
 	s = "END:   transactionRequestHandler - GET: /transactionrequest/{address}/{value}"

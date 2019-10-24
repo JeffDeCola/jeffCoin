@@ -201,16 +201,16 @@ func GetAddressBalance(jeffCoinAddress string) string {
 // TRANSACTIONS ****************************************************************************************************************
 
 // TransactionRequest - Request to Transfer Coins to a jeffCoin Address
-func TransactionRequest(idontreallyknow string) string {
+func TransactionRequest(transactionRequestMessageSigned string) string {
 
 	s := "START: TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
-	idontknow := transactionRequest(idontreallyknow)
+	status := transactionRequest(transactionRequestMessageSigned)
 
 	s = "END:   TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
-	return idontknow
+	return status
 
 }

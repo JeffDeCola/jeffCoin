@@ -80,22 +80,22 @@ func getBlock(id string) blockStruct {
 	s := "START: getBlock - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	var item blockStruct
+	var blockItem blockStruct
 
 	// SEARCH DATA FOR blockID
-	for _, item := range blockchain {
-		if strconv.Itoa(item.Index) == id {
-			// RETURN ITEM
+	for _, blockItem := range blockchain {
+		if strconv.Itoa(blockItem.Index) == id {
+			// RETURN BLOCK
 			s = "END:   getBlock - Gets a block in the blockchain"
 			log.Trace("BLOCKCHAIN:  GUTS   " + s)
-			return item
+			return blockItem
 		}
 	}
 
 	s = "END:   getBlock - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return item
+	return blockItem
 }
 
 // calculateBlockHash - Calculates SHA256 hash on a block
@@ -106,24 +106,21 @@ func calculateBlockHash(block blockStruct) string {
 
 	// GET ALL THE TRANSACTIONS
 	transactionBytes := []byte{}
-	for _, item := range block.Transactions {
-		transactionBytes, _ = json.Marshal(item)
+	for _, transaction := range block.Transactions {
+		transactionBytes, _ = json.Marshal(transaction)
 	}
 
 	hashMe := strconv.Itoa(block.Index) + block.Timestamp + string(transactionBytes) + block.PrevHash + string(block.Difficulty) + block.Nonce
 	hashedByte := sha256.Sum256([]byte(hashMe))
+	hashed := hex.EncodeToString(hashedByte[:])
 
-	//h := sha256.New()
-	//h.Write([]byte(record))
-	//hashed := h.Sum(nil)
-
-	s = "Calculated block Hash"
+	s = "Calculated block Hash: " + hashed
 	log.Info("BLOCKCHAIN:  GUTS          " + s)
 
 	s = "END:   calculateBlockHash - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	return hex.EncodeToString(hashedByte[:])
+	return hashed
 
 }
 
@@ -287,7 +284,15 @@ func getAddressBalance(jeffCoinAddress string) string {
 	s := "START: getAddressBalance - Gets jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	// Go threw the ledger to get the balance.
+	// WORK BACKWARDS TO FIND THE TRANSACTION
+	// GET BLOCK
+	for _, blockItem := range blockchain {
+		// GET TRANSACTION
+		for _, transactionItem := range blockItem.Transactions {
+			fmt.Println(transactionItem)
+		}
+	}
+
 	balance := "333333"
 
 	s = "END:   getAddressBalance - Gets jeffCoin Address balance"
