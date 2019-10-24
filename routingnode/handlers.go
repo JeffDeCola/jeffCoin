@@ -149,10 +149,41 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address
+// handleTransactionRequest - Request from Wallet to Transfer Coins to a jeffCoin Address
 func handleTransactionRequest(rw *bufio.ReadWriter) {
 
 	s := "START: handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+
+	s = "Please enter the transactionRequestMessageSigned"
+	log.Info("ROUTINGNODE: RCV           " + s)
+	returnMessage(s, rw)
+
+	// WAITING FOR TRANSACTION REQUEST
+	transactionRequestMessageSigned, err := rw.ReadString('\n')
+	checkErr(err)
+	transactionRequestMessageSigned = strings.Trim(transactionRequestMessageSigned, "\n ")
+	s = "Received TRANSACTION: " + transactionRequestMessageSigned
+	log.Info("ROUTINGNODE: RCV           " + s)
+
+	// BROADCAST TRANSACTION REQUEST TO ALL NODES
+	// ???????????????????????????????????????????????
+
+	// TRANSACTION REQUEST
+	status := blockchain.TransactionRequest(transactionRequestMessageSigned)
+	s = "The Status is: " + status
+	log.Info("ROUTINGNODE: RCV           " + s)
+	returnMessage(s, rw)
+
+	s = "END:   handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+}
+
+// handleBroadcastTransactionRequest - Request from node to Transfer Coins to a jeffCoin Address
+// Same as above except not broadcasting to all nodes
+func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
+
+	s := "START: handleBroadcastTransactionRequest - Request from node to Transfer Coins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the transactionRequestMessageSigned"
@@ -172,6 +203,6 @@ func handleTransactionRequest(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END:   handleTransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s = "END:   handleBroadcastTransactionRequest - Request from node to Transfer Coins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
