@@ -48,8 +48,8 @@ type txInputStruct struct {
 
 // txOutput - This is where the money is stored
 type txOutputStruct struct {
-	JeffCoinAddress string `json:"jeffCoinAddress"`
-	Value           int64  `json:"value"`
+	Address string `json:"jeffCoinAddress"`
+	Value   int64  `json:"value"`
 }
 
 // TRANSACTION REQUESTS *************************************************************************************

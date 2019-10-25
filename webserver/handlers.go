@@ -334,6 +334,10 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
             "value" : ` + value + `
         }`
 
+	// Make a long string - Remove /n and whitespace
+	requestMessage = strings.Replace(requestMessage, "\n", "", -1)
+	requestMessage = strings.Replace(requestMessage, " ", "", -1)
+
 	// SIGN YOUR MESSAGE
 	signature := wallet.CreateSignature(privateKeyRaw, requestMessage)
 

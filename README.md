@@ -75,6 +75,7 @@ jeffCoin has the following,
 * ECDSA Private & Public Key generation
 * Creating the jeffCoin address from Public Key (Just like bitcoin)
 * ECDSA Digital Signature Verification
+* Rewards 10 jeffCoins every 10 minutes
 
 What it does not have,
 
@@ -203,7 +204,32 @@ This illustration shows the ledger,
 
 ## 2. MINER
 
-The miner. tbd.
+For simplicity,
+
+* EOC???? time is used.
+* Miner automatically tells blockchain-interface to place
+  currentBlock into locked block.
+* We're going to keep the miner internal and not use TCP Server
+* Perform the mining on the lockedBlocked
+* Difficulty is how many zero are needed at the beginning
+* When its solved, broadcast to rest of network
+
+The proof of work structure is,
+
+```go
+
+}
+```
+
+**[MINER-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-interface.go)**
+
+* MINING
+  * **????()** Creates the blockchain
+
+**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/guts.go)**
+
+* MINING
+  * **???()** Loads the entire blockchain
 
 ## 3. ROUTING NODE
 
