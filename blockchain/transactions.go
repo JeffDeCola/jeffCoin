@@ -10,6 +10,8 @@ import (
 	"math/big"
 	"strconv"
 
+	wallet "github.com/JeffDeCola/jeffCoin/wallet"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -30,15 +32,23 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 	// EXTRACT WHAT YOU NEED
 	signature := theTransactionRequestMessageStruct.Signature
 	theRequestMessageStruct := theTransactionRequestMessageStruct.RequestMessage
-	theRequestMessageByte := json.Marshal(theRequestMessageStruct)
-	plainText := string(theRequestMessageByte)
+	theRequestMessageByte, err := json.Marshal(theRequestMessageStruct)
+	checkErr(err)
+	theRequestMessage := string(theRequestMessageByte)
 
-	// GET THE KEY
+	// GET THE PUBLIC KEY ?????????????????????????????????????????????
+	// FIX THIS THE RIGHT WAY
+	theWallet := wallet.GetWallet()
+	privateKeyHex := theWallet.PrivateKeyHex
+	publicKeyHex := theWallet.PublicKeyHex
+	_, publicKeyRawCheck := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
 
 	// VERIFY THIS IS FROM THE SENDER
-	verifyStatus := verifySignature(senderPublicKeyRaw, signature, plainText)
+	verifyStatus := verifySignature(publicKeyRawCheck, signature, theRequestMessage)
 
-	// ADD TRANSACTIONS TO CURRENT BLOCK
+	// CHECK BALANCE???????????????????
+
+	// ADD TRANSACTIONS TO currentBlock???????????????????
 
 	status := "Was this verified?: " + strconv.FormatBool(verifyStatus)
 
@@ -78,6 +88,9 @@ func verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plai
 		rSign,
 		sSign,
 	)
+
+	s = "Verified status is: " + strconv.FormatBool(verifyStatus)
+	log.Info("TRANSACTION:               " + s)
 
 	s = "END:   verifySignature - Verify a ECDSA Digital Signature"
 	log.Trace("TRANSACTION:        " + s)

@@ -70,6 +70,16 @@ func startRoutingNode(nodeIP string, nodeTCPPort string) {
 	}
 }
 
+// masterFlowControl - Controls the mining of blocks and addint to the chain
+func masterFlowControl(genesis bool) {
+
+	// START IT UP
+	if genesis {
+
+	}
+
+}
+
 func init() {
 
 	// SET LOG LEVEL
@@ -149,7 +159,7 @@ func main() {
                 }
             ]
         }`
-		difficulty := 10
+		difficulty := 8
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
 		// GENESIS nodeList
@@ -173,6 +183,9 @@ func main() {
 		checkErr(err)
 
 	}
+
+	// KICK OFF MASTER CONTROL
+	go masterFlowControl(*genesisPtr)
 
 	// PRESS RETURN TO EXIT
 	fmt.Scanln()

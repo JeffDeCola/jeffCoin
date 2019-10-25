@@ -31,8 +31,8 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 
 	// SEND LockedBlock
-	sendBlockchain = blockchain.GetBlockchain()
-	js, _ = json.Marshal(sendBlockchain)
+	sendLockedBlock := blockchain.GetLockedBlock()
+	js, _ = json.Marshal(sendLockedBlock)
 	s = string(js)
 	_, err = rw.WriteString(s + "\n")
 	checkErr(err)
@@ -42,13 +42,15 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 
 	// SEND CurrentBlock
-	sendBlockchain = blockchain.GetBlockchain()
-	js, _ = json.Marshal(sendBlockchain)
+	sendCurrentBlock := blockchain.GetCurrentBlock()
+	js, _ = json.Marshal(sendCurrentBlock)
 	s = string(js)
 	_, err = rw.WriteString(s + "\n")
 	checkErr(err)
 	err = rw.Flush()
 	checkErr(err)
+	s = "Sent currentBlock to another node"
+	log.Info("ROUTINGNODE: RCV           " + s)
 
 	s = "END:   handleSendBlockchain - Sends the blockchain & currentBlock to another node"
 	log.Trace("ROUTINGNODE: RCV    " + s)

@@ -24,7 +24,7 @@ func HandleRequest(conn net.Conn) {
 
 	// READ FROM CONN UTIL EOF
 	for {
-		o
+
 		s := "Waiting for command: SENDBLOCKCHAIN (SB), ADDNEWNODE (NN), SENDNODELIST (SN), " +
 			"SENDADDRESSBALANCE (SAB), TRANSACTIONREQUEST (TR),  BROADCASTTRANSACTIONREQUEST (BTR) or EOF"
 		returnMessage(s, rw)
