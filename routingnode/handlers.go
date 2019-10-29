@@ -58,10 +58,10 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 
 // ROUTING NODE **********************************************************************************************
 
-// handleAddNewNode - Adds a node to the nodeList
-func handleAddNewNode(rw *bufio.ReadWriter) {
+// handleBroadcastAddNewNode - Broadcast adds a node to the nodeList
+func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 
-	s := "START: handleAddNewNode - Adds a node to the nodeList"
+	s := "START: handleBroadcastAddNewNode - Broadcast adds a node to the nodeList"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// RESPOND - SEND NEW NODE
@@ -95,7 +95,7 @@ func handleAddNewNode(rw *bufio.ReadWriter) {
 	s = "Thank you"
 	log.Info("ROUTINGNODE: RCV           " + s)
 
-	s = "END:   handleAddNewNode - Adds a node to the nodeList"
+	s = "END:   handleBroadcastAddNewNode - Broadcast adds a node to the nodeList"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 }
@@ -120,6 +120,36 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	s = "END:   handleSendNodeList - Sends the nodeList to another node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
+}
+
+// handleBroadCastVerifiedBlock - Broadcast a Node Found a Hash
+func handleBroadCastVerifiedBlock(rw *bufio.ReadWriter) {
+
+	s := "START: handleBroadCastVerifiedBlock - Broadcast a Node Found a Hash"
+    log.Trace("ROUTINGNODE: RCV    " + s)
+    
+    s = "END:  handleBroadCastVerifiedBlock - Broadcast a Node Found a Hash"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+}
+
+// handleBroadCastConsensus - Broadcast Transaction Request Message (Signed)
+func handleBroadCastConsensus(rw *bufio.ReadWriter) {
+
+	s := "START: handleBroadCastConsensus - Broadcast Transaction Request Message (Signed)"
+    log.Trace("ROUTINGNODE: RCV    " + s)
+    
+    s = "END:  handleBroadCastConsensus - Broadcast Transaction Request Message (Signed)"
+	log.Trace("ROUTINGNODE: RCV    " + s)
+}
+
+// handleBroadCastTransactionRequest - Broadcast Transaction Request Message (Signed)
+func handleBroadCastTransactionRequest(rw *bufio.ReadWriter) {
+
+	s := "START: handleBroadCastTransactionRequest - Broadcast Transaction Request Message (Signed)"
+    log.Trace("ROUTINGNODE: RCV    " + s)
+    
+    s = "END:  handleBroadCastTransactionRequest - Broadcast Transaction Request Message (Signed)"
+	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
 // WALLET **********************************************************************************************
