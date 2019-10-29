@@ -206,7 +206,6 @@ This illustration shows the ledger,
 
 For simplicity,
 
-* EOC???? time is used.
 * Miner automatically tells blockchain-interface to place
   currentBlock into locked block.
 * We're going to keep the miner internal and not use TCP Server

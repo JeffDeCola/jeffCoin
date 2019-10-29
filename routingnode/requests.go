@@ -57,18 +57,26 @@ func HandleRequest(conn net.Conn) {
 		// ADDNEWBLOCK
 		// Otherwise close connection
 		switch {
-		case cmd == "SENDBLOCKCHAIN" || cmd == "SB":
+		// FROM BLOCKCHAIN INTERFACE *******************************
+		case cmd == "SENDBLOCKCHAIN" || cmd == "SBC":
 			handleSendBlockchain(rw)
-		case cmd == "ADDNEWNODE" || cmd == "NN":
-			handleAddNewNode(rw)
+		// FROM ROUTINGNODE INTERFACE ******************************
+		case cmd == "BCASTADDNEWNODE" || cmd == "BANN":
+			handleBroadCastAddNewNode(rw)
 		case cmd == "SENDNODELIST" || cmd == "SN":
 			handleSendNodeList(rw)
+		case cmd == "BCASTVERIFIEDBLOCK" || cmd == "BVB":
+			handleBroadCastVerifiedBlock(rw)
+		case cmd == "BCASTCONSENSUS" || cmd == "BC":
+			handleBroadCastConsensus(rw)
+		case cmd == "BCASTTRANSACTIONREQUEST" || cmd == "BTR":
+			handleBroadCastTransactionRequest(rw)
+		// FROM WALLET INTERFACE ***********************************
 		case cmd == "SENDADDRESSBALANCE" || cmd == "SAB":
 			handleSendAddressBalance(rw)
 		case cmd == "TRANSACTIONREQUEST" || cmd == "TR":
 			handleTransactionRequest(rw)
-		case cmd == "BROADCASTTRANSACTIONREQUEST" || cmd == "BTR":
-			handleBroadcastTransactionRequest(rw)
+
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Info("ROUTINGNODE: REQ           " + s)
