@@ -106,7 +106,7 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 	}
 
 	// SEND THE REQUEST
-	fmt.Fprintf(conn, "SENDADDRESSBALANCE\n")
+	fmt.Fprintf(conn, "SEND-ADDRESS-BALANCE\n")
 
 	// GET THE RESPONSE MESSAGE
 	message, _ = bufio.NewReader(conn).ReadString('\n')
@@ -166,7 +166,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	}
 
 	// SEND THE REQUEST
-	fmt.Fprintf(conn, "TRANSACTIONREQUEST\n")
+	fmt.Fprintf(conn, "TRANSACTION-REQUEST\n")
 
 	// GET THE RESPONSE MESSAGE
 	message, _ = bufio.NewReader(conn).ReadString('\n')
