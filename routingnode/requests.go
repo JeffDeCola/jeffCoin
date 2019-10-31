@@ -25,8 +25,8 @@ func HandleRequest(conn net.Conn) {
 	// READ FROM CONN UTIL EOF
 	for {
 
-		s := "Waiting for command: SENDBLOCKCHAIN (SB), ADDNEWNODE (NN), SENDNODELIST (SN), " +
-			"SENDADDRESSBALANCE (SAB), TRANSACTIONREQUEST (TR),  BROADCASTTRANSACTIONREQUEST (BTR) or EOF"
+		s := "Waiting for command: " +
+			"SBC, BANN SNL, BVB, BC, BTR, SAB, TR, EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
@@ -49,7 +49,7 @@ func HandleRequest(conn net.Conn) {
 			return
 		case err != nil:
 			s = "ERROR reading command. Got: " + cmd
-			log.Info("ROUTINGNODE: REQ           " + s)
+			log.Error("ROUTINGNODE: REQ           " + s)
 			return
 		}
 
@@ -57,24 +57,24 @@ func HandleRequest(conn net.Conn) {
 		// ADDNEWBLOCK
 		// Otherwise close connection
 		switch {
-		// FROM BLOCKCHAIN INTERFACE *******************************
-		case cmd == "SENDBLOCKCHAIN" || cmd == "SBC":
+		// FROM BLOCKCHAIN I/F *************************************
+		case cmd == "SEND-BLOCKCHAIN" || cmd == "SBC":
 			handleSendBlockchain(rw)
-		// FROM ROUTINGNODE INTERFACE ******************************
-		case cmd == "BCASTADDNEWNODE" || cmd == "BANN":
-			handleBroadCastAddNewNode(rw)
-		case cmd == "SENDNODELIST" || cmd == "SN":
+		// FROM ROUTINGNODE I/F ************************************
+		case cmd == "BROADCAST-ADD-NEW-NODE" || cmd == "BANN":
+			handleBroadcastAddNewNode(rw)
+		case cmd == "SEND-NODELIST" || cmd == "SNL":
 			handleSendNodeList(rw)
-		case cmd == "BCASTVERIFIEDBLOCK" || cmd == "BVB":
-			handleBroadCastVerifiedBlock(rw)
-		case cmd == "BCASTCONSENSUS" || cmd == "BC":
-			handleBroadCastConsensus(rw)
-		case cmd == "BCASTTRANSACTIONREQUEST" || cmd == "BTR":
-			handleBroadCastTransactionRequest(rw)
-		// FROM WALLET INTERFACE ***********************************
-		case cmd == "SENDADDRESSBALANCE" || cmd == "SAB":
+		case cmd == "BROADCAST-VERIFIED-BLOCK" || cmd == "BVB":
+			handleBroadcastVerifiedBlock(rw)
+		case cmd == "BROADCAST-CONSENSUS" || cmd == "BC":
+			handleBroadcastConsensus(rw)
+		case cmd == "BROADCAST-TRANSACTION-REQUEST" || cmd == "BTR":
+			handleBroadcastTransactionRequest(rw)
+		// FROM WALLET I/F *****************************************
+		case cmd == "SEND-ADDRESS-BALANCE" || cmd == "SAB":
 			handleSendAddressBalance(rw)
-		case cmd == "TRANSACTIONREQUEST" || cmd == "TR":
+		case cmd == "TRANSACTION-REQUEST" || cmd == "TR":
 			handleTransactionRequest(rw)
 
 		case cmd == "EOF":
@@ -87,7 +87,7 @@ func HandleRequest(conn net.Conn) {
 			return
 		default:
 			s = "Did not get correct command. Received: " + cmd
-			log.Info("ROUTINGNODE: REQ           " + s)
+			log.Warn("ROUTINGNODE: REQ           " + s)
 			s = "Closing this connection"
 			log.Info("ROUTINGNODE: REQ           " + s)
 			s = "----------------------------------------------------------------"

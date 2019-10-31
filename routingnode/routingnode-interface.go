@@ -53,7 +53,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	}
 
 	// SEND THE REQUEST
-	fmt.Fprintf(conn, "SENDNODELIST\n")
+	fmt.Fprintf(conn, "SEND-NODELIST\n")
 
 	// GET THE nodeList
 	messageNodeList, _ := bufio.NewReader(conn).ReadString('\n')
@@ -219,7 +219,7 @@ func BroadcastThisNode() error {
 		}
 
 		// SEND THE REQUEST
-		fmt.Fprintf(conn, "ADDNEWNODE\n")
+		fmt.Fprintf(conn, "BROADCAST-ADD-NEW-NODE\n")
 
 		// GET THE RESPONSE MESSAGE
 		message, _ = bufio.NewReader(conn).ReadString('\n')

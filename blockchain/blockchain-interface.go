@@ -57,7 +57,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	}
 
 	// SEND THE REQUEST
-	fmt.Fprintf(conn, "SENDBLOCKCHAIN\n")
+	fmt.Fprintf(conn, "SEND-BLOCKCHAIN\n")
 
 	// GET THE blockchain
 	messageBlockchain, _ := bufio.NewReader(conn).ReadString('\n')
@@ -141,7 +141,7 @@ func GetLockedBlock() blockStruct {
 	theBlock := getLockedBlock()
 
 	// RETURN NOT FOUND
-	s = "END:  GetLockedBlock - Gets the lockedBlock"
+	s = "END:   GetLockedBlock - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theBlock
