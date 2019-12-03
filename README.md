@@ -15,7 +15,7 @@ multi node P2P open network using a sha256 Proof of Work (PoW) blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
-**Or more simply, a distributed decentralized public ledger.**
+Or more simply, **a distributed decentralized public ledger.**
 
 Table of Contents,
 
@@ -40,16 +40,17 @@ Table of Contents,
 
 This project was built from a foundation of some of my other projects,
 
-* The blockchain is built from my
+* The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-* The Webserver (GUI & REST JSON API) is built from my
-  [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
-* The Routing Node (TCP Server) is built from my
-  [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
-* Generating Keys and creating the jeffCoin address was built from
-  [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
-* ECDSA digital signature verification was built from
+  and the ECDSA digital signature verification was built from my
   [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+* The **ROUTING NODE** (TCP Server) is built from my
+  [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
+* The **WALLET** for generating keys and creating the jeffCoin address
+  is built from my
+  [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
+* The **WEBSERVER** (GUI & REST JSON API) is built from my
+  [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
 
 Documentation and reference,
 
@@ -63,26 +64,34 @@ Documentation and reference,
 ## OVERVIEW
 
 `jeffCoin` is my interpretation of a transaction based (ledger) blockchain.
-It's a work in progress but I feel it can be used as a foundation to
+It's a work in progress I feel can be used as a foundation to
 build bigger and better things.
 
-jeffCoin has the following,
+jeffCoins will mint as follows,
 
-* Implements a blockchain using the sha256 hash
+* Grand total of **1,000,000 jeffCoins**
+* The founders wallet will start with **100,000 jeffCoins** (10% of the total)
+* Rewards **1 jeffCoin every 10 minutes**
+  _(144 jeffCoins/day or 52,560 jeffCoins/year)_
+* Will take **17.12 years to mint all the jeffCoins**
+  _(900,000/52,560 = 17.12)_
+
+`jeffCoin` uses the following technology,
+
+* Implements a blockchain using a sha256 hash
 * A decentralized multi node P2P architecture maintaining a network of nodes
-* A Webserver with GUI and a REST API
+* A Webserver with both a GUI and a REST API
 * A TCP Server for inter node communication
 * ECDSA Private & Public Key generation
-* Creating the jeffCoin address from Public Key (Just like bitcoin)
+* Creating the jeffCoin address from Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
-* Rewards 10 jeffCoins every 10 minutes
 
-What it does not have,
+What `jeffCoin` does not have,
 
-* No database, so if all the network dies, the chain dies
+* No database, so if the entire network dies, the chain dies
 * Rigorous testing of all corner cases
 
-The code is broken up into four main areas,
+The code is broken up into five main areas,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
   The blockchain and transactions
@@ -92,9 +101,6 @@ The code is broken up into four main areas,
   To communicate between the P2P nodes (network)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
   To hold the cryptocurrency
-
-I also added a WebServer for a GUI and REST API,
-
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
   The API and GUI
 
