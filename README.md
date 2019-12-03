@@ -11,7 +11,7 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
 _A cryptocurrency (transaction based data) built on decentralized
-multi node P2P open network using a sha256 Proof of Work blockchain
+multi node P2P open network using a sha256 Proof of Work (PoW) blockchain
 with a REST JSON API and a TCP Server to communicate between
 the nodes over IP._
 
