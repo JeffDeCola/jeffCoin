@@ -1,4 +1,4 @@
-// jeffCoin guts.go
+// jeffCoin 3. ROUTINGNODE guts.go
 
 package routingnode
 
@@ -18,7 +18,7 @@ func checkErr(err error) {
 	}
 }
 
-// NODELIST ************************************************************************************************************
+// NODELIST **************************************************************************************************************
 
 // loadNodeList - Loads the entire nodeList
 func loadNodeList(message string) {
@@ -47,7 +47,7 @@ func getNodeList() nodeSlice {
 
 }
 
-// NODE ****************************************************************************************************************
+// NODE ******************************************************************************************************************
 
 // getNode - Gets a node in the nodeList
 func getNode(id string) nodeStruct {
@@ -98,7 +98,7 @@ func appendNewNode(messageNewNode string) nodeStruct {
 
 }
 
-// THIS NODE ***********************************************************************************************************
+// THIS NODE *************************************************************************************************************
 
 // loadThisNode - Loads thisNode
 func loadThisNode(ip string, tcpPort string) {
@@ -175,7 +175,7 @@ func checkIfThisNodeinNodeList() bool {
 
 	}
 
-	s = "END:   checkIfThisNodeinNodeList - check if thisNode is already in the nodeList"
+	s = "END:   checkIfThisNodeinNodeList - Check if thisNode is already in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return false

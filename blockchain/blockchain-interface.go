@@ -1,4 +1,4 @@
-// jeffCoin blockchain-interface.go
+// jeffCoin 1. BLOCKCHAIN blockchain-interface.go
 
 package blockchain
 
@@ -36,7 +36,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 
 }
 
-// LoadBlockchain - Receives the blockchain and the currentBlock
+// LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
 	s := "START: LoadBlockchain - Receives the blockchain and the currentBlock"
@@ -181,7 +181,7 @@ func AddTransactionToCurrentBlock(transaction string) blockStruct {
 
 }
 
-// COINS ****************************************************************************************************************
+// JEFFCOINS *************************************************************************************************************
 
 // GetAddressBalance - Gets jeffCoin Address balance
 func GetAddressBalance(jeffCoinAddress string) string {
@@ -198,17 +198,17 @@ func GetAddressBalance(jeffCoinAddress string) string {
 
 }
 
-// TRANSACTIONS ****************************************************************************************************************
+// TRANSACTIONS **********************************************************************************************************
 
-// TransactionRequest - Request to Transfer Coins to a jeffCoin Address
+// TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(transactionRequestMessageSigned string) string {
 
-	s := "START: TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s := "START: TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	status := transactionRequest(transactionRequestMessageSigned)
 
-	s = "END:   TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s = "END:   TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return status

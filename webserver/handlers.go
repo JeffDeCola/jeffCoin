@@ -58,7 +58,7 @@ func respondMessage(s string, res http.ResponseWriter) {
 
 }
 
-// BLOCKCHAIN ********************************************************************************************************
+// BLOCKCHAIN ************************************************************************************************************
 
 // showBlockchainHandler - GET: /showblockchain
 func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
@@ -149,7 +149,7 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// NODELIST ********************************************************************************************************
+// NODELIST **************************************************************************************************************
 
 // showNodeListHandler - GET: /shownodelist
 func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
@@ -219,7 +219,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// WALLET ********************************************************************************************************
+// WALLET ****************************************************************************************************************
 
 // showWalletHandler - GET: /showwallet
 func showWalletHandler(res http.ResponseWriter, req *http.Request) {
@@ -295,10 +295,10 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// transactionRequestHandler - GET: /transactionrequest/{address}/{value}
+// transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}
 func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: transactionRequestHandler - GET: /transactionrequest/{address}/{value}"
+	s := "START: transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -359,7 +359,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	s = status
 	respondMessage(s, res)
 
-	s = "END:   transactionRequestHandler - GET: /transactionrequest/{address}/{value}"
+	s = "END:   transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Trace("WEBSERVER:          " + s)
 
 }

@@ -1,4 +1,4 @@
-// jeffCoin handlers.go
+// jeffCoin 3. ROUTINGNODE handlers.go
 
 package routingnode
 
@@ -11,7 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// FROM BLOCKCHAIN I/F **********************************************************************************************
+// FROM BLOCKCHAIN I/F ***************************************************************************************************
 
 // handleSendBlockchain (SBC) - Sends the blockchain & currentBlock to another node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
@@ -56,7 +56,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// FROM ROUTINGNODE I/F **********************************************************************************************
+// FROM ROUTINGNODE I/F **************************************************************************************************
 
 // handleBroadcastAddNewNode (BANN) - Adds a node to the nodeList
 func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
@@ -142,10 +142,10 @@ func handleBroadcastConsensus(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleBroadcastTransactionRequest (BTR) - Request from node to transfer coins to a jeffCoin address
+// handleBroadcastTransactionRequest (BTR) - Request from node to transfer jeffCoins to a jeffCoin address
 func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 
-	s := "START: handleBroadcastTransactionRequest (BTR) - Request from node to transfer coins to a jeffCoin address"
+	s := "START: handleBroadcastTransactionRequest (BTR) - Request from node to transfer jeffCoins to a jeffCoin address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the transactionRequestMessageSigned"
@@ -165,16 +165,16 @@ func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END:  handleBroadcastTransactionRequest (BTR) - Request from node to transfer coins to a jeffCoin address"
+	s = "END:  handleBroadcastTransactionRequest (BTR) - Request from node to transfer jeffCoins to a jeffCoin address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// FROM WALLET I/F **********************************************************************************************
+// FROM WALLET I/F *******************************************************************************************************
 
-// handleSendAddressBalance (SAB) - Sends the coin balance for a jeffCoin Address
+// handleSendAddressBalance (SAB) - Sends the jeffCoin balance for a jeffCoin Address
 func handleSendAddressBalance(rw *bufio.ReadWriter) {
 
-	s := "START: handleSendAddressBalance (SAB) - Sends the coin balance for a jeffCoin Address"
+	s := "START: handleSendAddressBalance (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the jeffCoinAddress you want the balance for"
@@ -194,14 +194,14 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END:   handleSendAddressBalance (SAB) - Sends the coin balance for a jeffCoin Address"
+	s = "END:   handleSendAddressBalance (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleTransactionRequest (TR) - Request from Wallet to Transfer Coins to a jeffCoin Address
+// handleTransactionRequest (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
 func handleTransactionRequest(rw *bufio.ReadWriter) {
 
-	s := "START: handleTransactionRequest (TR) - Request from Wallet to Transfer Coins to a jeffCoin Address"
+	s := "START: handleTransactionRequest (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the transactionRequestMessageSigned"
@@ -224,6 +224,6 @@ func handleTransactionRequest(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END:   handleTransactionRequest (TR) - Request from Wallet to Transfer Coins to a jeffCoin Address"
+	s = "END:   handleTransactionRequest (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }

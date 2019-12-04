@@ -1,6 +1,8 @@
-// jeffCoin wallet.go
+// jeffCoin 4. WALLET wallet.go
 
 package wallet
+
+// ***********************************************************************************************************************
 
 // walletStruct is your Wallet
 type walletStruct struct {
@@ -9,5 +11,5 @@ type walletStruct struct {
 	JeffCoinAddress string `json:"jeffCoinAddress"`
 }
 
-// Wallet - The Wallet
+// wallet - The Wallet
 var wallet = walletStruct{}

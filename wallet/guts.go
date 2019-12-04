@@ -1,4 +1,4 @@
-// jeffCoin guts.go
+// jeffCoin 4. WALLET guts.go
 
 package wallet
 
@@ -26,7 +26,7 @@ func checkErr(err error) {
 	}
 }
 
-// WALLET **************************************************************************************************************
+// WALLET ****************************************************************************************************************
 
 // getWallet - Gets the wallet
 func getWallet() walletStruct {
@@ -62,7 +62,7 @@ func makeWallet() walletStruct {
 
 }
 
-// KEYS **************************************************************************************************************
+// KEYS ******************************************************************************************************************
 
 // generateECDSASKeys - Generate privateKeyHex and publicKeyHex
 func generateECDSASKeys() (string, string) {
@@ -154,7 +154,7 @@ func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 
 }
 
-// JEFFCOIN ADDRESS *******************************************************************************************************
+// JEFFCOIN ADDRESS ******************************************************************************************************
 
 // generatejeffCoinAddress - Creates jeffCoinAddress
 func generatejeffCoinAddress(publicKeyHex string) string {

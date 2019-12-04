@@ -1,6 +1,8 @@
-// jeffCoin nodelist.go
+// jeffCoin 3. ROUTINGNODE routingnode-datastructures.go
 
 package routingnode
+
+// NODELIST **************************************************************************************************************
 
 // NodeStruct is your node info
 type nodeStruct struct {
@@ -14,8 +16,8 @@ type nodeStruct struct {
 // thisNode - The Current Node Info
 var thisNode = nodeStruct{}
 
-// NodeSlice is my type
+// nodeSlice is my type
 type nodeSlice []nodeStruct
 
-// NodeList is the the Node List
+// nodeList is the the Node List
 var nodeList = nodeSlice{}

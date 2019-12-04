@@ -1,4 +1,4 @@
-// jeffCoin guts.go
+// jeffCoin 1. BLOCKCHAIN guts.go
 
 package blockchain
 
@@ -276,7 +276,7 @@ func lockCurrentBlock(difficulty int) {
 
 }
 
-// COINS *********************************************************************************************************
+// JEFFCOINS *************************************************************************************************************
 
 // getAddressBalance - Gets jeffCoin Address balance
 func getAddressBalance(jeffCoinAddress string) string {

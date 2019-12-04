@@ -1,4 +1,4 @@
-// jeffCoin routingnode-interface.go
+// jeffCoin 3. ROUTINGNODE routingnode-interface.go
 
 package routingnode
 
@@ -13,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// NODELIST ************************************************************************************************************
+// NODELIST **************************************************************************************************************
 
 // GenesisNodeList - Creates the nodeList
 func GenesisNodeList() {
@@ -95,7 +95,7 @@ func GetNodeList() nodeSlice {
 
 }
 
-// NODE ****************************************************************************************************************
+// NODE ******************************************************************************************************************
 
 // GetNode - Gets a Node (via Index number) from the nodeList
 func GetNode(id string) nodeStruct {
@@ -128,7 +128,7 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 
 }
 
-// THISNODE ************************************************************************************************************
+// THISNODE **************************************************************************************************************
 
 // LoadThisNode - Loads thisNode
 func LoadThisNode(ip string, tcpPort string) {
