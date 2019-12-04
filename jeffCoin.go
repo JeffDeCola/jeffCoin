@@ -121,7 +121,7 @@ func init() {
 func main() {
 
 	fmt.Printf("\nSTARTING...\n")
-	fmt.Println("Press return to exit\n")
+	fmt.Printf("Press return to exit\n")
 
 	// START WEBSERVER
 	go startWebServer(*nodeIPPtr, *nodeWebPortPtr)
@@ -189,5 +189,5 @@ func main() {
 
 	// PRESS RETURN TO EXIT
 	fmt.Scanln()
-	fmt.Println("\n...DONE\n")
+	fmt.Printf("\n...DONE\n")
 }
