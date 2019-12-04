@@ -59,7 +59,7 @@ Documentation and reference,
 * I got a lot of inspiration
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
 
-[GitHub Webpage](https://jeffdecola.github.io/my-go-examples/)
+[GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
 
 ## OVERVIEW
 
@@ -149,7 +149,7 @@ The states of a block are,
   * **GenesisBlockchain()** Creates the blockchain
   * **LoadBlockchain()** Receives the blockchain and the currentBlock
     from a Network Node
-    * `SEND-BLOCKCHAIN` Request
+    * `SEND-BLOCKCHAIN Request`
   * **GetBlockchain()** Gets the blockchain
 * BLOCK
   * **GetBlock()** Gets a block (via Index number) from the blockchain
@@ -244,7 +244,7 @@ For simplicity,
 * Difficulty is how many zero are needed at the beginning
 * When its solved, broadcast to rest of network
 
-**[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/miner-datastructures.go)**
+**[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-datastructures.go)**
 
 The proof of work structure is,
 
@@ -292,7 +292,7 @@ type nodeStruct struct {
 * NODELIST
   * **GenesisNodeList()** Creates the nodeList
   * **LoadNodeList()** Receives the nodeList from a Network Node
-    * `SEND-NODELIST` Request
+    * `SEND-NODELIST Request`
   * **GetNodeList()** Gets the nodeList
 * NODE
   * **GetNode()** Gets a Node (via Index number) from the nodeList
@@ -302,7 +302,7 @@ type nodeStruct struct {
   * **GetThisNode()** Gets thisNode
   * **AppendThisNode()** Appends thisNode to the nodeList
   * **BroadcastThisNode()** Broadcasts thisNode to the Network
-    * `BROADCAST-ADD-NEW-NODE` Request
+    * `BROADCAST-ADD-NEW-NODE Request`
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
 
@@ -375,9 +375,9 @@ type walletStruct struct {
   * **DecodeKeys()** Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
 * JEFFCOINS
   * **GetAddressBalance()** Gets the jeffCoin balance for a jeffCoin Address
-    * `SEND-ADDRESS-BALANCE` Request
+    * `SEND-ADDRESS-BALANCE Request`
   * **TransactionRequest()** Request to Transfer jeffCoins to a jeffCoin Address
-    * `TRANSACTION-REQUEST` Request
+    * `TRANSACTION-REQUEST Request`
 * SIGNATURE
   * **CreateSignature()** - Create a ECDSA Digital Signature
 
@@ -503,7 +503,7 @@ netcat -q -1 192.168.20.100 3334
 And request commands such as,
 
 ```txt
-SENDADDRESSBALANCE
+SEND-ADDRESS-BALANCE
 ```
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
