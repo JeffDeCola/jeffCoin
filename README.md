@@ -78,43 +78,43 @@ jeffCoins will mint as follows,
 
 `jeffCoin` uses the following technology,
 
+* Written in golang
 * Implements a blockchain using a sha256 hash
 * A decentralized multi node P2P architecture maintaining a network of nodes
 * A Webserver with both a GUI and a REST API
 * A TCP Server for inter node communication
 * ECDSA Private & Public Key generation
-* Creating the jeffCoin address from Public Key _(Just like bitcoin)_
+* Creates a jeffCoin address from the ECDSA Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
+* Mining uses Proof of Work (PoW)
 
 What `jeffCoin` does not have,
 
 * No database, so if the entire network dies, the chain dies
 * Rigorous testing of all corner cases
 
-The code is broken up into five main areas,
+The following illustration shows how the code is broken up into five main areas,
 
-* [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/tree/master/blockchain)
+* [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
   The blockchain and transactions
-* [2. MINER](https://github.com/JeffDeCola/jeffCoin/tree/master/miner)
-  To mine the cryptocurrency
-* [3. ROUTING NODE (TCP Server)](https://github.com/JeffDeCola/jeffCoin/tree/master/routingnode)
-  To communicate between the P2P nodes (network)
-* [4. WALLET](https://github.com/JeffDeCola/jeffCoin/tree/master/wallet)
-  To hold the cryptocurrency
-* [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/tree/master/webserver)
+* [2. MINER](https://github.com/JeffDeCola/jeffCoin#2-miner)
+  To mine the cryptocurrency using PoW
+* [3. ROUTING NODE](https://github.com/JeffDeCola/jeffCoin#3-routing-node)
+  To maintain a list of nodes & communicate between (network)
+* [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
+  To create an jeffCoin address and keep the private Keys
+* [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
   The API and GUI
 
-This illustration may help,
-
-![IMAGE - jeffCoin-overview - IMAGE](docs/pics/jeffCoin-overview.jpg)
+![IMAGE - jeffCoin-architecture - IMAGE](docs/pics/jeffCoin-architecture.jpg)
 
 ## 1. BLOCKCHAIN
 
-The blockchain section is the core of the entire design. It will keep the
+The blockchain section is the heart of the entire design. It will keep the
 transactions secure. A transaction is a transfer of value (coins) between
 jeffCoin addresses.
-Like bitcoin, the value (coins) is all contained in the ledger.
-The wallets just hold the private keys to request a transaction.
+Like bitcoin, the value (coins) is contained in the ledger.
+The wallets just hold the public/private keys to request a transaction.
 
 The code is divided between the blockchain and the transactions
 (the data on the blockchain).
@@ -202,7 +202,7 @@ This illustration shows transaction requests, verification for that request
 and addition onto the currentBlock.  A transaction is never valid until
 the transaction is added onto the blockchain,
 
-![IMAGE - transaction-request-verification-and-addition - IMAGE](docs/pics/transaction-request-verification-and-addition.jpg)
+![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
 
 This illustration shows the ledger,
 
@@ -235,6 +235,8 @@ The proof of work structure is,
 
 * MINING
   * **???()** Loads the entire blockchain
+
+![IMAGE - mining-control-and-consensus-flow - IMAGE](docs/pics/mining-control-and-consensus-flow.jpg)
 
 ## 3. ROUTING NODE
 
@@ -443,7 +445,7 @@ go run jeffCoin.go \
 
 The user GUI,
 
-[192.168.20.100:1234/](http://localhost:1234/)
+[192.168.20.100:1234/](http://192.168.20.100:1234/)
 
 You could also use curl from the command line,
 
