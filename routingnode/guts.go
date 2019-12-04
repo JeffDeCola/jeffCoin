@@ -49,10 +49,10 @@ func getNodeList() nodeSlice {
 
 // NODE ******************************************************************************************************************
 
-// getNode - Gets a node in the nodeList
+// getNode - Gets a Node in the nodeList
 func getNode(id string) nodeStruct {
 
-	s := "START: getNode - Gets a node in the nodeList"
+	s := "START: getNode - Gets a Node in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	var item nodeStruct
@@ -66,23 +66,23 @@ func getNode(id string) nodeStruct {
 	for _, item := range nodeList {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
-			s = "END:   getNode - Gets a node in the nodeList"
+			s = "END:   getNode - Gets a Node in the nodeList"
 			log.Trace("ROUTINGNODE: GUTS   " + s)
 			return item
 		}
 	}
 
-	s = "END:   getNode - FAILED - Did Not get a node in the nodeList"
+	s = "END:   getNode - FAILED - Did Not get a Node in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return item
 
 }
 
-// appendNewNode - Appends a node to the nodeList
+// appendNewNode - Appends a new Node to the nodeList
 func appendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: appendNewNode - Appends a node to the nodeList"
+	s := "START: appendNewNode - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	newNode := nodeStruct{}
@@ -91,7 +91,7 @@ func appendNewNode(messageNewNode string) nodeStruct {
 	newNode.Index = len(nodeList)
 	nodeList = append(nodeList, newNode)
 
-	s = "END:   appendNewNode - Appends a node to the nodeList"
+	s = "END:   appendNewNode - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
 	return newNode

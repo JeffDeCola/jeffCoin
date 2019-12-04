@@ -38,7 +38,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 // LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START: LoadBlockchain - Receives the blockchain and the currentBlock"
+	s := "START: LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -89,7 +89,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   LoadBlockchain - Receives the blockchain and the currentBlock"
+	s = "END:   LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return nil
@@ -182,15 +182,15 @@ func AddTransactionToCurrentBlock(transaction string) blockStruct {
 
 // JEFFCOINS *************************************************************************************************************
 
-// GetAddressBalance - Gets jeffCoin Address balance
+// GetAddressBalance - Gets the jeffCoin Address balance
 func GetAddressBalance(jeffCoinAddress string) string {
 
-	s := "START: GetAddressBalance - Gets jeffCoin Address balance"
+	s := "START: GetAddressBalance - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	balance := getAddressBalance(jeffCoinAddress)
 
-	s = "END:   GetAddressBalance - Gets jeffCoin Address balance"
+	s = "END:   GetAddressBalance - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return balance
@@ -199,15 +199,15 @@ func GetAddressBalance(jeffCoinAddress string) string {
 
 // TRANSACTIONS **********************************************************************************************************
 
-// TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address
+// TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(transactionRequestMessageSigned string) string {
 
-	s := "START: TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
+	s := "START: TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	status := transactionRequest(transactionRequestMessageSigned)
 
-	s = "END:   TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
+	s = "END:   TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return status
