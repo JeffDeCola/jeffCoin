@@ -145,10 +145,10 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 
 }
 
-// TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address
+// TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMessageSigned string) (string, error) {
 
-	s := "START: TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s := "START: TransactionRequest - Request to transfer Coins to a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -198,7 +198,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   TransactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s = "END:   TransactionRequest - Request to transfer Coins to a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return status, nil
@@ -207,15 +207,15 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 
 // SIGNATURE *************************************************************************************************************
 
-// CreateSignature - Create a ECDSA Digital Signature
+// CreateSignature - Creates a ECDSA Digital Signature
 func CreateSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
 
-	s := "START: CreateSignature - Create a ECDSA Digital Signature"
+	s := "START: CreateSignature - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F    " + s)
 
 	signature := createSignature(senderPrivateKeyRaw, plainText)
 
-	s = "END:   CreateSignature - Create a ECDSA Digital Signature"
+	s = "END:   CreateSignature - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return signature

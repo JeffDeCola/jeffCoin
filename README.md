@@ -11,9 +11,9 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
 _A cryptocurrency (transaction based data) built on decentralized
-multi node P2P open network using a sha256 Proof of Work (PoW) blockchain
+multi-node P2P open Network using a sha256 Proof of Work (PoW) blockchain
 with a REST JSON API and a TCP Server to communicate between
-the nodes over IP._
+the Nodes over IP._
 
 Or more simply, **a distributed decentralized public ledger.**
 
@@ -26,7 +26,7 @@ Table of Contents,
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin#2-miner)
 * [3. ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#3-routingnode)
   * [3.1 NODELIST](https://github.com/JeffDeCola/jeffCoin#31-nodelist)
-  * [3.2 REQUESTS AND HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-requests-and-handlers)
+  * [3.2 REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-requests--handlers)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
   * [5.1 GUI](https://github.com/JeffDeCola/jeffCoin#51-gui)
@@ -80,9 +80,9 @@ jeffCoins will mint as follows,
 
 * Written in golang
 * Implements a blockchain using a sha256 hash
-* A decentralized multi node P2P architecture maintaining a network of nodes
+* A decentralized multi-node P2P architecture maintaining a Network of Nodes
 * A Webserver with both a GUI and a REST API
-* A TCP Server for inter node communication
+* A TCP Server for inter-node communication
 * ECDSA Private & Public Key generation
 * Creates a jeffCoin address from the ECDSA Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
@@ -90,7 +90,7 @@ jeffCoins will mint as follows,
 
 What `jeffCoin` does not have,
 
-* No database, so if the entire network dies, the chain dies
+* No database, so if the entire Network dies, the chain dies
 * Rigorous testing of all corner cases
 
 The following illustration shows how the code is broken up into five main areas,
@@ -100,7 +100,7 @@ The following illustration shows how the code is broken up into five main areas,
 * [2. MINER](https://github.com/JeffDeCola/jeffCoin#2-miner)
   To mine the cryptocurrency using PoW
 * [3. ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#3-routingnode)
-  To maintain a list of nodes & communicate between (network)
+  To maintain a list of nodes & communicate between (Network)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
   To create an jeffCoin address and keep the private Keys
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
@@ -146,52 +146,73 @@ The states of a block are,
 **[BLOCKCHAIN-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
 * BLOCKCHAIN
-  * **GenesisBlockchain()** Creates the blockchain
-  * **LoadBlockchain()** Receives the blockchain and the currentBlock
-    from a Network Node
+  * **GenesisBlockchain()**
+    _Creates the blockchain_
+  * **LoadBlockchain()**
+    _Receives the blockchain and the currentBlock from a Network Node_
     * `SEND-BLOCKCHAIN Request`
-  * **GetBlockchain()** Gets the blockchain
+  * **GetBlockchain()**
+    _Gets the blockchain_
 * BLOCK
-  * **GetBlock()** Gets a block (via Index number) from the blockchain
+  * **GetBlock()**
+    _Gets a block (via Index number) from the blockchain_
 * LOCKED BLOCK
-  * **GetLockedBlock()** Gets the lockedBlock
+  * **GetLockedBlock()**
+    _Gets the lockedBlock_
 * CURRENT BLOCK
-  * **GetCurrentBlock()** Gets the currentBlock
-  * **AddTransactionToCurrentBlock()** Adds a transaction to the currentBlock
+  * **GetCurrentBlock()**
+    _Gets the currentBlock_
+  * **AddTransactionToCurrentBlock()**
+    _Adds a transaction to the currentBlock_
 * JEFFCOINS
-  * **GetAddressBalance()** Gets jeffCoin Address balance
+  * **GetAddressBalance()**
+    _Gets the jeffCoin Address balance_
 * TRANSACTIONS
-  * **TransactionRequest()** Request to Transfer jeffCoins to a jeffCoin Address
+  * **TransactionRequest()**
+    _Request to transfer jeffCoins to a jeffCoin Address_
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
 
 * BLOCKCHAIN
-  * **loadBlockchain()** Loads the entire blockchain
-  * **getBlockchain()** Gets the blockchain
-  * **replaceBlockchain()** Replaces chain with the longer one
+  * **loadBlockchain()**
+    _Loads the entire blockchain_
+  * **getBlockchain()**
+    _Gets the blockchain_
+  * **replaceBlockchain()**
+    _Replaces blockchain with the longer one_
 * BLOCK
-  * **getBlock()** Gets a block in the blockchain
-  * **calculateBlockHash()** Calculates SHA256 hash on a block
-  * **isBlockValid()** Checks if block is valid
+  * **getBlock()**
+    _Gets a block in the blockchain_
+  * **calculateBlockHash()**
+    _Calculates SHA256 hash on a block_
+  * **isBlockValid()**
+    _Checks if block is valid_
 * LOCKED BLOCK
-  * **getLockedBlock** Gets the lockedBlock
-  * **appendLockedBlock()** Appends the lockedBlock to the blockchain
+  * **getLockedBlock()**
+    _Gets the lockedBlock_
+  * **appendLockedBlock()**
+    _Appends the lockedBlock to the blockchain_
 * CURRENT BLOCK
-  * **loadCurrentBlock()** Loads the currentBlock
-  * **resetCurrentBlock()** Resets the currentBlock
-  * **getCurrentBlock()** Gets the currentBlock
-  * **addTransactionToCurrentBlock()** Adds a transaction to the currentBlock
-  * **lockCurrentBlock()** Moves the currentBlock to the lockedBlock
-    and resets the currentBlock
+  * **loadCurrentBlock()**
+    _Loads the currentBlock_
+  * **resetCurrentBlock()**
+    _Resets the currentBlock_
+  * **getCurrentBlock()**
+    _Gets the currentBlock_
+  * **addTransactionToCurrentBlock()**
+    _Adds a transaction to the currentBlock_
+  * **lockCurrentBlock()**
+    _Moves the currentBlock to the lockedBlock and resets the currentBlock_
 * JEFFCOINS
-  * **getAddressBalance()** Gets jeffCoin Address balance
+  * **getAddressBalance()**
+    _Gets the jeffCoin Address balance_
 
 ### 1.2 TRANSACTIONS
 
 Transaction are at the heart of jeffCoin, allowing the transfer of value (jeffCoins)
 from one address to another.  A transaction request comes from the wallet which holds
-the private key. All transaction requests are broadcast to the entire network
-before it is validated. Each node does its own work (PoW).
+the private key. All transaction requests are broadcast to the entire Network
+before it is validated. Each Node does its own Proof of Work (PoW).
 
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
@@ -219,9 +240,11 @@ type txOutputStruct struct {
 **[TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
 
 * TRANSACTIONS
-  * **transactionRequest()** Request to Transfer jeffCoins to a jeffCoin Address
+  * **transactionRequest()**
+    _Request to transfer jeffCoins to a jeffCoin Address_
 * SIGNATURE
-  * **verifySignature()** - Verify a ECDSA Digital Signature
+  * **verifySignature()**
+    _Verifies a ECDSA Digital Signature_
 
 This illustration shows transaction requests, verification for that request
 and addition onto the currentBlock. A transaction is never valid until
@@ -242,7 +265,7 @@ For simplicity,
 * We're going to keep the miner internal and not use TCP Server
 * Perform the mining on the lockedBlocked
 * Difficulty is how many zero are needed at the beginning
-* When its solved, broadcast to rest of network
+* When its solved, broadcast to rest of Network
 
 **[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-datastructures.go)**
 
@@ -257,12 +280,14 @@ type tbd struct {
 **[MINER-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-interface.go)**
 
 * MINING
-  * **tbd()** tbd
+  * **tbd()**
+    _tbd_
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/guts.go)**
 
 * MINING
-  * **tbd()** tbd
+  * **tbd()**
+    _tbd_
 
 ![IMAGE - mining-control-and-consensus-flow - IMAGE](docs/pics/mining-control-and-consensus-flow.jpg)
 
@@ -275,7 +300,7 @@ and the ability to handle the Node Requests (TCP Server).
 
 **[ROUTINGNODE-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-datastructures.go)**
 
-A node in the nodelist is the following go struct,
+A Node in the nodelist is the following go struct,
 
 ```go
 type nodeStruct struct {
@@ -290,62 +315,79 @@ type nodeStruct struct {
 **[ROUTINGNODE-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-interface.go)**
 
 * NODELIST
-  * **GenesisNodeList()** Creates the nodeList
-  * **LoadNodeList()** Receives the nodeList from a Network Node
+  * **GenesisNodeList()**
+    _Creates the nodeList_
+  * **LoadNodeList()**
+    _Receives the nodeList from a Network Node_
     * `SEND-NODELIST Request`
-  * **GetNodeList()** Gets the nodeList
+  * **GetNodeList()**
+    _Gets the nodeList_
 * NODE
-  * **GetNode()** Gets a Node (via Index number) from the nodeList
-  * **AppendNewNode()** Appends a New Node to the nodeList
+  * **GetNode()**
+    _Gets a Node (via Index number) from the nodeList_
+  * **AppendNewNode()**
+    _Appends a new Node to the nodeList_
 * THIS NODE
-  * **LoadThisNode()** Loads thisNode
-  * **GetThisNode()** Gets thisNode
-  * **AppendThisNode()** Appends thisNode to the nodeList
-  * **BroadcastThisNode()** Broadcasts thisNode to the Network
+  * **LoadThisNode()**
+    _Loads thisNode_
+  * **GetThisNode()**
+    _Gets thisNode_
+  * **AppendThisNode()**
+    _Appends thisNode to the nodeList_
+  * **BroadcastThisNode()**
+    _Broadcasts thisNode to the Network_
     * `BROADCAST-ADD-NEW-NODE Request`
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
 
 * NODELIST
-  * **loadNodeList()** Loads the entire nodeList
-  * **getNodeList()** Gets the nodeList
+  * **loadNodeList()**
+    _Loads the entire nodeList_
+  * **getNodeList()**
+    _Gets the nodeList_
 * NODE
-  * **getNode()** Gets a node in the nodeList
-  * **appendNewNode()** Appends a node to the nodeList
+  * **getNode()**
+    _Gets a Node in the nodeList_
+  * **appendNewNode()**
+    _Appends a new Node to the nodeList_
 * THIS NODE
-  * **loadThisNode()** Loads thisNode
-  * **getThisNode()** Gets thisNode
-  * **appendThisNode()** Appends thisNode to the nodeList
-  * **checkIfThisNodeinNodeList()** - Check if thisNode is already in the nodeList
+  * **loadThisNode()**
+    _Loads thisNode_
+  * **getThisNode()**
+    _Gets thisNode_
+  * **appendThisNode()**
+    _Appends thisNode to the nodeList_
+  * **checkIfThisNodeinNodeList()**
+    _Check if thisNode is already in the nodeList_
 
-### 3.2 REQUESTS AND HANDLERS
+### 3.2 REQUESTS & HANDLERS
 
-Incoming requests to the TCP server from other nodes or TCP connection.
+Incoming requests to the TCP server from other Nodes or TCP connection.
 
 **[HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * FROM BLOCKCHAIN I/F
   * **SEND-BLOCKCHAIN (SBC)**
-    Sends the blockchain & currentBlock to another node
+    _Sends the blockchain and currentBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **BROADCAST-ADD-NEW-NODE (BANN)**
-    Adds a node to the nodeList
+    _Adds a Node to the nodeList_
   * **SEND-NODELIST (SNL)**
-    Sends the nodeList to another node
+    _Sends the nodeList to another Node_
   * **BROADCAST-VERIFIED-BLOCK (BVB)**
-    A node verified the next block, get block and verify
+    _A Node verified the next block, get block and verify_
   * **BROADCAST-CONSENSUS (BC)**
-    51% Consensus reached, get block to add to blockchain
+    _51% Consensus reached, get block to add to blockchain_
   * **BROADCAST-TRANSACTION-REQUEST (BTR)**
-    Request from node to transfer jeffCoins to a jeffCoin address
+    _Request from a Node to transfer jeffCoins to a jeffCoin Address_
 * FROM WALLET I/F
   * **SEND-ADDRESS-BALANCE (SAB)**
-    Sends the jeffCoin balance for a jeffCoin Address
+    _Sends the jeffCoin balance for a jeffCoin Address_
   * **TRANSACTION-REQUEST (TR)**
-    Request from Wallet to transfer jeffCoins to a jeffCoin address
+    _Request from Wallet to transfer jeffCoins to a jeffCoin Address_
 * EOF
   * **EOF**
-    Close Connection
+    _Close Connection_
 
 ## 4. WALLET
 
@@ -368,35 +410,52 @@ type walletStruct struct {
 **[WALLET-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
 
 * WALLET
-  * **GenesisWallet()** Creates the wallet
-  * **GetWallet()** Gets the wallet
+  * **GenesisWallet()**
+    _Creates the wallet_
+  * **GetWallet()**
+    _Gets the wallet_
 * KEYS
-  * **EncodeKeys()** Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
-  * **DecodeKeys()** Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
+  * **EncodeKeys()**
+    _Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex_
+  * **DecodeKeys()**
+    _Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw_
 * JEFFCOINS
-  * **GetAddressBalance()** Gets the jeffCoin balance for a jeffCoin Address
+  * **GetAddressBalance()**
+    _Gets the jeffCoin balance for a jeffCoin Address_
     * `SEND-ADDRESS-BALANCE Request`
-  * **TransactionRequest()** Request to Transfer jeffCoins to a jeffCoin Address
+  * **TransactionRequest()**
+    _Request to transfer jeffCoins to a jeffCoin Address_
     * `TRANSACTION-REQUEST Request`
 * SIGNATURE
-  * **CreateSignature()** - Create a ECDSA Digital Signature
+  * **CreateSignature()**
+    _Creates a ECDSA Digital Signature_
 
 **[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
 * WALLET
-  * **getWallet()** Gets the wallet
-  * **makeWallet()** Creates wallet with Keys and jeffCoin address
+  * **getWallet()**
+    _Gets the wallet_
+  * **makeWallet()**
+    _Creates a wallet with Keys and jeffCoin Address_
 * KEYS
-  * **generateECDSASKeys()** - Generate privateKeyHex and publicKeyHex
-  * **encodeKeys()** - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
-  * **decodeKeys()** - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
+  * **generateECDSASKeys()**
+    _Generate privateKeyHex and publicKeyHex_
+  * **encodeKeys()**
+    _Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex_
+  * **decodeKeys()**
+    _Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw_
 * JEFFCOIN ADDRESS
-  * **generateJeffCoinAddress()** - Creates jeffCoinAddress
-  * **hashPublicKey()** - Hashes publicKeyHex
-  * **checksumKeyHash()** - Checksums verPublicKeyHash
-  * **encodeKeyHash()** - Encodes verPublicKeyHash & checkSum
+  * **generateJeffCoinAddress()**
+    _Creates a jeffCoin Address_
+  * **hashPublicKey()**
+    _Hashes publicKeyHex_
+  * **checksumKeyHash()**
+    _Checksums verPublicKeyHash_
+  * **encodeKeyHash()**
+    _Encodes verPublicKeyHash & checkSum_
 * SIGNATURE
-  * **createSignature()** - Create a ECDSA Digital Signature
+  * **createSignature()**
+    _Creates a ECDSA Digital Signature_
 
 ## 5. WEBSERVER
 
@@ -413,23 +472,23 @@ Currently, there is the main page that also lists the available APIs.
 **[API COMMANDS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/handlers.go)**
 
 * BLOCKCHAIN
-  * /showBlockchain
-  * /showBlock/{blockID}
-  * /showlockedblock
-  * /showcurrentblock
+  * **/showBlockchain**
+  * **/showBlock/{blockID}**
+  * **/showlockedblock**
+  * **/showcurrentblock**
 * NODELIST
-  * /shownodelist
-  * /shownode/{nodeID}
-  * /showthisnode
+  * **/shownodelist**
+  * **/shownode/{nodeID}**
+  * **/showthisnode**
 * WALLET
-  * /showwallet
-  * /showjeffcoinaddress
-  * /showaddressbalance
-  * /transactionrequest/{destinationaddress}/{value}
+  * **/showwallet**
+  * **/showjeffcoinaddress**
+  * **/showaddressbalance**
+  * **/transactionrequest/{destinationaddress}/{value}**
 
 ## RUN
 
-If this is you first time running, you need to create the first node.
+If this is you first time running, you need to create the first Node.
 You only do this once.
 
 ### GENESIS NODE
@@ -444,8 +503,8 @@ go run jeffCoin.go \
 
 ### NEW NODES
 
-Then all other nodes, you do something like this to hook
-up to the network.  You need the ip of any working network node,
+Then all other Nodes, you do something like this to hook
+up to the Network.  You need the ip of any working Network Node,
 
 ```bash
 go run jeffCoin.go \

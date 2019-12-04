@@ -40,10 +40,10 @@ func getWallet() walletStruct {
 	return wallet
 }
 
-// makeWallet - Creates wallet with Keys and jeffCoin address
+// makeWallet - Creates a wallet with Keys and jeffCoin Address
 func makeWallet() walletStruct {
 
-	s := "START: makeWallet - Creates wallet with Keys and jeffCoin address"
+	s := "START: makeWallet - Creates a wallet with Keys and jeffCoin Address"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	// GENERATE ECDSA KEYS
@@ -55,7 +55,7 @@ func makeWallet() walletStruct {
 	// LOAD KEYS & JEFFCOIN ADDRESS IN WALLET
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
-	s = "END:   makeWallet - Creates wallet with Keys and jeffCoin address"
+	s = "END:   makeWallet - Creates a wallet with Keys and jeffCoin Address"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	return wallet
@@ -156,10 +156,10 @@ func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 
 // JEFFCOIN ADDRESS ******************************************************************************************************
 
-// generatejeffCoinAddress - Creates jeffCoinAddress
+// generatejeffCoinAddress - Creates a jeffCoin Address
 func generatejeffCoinAddress(publicKeyHex string) string {
 
-	s := "START: generatejeffCoinAddress - Creates jeffCoinAddress"
+	s := "START: generatejeffCoinAddress - Creates a jeffCoin Address"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	verPublicKeyHash := hashPublicKey(publicKeyHex)
@@ -168,7 +168,7 @@ func generatejeffCoinAddress(publicKeyHex string) string {
 
 	jeffCoinAddressHex := encodeKeyHash(verPublicKeyHash, checkSum)
 
-	s = "END:   generatejeffCoinAddress - Creates jeffCoinAddress"
+	s = "END:   generatejeffCoinAddress - Creates a jeffCoin Address"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	return jeffCoinAddressHex
@@ -266,10 +266,10 @@ func encodeKeyHash(verPublicKeyHash []byte, checkSum []byte) string {
 
 // SIGNATURE *************************************************************************************************************
 
-// createSignature - Create a ECDSA Digital Signature
+// createSignature - Creates a ECDSA Digital Signature
 func createSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
 
-	s := "START: createSignature - Create a ECDSA Digital Signature"
+	s := "START: createSignature - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	// HASH plainText
@@ -293,7 +293,7 @@ func createSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) st
 	// ENCODE - RETURN HEX
 	signature := hex.EncodeToString(signatureByte)
 
-	s = "END:   createSignature - Create a ECDSA Digital Signature"
+	s = "END:   createSignature - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      GUTS   " + s)
 
 	return signature

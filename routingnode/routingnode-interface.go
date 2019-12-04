@@ -113,15 +113,15 @@ func GetNode(id string) nodeStruct {
 
 }
 
-// AppendNewNode - Appends a New Node to the nodeList
+// AppendNewNode - Appends a new Node to the nodeList
 func AppendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: AppendNode - Appends a New Node to the nodeList"
+	s := "START: AppendNode - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	newNode := appendNewNode(messageNewNode)
 
-	s = "END:   AppendNewNode - Appends a New Node to the nodeList"
+	s = "END:   AppendNewNode - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return newNode

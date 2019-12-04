@@ -52,10 +52,10 @@ func getBlockchain() blockchainSlice {
 
 }
 
-// replaceBlockchain - Replaces chain with the longer one
+// replaceBlockchain - Replaces blockchain with the longer one
 func replaceBlockchain(newBlock blockchainSlice) {
 
-	s := "START: replaceChain - Replaces chain with the longer one"
+	s := "START: replaceChain - Replaces blockchain with the longer one"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	if len(newBlock) > len(blockchain) {
@@ -67,7 +67,7 @@ func replaceBlockchain(newBlock blockchainSlice) {
 		log.Info("BLOCKCHAIN:  GUTS           " + s)
 	}
 
-	s = "END:   replaceChain - Replaces chain with the longer one"
+	s = "END:   replaceChain - Replaces blockchain with the longer one"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -278,10 +278,10 @@ func lockCurrentBlock(difficulty int) {
 
 // JEFFCOINS *************************************************************************************************************
 
-// getAddressBalance - Gets jeffCoin Address balance
+// getAddressBalance - Gets the jeffCoin Address balance
 func getAddressBalance(jeffCoinAddress string) string {
 
-	s := "START: getAddressBalance - Gets jeffCoin Address balance"
+	s := "START: getAddressBalance - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// WORK BACKWARDS TO FIND THE TRANSACTION
@@ -295,7 +295,7 @@ func getAddressBalance(jeffCoinAddress string) string {
 
 	balance := "333333"
 
-	s = "END:   getAddressBalance - Gets jeffCoin Address balance"
+	s = "END:   getAddressBalance - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return balance
