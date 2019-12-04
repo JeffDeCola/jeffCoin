@@ -17,6 +17,8 @@ version: "2"
 #     channel: alternate channel to use (stable is default)
 #     config: plugin configuration
 plugins:
+  duplication:
+    enabled: false
   markdownlint:
     enabled: true
   shellcheck:
