@@ -121,7 +121,7 @@ The code is divided between the blockchain and the transactions
 
 ### 1.1 BLOCKCHAIN
 
-**[BLOCKCHAIN-DATASTRUCTURE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructure.go)**
+**[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
 A block in the blockchain is the following go struct,
 
@@ -193,7 +193,7 @@ from one address to another.  A transaction request comes from the wallet which 
 the private key. All transaction requests are broadcast to the entire network
 before it is validated. Each node does its own work (PoW).
 
-**[BLOCKCHAIN-DATASTRUCTURE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructure.go)**
+**[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
 A transaction for a block is the following go struct,
 
@@ -244,7 +244,7 @@ For simplicity,
 * Difficulty is how many zero are needed at the beginning
 * When its solved, broadcast to rest of network
 
-**[MINER-DATASTRUCTURE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/miner-datastructure.go)**
+**[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/miner-datastructures.go)**
 
 The proof of work structure is,
 
@@ -273,7 +273,7 @@ and the ability to handle the Node Requests (TCP Server).
 
 ### 3.1 NODELIST
 
-**[ROUTINGNODE-DATASTRUCTURE](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-datastructure.go)**
+**[ROUTINGNODE-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-datastructures.go)**
 
 A node in the nodelist is the following go struct,
 
@@ -353,7 +353,7 @@ Wallets keep the Public Key, the Private Key and the jeffCoin address.
 Wallets do not have or hold any jeffCoins.  The jeffCoins are in the blockchain
 transactions (ledger).
 
-**[WALLET-DATASTRUCTURE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-datastructure.go)**
+**[WALLET-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-datastructures.go)**
 
 A wallet has the following go struct,
 

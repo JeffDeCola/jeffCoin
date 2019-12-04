@@ -1,4 +1,4 @@
-// jeffCoin 4. WALLET wallet.go
+// jeffCoin 4. WALLET wallet-datastructures.go
 
 package wallet
 
