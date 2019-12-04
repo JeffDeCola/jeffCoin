@@ -1,4 +1,4 @@
-// jeffCoin wallet-interface.go
+// jeffCoin 4. WALLET wallet-interface.go
 
 package wallet
 
@@ -16,12 +16,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// WALLET ************************************************************************************************************
+// WALLET ****************************************************************************************************************
 
-// GenesisWallet - Creates the Wallet
+// GenesisWallet - Creates the wallet
 func GenesisWallet() string {
 
-	s := "START: GenesisWallet - Creates the Wallet"
+	s := "START: GenesisWallet - Creates the wallet"
 	log.Trace("WALLET:      I/F    " + s)
 
 	theWallet := makeWallet()
@@ -30,7 +30,7 @@ func GenesisWallet() string {
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   GenesisWallet - Creates the Wallet"
+	s = "END:   GenesisWallet - Creates the wallet"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theWallet.JeffCoinAddress
@@ -51,7 +51,7 @@ func GetWallet() walletStruct {
 
 }
 
-// KEYS ***************************************************************************************************************
+// KEYS ******************************************************************************************************************
 
 // EncodeKeys - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
 func EncodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) (string, string) {
@@ -83,12 +83,12 @@ func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 
 }
 
-// COINS ***************************************************************************************************************
+// JEFFCOINS *************************************************************************************************************
 
-// GetAddressBalance - Gets the coin balance for a jeffCoin Address
+// GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address
 func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
 
-	s := "START: GetAddressBalance - Gets the coin balance for a jeffCoin Address"
+	s := "START: GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -138,14 +138,14 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   GetAddressBalance - Gets the coin balance for a jeffCoin Address"
+	s = "END:   GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theBalance, nil
 
 }
 
-// TransactionRequest - Request to Transfer Coins to a jeffCoin Address
+// TransactionRequest - Request to Transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMessageSigned string) (string, error) {
 
 	s := "START: TransactionRequest - Request to Transfer Coins to a jeffCoin Address"

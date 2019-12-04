@@ -1,14 +1,13 @@
-// jeffCoin guts.go
+// jeffCoin 2. MINER guts.go
 
 package miner
 
 import (
-	"encoding/json"
+	"crypto/sha256"
 	"fmt"
-	"strconv"
-	"time"
+	"math/big"
 
-    blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
+	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -20,29 +19,39 @@ func checkErr(err error) {
 	}
 }
 
-// MINING ************************************************************************************************************
+// MINING ****************************************************************************************************************
 
+// mine - tbd
 func mine() {
 
-    // GET THE LOCKED BLOCK
-    theLockedblock := blockchain.GetLockedBlock() 
-    
-    // LOAD STRUCT
-    targetHash := big.NewInt(1)
+	s := "START: mine - tbd"
+	log.Trace("MINER:       GUTS   " + s)
+
+	// GET THE LOCKED BLOCK
+	theLockedblock := blockchain.GetLockedBlock()
+
+	// LOAD STRUCT
+	targetHash := big.NewInt(1)
 	targetHash.Lsh(target, uint(256-targetBits))
-    pow := &ProofOfWork{thelockedBlock, targetHash}
-    
+	pow := &ProofOfWork{thelockedBlock, targetHash}
 
-    // MINE - FIND THE NONCE AND HASH
-    nonce, hash := pow.Run()
+	// MINE - FIND THE NONCE AND HASH
+	nonce, hash := pow.Run()
 
-    fmt.Println("The nonce is", nonce)
-    fmt.Println("The hash is", hash)
-    
+	fmt.Println("The nonce is", nonce)
+	fmt.Println("The hash is", hash)
+
+	s = "END:   mine - tbd"
+	log.Trace("MINER:       GUTS   " + s)
+
 }
 
-
+// pow - tbd
 func (pow *ProofOfWork) Run() (int, []byte) {
+
+	s := "START: pow - tbd"
+	log.Trace("MINER:       GUTS   " + s)
+
 	var hashInt big.Int
 	var hash [32]byte
 	nonce := 0
@@ -62,8 +71,9 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	}
 	fmt.Print("\n\n")
 
-    return nonce, hash[:]
-    
+	s = "END:   pow - tbd"
+	log.Trace("MINER:       GUTS   " + s)
+
+	return nonce, hash[:]
+
 }
-
-

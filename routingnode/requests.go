@@ -1,4 +1,4 @@
-// jeffCoin requests.go
+// jeffCoin 3. ROUTINGNODE requests.go
 
 package routingnode
 
@@ -10,6 +10,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 )
+
+// REQUESTS **************************************************************************************************************
 
 // HandleRequest handles TCP requests
 func HandleRequest(conn net.Conn) {
@@ -76,7 +78,7 @@ func HandleRequest(conn net.Conn) {
 			handleSendAddressBalance(rw)
 		case cmd == "TRANSACTION-REQUEST" || cmd == "TR":
 			handleTransactionRequest(rw)
-
+		// EOF *****************************************************
 		case cmd == "EOF":
 			s = "Received EOF"
 			log.Info("ROUTINGNODE: REQ           " + s)

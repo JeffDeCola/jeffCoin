@@ -1,8 +1,8 @@
-// jeffCoin blockchain.go
+// jeffCoin 1. BLOCKCHAIN blockchain-datastructures.go
 
 package blockchain
 
-// BLOCK & BLOCKCHAIN **************************************************************************************
+// BLOCK & BLOCKCHAIN ****************************************************************************************************
 
 // blockStruct is your block
 type blockStruct struct {
@@ -21,38 +21,38 @@ var currentBlock = blockStruct{}
 // lockedBlock - Going to be added to the chain (No more transactions)
 var lockedBlock = blockStruct{}
 
-// BlockchainSlice is my type
+// blockchainSlice is my block type
 type blockchainSlice []blockStruct
 
-// Blockchain is the blockchain
+// blockchain is the blockchain
 var blockchain = blockchainSlice{}
 
-// TRANSACTIONS **************************************************************************************
+// TRANSACTIONS **********************************************************************************************************
 
-// transactionStruct is your transaction - To be place in block
+// transactionStruct is your transaction - To be placed in a block
 type transactionStruct struct {
-	ID      int64            `json:"ID"`
+	ID      int64            `json:"id"`
 	Inputs  []txInputStruct  `json:"inputs"`
 	Outputs []txOutputStruct `json:"outputs"`
 }
 
-// transaction is the transaction
-var transactions = transactionStruct{}
+// transactions is a transaction
+var transaction = transactionStruct{}
 
-// txInput
+// txInputStruct is a transaction input
 type txInputStruct struct {
 	TXID          int64  `json:"txID"`
 	ReferenceTXID int64  `json:"referenceTXID"`
 	Signature     string `json:"signature"`
 }
 
-// txOutput - This is where the money is stored
+// txOutput is a transaction output
 type txOutputStruct struct {
-	Address string `json:"jeffCoinAddress"`
-	Value   int64  `json:"value"`
+	JeffCoinAddress string `json:"jeffCoinAddress"`
+	Value           int64  `json:"value"`
 }
 
-// TRANSACTION REQUESTS *************************************************************************************
+// TRANSACTION REQUESTS **************************************************************************************************
 
 // transactionRequestMessageStruct is your transaction request
 type transactionRequestMessageStruct struct {

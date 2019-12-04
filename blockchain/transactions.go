@@ -1,4 +1,4 @@
-// jeffCoin transactions.go
+// jeffCoin 1. BLOCKCHAIN transactions.go
 
 package blockchain
 
@@ -15,12 +15,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// TRANSACTIONS ************************************************************************************************************
+// TRANSACTIONS **********************************************************************************************************
 
-// transactionRequest - Request to Transfer Coins to a jeffCoin Address
+// transactionRequest - Request to Transfer jeffCoins to a jeffCoin Address
 func transactionRequest(transactionRequestMessageSigned string) string {
 
-	s := "START: transactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s := "START: transactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:        " + s)
 
 	// PLACE THIS IS A STRUCT theTransactionRequestMessageStruct
@@ -52,7 +52,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 
 	status := "Was this verified?: " + strconv.FormatBool(verifyStatus)
 
-	s = "END:   transactionRequest - Request to Transfer Coins to a jeffCoin Address"
+	s = "END:   transactionRequest - Request to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:        " + s)
 
 	return status
