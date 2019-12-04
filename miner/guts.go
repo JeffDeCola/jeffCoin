@@ -46,7 +46,7 @@ func mine() {
 
 }
 
-// pow - tbd
+// Run - tbd
 func (pow *ProofOfWork) Run() (int, []byte) {
 
 	s := "START: pow - tbd"

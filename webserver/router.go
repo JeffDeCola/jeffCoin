@@ -1,4 +1,4 @@
-// jeffCoin router.go
+// jeffCoin 5. WEBSERVER router.go
 
 package webserver
 
@@ -45,7 +45,7 @@ func JeffsRouter() *mux.Router {
 			Handler(handler)
 	}
 
-    // ADD THE CSS DIRECTORY - TOOK ME FOREVER TO FIGURE THIS OUT
+	// ADD THE CSS DIRECTORY - TOOK ME FOREVER TO FIGURE THIS OUT
 	router.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("webserver/css"))))
 	return router
 }

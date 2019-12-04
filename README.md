@@ -151,7 +151,7 @@ The states of a block are,
     from a Network Node
     * `SEND-BLOCKCHAIN` Request
   * **GetBlockchain()** Gets the blockchain
-* BLOCK  
+* BLOCK
   * **GetBlock()** Gets a block (via Index number) from the blockchain
 * LOCKED BLOCK
   * **GetLockedBlock()** Gets the lockedBlock
@@ -296,11 +296,11 @@ type nodeStruct struct {
   * **GetNodeList()** Gets the nodeList
 * NODE
   * **GetNode()** Gets a Node (via Index number) from the nodeList
-  * **AppendNewNode()** Appends a New Node to the nodeList  
+  * **AppendNewNode()** Appends a New Node to the nodeList
 * THIS NODE
   * **LoadThisNode()** Loads thisNode
-  * **GetThisNode()** Gets thisNode  
-  * **AppendThisNode()** Appends thisNode to the nodeList  
+  * **GetThisNode()** Gets thisNode
+  * **AppendThisNode()** Appends thisNode to the nodeList
   * **BroadcastThisNode()** Broadcasts thisNode to the Network
     * `BROADCAST-ADD-NEW-NODE` Request
 

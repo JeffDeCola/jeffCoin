@@ -5,11 +5,10 @@ package blockchain
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net"
 	"time"
-
-	errors "github.com/pkg/errors"
 
 	log "github.com/sirupsen/logrus"
 )
