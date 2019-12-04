@@ -365,7 +365,7 @@ type walletStruct struct {
 }
 ```
 
-**[WALLET INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
+**[WALLET-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
 
 * WALLET
   * **GenesisWallet()** Creates the wallet
