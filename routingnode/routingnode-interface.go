@@ -131,12 +131,12 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 // THISNODE **************************************************************************************************************
 
 // LoadThisNode - Loads thisNode
-func LoadThisNode(ip string, tcpPort string) {
+func LoadThisNode(ip string, tcpPort string, nodeName string) {
 
 	s := "START: LoadThisNode - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
 
-	loadThisNode(ip, tcpPort)
+	loadThisNode(ip, tcpPort, nodeName)
 
 	s = "END:   LoadThisNode - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)

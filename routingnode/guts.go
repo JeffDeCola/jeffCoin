@@ -101,7 +101,7 @@ func appendNewNode(messageNewNode string) nodeStruct {
 // THIS NODE *************************************************************************************************************
 
 // loadThisNode - Loads thisNode
-func loadThisNode(ip string, tcpPort string) {
+func loadThisNode(ip string, tcpPort string, nodeName string) {
 
 	s := "START: loadThisNode - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
@@ -111,7 +111,8 @@ func loadThisNode(ip string, tcpPort string) {
 	thisNode = nodeStruct{
 		Index:     0,
 		Status:    "active",
-		Timestamp: t.String(),
+        Timestamp: t.String(),
+        NodeName:  nodeName,
 		IP:        ip,
 		Port:      tcpPort,
 	}
