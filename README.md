@@ -38,7 +38,7 @@ Table of Contents,
   * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
 * [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
 
-This project was built from a foundation of some of my other projects,
+This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
@@ -64,10 +64,10 @@ Documentation and reference,
 ## OVERVIEW
 
 `jeffCoin` is my interpretation of a transaction based (ledger) using a blockchain.
-It's a work in progress I feel can be used as a foundation to
+This is a work in progress I feel can be used as a foundation to
 build bigger and better things.
 
-jeffCoins will mint as follows,
+Coins (a.k.a jeffCoins) are minted as follows,
 
 * A grand total of **1,000,000 jeffCoins**
 * The founders wallet will start with **100,000 jeffCoins** (10% of all jeffCoins)
@@ -76,7 +76,7 @@ jeffCoins will mint as follows,
 * Will take **17.12 years to mint all the jeffCoins**
   _(900,000/52,560 = 17.12)_
 
-`jeffCoin` uses the following technology,
+jeffCoin uses the following technology,
 
 * Written in golang
 * Implements a blockchain using a sha256 hash
@@ -88,7 +88,7 @@ jeffCoins will mint as follows,
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
 
-What `jeffCoin` does not have,
+What jeffCoin does not have,
 
 * No database, so if the entire Network dies, the chain dies
 * Rigorous testing of all corner cases
@@ -116,7 +116,7 @@ jeffCoin addresses.
 Like bitcoin, the value (jeffCoins) is contained in the ledger.
 The wallets just hold the public/private keys to request a transaction.
 
-The code is divided between the blockchain and the transactions
+This blockchain section has two main parts, the blockchain and the transactions
 (the data on the blockchain).
 
 ### 1.1 BLOCKCHAIN
@@ -143,7 +143,7 @@ The states of a block are,
 * **lockedBlock** To be mined and added to the blockchain
 * **Part of Chain** Already in the **blockchain**
 
-**[BLOCKCHAIN-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
+**[BLOCKCHAIN-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
 * BLOCKCHAIN
   * **GenesisBlockchain()**
@@ -171,7 +171,7 @@ The states of a block are,
   * **TransactionRequest()**
     _Request to transfer jeffCoins to a jeffCoin Address_
 
-**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
+**[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
 
 * BLOCKCHAIN
   * **loadBlockchain()**
@@ -210,7 +210,8 @@ The states of a block are,
 ### 1.2 TRANSACTIONS
 
 Transaction are at the heart of jeffCoin, allowing the transfer of value (jeffCoins)
-from one address to another.  A transaction request comes from the wallet which holds
+from one jeffCoin Address to another.
+A transaction request comes from the wallet which holds
 the private key. All transaction requests are broadcast to the entire Network
 before it is validated. Each Node does its own Proof of Work (PoW).
 
@@ -237,7 +238,7 @@ type txOutputStruct struct {
 }
 ```
 
-**[TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
+**[TRANSACTION FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
 
 * TRANSACTIONS
   * **transactionRequest()**
@@ -258,14 +259,13 @@ This illustration shows the ledger,
 
 ## 2. MINER
 
-For simplicity,
+The miner section has the following features,
 
 * Miner automatically tells blockchain-interface to place
   currentBlock into lockedBlock
-* We're going to keep the miner internal and not use TCP Server
-* Perform the mining on the lockedBlocked
-* Difficulty is how many zero are needed at the beginning
-* When its solved, broadcast to rest of Network
+* Performs the `mining (poW)` on the lockedBlocked
+* Difficulty is how many zero are needed at the beginning of the hash
+* When block is solved, broadcast block to entire Network to check for `consensus`
 
 **[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-datastructures.go)**
 
@@ -277,13 +277,13 @@ type tbd struct {
 }
 ```
 
-**[MINER-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-interface.go)**
+**[MINER-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-interface.go)**
 
 * MINING
   * **tbd()**
     _tbd_
 
-**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/guts.go)**
+**[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/guts.go)**
 
 * MINING
   * **tbd()**
@@ -293,14 +293,17 @@ type tbd struct {
 
 ## 3. ROUTINGNODE
 
-The Routing Node has two main parts, the nodeList
-and the ability to handle the Node Requests (TCP Server).
+The Routingnode section has two main parts, the nodeList
+and the ability to handle the Node TCP Requests (TCP Server).
+
+The nodeList keeps a listing of all Nodes in the Network.
+The TCP Server handles requests from other Nodes.
 
 ### 3.1 NODELIST
 
 **[ROUTINGNODE-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-datastructures.go)**
 
-A Node in the nodelist is the following go struct,
+A Node in the nodeList is the following go struct,
 
 ```go
 type nodeStruct struct {
@@ -312,7 +315,7 @@ type nodeStruct struct {
 }
 ```
 
-**[ROUTINGNODE-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-interface.go)**
+**[ROUTINGNODE-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-interface.go)**
 
 * NODELIST
   * **GenesisNodeList()**
@@ -338,7 +341,7 @@ type nodeStruct struct {
     _Broadcasts thisNode to the Network_
     * `BROADCAST-ADD-NEW-NODE Request`
 
-**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
+**[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
 
 * NODELIST
   * **loadNodeList()**
@@ -360,7 +363,7 @@ type nodeStruct struct {
   * **checkIfThisNodeinNodeList()**
     _Check if thisNode is already in the nodeList_
 
-### 3.2 REQUESTS & HANDLERS
+### 3.2 TCP REQUESTS & HANDLERS
 
 Incoming requests to the TCP server from other Nodes or TCP connection.
 
@@ -391,9 +394,9 @@ Incoming requests to the TCP server from other Nodes or TCP connection.
 
 ## 4. WALLET
 
-Wallets keep the Public Key, the Private Key and the jeffCoin address.
-Wallets do not have or hold any jeffCoins.  The jeffCoins are in the blockchain
-transactions (ledger).
+The wallet section holds the Public Key, the Private Key and the jeffCoin Address.
+Like bitcoin, wallets do not have or hold any jeffCoins.
+The jeffCoins are in the blockchain transactions (ledger).
 
 **[WALLET-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-datastructures.go)**
 
@@ -407,7 +410,7 @@ type walletStruct struct {
 }
 ```
 
-**[WALLET-INTERFACE](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
+**[WALLET-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
 
 * WALLET
   * **GenesisWallet()**
@@ -430,7 +433,7 @@ type walletStruct struct {
   * **CreateSignature()**
     _Creates a ECDSA Digital Signature_
 
-**[GUTS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
+**[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
 * WALLET
   * **getWallet()**
@@ -459,7 +462,7 @@ type walletStruct struct {
 
 ## 5. WEBSERVER
 
-The Webserver has two main parts, the GUI and the REST API.
+The webserver section has two main parts, the GUI and the REST API.
 
 ### 5.1 GUI
 
@@ -488,7 +491,7 @@ Currently, there is the main page that also lists the available APIs.
 
 ## RUN
 
-If this is you first time running, you need to create the first Node.
+If this is you first time running, you need to create the first Node (Genesis Node).
 You only do this once.
 
 ### GENESIS NODE
@@ -496,18 +499,24 @@ You only do this once.
 ```bash
 go run jeffCoin.go \
        -genesis \
+       -nodename Founders \
        -ip 192.168.20.100 \
        -webport 1234 \
        -tcpport 3334
 ```
 
-### NEW NODES
+This will created the founders node.
 
-Then all other Nodes, you do something like this to hook
-up to the Network.  You need the ip of any working Network Node,
+### ADDING NEW NODES
+
+To hook up to the Network.  You need the ip of any
+working Network Node.
+
+Adding a second node in the network can look like,
 
 ```bash
 go run jeffCoin.go \
+       -nodename Jeffry \
        -ip 192.168.20.100 \
        -webport 1235 \
        -tcpport 3335 \
@@ -515,8 +524,11 @@ go run jeffCoin.go \
        -netport 3334
 ```
 
+Adding a third Node,
+
 ```bash
 go run jeffCoin.go \
+       -nodename Larry \
        -ip 192.168.20.100 \
        -webport 1236 \
        -tcpport 3336 \
@@ -524,20 +536,15 @@ go run jeffCoin.go \
        -netport 3335
 ```
 
-```bash
-go run jeffCoin.go \
-       -ip 192.168.20.100 \
-       -webport 1237 \
-       -tcpport 3337 \
-       -netip 192.168.20.100 \
-       -netport 3336
-```
-
 ### WEBSERVER AND API
 
-The user GUI,
+The user GUI for all 3 Nodes,
 
-[192.168.20.100:1234/](http://192.168.20.100:1234/)
+[192.168.20.100:1234](http://192.168.20.100:1234/)
+
+[192.168.20.100:1235](http://192.168.20.100:1235/)
+
+[192.168.20.100:1236](http://192.168.20.100:1236/)
 
 You could also use curl from the command line,
 
@@ -547,7 +554,7 @@ curl 192.168.20.100:1234
 
 The main page will list the various API commands.
 
-For example, show a Particular Block,
+For example, to show a particular block,
 
 [192.168.20.100:1234//showblock/0](http://192.168.20.100:1234/showblock/0)
 

@@ -37,7 +37,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	thisNode := routingnode.GetThisNode()
 
 	htmlTemplateData := htmlData{
-		UserName: "John Smith",
+		UserName: thisNode.NodeName,
 		IP:       thisNode.IP,
 		Port:     thisNode.Port,
 	}

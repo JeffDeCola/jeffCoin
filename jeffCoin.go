@@ -5,8 +5,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net"
-	"net/http"
 	"os"
 	"time"
 
@@ -23,50 +21,13 @@ const (
 )
 
 var genesisPtr *bool
-var nodeIPPtr, nodeWebPortPtr, nodeTCPPortPtr *string
+var nodeNamePtr, nodeIPPtr, nodeWebPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
 func checkErr(err error) {
 	if err != nil {
 		fmt.Printf("Error is %+v\n", err)
 		log.Fatal("ERROR:", err)
-	}
-}
-
-// startWebServer - Start the WebServer
-func startWebServer(nodeIP string, nodeWebPort string) {
-
-	s := "Web Server listening on " + nodeIP + ":" + nodeWebPort
-	log.Debug("jeffCoin                   " + s)
-
-	// CREATE ROUTER
-	myRouter := webserver.JeffsRouter()
-
-	// LISTEN ON IP AND PORT
-	log.Fatal(http.ListenAndServe(nodeIP+":"+nodeWebPort, myRouter))
-
-}
-
-// startRoutingNode - Start the Routing Node (TCP Server)
-func startRoutingNode(nodeIP string, nodeTCPPort string) {
-
-	s := "TCP Server listening on " + nodeIP + ":" + nodeTCPPort
-	log.Debug("jeffCoin                   " + s)
-
-	// LISTEN ON IP AND PORT
-	server, err := net.Listen("tcp", nodeIP+":"+nodeTCPPort)
-	checkErr(err)
-	defer server.Close()
-
-	// CREATE A CONNECTION FOR EACH REQUEST
-	// Serve connections concurrently
-	for {
-
-		// Wait for a connection request
-		conn, err := server.Accept()
-		checkErr(err)
-
-		go routingnode.HandleRequest(conn)
 	}
 }
 
@@ -107,6 +68,8 @@ func init() {
 	networkIPPtr = flag.String("netip", "192.169.20.100", "Network IP")
 	// NETWORK NODE TCP PORT
 	networkTCPPortPtr = flag.String("netport", "3333", "Network TCP Port")
+	// NODE NAME
+	nodeNamePtr = flag.String("nodename", "Monkey", "Node Name")
 	// Parse the flags
 	flag.Parse()
 
@@ -120,20 +83,20 @@ func init() {
 
 func main() {
 
-	fmt.Printf("\nSTARTING...\n")
+	fmt.Printf("\nSTART...\n")
 	fmt.Printf("Press return to exit\n")
 
-	// START WEBSERVER
-	go startWebServer(*nodeIPPtr, *nodeWebPortPtr)
+	// START WEBSERVER (HTTP SERVER)
+	go webserver.StartHTTPServer(*nodeIPPtr, *nodeWebPortPtr)
 
 	// START ROUTING NODE (TCP SERVER)
-	go startRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
+	go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// GIVE IT A SECOND
 	time.Sleep(2 * time.Second)
 
 	// LOAD thisNode
-	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr)
+	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr, *nodeNamePtr)
 
 	// GENESIS wallet
 	JeffCoinAddress := wallet.GenesisWallet()

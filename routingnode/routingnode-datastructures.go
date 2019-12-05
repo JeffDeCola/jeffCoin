@@ -8,7 +8,8 @@ package routingnode
 type nodeStruct struct {
 	Index     int    `json:"index"`
 	Status    string `json:"status"`
-	Timestamp string `json:"timestamp"`
+    Timestamp string `json:"timestamp"`
+    NodeName  string `json:"nodename"`
 	IP        string `json:"ip"`
 	Port      string `json:"port"`
 }
