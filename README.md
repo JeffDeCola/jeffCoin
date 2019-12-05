@@ -307,11 +307,14 @@ A Node in the nodeList is the following go struct,
 
 ```go
 type nodeStruct struct {
-    Index     int    `json:"index"`
-    Status    string `json:"status"`
-    Timestamp string `json:"timestamp"`
-    IP        string `json:"ip"`
-    Port      string `json:"port"`
+    Index       int    `json:"index"`
+    Status      string `json:"status"`
+    Timestamp   string `json:"timestamp"`
+    NodeName    string `json:"nodename"`
+    ToolVersion string `json:"toolversion"`
+    IP          string `json:"ip"`
+    HTTPPort    string `json:"httpport"`
+    TCPPort     string `json:"tcpport"`
 }
 ```
 
