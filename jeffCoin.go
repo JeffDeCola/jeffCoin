@@ -17,11 +17,11 @@ import (
 )
 
 const (
-	toolVersion = "1.1.0"
+	toolVersion = "1.2.0"
 )
 
 var genesisPtr *bool
-var nodeNamePtr, nodeIPPtr, nodeWebPortPtr, nodeTCPPortPtr *string
+var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
 func checkErr(err error) {
@@ -43,10 +43,6 @@ func masterFlowControl(genesis bool) {
 
 func init() {
 
-	// SET LOG LEVEL
-	// log.SetLevel(log.InfoLevel)
-	log.SetLevel(log.TraceLevel)
-
 	// SET FORMAT
 	log.SetFormatter(&log.TextFormatter{})
 	// log.SetFormatter(&log.JSONFormatter{})
@@ -58,10 +54,12 @@ func init() {
 	versionPtr := flag.Bool("v", false, "prints current version")
 	// CREATE FIRST NODE (GENISIS)
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
+	// LOG LEVEL
+	logLevelPtr := flag.String("loglevel", "trace", "LogLevel (trace or info)")
 	// YOUR IP
 	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
-	nodeWebPortPtr = flag.String("webport", "1234", "Node Web Port")
+	nodeHTTPPortPtr = flag.String("httpport", "1234", "Node Web Port")
 	// YOUR TCP PORT
 	nodeTCPPortPtr = flag.String("tcpport", "3333", "Node TCP Port")
 	// NETWORK NODE IP
@@ -72,6 +70,16 @@ func init() {
 	nodeNamePtr = flag.String("nodename", "Monkey", "Node Name")
 	// Parse the flags
 	flag.Parse()
+
+	// SET LOG LEVEL
+	if *logLevelPtr == "trace" {
+		log.SetLevel(log.TraceLevel)
+	} else if *logLevelPtr == "info" {
+		log.SetLevel(log.InfoLevel)
+	} else {
+		log.Error("Error setting log levels")
+		os.Exit(0)
+	}
 
 	// CHECK VERSION
 	if *versionPtr {
@@ -84,21 +92,26 @@ func init() {
 func main() {
 
 	fmt.Printf("\nSTART...\n")
-	fmt.Printf("Press return to exit\n")
+	fmt.Printf("Press return to exit\n\n")
 
-	// START WEBSERVER (HTTP SERVER)
-	go webserver.StartHTTPServer(*nodeIPPtr, *nodeWebPortPtr)
+	s := "START WEBSERVER (HTTP SERVER)"
+	log.Info("MAIN:                      " + s)
+	go webserver.StartHTTPServer(*nodeIPPtr, *nodeHTTPPortPtr)
 
-	// START ROUTING NODE (TCP SERVER)
+	s = "START ROUTING NODE (TCP SERVER)"
+	log.Info("MAIN:                      " + s)
 	go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
 
 	// GIVE IT A SECOND
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 
-	// LOAD thisNode
-	routingnode.LoadThisNode(*nodeIPPtr, *nodeTCPPortPtr, *nodeNamePtr)
+	s = "LOAD thisNode"
+	log.Info("MAIN:                      " + s)
+	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
+	time.Sleep(100000 * time.Minute)
 
-	// GENESIS wallet
+	s = "GENESIS wallet"
+	log.Info("MAIN:                      " + s)
 	JeffCoinAddress := wallet.GenesisWallet()
 
 	// IS THIS GENESIS?

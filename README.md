@@ -492,16 +492,18 @@ Currently, there is the main page that also lists the available APIs.
 ## RUN
 
 If this is you first time running, you need to create the first Node (Genesis Node).
-You only do this once.
+You only do this once. You can set the log level to info to cut down on the amount
+of logs.
 
 ### GENESIS NODE
 
 ```bash
 go run jeffCoin.go \
+       -loglevel trace \
        -genesis \
        -nodename Founders \
        -ip 192.168.20.100 \
-       -webport 1234 \
+       -httpport 1234 \
        -tcpport 3334
 ```
 
@@ -516,9 +518,10 @@ Adding a second node in the network can look like,
 
 ```bash
 go run jeffCoin.go \
+       -loglevel trace \
        -nodename Jeffry \
        -ip 192.168.20.100 \
-       -webport 1235 \
+       -httpport 1235 \
        -tcpport 3335 \
        -netip 192.168.20.100 \
        -netport 3334
@@ -528,9 +531,10 @@ Adding a third Node,
 
 ```bash
 go run jeffCoin.go \
+       -loglevel trace \
        -nodename Larry \
        -ip 192.168.20.100 \
-       -webport 1236 \
+       -httpport 1236 \
        -tcpport 3336 \
        -netip 192.168.20.100 \
        -netport 3335
