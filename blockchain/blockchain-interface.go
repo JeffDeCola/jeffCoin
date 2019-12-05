@@ -15,6 +15,21 @@ import (
 
 // BLOCKCHAIN ************************************************************************************************************
 
+// GetBlockchain - Gets the blockchain
+func GetBlockchain() blockchainSlice {
+
+	s := "START: GetBlockchain() - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	theBlockchain := getBlockchain()
+
+	s = "END:   GetBlockchain() - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F    " + s)
+
+	return theBlockchain
+
+}
+
 // GenesisBlockchain - Creates the blockchain
 func GenesisBlockchain(transaction string, difficulty int) {
 
@@ -92,21 +107,6 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return nil
-
-}
-
-// GetBlockchain - Gets the blockchain
-func GetBlockchain() blockchainSlice {
-
-	s := "START: GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	theBlockchain := getBlockchain()
-
-	s = "END:   GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
-
-	return theBlockchain
 
 }
 

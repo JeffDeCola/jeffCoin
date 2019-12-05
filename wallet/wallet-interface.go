@@ -18,6 +18,21 @@ import (
 
 // WALLET ****************************************************************************************************************
 
+// GetWallet - Gets the wallet
+func GetWallet() walletStruct {
+
+	s := "START  GetWallet() - Gets the wallet"
+	log.Trace("WALLET:      I/F    " + s)
+
+	theWallet := getWallet()
+
+	s = "END    GetWallet() - Gets the wallet"
+	log.Trace("WALLET:      I/F    " + s)
+
+	return theWallet
+
+}
+
 // GenesisWallet - Creates the wallet (Keys and jeffCoin Address)
 func GenesisWallet() string {
 
@@ -34,21 +49,6 @@ func GenesisWallet() string {
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theWallet.JeffCoinAddress
-}
-
-// GetWallet - Gets the wallet
-func GetWallet() walletStruct {
-
-	s := "START  GetWallet() - Gets the wallet"
-	log.Trace("WALLET:      I/F    " + s)
-
-	theWallet := getWallet()
-
-	s = "END    GetWallet() - Gets the wallet"
-	log.Trace("WALLET:      I/F    " + s)
-
-	return theWallet
-
 }
 
 // KEYS ******************************************************************************************************************
