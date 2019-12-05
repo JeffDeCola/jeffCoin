@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title> Welcome to jeffCoin {{.UserName}}</title>
+        <title> Welcome to jeffCoin {{.NodeName}}</title>
         <link rel="stylesheet" type="text/css" href="css/mystyles.css">
     </head>
     <body>
-        <h1> Welcome to jeffCoin {{.UserName}} </h1>
-        <p> ({{.IP}}:{{.Port}}) </p>
+        <h1> Welcome to jeffCoin {{.NodeName}} </h1>
+        <h4> Version: {{.ToolVersion}} </h4>
+        <h4> {{.IP}}:{{.HTTPPort}} (Using TCP Port {{.TCPPort}})</h4>
         <br/>
         <h2> API REST COMMANDS: </h2>
         <h2>BLOCKCHAIN</h2>

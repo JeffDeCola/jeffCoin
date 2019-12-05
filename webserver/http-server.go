@@ -14,7 +14,7 @@ import (
 func StartHTTPServer(nodeIP string, nodeWebPort string) {
 
 	s := "HTTP Server listening on " + nodeIP + ":" + nodeWebPort
-	log.Debug("jeffCoin                   " + s)
+	log.Info("WEBSERVER:                 " + s)
 
 	// CREATE ROUTER
 	myRouter := JeffsRouter()

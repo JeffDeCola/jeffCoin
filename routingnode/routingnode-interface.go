@@ -131,15 +131,19 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 // THISNODE **************************************************************************************************************
 
 // LoadThisNode - Loads thisNode
-func LoadThisNode(ip string, tcpPort string, nodeName string) {
+func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
 	s := "START: LoadThisNode - Loads thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
-	loadThisNode(ip, tcpPort, nodeName)
+	loadThisNode(ip, httpPort, tcpPort, nodeName, toolVersion)
+
+	fmt.Printf("\nCongrats, you created your thisNode:\n\n")
+	js, _ := json.MarshalIndent(thisNode, "", "    ")
+	fmt.Printf("%v\n\n", string(js))
 
 	s = "END:   LoadThisNode - Loads thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
 }
 
@@ -147,12 +151,12 @@ func LoadThisNode(ip string, tcpPort string, nodeName string) {
 func GetThisNode() nodeStruct {
 
 	s := "START: GetThisNode - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	theNode := getThisNode()
 
 	s = "END:   GetThisNode - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return theNode
 }
@@ -161,7 +165,7 @@ func GetThisNode() nodeStruct {
 func AppendThisNode() {
 
 	s := "START: AppendThisNode - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// DO YOU ALREADY HAVE thisNode IN THE nodeList?
 	if !checkIfThisNodeinNodeList() {
@@ -171,7 +175,7 @@ func AppendThisNode() {
 	}
 
 	s = "END:   AppendThisNode - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
+	log.Trace("ROUTINGNODE: I/F    " + s)
 
 }
 
@@ -197,7 +201,7 @@ func BroadcastThisNode() error {
 	for _, item := range theNodeList {
 
 		networkIP := item.IP
-		networkTCPPort := item.Port
+		networkTCPPort := item.TCPPort
 
 		// SETUP THE CONNECTION
 		conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)

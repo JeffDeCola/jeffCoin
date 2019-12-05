@@ -19,9 +19,11 @@ import (
 )
 
 type htmlData struct {
-	UserName string
-	IP       string
-	Port     string
+	ToolVersion string
+	NodeName    string
+	IP          string
+	HTTPPort    string
+	TCPPort     string
 }
 
 // indexHandler - GET: /
@@ -37,9 +39,11 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	thisNode := routingnode.GetThisNode()
 
 	htmlTemplateData := htmlData{
-		UserName: thisNode.NodeName,
-		IP:       thisNode.IP,
-		Port:     thisNode.Port,
+		NodeName:    thisNode.NodeName,
+		ToolVersion: thisNode.ToolVersion,
+		IP:          thisNode.IP,
+		HTTPPort:    thisNode.HTTPPort,
+		TCPPort:     thisNode.TCPPort,
 	}
 
 	// Merge data and execute
@@ -276,7 +280,7 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
 	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.Port
+	nodeTCPPort := thisNode.TCPPort
 
 	// GET jeffCoinAddress from wallet
 	gotWallet := wallet.GetWallet()
@@ -311,7 +315,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
 	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.Port
+	nodeTCPPort := thisNode.TCPPort
 
 	// GET wallet
 	gotWallet := wallet.GetWallet()
