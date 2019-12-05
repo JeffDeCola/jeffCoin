@@ -23,8 +23,11 @@ type Message struct {
 	Data string `json:"data"`
 }
 
-// JeffsRouter is the router
+// JeffsRouter - The router
 func JeffsRouter() *mux.Router {
+
+	s := "START  JeffsRouter() - The router"
+	log.Trace("WEBSERVER:   ROUTER " + s)
 
 	// MAKE ROUTER
 	router := mux.NewRouter().StrictSlash(true)
@@ -47,5 +50,9 @@ func JeffsRouter() *mux.Router {
 
 	// ADD THE CSS DIRECTORY - TOOK ME FOREVER TO FIGURE THIS OUT
 	router.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("webserver/css"))))
+
+	s = "END    JeffsRouter() - The router"
+	log.Trace("WEBSERVER:   ROUTER " + s)
+
 	return router
 }

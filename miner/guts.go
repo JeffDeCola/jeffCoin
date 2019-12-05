@@ -24,7 +24,7 @@ func checkErr(err error) {
 // mine - tbd
 func mine() {
 
-	s := "START: mine - tbd"
+	s := "START  mine() - tbd"
 	log.Trace("MINER:       GUTS   " + s)
 
 	// GET THE LOCKED BLOCK
@@ -41,7 +41,7 @@ func mine() {
 	fmt.Println("The nonce is", nonce)
 	fmt.Println("The hash is", hash)
 
-	s = "END:   mine - tbd"
+	s = "END    mine() - tbd"
 	log.Trace("MINER:       GUTS   " + s)
 
 }
@@ -49,7 +49,7 @@ func mine() {
 // Run - tbd
 func (pow *ProofOfWork) Run() (int, []byte) {
 
-	s := "START: pow - tbd"
+	s := "START  Run() - tbd"
 	log.Trace("MINER:       GUTS   " + s)
 
 	var hashInt big.Int
@@ -71,7 +71,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	}
 	fmt.Print("\n\n")
 
-	s = "END:   pow - tbd"
+	s = "END    Run() - tbd"
 	log.Trace("MINER:       GUTS   " + s)
 
 	return nonce, hash[:]

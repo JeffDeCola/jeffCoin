@@ -13,8 +13,11 @@ import (
 // StartHTTPServer - Start the WebServer
 func StartHTTPServer(nodeIP string, nodeWebPort string) {
 
-	s := "HTTP Server listening on " + nodeIP + ":" + nodeWebPort
-	log.Info("WEBSERVER:                 " + s)
+	s := "START  StartHTTPServer() - Start the WebServer"
+	log.Trace("WEBSERVER:   SERVER " + s)
+
+	s = "HTTP Server listening on " + nodeIP + ":" + nodeWebPort
+	log.Info("WEBSERVER:   SERVER        " + s)
 
 	// CREATE ROUTER
 	myRouter := JeffsRouter()

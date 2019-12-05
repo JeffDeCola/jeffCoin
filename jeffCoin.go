@@ -94,10 +94,15 @@ func main() {
 	fmt.Printf("\nSTART...\n")
 	fmt.Printf("Press return to exit\n\n")
 
+	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
 	log.Info("MAIN:                      " + s)
 	go webserver.StartHTTPServer(*nodeIPPtr, *nodeHTTPPortPtr)
 
+	// GIVE IT A SECOND
+	time.Sleep(1 * time.Second)
+
+	// START ROUTING NODE (TCP SERVER)
 	s = "START ROUTING NODE (TCP SERVER)"
 	log.Info("MAIN:                      " + s)
 	go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
@@ -105,16 +110,17 @@ func main() {
 	// GIVE IT A SECOND
 	time.Sleep(1 * time.Second)
 
+	// LOAD thisNode
 	s = "LOAD thisNode"
 	log.Info("MAIN:                      " + s)
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
-	time.Sleep(100000 * time.Minute)
 
-	s = "GENESIS wallet"
+	// GENESIS wallet (Keys and jeffCoin Address)
+	s = "GENESIS wallet (Keys and jeffCoin Address)"
 	log.Info("MAIN:                      " + s)
 	JeffCoinAddress := wallet.GenesisWallet()
 
-	// IS THIS GENESIS?
+	// IF THIS IS GENESIS - GENESIS THE BLOCKCHAIN
 	if *genesisPtr {
 
 		// GENESIS blockchain
@@ -131,14 +137,20 @@ func main() {
             "outputs": [
                 {
                     "jeffCoinAddress": "` + JeffCoinAddress + `",
-                    "value": 1000
+                    "value": 100000
                 }
             ]
         }`
 		difficulty := 8
+		s = "GENESIS blockchain"
+		log.Info("MAIN:                      " + s)
 		blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
+		time.Sleep(100000 * time.Minute)
+
 		// GENESIS nodeList
+		s = "GENESIS nodeList"
+		log.Info("MAIN:                      " + s)
 		routingnode.GenesisNodeList()
 
 	} else {

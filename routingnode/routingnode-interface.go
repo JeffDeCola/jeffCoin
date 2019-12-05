@@ -18,7 +18,7 @@ import (
 // GenesisNodeList - Creates the nodeList
 func GenesisNodeList() {
 
-	s := "START: GenesisNodeList - Creates the nodeList"
+	s := "START  GenesisNodeList() - Creates the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	thisNode := appendThisNode()
@@ -27,7 +27,7 @@ func GenesisNodeList() {
 	js, _ := json.MarshalIndent(thisNode, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   GenesisNodeList - Creates the nodeList"
+	s = "END    GenesisNodeList() - Creates the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 }
@@ -35,7 +35,7 @@ func GenesisNodeList() {
 // LoadNodeList -  Receives the nodeList from a Network Node
 func LoadNodeList(networkIP string, networkTCPPort string) error {
 
-	s := "START: LoadNewNode -  Receives the nodeList from a Network Node"
+	s := "START  LoadNewNode() -  Receives the nodeList from a Network Node"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -73,7 +73,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   LoadNodeList -  Receives the nodeList from a Network Node"
+	s = "END    LoadNodeList() -  Receives the nodeList from a Network Node"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return nil
@@ -83,12 +83,12 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 // GetNodeList -  Gets the nodeList
 func GetNodeList() nodeSlice {
 
-	s := "START: GetNodeList -  Gets the nodeList"
+	s := "START  GetNodeList() -  Gets the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	theNodeList := getNodeList()
 
-	s = "END:   GetNodeList -  Gets the nodeList"
+	s = "END    GetNodeList() -  Gets the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return theNodeList
@@ -100,13 +100,13 @@ func GetNodeList() nodeSlice {
 // GetNode - Gets a Node (via Index number) from the nodeList
 func GetNode(id string) nodeStruct {
 
-	s := "START: GetNode - Gets a Node (via Index number) from the nodeList"
+	s := "START  GetNode() - Gets a Node (via Index number) from the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	theNode := getNode(id)
 
 	// RETURN NOT FOUND
-	s = "END:   GetNode - Gets a Node (via Index number) from the nodeList"
+	s = "END    GetNode() - Gets a Node (via Index number) from the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return theNode
@@ -116,12 +116,12 @@ func GetNode(id string) nodeStruct {
 // AppendNewNode - Appends a new Node to the nodeList
 func AppendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START: AppendNode - Appends a new Node to the nodeList"
+	s := "START  AppendNode() - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	newNode := appendNewNode(messageNewNode)
 
-	s = "END:   AppendNewNode - Appends a new Node to the nodeList"
+	s = "END    AppendNewNode() - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return newNode
@@ -133,7 +133,7 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 // LoadThisNode - Loads thisNode
 func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
-	s := "START: LoadThisNode - Loads thisNode"
+	s := "START  LoadThisNode() - Loads thisNode"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	loadThisNode(ip, httpPort, tcpPort, nodeName, toolVersion)
@@ -142,7 +142,7 @@ func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 	js, _ := json.MarshalIndent(thisNode, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   LoadThisNode - Loads thisNode"
+	s = "END    LoadThisNode() - Loads thisNode"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 }
@@ -150,12 +150,12 @@ func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 // GetThisNode - Gets thisNode
 func GetThisNode() nodeStruct {
 
-	s := "START: GetThisNode - Gets thisNode"
+	s := "START  GetThisNode() - Gets thisNode"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	theNode := getThisNode()
 
-	s = "END:   GetThisNode - Gets thisNode"
+	s = "END    GetThisNode() - Gets thisNode"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return theNode
@@ -164,7 +164,7 @@ func GetThisNode() nodeStruct {
 // AppendThisNode - Appends thisNode to the nodeList
 func AppendThisNode() {
 
-	s := "START: AppendThisNode - Appends thisNode to the nodeList"
+	s := "START  AppendThisNode() - Appends thisNode to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// DO YOU ALREADY HAVE thisNode IN THE nodeList?
@@ -174,7 +174,7 @@ func AppendThisNode() {
 
 	}
 
-	s = "END:   AppendThisNode - Appends thisNode to the nodeList"
+	s = "END    AppendThisNode() - Appends thisNode to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 }
@@ -182,13 +182,13 @@ func AppendThisNode() {
 // BroadcastThisNode - Broadcasts thisNode to the Network
 func BroadcastThisNode() error {
 
-	s := "START: BroadcastThisNode - Broadcasts thisNode to the Network"
+	s := "START  BroadcastThisNode() - Broadcasts thisNode to the Network"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// DO YOU ALREADY HAVE thisNode IN THE nodeList?
 	if checkIfThisNodeinNodeList() {
 
-		s = "END:   BroadcastThisNode - Broadcasts thisNode to the Network"
+		s = "END    BroadcastThisNode() - Broadcasts thisNode to the Network"
 		log.Trace("ROUTINGNODE: I/F    " + s)
 
 		return nil
@@ -258,7 +258,7 @@ func BroadcastThisNode() error {
 
 	}
 
-	s = "END:   BroadcastThisNode - Broadcasts thisNode to the Network"
+	s = "END    BroadcastThisNode() - Broadcasts thisNode to the Network"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return nil

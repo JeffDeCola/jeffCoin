@@ -99,6 +99,7 @@ func HandleRequest(conn net.Conn) {
 	}
 }
 
+//returnMessage - Returns message
 func returnMessage(s string, rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: REQ           " + s)
 	_, err := rw.WriteString("--- " + s + "\n")

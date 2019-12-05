@@ -18,10 +18,10 @@ import (
 
 // WALLET ****************************************************************************************************************
 
-// GenesisWallet - Creates the wallet
+// GenesisWallet - Creates the wallet (Keys and jeffCoin Address)
 func GenesisWallet() string {
 
-	s := "START: GenesisWallet - Creates the wallet"
+	s := "START  GenesisWallet() - Creates the wallet (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      I/F    " + s)
 
 	theWallet := makeWallet()
@@ -30,7 +30,7 @@ func GenesisWallet() string {
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   GenesisWallet - Creates the wallet"
+	s = "END    GenesisWallet() - Creates the wallet (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theWallet.JeffCoinAddress
@@ -39,12 +39,12 @@ func GenesisWallet() string {
 // GetWallet - Gets the wallet
 func GetWallet() walletStruct {
 
-	s := "START: GetWallet - Gets the wallet"
+	s := "START  GetWallet() - Gets the wallet"
 	log.Trace("WALLET:      I/F    " + s)
 
 	theWallet := getWallet()
 
-	s = "END:   GetWallet - Gets the wallet"
+	s = "END    GetWallet() - Gets the wallet"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theWallet
@@ -56,12 +56,12 @@ func GetWallet() walletStruct {
 // EncodeKeys - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex
 func EncodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) (string, string) {
 
-	s := "START: EncodeKeys - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
+	s := "START  EncodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
 	log.Trace("WALLET:      I/F    " + s)
 
 	privateKeyHex, publicKeyHex := encodeKeys(privateKeyRaw, publicKeyRaw)
 
-	s = "END:   EncodeKeys - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
+	s = "END    EncodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return privateKeyHex, publicKeyHex
@@ -71,12 +71,12 @@ func EncodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) 
 // DecodeKeys - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw
 func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *ecdsa.PublicKey) {
 
-	s := "START: DecodeKeys - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
+	s := "START  DecodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
 	log.Trace("WALLET:      I/F    " + s)
 
 	privateKeyRaw, publicKeyRaw := decodeKeys(privateKeyHex, publicKeyHex)
 
-	s = "END:   DecodeKeys - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
+	s = "END    DecodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return privateKeyRaw, publicKeyRaw
@@ -88,7 +88,7 @@ func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 // GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address
 func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
 
-	s := "START: GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address"
+	s := "START  GetAddressBalance() - Gets the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -138,7 +138,7 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address"
+	s = "END    GetAddressBalance() - Gets the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theBalance, nil
@@ -148,7 +148,7 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 // TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMessageSigned string) (string, error) {
 
-	s := "START: TransactionRequest - Request to transfer Coins to a jeffCoin Address"
+	s := "START  TransactionRequest() - Request to transfer Coins to a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -198,7 +198,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   TransactionRequest - Request to transfer Coins to a jeffCoin Address"
+	s = "END    TransactionRequest() - Request to transfer Coins to a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return status, nil
@@ -210,12 +210,12 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 // CreateSignature - Creates a ECDSA Digital Signature
 func CreateSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
 
-	s := "START: CreateSignature - Creates a ECDSA Digital Signature"
+	s := "START  CreateSignature() - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F    " + s)
 
 	signature := createSignature(senderPrivateKeyRaw, plainText)
 
-	s = "END:   CreateSignature - Creates a ECDSA Digital Signature"
+	s = "END    CreateSignature() - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return signature

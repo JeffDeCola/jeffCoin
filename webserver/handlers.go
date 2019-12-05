@@ -29,7 +29,7 @@ type htmlData struct {
 // indexHandler - GET: /
 func indexHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: indexHandler - GET: /"
+	s := "START  indexHandler() - GET: /"
 	log.Trace("WEBSERVER:          " + s)
 
 	t, err := template.ParseFiles("webserver/index.html")
@@ -50,7 +50,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	err = t.Execute(res, htmlTemplateData)
 	checkErr(err)
 
-	s = "END:   indexHandler - GET: /"
+	s = "END    indexHandler() - GET: /"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -67,7 +67,7 @@ func respondMessage(s string, res http.ResponseWriter) {
 // showBlockchainHandler - GET: /showblockchain
 func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showBlockchainHandler - GET: /showblockchain"
+	s := "START  showBlockchainHandler() - GET: /showblockchain"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -81,7 +81,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 	log.Info("WEBSERVER:                 " + "Blockchain too long, not shown")
 	io.WriteString(res, s+"\n")
 
-	s = "END:   showBlockchainHandler - GET: /showblockchain"
+	s = "END    showBlockchainHandler() - GET: /showblockchain"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -89,7 +89,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 // showBlockHandler - GET: /showblock/{blockID}
 func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showBlockHandler - GET: /showblock/{blockID}"
+	s := "START  showBlockHandler() - GET: /showblock/{blockID}"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -106,7 +106,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showBlockHandler - GET: /showblock/{blockID}"
+	s = "END    showBlockHandler() - GET: /showblock/{blockID}"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -114,7 +114,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 // showLockedBlockHandler - GET: /showlockedblock
 func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showLockedBlockHandler - GET: /showlockedblock"
+	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -127,7 +127,7 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showLockedBlockHandler - GET: /showlockedblock"
+	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -135,7 +135,7 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 // showCurrentBlockHandler - GET: /showcurrentblock
 func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showCurrentBlockHandler - GET: /showcurrentblock"
+	s := "START  showCurrentBlockHandler() - GET: /showcurrentblock"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -148,7 +148,7 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showCurrentBlockHandler - GET: /showcurrentblock"
+	s = "END    showCurrentBlockHandler() - GET: /showcurrentblock"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -158,7 +158,7 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 // showNodeListHandler - GET: /shownodelist
 func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showNodeListHandler - GET: /shownodelist"
+	s := "START  showNodeListHandler() - GET: /shownodelist"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -172,7 +172,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	log.Trace("WEBSERVER:                 " + "NodeList too long, not shown")
 	io.WriteString(res, s+"\n")
 
-	s = "END:   showNodeListHandler - GET: /shownodelist"
+	s = "END    showNodeListHandler() - GET: /shownodelist"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -180,7 +180,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 // showNodeHandler - GET: /shownode/{nodeID}
 func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showNodeHandler - GET: /shownode/{nodeID}"
+	s := "START  showNodeHandler() - GET: /shownode/{nodeID}"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -197,7 +197,7 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showNodeHandler - GET: /shownode/{nodeID}"
+	s = "END    showNodeHandler() - GET: /shownode/{nodeID}"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -205,7 +205,7 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 // showThisNodeHandler - GET: /showthisnode
 func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showThisNodeHandler - GET: /showthisnode"
+	s := "START  showThisNodeHandler() - GET: /showthisnode"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -218,7 +218,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showThisNodeHandler - GET: /showthisnode"
+	s = "END    showThisNodeHandler() - GET: /showthisnode"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -228,7 +228,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 // showWalletHandler - GET: /showwallet
 func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showWalletHandler - GET: /showwallet"
+	s := "START  showWalletHandler() - GET: /showwallet"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -241,7 +241,7 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 	s = string(js)
 	respondMessage(s, res)
 
-	s = "END:   showWalletHandler - GET: /showwallet"
+	s = "END    showWalletHandler() - GET: /showwallet"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -249,7 +249,7 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 // showJeffCoinAddressHandler - GET: /showjeffcoinaddress
 func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
+	s := "START  showJeffCoinAddressHandler() - GET: /showjeffcoinaddress"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -264,7 +264,7 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	s = jeffCoinAddress
 	respondMessage(s, res)
 
-	s = "END:   showJeffCoinAddressHandler - GET: /showjeffcoinaddress"
+	s = "END    showJeffCoinAddressHandler() - GET: /showjeffcoinaddress"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -272,7 +272,7 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 // showAddressBalanceHandler - GET: /showaddressbalance
 func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: showAddressBalanceHandler - GET: /showaddressbalance"
+	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -294,7 +294,7 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	s = gotAddressBalance
 	respondMessage(s, res)
 
-	s = "END:   showAddressBalanceHandler - GET: /showaddressbalance"
+	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance"
 	log.Trace("WEBSERVER:          " + s)
 
 }
@@ -302,7 +302,7 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 // transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}
 func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
-	s := "START: transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}"
+	s := "START  transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -363,7 +363,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	s = status
 	respondMessage(s, res)
 
-	s = "END:   transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}"
+	s = "END    transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Trace("WEBSERVER:          " + s)
 
 }
