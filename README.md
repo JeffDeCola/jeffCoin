@@ -146,13 +146,13 @@ The states of a block are,
 **[BLOCKCHAIN-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
 * BLOCKCHAIN
+  * **GetBlockchain()**
+    _Gets the blockchain_
   * **GenesisBlockchain()**
     _Creates the blockchain_
   * **LoadBlockchain()**
     _Receives the blockchain and the currentBlock from a Network Node_
     * `SEND-BLOCKCHAIN Request`
-  * **GetBlockchain()**
-    _Gets the blockchain_
 * BLOCK
   * **GetBlock()**
     _Gets a block (via Index number) from the blockchain_
@@ -174,10 +174,10 @@ The states of a block are,
 **[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
 
 * BLOCKCHAIN
-  * **loadBlockchain()**
-    _Loads the entire blockchain_
   * **getBlockchain()**
     _Gets the blockchain_
+  * **loadBlockchain()**
+    _Loads the entire blockchain_
   * **replaceBlockchain()**
     _Replaces blockchain with the longer one_
 * BLOCK
@@ -193,12 +193,12 @@ The states of a block are,
   * **appendLockedBlock()**
     _Appends the lockedBlock to the blockchain_
 * CURRENT BLOCK
+  * **getCurrentBlock()**
+    _Gets the currentBlock_
   * **loadCurrentBlock()**
     _Loads the currentBlock_
   * **resetCurrentBlock()**
     _Resets the currentBlock_
-  * **getCurrentBlock()**
-    _Gets the currentBlock_
   * **addTransactionToCurrentBlock()**
     _Adds a transaction to the currentBlock_
   * **lockCurrentBlock()**
@@ -321,23 +321,23 @@ type nodeStruct struct {
 **[ROUTINGNODE-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/routingnode-interface.go)**
 
 * NODELIST
+  * **GetNodeList()**
+    _Gets the nodeList_
   * **GenesisNodeList()**
     _Creates the nodeList_
   * **LoadNodeList()**
     _Receives the nodeList from a Network Node_
     * `SEND-NODELIST Request`
-  * **GetNodeList()**
-    _Gets the nodeList_
 * NODE
   * **GetNode()**
     _Gets a Node (via Index number) from the nodeList_
   * **AppendNewNode()**
     _Appends a new Node to the nodeList_
 * THIS NODE
-  * **LoadThisNode()**
-    _Loads thisNode_
   * **GetThisNode()**
     _Gets thisNode_
+  * **LoadThisNode()**
+    _Loads thisNode_
   * **AppendThisNode()**
     _Appends thisNode to the nodeList_
   * **BroadcastThisNode()**
@@ -347,10 +347,10 @@ type nodeStruct struct {
 **[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/guts.go)**
 
 * NODELIST
-  * **loadNodeList()**
-    _Loads the entire nodeList_
   * **getNodeList()**
     _Gets the nodeList_
+  * **loadNodeList()**
+    _Loads the entire nodeList_
 * NODE
   * **getNode()**
     _Gets a Node in the nodeList_
@@ -416,10 +416,10 @@ type walletStruct struct {
 **[WALLET-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-interface.go)**
 
 * WALLET
-  * **GenesisWallet()**
-    _Creates the wallet (Keys and jeffCoin Address)_
   * **GetWallet()**
     _Gets the wallet_
+  * **GenesisWallet()**
+    _Creates the wallet (Keys and jeffCoin Address)_
 * KEYS
   * **EncodeKeys()**
     _Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex_

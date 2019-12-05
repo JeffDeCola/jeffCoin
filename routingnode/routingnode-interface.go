@@ -15,6 +15,21 @@ import (
 
 // NODELIST **************************************************************************************************************
 
+// GetNodeList -  Gets the nodeList
+func GetNodeList() nodeSlice {
+
+	s := "START  GetNodeList() -  Gets the nodeList"
+	log.Trace("ROUTINGNODE: I/F    " + s)
+
+	theNodeList := getNodeList()
+
+	s = "END    GetNodeList() -  Gets the nodeList"
+	log.Trace("ROUTINGNODE: I/F    " + s)
+
+	return theNodeList
+
+}
+
 // GenesisNodeList - Creates the nodeList
 func GenesisNodeList() {
 
@@ -80,21 +95,6 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 
 }
 
-// GetNodeList -  Gets the nodeList
-func GetNodeList() nodeSlice {
-
-	s := "START  GetNodeList() -  Gets the nodeList"
-	log.Trace("ROUTINGNODE: I/F    " + s)
-
-	theNodeList := getNodeList()
-
-	s = "END    GetNodeList() -  Gets the nodeList"
-	log.Trace("ROUTINGNODE: I/F    " + s)
-
-	return theNodeList
-
-}
-
 // NODE ******************************************************************************************************************
 
 // GetNode - Gets a Node (via Index number) from the nodeList
@@ -130,6 +130,20 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 
 // THISNODE **************************************************************************************************************
 
+// GetThisNode - Gets thisNode
+func GetThisNode() nodeStruct {
+
+	s := "START  GetThisNode() - Gets thisNode"
+	log.Trace("ROUTINGNODE: I/F    " + s)
+
+	theNode := getThisNode()
+
+	s = "END    GetThisNode() - Gets thisNode"
+	log.Trace("ROUTINGNODE: I/F    " + s)
+
+	return theNode
+}
+
 // LoadThisNode - Loads thisNode
 func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
@@ -145,20 +159,6 @@ func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 	s = "END    LoadThisNode() - Loads thisNode"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
-}
-
-// GetThisNode - Gets thisNode
-func GetThisNode() nodeStruct {
-
-	s := "START  GetThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: I/F    " + s)
-
-	theNode := getThisNode()
-
-	s = "END    GetThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: I/F    " + s)
-
-	return theNode
 }
 
 // AppendThisNode - Appends thisNode to the nodeList

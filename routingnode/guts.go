@@ -20,6 +20,19 @@ func checkErr(err error) {
 
 // NODELIST **************************************************************************************************************
 
+// getNodeList - Gets the nodeList
+func getNodeList() nodeSlice {
+
+	s := "START  getNodeList() - Gets the nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	s = "END    getNodeList() - Gets the nodeList"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	return nodeList
+
+}
+
 // loadNodeList - Loads the entire nodeList
 func loadNodeList(message string) {
 
@@ -31,19 +44,6 @@ func loadNodeList(message string) {
 
 	s = "END    loadNodeList() -  Loads the entire nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-}
-
-// getNodeList - Gets the nodeList
-func getNodeList() nodeSlice {
-
-	s := "START  getNodeList() - Gets the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	s = "END    getNodeList() - Gets the nodeList"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	return nodeList
 
 }
 
@@ -100,6 +100,19 @@ func appendNewNode(messageNewNode string) nodeStruct {
 
 // THIS NODE *************************************************************************************************************
 
+// getThisNode - Gets thisNode
+func getThisNode() nodeStruct {
+
+	s := "START  getThisNode() - Gets thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	s = "END    getThisNode() - Gets thisNode"
+	log.Trace("ROUTINGNODE: GUTS   " + s)
+
+	return thisNode
+
+}
+
 // loadThisNode - Loads thisNode
 func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
@@ -121,19 +134,6 @@ func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 
 	s = "END    loadThisNode() - Loads thisNode"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-}
-
-// getThisNode - Gets thisNode
-func getThisNode() nodeStruct {
-
-	s := "START  getThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	s = "END    getThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS   " + s)
-
-	return thisNode
 
 }
 

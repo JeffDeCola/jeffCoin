@@ -25,6 +25,19 @@ func checkErr(err error) {
 
 // BLOCKCHAIN ************************************************************************************************************
 
+// getBlockchain - Gets the blockchain
+func getBlockchain() blockchainSlice {
+
+	s := "START  getBlockchain() - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	s = "END    getBlockchain() - Gets the blockchain"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return blockchain
+
+}
+
 // loadBlockchain - Loads the entire blockchain
 func loadBlockchain(message string) {
 
@@ -36,19 +49,6 @@ func loadBlockchain(message string) {
 
 	s = "END    loadBlockchain() - Loads the entire blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-}
-
-// getBlockchain - Gets the blockchain
-func getBlockchain() blockchainSlice {
-
-	s := "START  getBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	s = "END    getBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	return blockchain
 
 }
 
@@ -185,6 +185,18 @@ func appendLockedBlock() blockStruct {
 
 // CURRENT BLOCK *********************************************************************************************************
 
+// getCurrentBlock - Gets the currentBlock
+func getCurrentBlock() blockStruct {
+
+	s := "START  getCurrentBlock() - Gets the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	s = "END    getCurrentBlock() - Gets the currentBlock"
+	log.Trace("BLOCKCHAIN:  GUTS   " + s)
+
+	return currentBlock
+}
+
 // loadCurrentBlock - Loads the currentBlock
 func loadCurrentBlock(message string) {
 
@@ -228,18 +240,6 @@ func resetCurrentBlock(transaction string) {
 	s = "END    resetCurrentBlock() - Resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-}
-
-// getCurrentBlock - Gets the currentBlock
-func getCurrentBlock() blockStruct {
-
-	s := "START  getCurrentBlock() - Gets the currentBlock"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	s = "END    getCurrentBlock() - Gets the currentBlock"
-	log.Trace("BLOCKCHAIN:  GUTS   " + s)
-
-	return currentBlock
 }
 
 // addTransactionToCurrentBlock - Adds a transaction to the currentBlock
