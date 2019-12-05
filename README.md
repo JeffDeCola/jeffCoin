@@ -417,7 +417,7 @@ type walletStruct struct {
 
 * WALLET
   * **GenesisWallet()**
-    _Creates the wallet_
+    _Creates the wallet (Keys and jeffCoin Address)_
   * **GetWallet()**
     _Gets the wallet_
 * KEYS

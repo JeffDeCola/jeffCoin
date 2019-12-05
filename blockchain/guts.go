@@ -28,13 +28,13 @@ func checkErr(err error) {
 // loadBlockchain - Loads the entire blockchain
 func loadBlockchain(message string) {
 
-	s := "START: loadBlockchain - Loads the entire blockchain"
+	s := "START  loadBlockchain() - Loads the entire blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// LOAD
 	json.Unmarshal([]byte(message), &blockchain)
 
-	s = "END:   loadBlockchain - Loads the entire blockchain"
+	s = "END    loadBlockchain() - Loads the entire blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -42,10 +42,10 @@ func loadBlockchain(message string) {
 // getBlockchain - Gets the blockchain
 func getBlockchain() blockchainSlice {
 
-	s := "START: getBlockchain - Gets the blockchain"
+	s := "START  getBlockchain() - Gets the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	s = "END:   getBlockchain - Gets the blockchain"
+	s = "END    getBlockchain() - Gets the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return blockchain
@@ -55,7 +55,7 @@ func getBlockchain() blockchainSlice {
 // replaceBlockchain - Replaces blockchain with the longer one
 func replaceBlockchain(newBlock blockchainSlice) {
 
-	s := "START: replaceChain - Replaces blockchain with the longer one"
+	s := "START  replaceChain() - Replaces blockchain with the longer one"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	if len(newBlock) > len(blockchain) {
@@ -67,7 +67,7 @@ func replaceBlockchain(newBlock blockchainSlice) {
 		log.Info("BLOCKCHAIN:  GUTS           " + s)
 	}
 
-	s = "END:   replaceChain - Replaces blockchain with the longer one"
+	s = "END    replaceChain() - Replaces blockchain with the longer one"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -77,7 +77,7 @@ func replaceBlockchain(newBlock blockchainSlice) {
 // getBlock - Gets a block in the blockchain
 func getBlock(id string) blockStruct {
 
-	s := "START: getBlock - Gets a block in the blockchain"
+	s := "START  getBlock() - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	var blockItem blockStruct
@@ -86,13 +86,13 @@ func getBlock(id string) blockStruct {
 	for _, blockItem := range blockchain {
 		if strconv.Itoa(blockItem.Index) == id {
 			// RETURN BLOCK
-			s = "END:   getBlock - Gets a block in the blockchain"
+			s = "END    getBlock() - Gets a block in the blockchain"
 			log.Trace("BLOCKCHAIN:  GUTS   " + s)
 			return blockItem
 		}
 	}
 
-	s = "END:   getBlock - Gets a block in the blockchain"
+	s = "END    getBlock() - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return blockItem
@@ -101,7 +101,7 @@ func getBlock(id string) blockStruct {
 // calculateBlockHash - Calculates SHA256 hash on a block
 func calculateBlockHash(block blockStruct) string {
 
-	s := "START: calculateBlockHash - Calculates SHA256 hash on a block"
+	s := "START  calculateBlockHash() - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// GET ALL THE TRANSACTIONS
@@ -117,7 +117,7 @@ func calculateBlockHash(block blockStruct) string {
 	s = "Calculated block Hash: " + hashed
 	log.Info("BLOCKCHAIN:  GUTS          " + s)
 
-	s = "END:   calculateBlockHash - Calculates SHA256 hash on a block"
+	s = "END    calculateBlockHash() - Calculates SHA256 hash on a block"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return hashed
@@ -127,7 +127,7 @@ func calculateBlockHash(block blockStruct) string {
 // isBlockValid - Checks if block is valid
 func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 
-	s := "START: isBlockValid - Checks if block is valid"
+	s := "START  isBlockValid() - Checks if block is valid"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// Check index
@@ -145,7 +145,7 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 		return false
 	}
 
-	s = "END:   isBlockValid - Checks if block is valid"
+	s = "END    isBlockValid() - Checks if block is valid"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return true
@@ -157,10 +157,10 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 // getLockedBlock - Gets the lockedBlock
 func getLockedBlock() blockStruct {
 
-	s := "START: getLockedBlock - Gets the lockedBlock"
+	s := "START  getLockedBlock() - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	s = "END:   getLockedBlock - Gets the lockedBlock"
+	s = "END    getLockedBlock() - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return lockedBlock
@@ -169,14 +169,14 @@ func getLockedBlock() blockStruct {
 // appendLockedBlock - Appends the lockedBlock to the blockchain
 func appendLockedBlock() blockStruct {
 
-	s := "START: appendLockedBlock - Appends the lockedBlock to the blockchain"
+	s := "START  appendLockedBlock() - Appends the lockedBlock to the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	mutex.Lock()
 	blockchain = append(blockchain, lockedBlock)
 	mutex.Unlock()
 
-	s = "END:   appendLockedBlock - Appends the lockedBlock to the blockchain"
+	s = "END    appendLockedBlock() - Appends the lockedBlock to the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return lockedBlock
@@ -188,13 +188,13 @@ func appendLockedBlock() blockStruct {
 // loadCurrentBlock - Loads the currentBlock
 func loadCurrentBlock(message string) {
 
-	s := "START: loadCurrentBlock - Loads the currentBlock"
+	s := "START  loadCurrentBlock() - Loads the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// LOAD
 	json.Unmarshal([]byte(message), &currentBlock)
 
-	s = "END:   loadCurrentBlock - Loads the currentBlock"
+	s = "END    loadCurrentBlock() - Loads the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -202,7 +202,7 @@ func loadCurrentBlock(message string) {
 // resetCurrentBlock - Resets the currentBlock
 func resetCurrentBlock(transaction string) {
 
-	s := "START: resetCurrentBlock - Resets the currentBlock"
+	s := "START  resetCurrentBlock() - Resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	t := time.Now()
@@ -225,7 +225,7 @@ func resetCurrentBlock(transaction string) {
 	currentBlock.Hash = ""
 	currentBlock.Nonce = ""
 
-	s = "END:   resetCurrentBlock - Resets the currentBlock"
+	s = "END    resetCurrentBlock() - Resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -233,10 +233,10 @@ func resetCurrentBlock(transaction string) {
 // getCurrentBlock - Gets the currentBlock
 func getCurrentBlock() blockStruct {
 
-	s := "START: getCurrentBlock - Gets the currentBlock"
+	s := "START  getCurrentBlock() - Gets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
-	s = "END:   getCurrentBlock - Gets the currentBlock"
+	s = "END    getCurrentBlock() - Gets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return currentBlock
@@ -245,7 +245,7 @@ func getCurrentBlock() blockStruct {
 // addTransactionToCurrentBlock - Adds a transaction to the currentBlock
 func addTransactionToCurrentBlock(transaction string) blockStruct {
 
-	s := "START: addTransactionToCurrentBlock - Adds a transaction to the currentBlock"
+	s := "START  addTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// DO STUFF WITH STRING????????????????????????????????????????????????????
@@ -253,7 +253,7 @@ func addTransactionToCurrentBlock(transaction string) blockStruct {
 
 	currentBlock.Transactions = append(currentBlock.Transactions, transaction1)
 
-	s = "END:   addTransactionToCurrentBlock - Adds a transaction to the currentBlock"
+	s = "END    addTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return currentBlock
@@ -263,7 +263,7 @@ func addTransactionToCurrentBlock(transaction string) blockStruct {
 // lockCurrentBlock - Moves the currentBlock to the lockedBlock and resets the currentBlock
 func lockCurrentBlock(difficulty int) {
 
-	s := "START: lockCurrentBlock - Moves the currentBlock to the lockedBlock and resets the currentBlock"
+	s := "START  lockCurrentBlock() - Moves the currentBlock to the lockedBlock and resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	currentBlock.Hash = calculateBlockHash(currentBlock)
@@ -271,7 +271,7 @@ func lockCurrentBlock(difficulty int) {
 
 	lockedBlock = currentBlock
 
-	s = "END:   lockCurrentBlock -  Moves the currentBlock to the lockedBlock and resets the currentBlock"
+	s = "END    lockCurrentBlock() -  Moves the currentBlock to the lockedBlock and resets the currentBlock"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 }
@@ -281,7 +281,7 @@ func lockCurrentBlock(difficulty int) {
 // getAddressBalance - Gets the jeffCoin Address balance
 func getAddressBalance(jeffCoinAddress string) string {
 
-	s := "START: getAddressBalance - Gets the jeffCoin Address balance"
+	s := "START  getAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	// WORK BACKWARDS TO FIND THE TRANSACTION
@@ -295,7 +295,7 @@ func getAddressBalance(jeffCoinAddress string) string {
 
 	balance := "333333"
 
-	s = "END:   getAddressBalance - Gets the jeffCoin Address balance"
+	s = "END    getAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 
 	return balance

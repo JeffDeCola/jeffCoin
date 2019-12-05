@@ -20,7 +20,7 @@ import (
 // transactionRequest - Request to transfer jeffCoins to a jeffCoin Address
 func transactionRequest(transactionRequestMessageSigned string) string {
 
-	s := "START: transactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
+	s := "START  transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:        " + s)
 
 	// PLACE THIS IS A STRUCT theTransactionRequestMessageStruct
@@ -52,7 +52,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 
 	status := "Was this verified?: " + strconv.FormatBool(verifyStatus)
 
-	s = "END:   transactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
+	s = "END    transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:        " + s)
 
 	return status
@@ -64,7 +64,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 // verifySignature - Verifies a ECDSA Digital Signature
 func verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plainText string) bool {
 
-	s := "START: verifySignature - Verifies a ECDSA Digital Signature"
+	s := "START  verifySignature() - Verifies a ECDSA Digital Signature"
 	log.Trace("TRANSACTION:        " + s)
 
 	// HASH plainText
@@ -92,7 +92,7 @@ func verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plai
 	s = "Verified status is: " + strconv.FormatBool(verifyStatus)
 	log.Info("TRANSACTION:               " + s)
 
-	s = "END:   verifySignature - Verifies a ECDSA Digital Signature"
+	s = "END    verifySignature() - Verifies a ECDSA Digital Signature"
 	log.Trace("TRANSACTION:        " + s)
 
 	return verifyStatus

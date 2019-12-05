@@ -18,19 +18,18 @@ import (
 // GenesisBlockchain - Creates the blockchain
 func GenesisBlockchain(transaction string, difficulty int) {
 
-	s := "START: GenesisBlockchain - Creates the blockchain"
+	s := "START: GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	resetCurrentBlock(transaction)
 	lockCurrentBlock(difficulty)
 	newBlock := appendLockedBlock()
-	// resetCurrentBlock(transaction)
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
 	js, _ := json.MarshalIndent(newBlock, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END:   GenesisBlockchain - Creates the blockchain"
+	s = "END:   GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 }
@@ -38,7 +37,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 // LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node
 func LoadBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START: LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node"
+	s := "START: LoadBlockchain() - Receives the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -89,7 +88,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	time.Sleep(2 * time.Second)
 	conn.Close()
 
-	s = "END:   LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node"
+	s = "END:   LoadBlockchain() - Receives the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return nil
@@ -99,12 +98,12 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 // GetBlockchain - Gets the blockchain
 func GetBlockchain() blockchainSlice {
 
-	s := "START: GetBlockchain - Gets the blockchain"
+	s := "START: GetBlockchain() - Gets the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theBlockchain := getBlockchain()
 
-	s = "END:   GetBlockchain - Gets the blockchain"
+	s = "END:   GetBlockchain() - Gets the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theBlockchain
@@ -116,13 +115,13 @@ func GetBlockchain() blockchainSlice {
 // GetBlock - Gets a block (via Index number) from the blockchain
 func GetBlock(id string) blockStruct {
 
-	s := "START: GetBlock - Gets a block (via Index number) from the blockchain"
+	s := "START: GetBlock() - Gets a block (via Index number) from the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theBlock := getBlock(id)
 
 	// RETURN NOT FOUND
-	s = "END:   GetBlock - Gets a block (via Index number) from the blockchain"
+	s = "END:   GetBlock() - Gets a block (via Index number) from the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theBlock
@@ -134,13 +133,13 @@ func GetBlock(id string) blockStruct {
 // GetLockedBlock - Gets the lockedBlock
 func GetLockedBlock() blockStruct {
 
-	s := "START: GetLockedBlock - Gets the lockedBlock"
+	s := "START: GetLockedBlock() - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theBlock := getLockedBlock()
 
 	// RETURN NOT FOUND
-	s = "END:   GetLockedBlock - Gets the lockedBlock"
+	s = "END:   GetLockedBlock() - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theBlock
@@ -152,13 +151,13 @@ func GetLockedBlock() blockStruct {
 // GetCurrentBlock - Gets the currentBlock
 func GetCurrentBlock() blockStruct {
 
-	s := "START: GetCurrentBlock - Gets the currentBlock"
+	s := "START: GetCurrentBlock() - Gets the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theBlock := getCurrentBlock()
 
 	// RETURN NOT FOUND
-	s = "END:   GetCurrentBlock - Gets the currentBlock"
+	s = "END:   GetCurrentBlock() - Gets the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theBlock
@@ -168,12 +167,12 @@ func GetCurrentBlock() blockStruct {
 // AddTransactionToCurrentBlock - Adds a transaction to the currentBlock
 func AddTransactionToCurrentBlock(transaction string) blockStruct {
 
-	s := "START: AddTransactionToCurrentBlock - Adds a transaction to the currentBlock"
+	s := "START: AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	theCurrentBlock := addTransactionToCurrentBlock(transaction)
 
-	s = "END:   AddTransactionToCurrentBlock - Adds a transaction to the currentBlock"
+	s = "END:   AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return theCurrentBlock
@@ -185,12 +184,12 @@ func AddTransactionToCurrentBlock(transaction string) blockStruct {
 // GetAddressBalance - Gets the jeffCoin Address balance
 func GetAddressBalance(jeffCoinAddress string) string {
 
-	s := "START: GetAddressBalance - Gets the jeffCoin Address balance"
+	s := "START: GetAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	balance := getAddressBalance(jeffCoinAddress)
 
-	s = "END:   GetAddressBalance - Gets the jeffCoin Address balance"
+	s = "END:   GetAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return balance
@@ -202,12 +201,12 @@ func GetAddressBalance(jeffCoinAddress string) string {
 // TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address
 func TransactionRequest(transactionRequestMessageSigned string) string {
 
-	s := "START: TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
+	s := "START: TransactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	status := transactionRequest(transactionRequestMessageSigned)
 
-	s = "END:   TransactionRequest - Request to transfer jeffCoins to a jeffCoin Address"
+	s = "END:   TransactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return status
