@@ -17,8 +17,10 @@ import (
 func HandleRequest(conn net.Conn) {
 
 	defer conn.Close()
-	rw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
-
+    rw := bufio.NewReadWriter(bufio.NewReader(conn), bufio.NewWriter(conn))
+    
+	s = "----------------------------------------------------------------"
+	log.Info("ROUTINGNODE: REQ           " + s)
 	s := "Opening a connection"
 	log.Info("ROUTINGNODE: REQ           " + s)
 	s = "----------------------------------------------------------------"
@@ -36,14 +38,16 @@ func HandleRequest(conn net.Conn) {
 		// TRIM CMD
 		cmd = strings.Trim(cmd, "\n ")
 
-		s = "Received command and working on it: " + cmd
-		log.Info("ROUTINGNODE: REQ           " + s)
+		s = "-rcvd  Received " + cmd
+		log.Info("ROUTINGNODE: REQ   " + s)
 
 		// CHECK FOR EOF
 		switch {
 		case err == io.EOF:
 			s = "Reached EOF"
-			log.Info("ROUTINGNODE: REQ           " + s)
+            log.Info("ROUTINGNODE: REQ           " + s)
+            s = "----------------------------------------------------------------"
+            log.Info("ROUTINGNODE: REQ           " + s)
 			s = "Closing this connection"
 			log.Info("ROUTINGNODE: REQ           " + s)
 			s = "----------------------------------------------------------------"
@@ -81,7 +85,9 @@ func HandleRequest(conn net.Conn) {
 		// EOF *****************************************************
 		case cmd == "EOF":
 			s = "Received EOF"
-			log.Info("ROUTINGNODE: REQ           " + s)
+            log.Info("ROUTINGNODE: REQ           " + s)
+            s = "----------------------------------------------------------------"
+            log.Info("ROUTINGNODE: REQ           " + s)
 			s = "Closing this connection"
 			log.Info("ROUTINGNODE: REQ           " + s)
 			s = "----------------------------------------------------------------"
@@ -89,7 +95,9 @@ func HandleRequest(conn net.Conn) {
 			return
 		default:
 			s = "Did not get correct command. Received: " + cmd
-			log.Warn("ROUTINGNODE: REQ           " + s)
+            log.Warn("ROUTINGNODE: REQ           " + s)
+            s = "----------------------------------------------------------------"
+            log.Info("ROUTINGNODE: REQ           " + s)
 			s = "Closing this connection"
 			log.Info("ROUTINGNODE: REQ           " + s)
 			s = "----------------------------------------------------------------"

@@ -379,24 +379,28 @@ Incoming requests to the TCP server from other Nodes or TCP connection.
 **[HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * FROM BLOCKCHAIN I/F
-  * **SEND-BLOCKCHAIN (SBC)**
-    _Sends the blockchain and currentBlock to another Node_
+  * **handleSendBlockchain()**
+    _SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node_
 * FROM ROUTINGNODE I/F
-  * **BROADCAST-ADD-NEW-NODE (BANN)**
-    _Adds a Node to the nodeList_
-  * **SEND-NODELIST (SNL)**
-    _Sends the nodeList to another Node_
-  * **BROADCAST-VERIFIED-BLOCK (BVB)**
-    _A Node verified the next block, get block and verify_
-  * **BROADCAST-CONSENSUS (BC)**
-    _51% Consensus reached, get block to add to blockchain_
-  * **BROADCAST-TRANSACTION-REQUEST (BTR)**
-    _Request from a Node to transfer jeffCoins to a jeffCoin Address_
+  * **handleBroadcastAddNewNode()**
+    _BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList_
+  * **handleSendNodeList()**
+    _SEND-NODELIST (SNL) - Sends the nodeList to another Node_
+  * **handleBroadcastVerifiedBlock()**
+    _BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block,
+    get block and verify_
+  * **handleBroadcastConsensus()**
+    _BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain_
+  * **handleBroadcastTransactionRequest()**
+    _BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node
+    to transfer jeffCoins to a jeffCoin Address_
 * FROM WALLET I/F
-  * **SEND-ADDRESS-BALANCE (SAB)**
-    _Sends the jeffCoin balance for a jeffCoin Address_
-  * **TRANSACTION-REQUEST (TR)**
-    _Request from Wallet to transfer jeffCoins to a jeffCoin Address_
+  * **handleSendAddressBalance()**
+    _SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance
+    for a jeffCoin Address_
+  * **handleTransactionRequest()**
+    _TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins
+    to a jeffCoin Address_
 * EOF
   * **EOF**
     _Close Connection_
