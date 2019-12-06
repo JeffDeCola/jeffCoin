@@ -65,12 +65,12 @@ func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: HDLR   " + s)
 
 	// RESPOND - SEND NEW NODE
-	s = "Please sent The New Node"
+	s = "Please send The New Node so I can append to my nodeList"
 	_, err := rw.WriteString(s + "\n")
 	checkErr(err)
 	err = rw.Flush()
 	checkErr(err)
-	s = "Sent The New Node"
+	s = "Please send The New Node so I can append to my nodeList"
 	log.Info("ROUTINGNODE: HDLR  -sent   " + s)
 
 	// RECEIVING NEW NODE

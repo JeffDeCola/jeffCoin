@@ -23,6 +23,7 @@ func Logger(inner http.Handler, name string) http.Handler {
 			req.RequestURI,
 			name,
 			time.Since(start),
-		)
+        )
+
 	})
 }

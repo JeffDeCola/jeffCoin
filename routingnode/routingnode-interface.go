@@ -144,7 +144,7 @@ func GetNode(id string) nodeStruct {
 // AppendNewNode - Appends a new Node to the nodeList
 func AppendNewNode(messageNewNode string) nodeStruct {
 
-	s := "START  AppendNode() - Appends a new Node to the nodeList"
+	s := "START  AppendNewNode() - Appends a new Node to the nodeList"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	newNode := appendNewNode(messageNewNode)
@@ -224,6 +224,11 @@ func BroadcastThisNode() error {
 
 		return nil
 
+	} else {
+
+		s = "thisNode IN NOT THE nodeList"
+		log.Info("ROUTINGNODE: I/F           " + s)
+
 	}
 
 	theNodeList := getNodeList()
@@ -283,6 +288,16 @@ func BroadcastThisNode() error {
 		js, _ := json.Marshal(thisNode)
 		s = string(js)
 		fmt.Fprintf(conn, s+"\n")
+
+		// GET THE RESPONSE MESSAGE (AppendedNode to the Nodelist)
+		message, _ = bufio.NewReader(conn).ReadString('\n')
+		s = "-rcv    Message from Network Node: " + message
+		log.Info("ROUTINGNODE: I/F   " + s)
+		if message == "ERROR" {
+			s = "ERROR: AppendedNode to the Nodelist"
+			log.Trace("ROUTINGNODE: I/F            " + s)
+			return errors.New(s)
+		}
 
 		// GET THE RESPONSE MESSAGE (Waiting for Command)
 		message, _ = bufio.NewReader(conn).ReadString('\n')
