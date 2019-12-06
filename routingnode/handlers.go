@@ -13,10 +13,10 @@ import (
 
 // FROM BLOCKCHAIN I/F ***************************************************************************************************
 
-// handleSendBlockchain (SBC) - Sends the blockchain and currentBlock to another Node
+// handleSendBlockchain - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
-	s := "START  handleSendBlockchain() (SBC) - Sends the blockchain and currentBlock to another Node"
+	s := "START  handleSendBlockchain() - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND ENTIRE BLOCKCHAIN
@@ -52,16 +52,16 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	s = "Sent currentBlock to another node"
 	log.Info("ROUTINGNODE: RCV           " + s)
 
-	s = "END    handleSendBlockchain() (SBC) - Sends the blockchain and currentBlock to another Node"
+	s = "END    handleSendBlockchain() - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
 // FROM ROUTINGNODE I/F **************************************************************************************************
 
-// handleBroadcastAddNewNode (BANN) - Adds a Node to the nodeList
+// handleBroadcastAddNewNode - BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList
 func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 
-	s := "START  handleBroadcastAddNewNode() (BANN) - Adds a Node to the nodeList"
+	s := "START  handleBroadcastAddNewNode() - BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// RESPOND - SEND NEW NODE
@@ -95,15 +95,15 @@ func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 	s = "Thank you"
 	log.Info("ROUTINGNODE: RCV           " + s)
 
-	s = "END    handleBroadcastAddNewNode() (BANN) - Adds a Node to the nodeList"
+	s = "END    handleBroadcastAddNewNode() - BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 }
 
-// handleSendNodeList (SNL) - Sends the nodeList to another Node
+// handleSendNodeList - SEND-NODELIST (SNL) - Sends the nodeList to another Node
 func handleSendNodeList(rw *bufio.ReadWriter) {
 
-	s := "START  handleSendNodeList() (SNL) - Sends the nodeList to another Node"
+	s := "START  handleSendNodeList() - SEND-NODELIST (SNL) - Sends the nodeList to another Node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	// SEND NODELIST
@@ -117,35 +117,35 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	s = "Sent Nodelist to another node"
 	log.Trace("ROUTINGNODE: RCV           " + s)
 
-	s = "END    handleSendNodeList() (SNL) - Sends the nodeList to another Node"
+	s = "END    handleSendNodeList() - SEND-NODELIST (SNL) - Sends the nodeList to another Node"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 }
 
-// handleBroadcastVerifiedBlock (BVB) - A Node verified the next block, get block and verify
+// handleBroadcastVerifiedBlock - BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block, get block and verify
 func handleBroadcastVerifiedBlock(rw *bufio.ReadWriter) {
 
-	s := "START  handleBroadcastVerifiedBlock() (BVB) - A Node verified the next block, get block and verify"
+	s := "START  handleBroadcastVerifiedBlock() - BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block, get block and verify"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	s = "END   handleBroadcastVerifiedBlock() (BVB) - A Node verified the next block, get block and verify"
+	s = "END   handleBroadcastVerifiedBlock() - BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block, get block and verify"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleBroadcastConsensus (BC) - 51% Consensus reached, get block to add to blockchain
+// handleBroadcastConsensus - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain
 func handleBroadcastConsensus(rw *bufio.ReadWriter) {
 
-	s := "START  handleBroadcastConsensus() (BC) - 51% Consensus reached, get block to add to blockchain"
+	s := "START  handleBroadcastConsensus() - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
-	s = "END   handleBroadcastConsensus() (BC) - 51% Consensus reached, get block to add to blockchain"
+	s = "END   handleBroadcastConsensus() - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleBroadcastTransactionRequest (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address
+// handleBroadcastTransactionRequest - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address
 func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 
-	s := "START  handleBroadcastTransactionRequest() (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
+	s := "START  handleBroadcastTransactionRequest() - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the transactionRequestMessageSigned"
@@ -165,16 +165,16 @@ func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END   handleBroadcastTransactionRequest() (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
+	s = "END   handleBroadcastTransactionRequest() - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
 // FROM WALLET I/F *******************************************************************************************************
 
-// handleSendAddressBalance (SAB) - Sends the jeffCoin balance for a jeffCoin Address
+// handleSendAddressBalance - SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance for a jeffCoin Address
 func handleSendAddressBalance(rw *bufio.ReadWriter) {
 
-	s := "START  handleSendAddressBalance() (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
+	s := "START  handleSendAddressBalance() - SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the jeffCoinAddress you want the balance for"
@@ -194,14 +194,14 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END    handleSendAddressBalance() (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
+	s = "END    handleSendAddressBalance() - SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }
 
-// handleTransactionRequest (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
+// handleTransactionRequest - TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
 func handleTransactionRequest(rw *bufio.ReadWriter) {
 
-	s := "START  handleTransactionRequest() (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
+	s := "START  handleTransactionRequest() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 
 	s = "Please enter the transactionRequestMessageSigned"
@@ -224,6 +224,6 @@ func handleTransactionRequest(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: RCV           " + s)
 	returnMessage(s, rw)
 
-	s = "END    handleTransactionRequest() (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
+	s = "END    handleTransactionRequest() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: RCV    " + s)
 }

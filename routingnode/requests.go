@@ -28,7 +28,7 @@ func HandleRequest(conn net.Conn) {
 	for {
 
 		s := "Waiting for command: " +
-			"SBC, BANN SNL, BVB, BC, BTR, SAB, TR, EOF"
+			"SBC, BANN, SNL, BVB, BC, BTR, SAB, TR, EOF"
 		returnMessage(s, rw)
 
 		cmd, err := rw.ReadString('\n')
