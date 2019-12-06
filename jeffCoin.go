@@ -71,13 +71,13 @@ func newNode() {
 	err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
 	checkErr(err)
 
-	time.Sleep(100000 * time.Minute)
-
 	// BROADCAST thisNode TO THE NETWORK
 	s = "BROADCAST thisNode TO THE NETWORK"
 	log.Info("MAIN:                      " + s)
 	err = routingnode.BroadcastThisNode()
 	checkErr(err)
+
+	time.Sleep(100000 * time.Minute)
 
 	// APPEND thisNode to nodeList
 	s = "APPEND thisNode to nodeList"

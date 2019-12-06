@@ -92,51 +92,81 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "CLIENT - Requesting a connection"
+	log.Info("WALLET:      I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "-conn   TCP Connection on " + nodeIP + ":" + nodeTCPPort
+	log.Info("WALLET:      I/F   " + s)
 	conn, err := net.Dial("tcp", nodeIP+":"+nodeTCPPort)
 	checkErr(err)
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not setup connection"
-		log.Trace("WALLET: I/F                 " + s)
+		s = "ERROR: Waiting for Command"
+		log.Trace("WALLET:      I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// SEND THE REQUEST
+	// SEND-ADDRESS-BALANCE
+	s = "-req    - SEND-ADDRESS-BALANCE"
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, "SEND-ADDRESS-BALANCE\n")
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE (ASKING TO SEND jeffCoin Address)
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not setup connection"
-		log.Trace("WALLET: I/F                 " + s)
+		s = "ERROR: ASKING TO SEND jeffCoin Address"
+		log.Trace("WALLET:      I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// SEND THE ADDRESS
+	// SEND jeffCoinAddress
+	s = "-send   SEND jeffCoinAddress " + jeffCoinAddress
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, jeffCoinAddress+"\n")
 
-	// GET THE BALANCE
+	// GET BALANCE
 	theBalance, _ := bufio.NewReader(conn).ReadString('\n')
 	theBalance = strings.Trim(theBalance, "--- ")
 	theBalance = strings.Trim(theBalance, "\n")
-	s = "Message from Network Node: " + theBalance
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + theBalance
+	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Could not get balance"
 		log.Trace("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// CLOSE CONNECTION
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
+	if message == "ERROR" {
+		s = "ERROR: Waiting for Command"
+		log.Trace("WALLET:      I/F            " + s)
+		return "error", errors.New(s)
+	}
+
+	// EOF (CLOSE CONNECTION)
+	s = "-req    - EOF (CLOSE CONNECTION)"
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "CLIENT - Closed a connection"
+	log.Info("WALLET:      I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
 
 	s = "END    GetAddressBalance() - Gets the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
@@ -152,51 +182,81 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "CLIENT - Requesting a connection"
+	log.Info("WALLET:      I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "-conn   TCP Connection on " + nodeIP + ":" + nodeTCPPort
+	log.Info("WALLET:      I/F   " + s)
 	conn, err := net.Dial("tcp", nodeIP+":"+nodeTCPPort)
 	checkErr(err)
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not setup connection"
+		s = "ERROR: Waiting for Command"
 		log.Trace("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// SEND THE REQUEST
+	// TRANSACTION-REQUEST
+	s = "-req    - TRANSACTION-REQUEST"
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, "TRANSACTION-REQUEST\n")
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE MESSAGE (???????????????????????)
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not setup connection"
+		s = "ERROR: ?????????????????????????????"
 		log.Trace("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// SEND THE TRANSACTION REQUEST
+	// SEND transactionRequestMessageSigned
+	s = "-send   SEND transactionRequestMessageSigned " + transactionRequestMessageSigned
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, transactionRequestMessageSigned+"\n")
 
 	// GET THE STATUS
 	status, _ := bufio.NewReader(conn).ReadString('\n')
 	status = strings.Trim(status, "--- ")
 	status = strings.Trim(status, "\n")
-	s = "Message from Network Node: " + status
-	log.Info("WALLET: I/F                " + s)
+	s = "-rcv    Message from Network Node: " + status
+	log.Info("WALLET:      I/F   " + s)
 	if status == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Could not get the status from node"
 		log.Trace("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
-	// CLOSE CONNECTION
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("WALLET:      I/F   " + s)
+	if message == "ERROR" {
+		s = "ERROR: Waiting for Command"
+		log.Trace("WALLET:      I/F            " + s)
+		return "error", errors.New(s)
+	}
+
+	// EOF (CLOSE CONNECTION)
+	s = "-req    - EOF (CLOSE CONNECTION)"
+	log.Info("WALLET:      I/F   " + s)
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
+	s = "CLIENT - Closed a connection"
+	log.Info("WALLET:      I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WALLET:      I/F           " + s)
 
 	s = "END    TransactionRequest() - Request to transfer Coins to a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
