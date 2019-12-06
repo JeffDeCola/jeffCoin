@@ -77,8 +77,6 @@ func newNode() {
 	err = routingnode.BroadcastThisNode()
 	checkErr(err)
 
-	time.Sleep(100000 * time.Minute)
-
 	// APPEND thisNode to nodeList
 	s = "APPEND thisNode to nodeList"
 	log.Info("MAIN:                      " + s)

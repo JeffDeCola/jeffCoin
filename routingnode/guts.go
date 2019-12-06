@@ -167,7 +167,7 @@ func checkIfThisNodeinNodeList() bool {
 		// DO YOU FIND IT
 		if item.IP == thisNode.IP && item.TCPPort == thisNode.TCPPort {
 
-			s = "ThisNode is already in the nodeList"
+			s = "thisNode is already in the nodeList"
 			log.Warn("ROUTINGNODE: GUTS          " + s)
 
 			s = "END    checkIfThisNodeinNodeList() - Check if thisNode is already in the nodeList"
@@ -177,6 +177,9 @@ func checkIfThisNodeinNodeList() bool {
 		}
 
 	}
+
+	s = "thisNode is NOT in the nodeList"
+	log.Info("ROUTINGNODE: GUTS          " + s)
 
 	s = "END    checkIfThisNodeinNodeList() - Check if thisNode is already in the nodeList"
 	log.Trace("ROUTINGNODE: GUTS   " + s)
