@@ -90,7 +90,7 @@ jeffCoin uses the following technology,
 * A Webserver with both a GUI and a REST API
 * A TCP Server for inter-node communication
 * ECDSA Private & Public Key generation
-* Creates a jeffCoin address from the ECDSA Public Key _(Just like bitcoin)_
+* Creates a jeffCoin Address from the ECDSA Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
 
@@ -108,7 +108,7 @@ The following illustration shows how the code is broken up into five main areas,
 * [3. ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#3-routingnode)
   To maintain a list of nodes & communicate between (Network)
 * [4. WALLET](https://github.com/JeffDeCola/jeffCoin#4-wallet)
-  To create an jeffCoin address and keep the private Keys
+  To create an jeffCoin Address and keep the private Keys
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin#5-webserver)
   The API and GUI
 
@@ -118,7 +118,7 @@ The following illustration shows how the code is broken up into five main areas,
 
 The blockchain section is the heart of the entire design. It will keep the
 transactions secure. A transaction is a transfer of value (jeffCoins) between
-jeffCoin addresses.
+jeffCoin Addresses.
 Like bitcoin, the value (jeffCoins) is contained in the ledger.
 The wallets just hold the public/private keys to request a transaction.
 

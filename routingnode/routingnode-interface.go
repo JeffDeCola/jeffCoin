@@ -54,23 +54,29 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// SETUP THE CONNECTION
+	s = "----------------------------------------------------------------"
+	log.Info("ROUTINGNODE: I/F           " + s)
+	s = "CLIENT - Requesting a connection"
+	log.Info("ROUTINGNODE: I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("ROUTINGNODE: I/F           " + s)
 	s = "-conn   TCP Connection on " + networkIP + ":" + networkTCPPort
 	log.Info("ROUTINGNODE: I/F   " + s)
 	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
 	checkErr(err)
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "-rcv    Message from Network Node: " + message
 	log.Info("ROUTINGNODE: I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not setup connection"
+		s = "ERROR: Waiting for Command"
 		log.Trace("ROUTINGNODE: I/F            " + s)
 		return errors.New(s)
 	}
 
 	// SEND-NODELIST
-	s = "-req    SEND-NODELIST"
+	s = "-req    - SEND-NODELIST"
 	log.Info("ROUTINGNODE: I/F   " + s)
 	fmt.Fprintf(conn, "SEND-NODELIST\n")
 
@@ -79,7 +85,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	s = "-rcv    Message from Network Node: " + messageNodeList
 	log.Info("ROUTINGNODE: I/F   " + s)
 	if messageNodeList == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Could not get nodeList from node"
 		log.Error("ROUTINGNODE: I/F            " + s)
 		return errors.New(s)
 	}
@@ -87,12 +93,28 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	// LOAD THE nodeList
 	loadNodeList(messageNodeList)
 
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("ROUTINGNODE: I/F   " + s)
+	if message == "ERROR" {
+		s = "ERROR: Waiting for Command"
+		log.Trace("ROUTINGNODE: I/F            " + s)
+		return errors.New(s)
+	}
+
 	// EOF (CLOSE CONNECTION)
-	s = "-req    EOF (CLOSE CONNECTION)"
+	s = "-req    - EOF (CLOSE CONNECTION)"
 	log.Info("ROUTINGNODE: I/F   " + s)
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
+	s = "----------------------------------------------------------------"
+	log.Info("ROUTINGNODE: I/F           " + s)
+	s = "CLIENT - Closed a connection"
+	log.Info("ROUTINGNODE: I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("ROUTINGNODE: I/F           " + s)
 
 	s = "END    LoadNodeList() -  Receives the nodeList from a Network Node"
 	log.Trace("ROUTINGNODE: I/F    " + s)
@@ -213,6 +235,12 @@ func BroadcastThisNode() error {
 		networkTCPPort := item.TCPPort
 
 		// SETUP THE CONNECTION
+		s = "----------------------------------------------------------------"
+		log.Info("ROUTINGNODE: I/F           " + s)
+		s = "CLIENT - Requesting a connection"
+		log.Info("ROUTINGNODE: I/F           " + s)
+		s = "----------------------------------------------------------------"
+		log.Info("ROUTINGNODE: I/F           " + s)
 		s = "-conn   TCP Connection on " + networkIP + ":" + networkTCPPort
 		log.Info("ROUTINGNODE: I/F   " + s)
 		conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
@@ -223,27 +251,27 @@ func BroadcastThisNode() error {
 			continue
 		}
 
-		// GET THE RESPONSE MESSAGE
+		// GET THE RESPONSE MESSAGE (Waiting for command)
 		message, _ := bufio.NewReader(conn).ReadString('\n')
 		s = "-rcv    Message from Network Node: " + message
 		log.Info("ROUTINGNODE: I/F   " + s)
 		if message == "ERROR" {
-			s = "ERROR: Could not setup connection"
+			s = "ERROR: Waiting for command"
 			log.Error("ROUTINGNODE: I/F            " + s)
 			return errors.New(s)
 		}
 
 		// BROADCAST-ADD-NEW-NODE
-		s = "-req    BROADCAST-ADD-NEW-NODE"
+		s = "-req    - BROADCAST-ADD-NEW-NODE"
 		log.Info("ROUTINGNODE: I/F   " + s)
 		fmt.Fprintf(conn, "BROADCAST-ADD-NEW-NODE\n")
 
-		// GET THE RESPONSE MESSAGE
+		// GET THE RESPONSE MESSAGE (ASKING TO SEND thisNode)
 		message, _ = bufio.NewReader(conn).ReadString('\n')
 		s = "-rcv    Message from Network Node: " + message
 		log.Info("ROUTINGNODE: I/F   " + s)
 		if message == "ERROR" {
-			s = "ERROR: Could not get blockchain from node"
+			s = "ERROR: ASKING TO SEND thisNode"
 			log.Error("ROUTINGNODE: I/F            " + s)
 			return errors.New(s)
 		}
@@ -256,22 +284,28 @@ func BroadcastThisNode() error {
 		s = string(js)
 		fmt.Fprintf(conn, s+"\n")
 
-		// GET THE RESPONSE MESSAGE
+		// GET THE RESPONSE MESSAGE (Waiting for Command)
 		message, _ = bufio.NewReader(conn).ReadString('\n')
 		s = "-rcv    Message from Network Node: " + message
 		log.Info("ROUTINGNODE: I/F   " + s)
 		if message == "ERROR" {
-			s = "ERROR: Could not get blockchain from node"
-			log.Error("ROUTINGNODE: I/F            " + s)
+			s = "ERROR: Waiting for Command"
+			log.Trace("ROUTINGNODE: I/F            " + s)
 			return errors.New(s)
 		}
 
 		// EOF (CLOSE CONNECTION)
-		s = "-req    EOF (CLOSE CONNECTION)"
+		s = "-req    - EOF (CLOSE CONNECTION)"
 		log.Info("ROUTINGNODE: I/F   " + s)
 		fmt.Fprintf(conn, "EOF\n")
 		time.Sleep(2 * time.Second)
 		conn.Close()
+		s = "----------------------------------------------------------------"
+		log.Info("ROUTINGNODE: I/F           " + s)
+		s = "CLIENT - Closed a connection"
+		log.Info("ROUTINGNODE: I/F           " + s)
+		s = "----------------------------------------------------------------"
+		log.Info("ROUTINGNODE: I/F           " + s)
 
 	}
 

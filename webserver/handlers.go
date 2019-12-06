@@ -57,7 +57,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 
 func respondMessage(s string, res http.ResponseWriter) {
 
-	log.Trace("WEBSERVER:                 " + s)
+	log.Info("WEBSERVER:                 " + s)
 	io.WriteString(res, s+"\n")
 
 }
@@ -104,7 +104,9 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with block
 	js, _ := json.MarshalIndent(theBlock, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "Block too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showBlockHandler() - GET: /showblock/{blockID}"
 	log.Trace("WEBSERVER:          " + s)
@@ -125,7 +127,9 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with lockedBlock
 	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "lockedBlock too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
 	log.Trace("WEBSERVER:          " + s)
@@ -146,7 +150,9 @@ func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with currentBlock
 	js, _ := json.MarshalIndent(theCurrentBlock, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "currentBlock too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showCurrentBlockHandler() - GET: /showcurrentblock"
 	log.Trace("WEBSERVER:          " + s)
@@ -169,8 +175,9 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with nodeList
 	js, _ := json.MarshalIndent(theNodeList, "", "    ")
 	s = string(js)
-	log.Trace("WEBSERVER:                 " + "NodeList too long, not shown")
+	log.Info("WEBSERVER:                 " + "NodeList too long, not shown")
 	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showNodeListHandler() - GET: /shownodelist"
 	log.Trace("WEBSERVER:          " + s)
@@ -195,7 +202,9 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with node
 	js, _ := json.MarshalIndent(theNode, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "Node too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showNodeHandler() - GET: /shownode/{nodeID}"
 	log.Trace("WEBSERVER:          " + s)
@@ -216,7 +225,9 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with thisNode
 	js, _ := json.MarshalIndent(gotThisNode, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "thisNode too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showThisNodeHandler() - GET: /showthisnode"
 	log.Trace("WEBSERVER:          " + s)
@@ -239,7 +250,9 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 	// RESPOND with wallet
 	js, _ := json.MarshalIndent(gotWallet, "", "    ")
 	s = string(js)
-	respondMessage(s, res)
+	log.Info("WEBSERVER:                 " + "wallet too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
 
 	s = "END    showWalletHandler() - GET: /showwallet"
 	log.Trace("WEBSERVER:          " + s)

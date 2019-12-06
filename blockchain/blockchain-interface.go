@@ -56,52 +56,80 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	// SETUP THE CONNECTION
+	s = "----------------------------------------------------------------"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "CLIENT - Requesting a connection"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "-conn   TCP Connection on " + networkIP + ":" + networkTCPPort
+	log.Info("BLOCKCHAIN:  I/F   " + s)
 	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
 	checkErr(err)
 
-	// GET THE RESPONSE MESSAGE
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
+		s = "ERROR: Waiting for command"
 		log.Error("BLOCKCHAIN:  I/F           " + s)
 		return errors.New(s)
 	}
 
-	// SEND THE REQUEST
+	// SEND-BLOCKCHAIN
+	s = "-req    - SEND-BLOCKCHAIN"
+	log.Info("BLOCKCHAIN:  I/F   " + s)
 	fmt.Fprintf(conn, "SEND-BLOCKCHAIN\n")
 
 	// GET THE blockchain
 	messageBlockchain, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("BLOCKCHAIN:  I/F           " + s)
-	if message == "ERROR" {
+	s = "-rcv    Message from Network Node: " + messageBlockchain
+	log.Info("BLOCKCHAIN:  I/F   " + s)
+	if messageBlockchain == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Error("BLOCKCHAIN:  I/F           " + s)
-		return errors.New(s)
-	}
-
-	// GET THE currentBlock
-	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "Message from Network Node: " + message
-	log.Info("BLOCKCHAIN:  I/F           " + s)
-	if message == "ERROR" {
-		s = "ERROR: Could not get blockchain from node"
-		log.Error("BLOCKCHAIN:  I/F           " + s)
+		log.Error("BLOCKCHAIN:  I/F            " + s)
 		return errors.New(s)
 	}
 
 	// LOAD THE blockchain
 	loadBlockchain(messageBlockchain)
 
+	// GET THE currentBlock
+	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
+	s = "-rcv    Message from Network Node: " + messageCurrentBlock
+	log.Info("BLOCKCHAIN:  I/F   " + s)
+	if messageCurrentBlock == "ERROR" {
+		s = "ERROR: Could not get currentBlock from node"
+		log.Error("BLOCKCHAIN:  I/F            " + s)
+		return errors.New(s)
+	}
+
 	// LOAD THE CurrentBlock
 	loadCurrentBlock(messageCurrentBlock)
 
-	// CLOSE CONNECTION
+	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	message, _ = bufio.NewReader(conn).ReadString('\n')
+	s = "-rcv    Message from Network Node: " + message
+	log.Info("BLOCKCHAIN:  I/F   " + s)
+	if message == "ERROR" {
+		s = "ERROR: Waiting for Command"
+		log.Trace("BLOCKCHAIN:  I/F            " + s)
+		return errors.New(s)
+	}
+
+	// EOF (CLOSE CONNECTION)
+	s = "-req    - EOF (CLOSE CONNECTION)"
+	log.Info("BLOCKCHAIN:  I/F   " + s)
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
+	s = "----------------------------------------------------------------"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "CLIENT - Closed a connection"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("BLOCKCHAIN:  I/F           " + s)
 
 	s = "END    LoadBlockchain() - Receives the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
