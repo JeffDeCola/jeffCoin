@@ -295,6 +295,10 @@ func getAddressBalance(jeffCoinAddress string) string {
 
 	balance := "333333"
 
+	if jeffCoinAddress == "1234" {
+		balance = "1111111"
+	}
+
 	s = "END    getAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS   " + s)
 

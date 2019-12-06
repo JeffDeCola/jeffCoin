@@ -47,10 +47,10 @@ func GenesisNodeList() {
 
 }
 
-// LoadNodeList -  Receives the nodeList from a Network Node
-func LoadNodeList(networkIP string, networkTCPPort string) error {
+// RequestNodeList -  Requests the nodeList from a Network Node
+func RequestNodeList(networkIP string, networkTCPPort string) error {
 
-	s := "START  LoadNodeList() -  Receives the nodeList from a Network Node"
+	s := "START  RequestNodeList() -  Requests the nodeList from a Network Node"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -116,7 +116,7 @@ func LoadNodeList(networkIP string, networkTCPPort string) error {
 	s = "----------------------------------------------------------------"
 	log.Info("ROUTINGNODE: I/F           " + s)
 
-	s = "END    LoadNodeList() -  Receives the nodeList from a Network Node"
+	s = "END    RequestNodeList() -  Requests the nodeList from a Network Node"
 	log.Trace("ROUTINGNODE: I/F    " + s)
 
 	return nil

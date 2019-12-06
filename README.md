@@ -156,8 +156,8 @@ The states of a block are,
     _Gets the blockchain_
   * **GenesisBlockchain()**
     _Creates the blockchain_
-  * **LoadBlockchain()**
-    _Receives the blockchain and the currentBlock from a Network Node_
+  * **RequestBlockchain()**
+    _Requests the blockchain and the currentBlock from a Network Node_
     * `SEND-BLOCKCHAIN Request`
 * BLOCK
   * **GetBlock()**
@@ -331,8 +331,8 @@ type nodeStruct struct {
     _Gets the nodeList_
   * **GenesisNodeList()**
     _Creates the nodeList_
-  * **LoadNodeList()**
-    _Receives the nodeList from a Network Node_
+  * **RequestsNodeList()**
+    _Requests the nodeList from a Network Node_
     * `SEND-NODELIST Request`
 * NODE
   * **GetNode()**
@@ -380,7 +380,7 @@ Incoming requests to the TCP server from other Nodes or TCP connection.
 
 * FROM BLOCKCHAIN I/F
   * **handleSendBlockchain()**
-    _SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node_
+    _SEND-BLOCKCHAIN - Sends the blockchain and currentBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **handleBroadcastAddNewNode()**
     _BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList_
@@ -436,8 +436,8 @@ type walletStruct struct {
   * **DecodeKeys()**
     _Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw_
 * JEFFCOINS
-  * **GetAddressBalance()**
-    _Gets the jeffCoin balance for a jeffCoin Address_
+  * **RequestAddressBalance()**
+    _Requests the jeffCoin balance for a jeffCoin Address_
     * `SEND-ADDRESS-BALANCE Request`
   * **TransactionRequest()**
     _Request to transfer jeffCoins to a jeffCoin Address_
@@ -499,7 +499,8 @@ Currently, there is the main page that also lists the available APIs.
 * WALLET
   * **/showwallet**
   * **/showjeffcoinaddress**
-  * **/showaddressbalance**
+  * **/showbalance**
+  * **/showaddressbalance/{jeffcoinaddress}**
   * **/transactionrequest/{destinationaddress}/{value}**
 
 ## RUN
