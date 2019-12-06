@@ -51,6 +51,12 @@ This project was built from some of my other projects,
   [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
 * The **WEBSERVER** (GUI & REST JSON API) is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
+* Other projects I used are my
+  [errors](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/errors),
+  [logrus](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/logrus),
+  and
+  [flag](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/flag)
+projects.
 
 Documentation and reference,
 
@@ -357,10 +363,10 @@ type nodeStruct struct {
   * **appendNewNode()**
     _Appends a new Node to the nodeList_
 * THIS NODE
-  * **loadThisNode()**
-    _Loads thisNode_
   * **getThisNode()**
     _Gets thisNode_
+  * **loadThisNode()**
+    _Loads thisNode_
   * **appendThisNode()**
     _Appends thisNode to the nodeList_
   * **checkIfThisNodeinNodeList()**

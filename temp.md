@@ -136,10 +136,10 @@
   * **appendNewNode()**
     _Appends a new Node to the nodeList_
 * THIS NODE
-  * **loadThisNode()**
-    _Loads thisNode_
   * **getThisNode()**
     _Gets thisNode_
+  * **loadThisNode()**
+    _Loads thisNode_
   * **appendThisNode()**
     _Appends thisNode to the nodeList_
   * **checkIfThisNodeinNodeList()**

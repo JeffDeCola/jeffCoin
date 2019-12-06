@@ -31,6 +31,67 @@ func checkErr(err error) {
 	}
 }
 
+func genesisNode(JeffCoinAddress string) {
+
+	// GENESIS blockchain
+	firstTransaction := `
+        {
+            "ID": 0,
+            "inputs": [
+                {
+                    "txID": 0,
+                    "referenceTXID": -1,
+                    "signature": ""
+                }
+            ],
+            "outputs": [
+                {
+                    "jeffCoinAddress": "` + JeffCoinAddress + `",
+                    "value": 100000
+                }
+            ]
+        }`
+	difficulty := 8
+	s := "GENESIS blockchain"
+	log.Info("MAIN:                      " + s)
+	blockchain.GenesisBlockchain(firstTransaction, difficulty)
+
+	// GENESIS nodeList
+	s = "GENESIS nodeList"
+	log.Info("MAIN:                      " + s)
+	routingnode.GenesisNodeList()
+
+}
+
+func newNode() {
+
+	// LOAD nodeList FROM THE NETWORK
+	s := "LOAD nodeList FROM THE NETWORK"
+	log.Info("MAIN:                      " + s)
+	err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
+	checkErr(err)
+
+	time.Sleep(100000 * time.Minute)
+
+	// BROADCAST thisNode TO THE NETWORK
+	s = "BROADCAST thisNode TO THE NETWORK"
+	log.Info("MAIN:                      " + s)
+	err = routingnode.BroadcastThisNode()
+	checkErr(err)
+
+	// APPEND thisNode to nodeList
+	s = "APPEND thisNode to nodeList"
+	log.Info("MAIN:                      " + s)
+	routingnode.AppendThisNode()
+
+	// LOAD blockchain FROM THE NETWORK
+	s = "LOAD blockchain FROM THE NETWORK"
+	log.Info("MAIN:                      " + s)
+	err = blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
+	checkErr(err)
+
+}
+
 // masterFlowControl - Controls the mining of blocks and addint to the chain
 func masterFlowControl(genesis bool) {
 
@@ -120,62 +181,21 @@ func main() {
 	log.Info("MAIN:                      " + s)
 	JeffCoinAddress := wallet.GenesisWallet()
 
-	// IF THIS IS GENESIS - GENESIS THE BLOCKCHAIN
+	// CREATE GENESIS NODE OR A NEW NODE
 	if *genesisPtr {
-
-		// GENESIS blockchain
-		firstTransaction := `
-        {
-            "ID": 0,
-            "inputs": [
-                {
-                    "txID": 0,
-                    "referenceTXID": -1,
-                    "signature": ""
-                }
-            ],
-            "outputs": [
-                {
-                    "jeffCoinAddress": "` + JeffCoinAddress + `",
-                    "value": 100000
-                }
-            ]
-        }`
-		difficulty := 8
-		s = "GENESIS blockchain"
-		log.Info("MAIN:                      " + s)
-		blockchain.GenesisBlockchain(firstTransaction, difficulty)
-
-		time.Sleep(100000 * time.Minute)
-
-		// GENESIS nodeList
-		s = "GENESIS nodeList"
-		log.Info("MAIN:                      " + s)
-		routingnode.GenesisNodeList()
-
+		genesisNode(JeffCoinAddress)
 	} else {
-
-		// LOAD nodeList FROM THE NETWORK
-		err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
-		checkErr(err)
-
-		// BROADCAST thisNode TO THE NETWORK
-		err = routingnode.BroadcastThisNode()
-		checkErr(err)
-
-		// APPEND thisNode to nodeList
-		routingnode.AppendThisNode()
-
-		// LOAD blockchain FROM THE NETWORK
-		err = blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
-		checkErr(err)
-
+		newNode()
 	}
 
 	// KICK OFF MASTER CONTROL
+	s = "KICK OFF MASTER CONTROL"
+	log.Info("MAIN:                      " + s)
 	go masterFlowControl(*genesisPtr)
 
 	// PRESS RETURN TO EXIT
+	s = "PRESS RETURN TO EXIT"
+	log.Info("MAIN:                      " + s)
 	fmt.Scanln()
 	fmt.Printf("\n...DONE\n")
 }
