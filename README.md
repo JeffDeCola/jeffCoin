@@ -520,14 +520,14 @@ go run jeffCoin.go \
        -tcpport 3334
 ```
 
-This will created the founders node.
+This will created the founders Node.
 
 ### ADDING NEW NODES
 
 To hook up to the Network.  You need the ip of any
 working Network Node.
 
-Adding a second node in the network can look like,
+Adding a second Node in the network can look like,
 
 ```bash
 go run jeffCoin.go \
