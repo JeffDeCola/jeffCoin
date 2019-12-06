@@ -65,10 +65,10 @@ func genesisNode(JeffCoinAddress string) {
 
 func newNode() {
 
-	// LOAD nodeList FROM THE NETWORK
-	s := "LOAD nodeList FROM THE NETWORK"
+	// REQUEST nodeList FROM THE NETWORK
+	s := "REQUEST nodeList FROM THE NETWORK"
 	log.Info("MAIN:                      " + s)
-	err := routingnode.LoadNodeList(*networkIPPtr, *networkTCPPortPtr)
+	err := routingnode.RequestNodeList(*networkIPPtr, *networkTCPPortPtr)
 	checkErr(err)
 
 	// BROADCAST thisNode TO THE NETWORK
@@ -82,10 +82,10 @@ func newNode() {
 	log.Info("MAIN:                      " + s)
 	routingnode.AppendThisNode()
 
-	// LOAD blockchain FROM THE NETWORK
-	s = "LOAD blockchain FROM THE NETWORK"
+	// REQUEST blockchain FROM THE NETWORK
+	s = "REQUEST blockchain FROM THE NETWORK"
 	log.Info("MAIN:                      " + s)
-	err = blockchain.LoadBlockchain(*networkIPPtr, *networkTCPPortPtr)
+	err = blockchain.RequestBlockchain(*networkIPPtr, *networkTCPPortPtr)
 	checkErr(err)
 
 }

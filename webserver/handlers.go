@@ -354,12 +354,12 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// showAddressBalanceHandler - GET: /showaddressbalance
-func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
+// showBalanceHandler - GET: /showaddressbalance
+func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 	logReceivedAPICommand()
 
-	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance"
+	s := "START  showBalanceHandler() - GET: /showaddressbalance"
 	log.Trace("WEBSERVER:          " + s)
 
 	res.Header().Set("Content-Type", "application/json")
@@ -374,14 +374,48 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	jeffCoinAddress := gotWallet.JeffCoinAddress
 
 	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.GetAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
 	checkErr(err)
 
 	// RESPOND with Address Balance
 	s = gotAddressBalance
 	respondMessage(s, res)
 
-	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance"
+	s = "END    showBalanceHandler() - GET: /showaddressbalance"
+	log.Trace("WEBSERVER:          " + s)
+
+	logDoneAPICommand()
+
+}
+
+// showAddressBalanceHandler - GET: /showaddressbalance/{jeffcoinaddress}
+func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
+	log.Trace("WEBSERVER:          " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(req)
+
+	// GET jeffCoin Address
+	jeffCoinAddress := params["jeffCoinAddress"]
+
+	// GET nodeIP & nodeTCPPort from thisNode
+	thisNode := routingnode.GetThisNode()
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.TCPPort
+
+	// GET ADDRESS BALANCE
+	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	checkErr(err)
+
+	// RESPOND with Address Balance
+	s = gotAddressBalance
+	respondMessage(s, res)
+
+	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
 	log.Trace("WEBSERVER:          " + s)
 
 	logDoneAPICommand()

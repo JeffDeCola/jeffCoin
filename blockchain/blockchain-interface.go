@@ -49,10 +49,10 @@ func GenesisBlockchain(transaction string, difficulty int) {
 
 }
 
-// LoadBlockchain - Receives the blockchain and the currentBlock from a Network Node
-func LoadBlockchain(networkIP string, networkTCPPort string) error {
+// RequestBlockchain - Requests the blockchain and the currentBlock from a Network Node
+func RequestBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START  LoadBlockchain() - Receives the blockchain and the currentBlock from a Network Node"
+	s := "START  RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -131,7 +131,7 @@ func LoadBlockchain(networkIP string, networkTCPPort string) error {
 	s = "----------------------------------------------------------------"
 	log.Info("BLOCKCHAIN:  I/F           " + s)
 
-	s = "END    LoadBlockchain() - Receives the blockchain and the currentBlock from a Network Node"
+	s = "END    RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F    " + s)
 
 	return nil

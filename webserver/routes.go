@@ -77,9 +77,15 @@ var routes = Routes{
 		showJeffCoinAddressHandler,
 	},
 	Route{
+		"ShowBalance",
+		"GET",
+		"/showbalance",
+		showBalanceHandler,
+	},
+	Route{
 		"ShowAddressBalance",
 		"GET",
-		"/showaddressbalance",
+		"/showaddressbalance/{jeffCoinAddress}",
 		showAddressBalanceHandler,
 	},
 	Route{

@@ -85,10 +85,10 @@ func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 
 // JEFFCOINS *************************************************************************************************************
 
-// GetAddressBalance - Gets the jeffCoin balance for a jeffCoin Address
-func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
+// RequestAddressBalance - Requests the jeffCoin balance for a jeffCoin Address
+func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
 
-	s := "START  GetAddressBalance() - Gets the jeffCoin balance for a jeffCoin Address"
+	s := "START  RequestAddressBalance() - Requests the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	// SETUP THE CONNECTION
@@ -168,7 +168,7 @@ func GetAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string
 	s = "----------------------------------------------------------------"
 	log.Info("WALLET:      I/F           " + s)
 
-	s = "END    GetAddressBalance() - Gets the jeffCoin balance for a jeffCoin Address"
+	s = "END    RequestAddressBalance() - Requests the jeffCoin balance for a jeffCoin Address"
 	log.Trace("WALLET:      I/F    " + s)
 
 	return theBalance, nil

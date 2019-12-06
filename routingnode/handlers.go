@@ -13,10 +13,10 @@ import (
 
 // FROM BLOCKCHAIN I/F ***************************************************************************************************
 
-// handleSendBlockchain - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node
+// handleSendBlockchain - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
-	s := "START  handleSendBlockchain() - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node"
+	s := "START  handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node"
 	log.Trace("ROUTINGNODE: HDLR   " + s)
 
 	// RESPOND - SEND BLOCKCHAIN
@@ -52,7 +52,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	s = "Sent currentBlock to another node"
 	log.Info("ROUTINGNODE: HDLR  -sent   " + s)
 
-	s = "END    handleSendBlockchain() - SEND-BLOCKCHAIN (SBC) - Sends the blockchain and currentBlock to another Node"
+	s = "END    handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node"
 	log.Trace("ROUTINGNODE: HDLR   " + s)
 }
 
