@@ -67,6 +67,16 @@ Documentation and reference,
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
 
+## PREREQUISITES
+
+```bash
+go get -v -u github.com/btcsuite/btcutil/base58
+go get -v -u golang.org/x/crypto/ripemd160
+go get -u -v github.com/gorilla/mux
+go get -u -v github.com/sirupsen/logrus
+go get -u -v github.com/pkg/errors
+```
+
 ## OVERVIEW
 
 `jeffCoin` is my interpretation of a transaction based (ledger) using a blockchain.
@@ -589,6 +599,50 @@ And request commands such as,
 ```txt
 SEND-ADDRESS-BALANCE
 ```
+
+## RUN ON GCE (OPTIONAL)
+
+Make sure your create a firewall rule and have your instance use
+it as a network tag,
+
+```bash
+gcloud compute firewall-rules create jeffs-firewall-settings-rule \
+    --action allow \
+    --rules tcp:1234,tcp:3334 \
+    --priority 1000 \
+    --source-ranges 0.0.0.0/0 \
+    --target-tags "jeffs-firewall-settings" \
+    --description "Jeffs firewall rules"
+```
+
+The IP `0.0.0.0` gets forwarded to your external IP, hence i added a `-gce switch`,
+
+```bash
+go run jeffCoin.go \
+       -gce
+       -loglevel trace \
+       -genesis \
+       -nodename Founders \
+       -ip 35.203.189.193 \
+       -httpport 1234 \
+       -tcpport 3334
+```
+
+Add another node with,
+
+```bash
+go run jeffCoin.go \
+       -loglevel trace \
+       -nodename Jeffry \
+       -ip 192.168.20.100 \
+       -httpport 1235 \
+       -tcpport 3335 \
+       -netip 35.203.189.193 \
+       -netport 3334
+```
+
+I have a build example
+[here](https://github.com/JeffDeCola/my-packer-image-builds#jeffs-gce-ubuntu-1904-xxxx)
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
 
