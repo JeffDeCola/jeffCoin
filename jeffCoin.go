@@ -116,7 +116,7 @@ func init() {
 	// LOG LEVEL
 	logLevelPtr := flag.String("loglevel", "trace", "LogLevel (trace or info)")
 	// GCE
-	gcePtr = flag.String("gce", false, "Is this Node on GCE")
+	gcePtr = flag.Bool("gce", false, "Is this Node on GCE")
 	// YOUR IP
 	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
