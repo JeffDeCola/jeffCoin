@@ -20,7 +20,7 @@ const (
 	toolVersion = "1.2.0"
 )
 
-var genesisPtr *bool
+var genesisPtr, gcePtr *bool
 var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
@@ -115,6 +115,8 @@ func init() {
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// LOG LEVEL
 	logLevelPtr := flag.String("loglevel", "trace", "LogLevel (trace or info)")
+	// GCE
+	gcePtr = flag.String("gce", false, "Is this Node on GCE")
 	// YOUR IP
 	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
@@ -156,7 +158,11 @@ func main() {
 	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
 	log.Info("MAIN:                      " + s)
-	go webserver.StartHTTPServer(*nodeIPPtr, *nodeHTTPPortPtr)
+	if *gcePtr {
+		go webserver.StartHTTPServer("0.0.0.0", *nodeHTTPPortPtr)
+	} else {
+		go webserver.StartHTTPServer(*nodeIPPtr, *nodeHTTPPortPtr)
+	}
 
 	// GIVE IT A SECOND
 	time.Sleep(1 * time.Second)
@@ -164,7 +170,11 @@ func main() {
 	// START ROUTING NODE (TCP SERVER)
 	s = "START ROUTING NODE (TCP SERVER)"
 	log.Info("MAIN:                      " + s)
-	go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
+	if *gcePtr {
+		go routingnode.StartRoutingNode("0.0.0.0", *nodeTCPPortPtr)
+	} else {
+		go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
+	}
 
 	// GIVE IT A SECOND
 	time.Sleep(1 * time.Second)
