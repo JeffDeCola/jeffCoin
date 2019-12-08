@@ -12,7 +12,7 @@ import (
 
 // StartHTTPServer - Start the WebServer
 func StartHTTPServer(nodeIP string, nodeWebPort string) {
-    
+
 	s := "START  StartHTTPServer() - Start the WebServer"
 	log.Trace("WEBSERVER:   SERVER   " + s)
 
