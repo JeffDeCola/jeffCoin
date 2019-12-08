@@ -1,11 +1,21 @@
 body {
-  background-color: powderblue;
+  background-color:  rgb(228, 216, 199);
 }
 
 h1  {
-  color: blue;
+  color: rgb(167, 58, 31);
 }
 
 p  {
-  color: red;
+  color: black;
+}
+
+#title_box {
+	text-align: center;		/* Center it */
+	overflow: hidden;
+}
+
+#api_commands_box {
+	text-align: left;		/* Left */
+	overflow: hidden;
 }
