@@ -37,4 +37,3 @@ plugins:
 # - <pattern>
 exclude_patterns:
 - "docs/"
-- "wallet/*.json"
