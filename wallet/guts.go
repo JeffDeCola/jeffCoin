@@ -42,10 +42,10 @@ func getWallet() walletStruct {
 	return wallet
 }
 
-// makeWallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+// makeWallet - Creates the wallet and writes to file (Keys and jeffCoin Address)
 func makeWallet(nodeName string) walletStruct {
 
-	s := "START  makeWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	s := "START  makeWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      GUTS     " + s)
 
 	// GENERATE ECDSA KEYS
@@ -64,7 +64,7 @@ func makeWallet(nodeName string) walletStruct {
 	s = "Wrote wallet to " + filename
 	log.Info("WALLET:      GUTS            " + s)
 
-	s = "END    makeWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	s = "END    makeWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      GUTS     " + s)
 
 	return wallet

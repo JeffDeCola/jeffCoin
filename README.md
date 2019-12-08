@@ -448,7 +448,7 @@ type walletStruct struct {
   * **GetWallet()**
     _Gets the wallet_
   * **GenesisWallet()**
-    _Creates the wallet and write to file (Keys and jeffCoin Address)_
+    _Creates the wallet and writes to file (Keys and jeffCoin Address)_
   * **ReadWalletFile()**
     _Reads the wallet from a file_
 * KEYS
@@ -473,7 +473,7 @@ type walletStruct struct {
   * **getWallet()**
     _Gets the wallet_
   * **makeWallet()**
-    _Creates the wallet and write to file (Keys and jeffCoin Address)_
+    _Creates the wallet and writes to file (Keys and jeffCoin Address)_
   * **readWalletFile()**
     _Reads the wallet from a file_
 * KEYS
