@@ -427,6 +427,9 @@ The wallet section holds the Public Key, the Private Key and the jeffCoin Addres
 Like bitcoin, wallets do not have or hold any jeffCoins.
 The jeffCoins are in the blockchain transactions (ledger).
 
+Your wallet will be saved in the following file based on your nodename,
+`/wallet/{nodename}-wallet.json`.
+
 **[WALLET-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-datastructures.go)**
 
 A wallet has the following go struct,
@@ -445,7 +448,9 @@ type walletStruct struct {
   * **GetWallet()**
     _Gets the wallet_
   * **GenesisWallet()**
-    _Creates the wallet (Keys and jeffCoin Address)_
+    _Creates the wallet and write to file (Keys and jeffCoin Address)_
+  * **ReadWalletFile()**
+    _Reads the wallet from a file_
 * KEYS
   * **EncodeKeys()**
     _Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex_
@@ -468,7 +473,9 @@ type walletStruct struct {
   * **getWallet()**
     _Gets the wallet_
   * **makeWallet()**
-    _Creates a wallet with Keys and jeffCoin Address_
+    _Creates the wallet and write to file (Keys and jeffCoin Address)_
+  * **readWalletFile()**
+    _Reads the wallet from a file_
 * KEYS
   * **generateECDSASKeys()**
     _Generate privateKeyHex and publicKeyHex_

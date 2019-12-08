@@ -9,8 +9,10 @@ import (
 	"crypto/sha256"
 	"crypto/x509"
 	"encoding/hex"
+	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"math/big"
 	"reflect"
 
@@ -40,10 +42,10 @@ func getWallet() walletStruct {
 	return wallet
 }
 
-// makeWallet - Creates a wallet with Keys and jeffCoin Address
-func makeWallet() walletStruct {
+// makeWallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+func makeWallet(nodeName string) walletStruct {
 
-	s := "START  makeWallet() - Creates a wallet with Keys and jeffCoin Address"
+	s := "START  makeWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      GUTS     " + s)
 
 	// GENERATE ECDSA KEYS
@@ -55,7 +57,34 @@ func makeWallet() walletStruct {
 	// LOAD KEYS & JEFFCOIN ADDRESS IN WALLET
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
-	s = "END    makeWallet() - Creates a wallet with Keys and jeffCoin Address"
+	// WRITE WALLET STRUCT TO JSON FILE
+	filedata, _ := json.MarshalIndent(wallet, "", " ")
+	filename := "wallet/" + nodeName + "-wallet.json"
+	_ = ioutil.WriteFile(filename, filedata, 0644)
+	s = "Wrote wallet to " + filename
+	log.Info("WALLET:      GUTS            " + s)
+
+	s = "END    makeWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	log.Trace("WALLET:      GUTS     " + s)
+
+	return wallet
+
+}
+
+// readWalletFile - Reads the wallet from a file
+func readWalletFile(nodeName string) walletStruct {
+
+	s := "START  readWalletFile() - Reads the wallet from a file"
+	log.Trace("WALLET:      GUTS     " + s)
+
+	// READ WALLET STRUCT TO JSON FILE
+	filename := "wallet/" + nodeName + "-wallet.json"
+	filedata, _ := ioutil.ReadFile(filename)
+	_ = json.Unmarshal([]byte(filedata), &wallet)
+	s = "Read wallet from " + filename
+	log.Info("WALLET:      GUTS            " + s)
+
+	s = "END    readWalletFile() - Reads the wallet from a file"
 	log.Trace("WALLET:      GUTS     " + s)
 
 	return wallet
