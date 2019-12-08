@@ -19,6 +19,7 @@ Or more simply, **a distributed decentralized public ledger.**
 
 Table of Contents,
 
+* [PREREQUISITES](https://github.com/JeffDeCola/jeffCoin#prerequisites)
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
   * [1.1 BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#11-blockchain)
@@ -36,6 +37,7 @@ Table of Contents,
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
   * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
   * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
+* [RUN ON GCE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-gce-optional)
 * [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
 
 This project was built from some of my other projects,
