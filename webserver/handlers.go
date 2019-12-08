@@ -19,11 +19,12 @@ import (
 )
 
 type htmlData struct {
-	ToolVersion string
-	NodeName    string
-	IP          string
-	HTTPPort    string
-	TCPPort     string
+	NodeName        string
+	JeffCoinAddress string
+	ToolVersion     string
+	IP              string
+	HTTPPort        string
+	TCPPort         string
 }
 
 func logReceivedAPICommand() {
@@ -67,12 +68,16 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
+	// GET WALLET
+	wallet := wallet.GetWallet()
+
 	htmlTemplateData := htmlData{
-		NodeName:    thisNode.NodeName,
-		ToolVersion: thisNode.ToolVersion,
-		IP:          thisNode.IP,
-		HTTPPort:    thisNode.HTTPPort,
-		TCPPort:     thisNode.TCPPort,
+		NodeName:        thisNode.NodeName,
+		JeffCoinAddress: wallet.JeffCoinAddress,
+		ToolVersion:     thisNode.ToolVersion,
+		IP:              thisNode.IP,
+		HTTPPort:        thisNode.HTTPPort,
+		TCPPort:         thisNode.TCPPort,
 	}
 
 	// Merge data and execute

@@ -188,13 +188,13 @@ func main() {
 
 	// DO YOU ALREADY HAVE A WALLET
 	if _, err := os.Stat("wallet/" + *nodeNamePtr + "-wallet.json"); err == nil {
-		// READ existing wallet (Keys and jeffCoin Address)
-		s = "READ existing wallet (Keys and jeffCoin Address)"
+		// READ existing wallet from a file (Keys and jeffCoin Address)
+		s = "READ existing wallet from a file (Keys and jeffCoin Address)"
 		log.Info("MAIN:                        " + s)
 		JeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
 	} else {
-		// GENESIS wallet (Keys and jeffCoin Address)
-		s = "GENESIS wallet (Keys and jeffCoin Address)"
+		// GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+		s = "GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)"
 		log.Info("MAIN:                        " + s)
 		JeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
 	}
