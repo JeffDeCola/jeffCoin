@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title> Welcome to jeffCoin {{.NodeName}}</title>
+        <title> Welcome to jeffCoin ({{.NodeName}})</title>
         <link rel="stylesheet" type="text/css" href="css/mystyles.css">
     </head>
     <body>
-        <h1> Welcome to jeffCoin </h1>
-        <h4> Node Name: {{.NodeName}} </h4>
-        <h4> Public jeffCoin Address: {{.JeffCoinAddress}} </h4>
-        <h4> Version: {{.ToolVersion}} </h4>
-        <h4> {{.IP}}:{{.HTTPPort}} (Using TCP Port {{.TCPPort}})</h4>
-        <br/>
-        <h2> API REST COMMANDS: </h2>
-        <h2>BLOCKCHAIN</h2>
-        <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
-        <p> <a href="/showblock/0">/showblock/0</a> Show a particular block in the blockchain </p>
-        <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
-        <p> <a href="/showcurrentblock">/showcurrentblock</a> Show the currentBlock </p>
-        <h2>NODELIST</h2>
-        <p> <a href="/shownodelist">/shownodelist</a> Show the nodelist </p>
-        <p> <a href="/shownode/0">/shownode/0</a> Show a particular node in nodeList </p>
-        <p> <a href="/showthisnode">/showthisnode</a> Show thisNode</p>
-        <h2>WALLET</h2>
-        <p> <a href="/showwallet">/showwallet</a> Show local wallet </p>
-        <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show local jeffCoin Address </p>
-        <p> <a href="/showbalance">/showbalance</a> Show local balance </p>
-        <p> <a href="/showaddressbalance/1234">/showaddressbalance/1234</a> Show balance for a jeffCoin Address </p>
-        <p> <a href="/transactionrequest/aabbcc/2">/transactionrequest/aabbcc/2</a> Request to Transfer 2 coins from this Address to Destination Address aabbcc </p>
+        <div id="title_box" class="data_center">
+            <h1> Welcome to jeffCoin </h1>
+            <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
+            <p> {{.NodeName}} jeffCoin Address:  <b>{{.JeffCoinAddress}}</b> </p>
+            <p> Version:  <b>{{.ToolVersion}}</b> </p>
+            <p> {{.IP}}:{{.HTTPPort}} (Using TCP Port {{.TCPPort}})</p>
+        </div>
+
+        <div id="api_commands_box" class="data_left">
+            <h1> API REST Commands: </h1>
+            <h2>BLOCKCHAIN</h2>
+            <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
+            <p> <a href="/showblock/0">/showblock/0</a> Show a particular block in the blockchain </p>
+            <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
+            <p> <a href="/showcurrentblock">/showcurrentblock</a> Show the currentBlock </p>
+            <h2>NODELIST</h2>
+            <p> <a href="/shownodelist">/shownodelist</a> Show the nodelist </p>
+            <p> <a href="/shownode/0">/shownode/0</a> Show a particular node in nodeList </p>
+            <p> <a href="/showthisnode">/showthisnode</a> Show thisNode</p>
+            <h2>WALLET ({{.NodeName}})</h2>
+            <p> <a href="/showwallet">/showwallet</a> Show this wallet (Public &amp; Private Keys) </p>
+            <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show this jeffCoin Address </p>
+            <p> <a href="/showbalance">/showbalance</a> Show the balance for this Wallet </p>
+            <p> <a href="/transactionrequest/aabbcc/2">/transactionrequest/aabbcc/2</a> Request to Transfer 2 coins from this Address to Destination Address aabbcc </p>
+            <h2>WALLET (Other)</h2>
+            <p> <a href="/showaddressbalance/1234">/showaddressbalance/1234</a> Show balance for a jeffCoin Address </p>
+        </div>
+
     </body>
 </html>
