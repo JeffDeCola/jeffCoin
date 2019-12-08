@@ -621,7 +621,8 @@ gcloud compute firewall-rules create jeffs-firewall-settings-rule \
     --description "Jeffs firewall rules"
 ```
 
-The IP `0.0.0.0` gets forwarded to your external IP, hence i added a `-gce switch`,
+The IP `0.0.0.0` gets forwarded to your external IP, hence I added a
+`-gce switch` to deal with this,
 
 ```bash
 go run jeffCoin.go \
@@ -634,7 +635,7 @@ go run jeffCoin.go \
        -tcpport 3334
 ```
 
-Add another node with,
+Add another node (not at gce) with,
 
 ```bash
 go run jeffCoin.go \
@@ -647,8 +648,8 @@ go run jeffCoin.go \
        -netport 3334
 ```
 
-I have a build example
-[here](https://github.com/JeffDeCola/my-packer-image-builds#jeffs-gce-ubuntu-1904-xxxx)
+I have a gce build example
+[here](https://github.com/JeffDeCola/my-packer-image-builds#jeffs-gce-ubuntu-1904-xxxx).
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
 
