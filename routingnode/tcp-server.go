@@ -14,10 +14,10 @@ import (
 func StartRoutingNode(nodeIP string, nodeTCPPort string) {
 
 	s := "START  StartRoutingNode() - Start the Routing Node (TCP Server)"
-	log.Trace("ROUTINGNODE: SERVER " + s)
+	log.Trace("ROUTINGNODE: SERVER   " + s)
 
 	s = "TCP  Server listening on " + nodeIP + ":" + nodeTCPPort
-	log.Info("ROUTINGNODE: SERVER        " + s)
+	log.Info("ROUTINGNODE: SERVER          " + s)
 
 	// LISTEN ON IP AND PORT
 	server, err := net.Listen("tcp", nodeIP+":"+nodeTCPPort)

@@ -19,6 +19,7 @@ Or more simply, **a distributed decentralized public ledger.**
 
 Table of Contents,
 
+* [PREREQUISITES](https://github.com/JeffDeCola/jeffCoin#prerequisites)
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
   * [1.1 BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#11-blockchain)
@@ -36,6 +37,7 @@ Table of Contents,
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
   * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
   * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
+* [RUN ON GCE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-gce-optional)
 * [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
 
 This project was built from some of my other projects,
@@ -386,6 +388,10 @@ type nodeStruct struct {
 
 Incoming requests to the TCP server from other Nodes or TCP connection.
 
+An illustration of client-server handshakes,
+
+![IMAGE - tcp-client-server-handshake - IMAGE](docs/pics/tcp-client-server-handshake.jpg)
+
 **[HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * FROM BLOCKCHAIN I/F
@@ -615,11 +621,12 @@ gcloud compute firewall-rules create jeffs-firewall-settings-rule \
     --description "Jeffs firewall rules"
 ```
 
-The IP `0.0.0.0` gets forwarded to your external IP, hence i added a `-gce switch`,
+The IP `0.0.0.0` gets forwarded to your external IP, hence I added a
+`-gce switch` to deal with this,
 
 ```bash
 go run jeffCoin.go \
-       -gce
+       -gce \
        -loglevel trace \
        -genesis \
        -nodename Founders \
@@ -628,7 +635,7 @@ go run jeffCoin.go \
        -tcpport 3334
 ```
 
-Add another node with,
+Add another node (not at gce) with,
 
 ```bash
 go run jeffCoin.go \
@@ -641,8 +648,8 @@ go run jeffCoin.go \
        -netport 3334
 ```
 
-I have a build example
-[here](https://github.com/JeffDeCola/my-packer-image-builds#jeffs-gce-ubuntu-1904-xxxx)
+I have a gce build example
+[here](https://github.com/JeffDeCola/my-packer-image-builds#jeffs-gce-ubuntu-1904-xxxx).
 
 ## UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)
 

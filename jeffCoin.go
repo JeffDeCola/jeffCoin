@@ -53,12 +53,12 @@ func genesisNode(JeffCoinAddress string) {
         }`
 	difficulty := 8
 	s := "GENESIS blockchain"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	blockchain.GenesisBlockchain(firstTransaction, difficulty)
 
 	// GENESIS nodeList
 	s = "GENESIS nodeList"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	routingnode.GenesisNodeList()
 
 }
@@ -67,24 +67,24 @@ func newNode() {
 
 	// REQUEST nodeList FROM THE NETWORK
 	s := "REQUEST nodeList FROM THE NETWORK"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	err := routingnode.RequestNodeList(*networkIPPtr, *networkTCPPortPtr)
 	checkErr(err)
 
 	// BROADCAST thisNode TO THE NETWORK
 	s = "BROADCAST thisNode TO THE NETWORK"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	err = routingnode.BroadcastThisNode()
 	checkErr(err)
 
 	// APPEND thisNode to nodeList
 	s = "APPEND thisNode to nodeList"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	routingnode.AppendThisNode()
 
 	// REQUEST blockchain FROM THE NETWORK
 	s = "REQUEST blockchain FROM THE NETWORK"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	err = blockchain.RequestBlockchain(*networkIPPtr, *networkTCPPortPtr)
 	checkErr(err)
 
@@ -157,7 +157,7 @@ func main() {
 
 	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	if *gcePtr {
 		go webserver.StartHTTPServer("0.0.0.0", *nodeHTTPPortPtr)
 	} else {
@@ -169,7 +169,7 @@ func main() {
 
 	// START ROUTING NODE (TCP SERVER)
 	s = "START ROUTING NODE (TCP SERVER)"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	if *gcePtr {
 		go routingnode.StartRoutingNode("0.0.0.0", *nodeTCPPortPtr)
 	} else {
@@ -181,12 +181,12 @@ func main() {
 
 	// LOAD thisNode
 	s = "LOAD thisNode"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
 
 	// GENESIS wallet (Keys and jeffCoin Address)
 	s = "GENESIS wallet (Keys and jeffCoin Address)"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	JeffCoinAddress := wallet.GenesisWallet()
 
 	// CREATE GENESIS NODE OR A NEW NODE
@@ -198,12 +198,12 @@ func main() {
 
 	// KICK OFF MASTER CONTROL
 	s = "KICK OFF MASTER CONTROL"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	go masterFlowControl(*genesisPtr)
 
 	// PRESS RETURN TO EXIT
 	s = "PRESS RETURN TO EXIT"
-	log.Info("MAIN:                      " + s)
+	log.Info("MAIN:                        " + s)
 	fmt.Scanln()
 	fmt.Printf("\n...DONE\n")
 }
