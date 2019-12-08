@@ -184,10 +184,20 @@ func main() {
 	log.Info("MAIN:                        " + s)
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
 
-	// GENESIS wallet (Keys and jeffCoin Address)
-	s = "GENESIS wallet (Keys and jeffCoin Address)"
-	log.Info("MAIN:                        " + s)
-	JeffCoinAddress := wallet.GenesisWallet()
+	var JeffCoinAddress string
+
+	// DO YOU ALREADY HAVE A WALLET
+	if _, err := os.Stat("wallet/" + *nodeNamePtr + "-wallet.json"); err == nil {
+		// READ existing wallet (Keys and jeffCoin Address)
+		s = "READ existing wallet (Keys and jeffCoin Address)"
+		log.Info("MAIN:                        " + s)
+		JeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
+	} else {
+		// GENESIS wallet (Keys and jeffCoin Address)
+		s = "GENESIS wallet (Keys and jeffCoin Address)"
+		log.Info("MAIN:                        " + s)
+		JeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
+	}
 
 	// CREATE GENESIS NODE OR A NEW NODE
 	if *genesisPtr {

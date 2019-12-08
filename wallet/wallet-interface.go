@@ -33,19 +33,37 @@ func GetWallet() walletStruct {
 
 }
 
-// GenesisWallet - Creates the wallet (Keys and jeffCoin Address)
-func GenesisWallet() string {
+// GenesisWallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+func GenesisWallet(nodeName string) string {
 
-	s := "START  GenesisWallet() - Creates the wallet (Keys and jeffCoin Address)"
+	s := "START  GenesisWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      I/F      " + s)
 
-	theWallet := makeWallet()
+	theWallet := makeWallet(nodeName)
 
 	fmt.Printf("\nCongrats, you created your wallet:\n\n")
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END    GenesisWallet() - Creates the wallet (Keys and jeffCoin Address)"
+	s = "END    GenesisWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	log.Trace("WALLET:      I/F      " + s)
+
+	return theWallet.JeffCoinAddress
+}
+
+// ReadWalletFile - Reads the wallet from a file
+func ReadWalletFile(nodeName string) string {
+
+	s := "START  ReadWalletFile() - Reads the wallet from a file"
+	log.Trace("WALLET:      I/F      " + s)
+
+	theWallet := readWalletFile(nodeName)
+
+	fmt.Printf("\nCongrats, you loaded your old wallet from a file:\n\n")
+	js, _ := json.MarshalIndent(theWallet, "", "    ")
+	fmt.Printf("%v\n\n", string(js))
+
+	s = "END    ReadWalletFile() - Reads the wallet from a file"
 	log.Trace("WALLET:      I/F      " + s)
 
 	return theWallet.JeffCoinAddress
