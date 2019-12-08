@@ -33,10 +33,10 @@ func GetWallet() walletStruct {
 
 }
 
-// GenesisWallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+// GenesisWallet - Creates the wallet and writes to file (Keys and jeffCoin Address)
 func GenesisWallet(nodeName string) string {
 
-	s := "START  GenesisWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	s := "START  GenesisWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      I/F      " + s)
 
 	theWallet := makeWallet(nodeName)
@@ -45,7 +45,7 @@ func GenesisWallet(nodeName string) string {
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
 
-	s = "END    GenesisWallet() - Creates the wallet and write to file (Keys and jeffCoin Address)"
+	s = "END    GenesisWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Trace("WALLET:      I/F      " + s)
 
 	return theWallet.JeffCoinAddress
