@@ -619,7 +619,7 @@ The IP `0.0.0.0` gets forwarded to your external IP, hence i added a `-gce switc
 
 ```bash
 go run jeffCoin.go \
-       -gce
+       -gce \
        -loglevel trace \
        -genesis \
        -nodename Founders \

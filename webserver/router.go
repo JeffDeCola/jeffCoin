@@ -27,7 +27,7 @@ type Message struct {
 func JeffsRouter() *mux.Router {
 
 	s := "START  JeffsRouter() - The router"
-	log.Trace("WEBSERVER:   ROUTER " + s)
+	log.Trace("WEBSERVER:   ROUTER   " + s)
 
 	// MAKE ROUTER
 	router := mux.NewRouter().StrictSlash(true)
@@ -52,7 +52,7 @@ func JeffsRouter() *mux.Router {
 	router.PathPrefix("/css/").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("webserver/css"))))
 
 	s = "END    JeffsRouter() - The router"
-	log.Trace("WEBSERVER:   ROUTER " + s)
+	log.Trace("WEBSERVER:   ROUTER   " + s)
 
 	return router
 }

@@ -32,10 +32,10 @@ func checkErr(err error) {
 func getWallet() walletStruct {
 
 	s := "START  getWallet() - Gets the wallet"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	s = "END    getWallet() - Gets the wallet"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return wallet
 }
@@ -44,7 +44,7 @@ func getWallet() walletStruct {
 func makeWallet() walletStruct {
 
 	s := "START  makeWallet() - Creates a wallet with Keys and jeffCoin Address"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// GENERATE ECDSA KEYS
 	privateKeyHex, publicKeyHex := generateECDSASKeys()
@@ -56,7 +56,7 @@ func makeWallet() walletStruct {
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
 	s = "END    makeWallet() - Creates a wallet with Keys and jeffCoin Address"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return wallet
 
@@ -68,7 +68,7 @@ func makeWallet() walletStruct {
 func generateECDSASKeys() (string, string) {
 
 	s := "START  generateECDSASKeys() - Generate privateKeyHex and publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// GET PRIVATE & PUBLIC KEY PAIR
 	curve := elliptic.P256()
@@ -87,15 +87,15 @@ func generateECDSASKeys() (string, string) {
 	// CHECK THEY ARE THE SAME
 	if !reflect.DeepEqual(privateKeyRaw, privateKeyRawCheck) {
 		s = "ERROR: Private keys do not match"
-		log.Error("WALLET:      GUTS   " + s)
+		log.Error("WALLET:      GUTS     " + s)
 	}
 	if !reflect.DeepEqual(publicKeyRaw, publicKeyRawCheck) {
 		s = "ERROR: Public keys do not match"
-		log.Error("WALLET:      GUTS   " + s)
+		log.Error("WALLET:      GUTS     " + s)
 	}
 
 	s = "END    generateECDSASKeys() - Generate privateKeyHex and publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return privateKeyHex, publicKeyHex
 
@@ -105,7 +105,7 @@ func generateECDSASKeys() (string, string) {
 func encodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) (string, string) {
 
 	s := "START  encodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	privateKeyx509Encoded, _ := x509.MarshalECPrivateKey(privateKeyRaw)
 	privateKeyPEM := pem.EncodeToMemory(
@@ -124,7 +124,7 @@ func encodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) 
 	publicKeyHex := hex.EncodeToString(publicKeyPEM)
 
 	s = "END    encodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return privateKeyHex, publicKeyHex
 
@@ -134,7 +134,7 @@ func encodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) 
 func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *ecdsa.PublicKey) {
 
 	s := "START  decodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	privateKeyPEM, _ := hex.DecodeString(privateKeyHex)
 	block, _ := pem.Decode([]byte(privateKeyPEM))
@@ -148,7 +148,7 @@ func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 	publicKeyRaw := genericPublicKey.(*ecdsa.PublicKey)
 
 	s = "END    decodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return privateKeyRaw, publicKeyRaw
 
@@ -160,7 +160,7 @@ func decodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 func generatejeffCoinAddress(publicKeyHex string) string {
 
 	s := "START  generatejeffCoinAddress() - Creates a jeffCoin Address"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	verPublicKeyHash := hashPublicKey(publicKeyHex)
 
@@ -169,7 +169,7 @@ func generatejeffCoinAddress(publicKeyHex string) string {
 	jeffCoinAddressHex := encodeKeyHash(verPublicKeyHash, checkSum)
 
 	s = "END    generatejeffCoinAddress() - Creates a jeffCoin Address"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return jeffCoinAddressHex
 
@@ -179,13 +179,13 @@ func generatejeffCoinAddress(publicKeyHex string) string {
 func hashPublicKey(publicKeyHex string) []byte {
 
 	s := "START  hashPublicKey() - Hashes publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// 1 - SHA-256 HASH
 	publicKeyByte, _ := hex.DecodeString(publicKeyHex) // Don't use []byte(publicKeyHex)
 	publicSHA256 := sha256.Sum256(publicKeyByte)
 	s = "1 - SHA-256 HASH:    " + hex.EncodeToString(publicSHA256[:])
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// 2 - RIPEMD-160 HASH
 	RIPEMD160Hasher := ripemd160.New()
@@ -193,21 +193,21 @@ func hashPublicKey(publicKeyHex string) []byte {
 	checkErr(err)
 	publicKeyHash := RIPEMD160Hasher.Sum(nil)
 	s = "2 - RIPEMD-160 HASH: " + hex.EncodeToString(publicKeyHash)
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// VERSION
 	version := make([]byte, 1)
 	version[0] = 0x00
 	s = "VERSION:             " + "00"
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// 3 - CONCAT
 	verPublicKeyHash := append(version, publicKeyHash...)
 	s = "3 - CONCAT           " + hex.EncodeToString(verPublicKeyHash)
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	s = "END    hashPublicKey() - Hashes publicKeyHex"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return verPublicKeyHash
 
@@ -217,25 +217,25 @@ func hashPublicKey(publicKeyHex string) []byte {
 func checksumKeyHash(verPublicKeyHash []byte) []byte {
 
 	s := "START  checksumKeyHash() - Checksums verPublicKeyHash"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// 4 - SHA-256 HASH
 	firstpublicSHA256 := sha256.Sum256(verPublicKeyHash)
 	s = "4 - SHA-256 HASH     " + hex.EncodeToString(firstpublicSHA256[:])
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// 5 - SHA-256 HASH
 	secondPublicSHA256 := sha256.Sum256(firstpublicSHA256[:])
 	s = "5 - SHA-256 HASH     " + hex.EncodeToString(secondPublicSHA256[:])
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// 6 - FIRST FOUR BYTE
 	checkSum := secondPublicSHA256[:4]
 	s = "6 - FIRST FOUR BYTE  " + hex.EncodeToString(checkSum)
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	s = "END    checksumKeyHash() - Checksums verPublicKeyHash"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return checkSum
 
@@ -245,20 +245,20 @@ func checksumKeyHash(verPublicKeyHash []byte) []byte {
 func encodeKeyHash(verPublicKeyHash []byte, checkSum []byte) string {
 
 	s := "START  encodeKeyHash() - Encodes verPublicKeyHash & checkSum"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// 7 - CONCAT
 	addressHex := append(verPublicKeyHash, checkSum...)
 	s = "7 - CONCAT           " + hex.EncodeToString(addressHex)
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	// 8 - BASE58 ENCODING
 	jeffCoinAddressHex := base58.Encode(addressHex)
 	s = "8 - BASE58 ENCODING  " + jeffCoinAddressHex
-	log.Info("WALLET:      GUTS          " + s)
+	log.Info("WALLET:      GUTS            " + s)
 
 	s = "END    encodeKeyHash() - Encodes verPublicKeyHash & checkSum"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return jeffCoinAddressHex
 
@@ -270,7 +270,7 @@ func encodeKeyHash(verPublicKeyHash []byte, checkSum []byte) string {
 func createSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
 
 	s := "START  createSignature() - Creates a ECDSA Digital Signature"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	// HASH plainText
 	hashedPlainText := sha256.Sum256([]byte(plainText))
@@ -294,7 +294,7 @@ func createSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) st
 	signature := hex.EncodeToString(signatureByte)
 
 	s = "END    createSignature() - Creates a ECDSA Digital Signature"
-	log.Trace("WALLET:      GUTS   " + s)
+	log.Trace("WALLET:      GUTS     " + s)
 
 	return signature
 
