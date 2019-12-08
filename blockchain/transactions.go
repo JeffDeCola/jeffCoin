@@ -21,7 +21,7 @@ import (
 func transactionRequest(transactionRequestMessageSigned string) string {
 
 	s := "START  transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("TRANSACTION:        " + s)
+	log.Trace("TRANSACTION:          " + s)
 
 	// PLACE THIS IS A STRUCT theTransactionRequestMessageStruct
 	transactionRequestMessageSignedByte := []byte(transactionRequestMessageSigned)
@@ -53,7 +53,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 	status := "Was this verified?: " + strconv.FormatBool(verifyStatus)
 
 	s = "END    transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("TRANSACTION:        " + s)
+	log.Trace("TRANSACTION:          " + s)
 
 	return status
 
@@ -65,7 +65,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 func verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plainText string) bool {
 
 	s := "START  verifySignature() - Verifies a ECDSA Digital Signature"
-	log.Trace("TRANSACTION:        " + s)
+	log.Trace("TRANSACTION:          " + s)
 
 	// HASH plainText
 	hashedPlainText := sha256.Sum256([]byte(plainText))
@@ -90,10 +90,10 @@ func verifySignature(senderPublicKeyRaw *ecdsa.PublicKey, signature string, plai
 	)
 
 	s = "Verified status is: " + strconv.FormatBool(verifyStatus)
-	log.Info("TRANSACTION:               " + s)
+	log.Info("TRANSACTION:                 " + s)
 
 	s = "END    verifySignature() - Verifies a ECDSA Digital Signature"
-	log.Trace("TRANSACTION:        " + s)
+	log.Trace("TRANSACTION:          " + s)
 
 	return verifyStatus
 

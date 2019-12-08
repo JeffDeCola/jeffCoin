@@ -19,12 +19,12 @@ import (
 func GetBlockchain() blockchainSlice {
 
 	s := "START  GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	theBlockchain := getBlockchain()
 
 	s = "END    GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlockchain
 
@@ -34,7 +34,7 @@ func GetBlockchain() blockchainSlice {
 func GenesisBlockchain(transaction string, difficulty int) {
 
 	s := "START  GenesisBlockchain() - Creates the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	resetCurrentBlock(transaction)
 	lockCurrentBlock(difficulty)
@@ -45,7 +45,7 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	fmt.Printf("%v\n\n", string(js))
 
 	s = "END    GenesisBlockchain() - Creates the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -53,86 +53,96 @@ func GenesisBlockchain(transaction string, difficulty int) {
 func RequestBlockchain(networkIP string, networkTCPPort string) error {
 
 	s := "START  RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	// SETUP THE CONNECTION
+	//  CONN - SETUP THE CONNECTION
 	s = "----------------------------------------------------------------"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	s = "CLIENT - Requesting a connection"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	s = "----------------------------------------------------------------"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
-	s = "-conn   TCP Connection on " + networkIP + ":" + networkTCPPort
+	log.Info("BLOCKCHAIN:  I/F             " + s)
+	s = "-C conn   TCP Connection on " + networkIP + ":" + networkTCPPort
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	conn, err := net.Dial("tcp", networkIP+":"+networkTCPPort)
 	checkErr(err)
 
-	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	// RCV - GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "-rcv    Message from Network Node: " + message
+	s = "-C rcv    Message from Network Node: " + message
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for command"
-		log.Error("BLOCKCHAIN:  I/F           " + s)
+		log.Error("BLOCKCHAIN:  I/F             " + s)
 		return errors.New(s)
 	}
 
-	// SEND-BLOCKCHAIN
-	s = "-req    - SEND-BLOCKCHAIN"
+	// REQ - SEND-BLOCKCHAIN
+	s = "-C req    - SEND-BLOCKCHAIN"
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	fmt.Fprintf(conn, "SEND-BLOCKCHAIN\n")
 
-	// GET THE blockchain
+	// RCV - GET THE blockchain
 	messageBlockchain, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "-rcv    Message from Network Node: " + messageBlockchain
+	s = "-C rcv    Message from Network Node: (NOT SHOWN) - Received blockchain"
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if messageBlockchain == "ERROR" {
 		s = "ERROR: Could not get blockchain from node"
-		log.Error("BLOCKCHAIN:  I/F            " + s)
+		log.Error("BLOCKCHAIN:  I/F              " + s)
 		return errors.New(s)
 	}
 
 	// LOAD THE blockchain
 	loadBlockchain(messageBlockchain)
 
-	// GET THE currentBlock
+	// SEND - THANK YOU
+	s = "-C send   - Thank you"
+	log.Info("BLOCKCHAIN:  I/F   " + s)
+	fmt.Fprintf(conn, "Thank You\n")
+
+	// RCV - GET THE currentBlock
 	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "-rcv    Message from Network Node: " + messageCurrentBlock
+	s = "-C rcv    Message from Network Node: (NOT SHOWN) - Received currentBlock"
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if messageCurrentBlock == "ERROR" {
 		s = "ERROR: Could not get currentBlock from node"
-		log.Error("BLOCKCHAIN:  I/F            " + s)
+		log.Error("BLOCKCHAIN:  I/F              " + s)
 		return errors.New(s)
 	}
 
 	// LOAD THE CurrentBlock
 	loadCurrentBlock(messageCurrentBlock)
 
-	// GET THE RESPONSE MESSAGE (Waiting for Command)
+	// SEND - THANK YOU
+	s = "-C send   - Thank you"
+	log.Info("BLOCKCHAIN:  I/F   " + s)
+	fmt.Fprintf(conn, "Thank You\n")
+
+	// RCV - GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ = bufio.NewReader(conn).ReadString('\n')
-	s = "-rcv    Message from Network Node: " + message
+	s = "-C rcv    Message from Network Node: " + message
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("BLOCKCHAIN:  I/F            " + s)
+		log.Trace("BLOCKCHAIN:  I/F              " + s)
 		return errors.New(s)
 	}
 
-	// EOF (CLOSE CONNECTION)
-	s = "-req    - EOF (CLOSE CONNECTION)"
+	// REQ - EOF (CLOSE CONNECTION)
+	s = "-C req    - EOF (CLOSE CONNECTION)"
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	fmt.Fprintf(conn, "EOF\n")
 	time.Sleep(2 * time.Second)
 	conn.Close()
 	s = "----------------------------------------------------------------"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	s = "CLIENT - Closed a connection"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	s = "----------------------------------------------------------------"
-	log.Info("BLOCKCHAIN:  I/F           " + s)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return nil
 
@@ -144,13 +154,13 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 func GetBlock(id string) blockStruct {
 
 	s := "START  GetBlock() - Gets a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getBlock(id)
 
 	// RETURN NOT FOUND
 	s = "END    GetBlock() - Gets a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -162,13 +172,13 @@ func GetBlock(id string) blockStruct {
 func GetLockedBlock() blockStruct {
 
 	s := "START  GetLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getLockedBlock()
 
 	// RETURN NOT FOUND
 	s = "END    GetLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -180,13 +190,13 @@ func GetLockedBlock() blockStruct {
 func GetCurrentBlock() blockStruct {
 
 	s := "START  GetCurrentBlock() - Gets the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getCurrentBlock()
 
 	// RETURN NOT FOUND
 	s = "END    GetCurrentBlock() - Gets the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -196,12 +206,12 @@ func GetCurrentBlock() blockStruct {
 func AddTransactionToCurrentBlock(transaction string) blockStruct {
 
 	s := "START  AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	theCurrentBlock := addTransactionToCurrentBlock(transaction)
 
 	s = "END    AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theCurrentBlock
 
@@ -213,12 +223,12 @@ func AddTransactionToCurrentBlock(transaction string) blockStruct {
 func GetAddressBalance(jeffCoinAddress string) string {
 
 	s := "START  GetAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	balance := getAddressBalance(jeffCoinAddress)
 
 	s = "END    GetAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return balance
 
@@ -230,12 +240,12 @@ func GetAddressBalance(jeffCoinAddress string) string {
 func TransactionRequest(transactionRequestMessageSigned string) string {
 
 	s := "START  TransactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	status := transactionRequest(transactionRequestMessageSigned)
 
 	s = "END    TransactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("BLOCKCHAIN:  I/F    " + s)
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return status
 
