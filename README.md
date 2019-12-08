@@ -386,6 +386,10 @@ type nodeStruct struct {
 
 Incoming requests to the TCP server from other Nodes or TCP connection.
 
+An illustration of client-server handshakes,
+
+![IMAGE - tcp-client-server-handshake - IMAGE](docs/pics/tcp-client-server-handshake.jpg)
+
 **[HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * FROM BLOCKCHAIN I/F

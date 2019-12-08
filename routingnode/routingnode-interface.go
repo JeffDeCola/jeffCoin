@@ -80,7 +80,6 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 	log.Info("ROUTINGNODE: I/F   " + s)
 	fmt.Fprintf(conn, "SEND-NODELIST\n")
 
-    
 	// RCV - GET THE nodeList
 	messageNodeList, _ := bufio.NewReader(conn).ReadString('\n')
 	s = "-C rcv    Message from Network Node: " + messageNodeList
@@ -94,11 +93,11 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 	// LOAD THE nodeList
 	loadNodeList(messageNodeList)
 
-    // SEND - THANK YOU
+	// SEND - THANK YOU
 	s = "-C send   - Thank you"
 	log.Info("ROUTINGNODE: I/F   " + s)
-    fmt.Fprintf(conn, "Thank You\n")
-    
+	fmt.Fprintf(conn, "Thank You\n")
+
 	// RCV - GET THE RESPONSE MESSAGE (Waiting for Command)
 	message, _ = bufio.NewReader(conn).ReadString('\n')
 	s = "-C rcv    Message from Network Node: " + message
@@ -230,12 +229,10 @@ func BroadcastThisNode() error {
 
 		return nil
 
-	} else {
-
-		s = "thisNode IN NOT THE nodeList"
-		log.Info("ROUTINGNODE: I/F             " + s)
-
 	}
+
+	s = "thisNode IN NOT THE nodeList"
+	log.Info("ROUTINGNODE: I/F             " + s)
 
 	theNodeList := getNodeList()
 
