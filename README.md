@@ -276,7 +276,7 @@ the transaction is added onto the blockchain.
 
 This illustration shows the ledger,
 
-![IMAGE - transactions-and-ledger - IMAGE](docs/pics/transactions-and-ledger.jpg)
+![IMAGE - transactions-and-ledger - IMAGE](docs/pics/ledger-and-transactions.jpg)
 
 ## 2. MINER
 

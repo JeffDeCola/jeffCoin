@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	toolVersion = "1.2.1"
+	toolVersion = "1.2.2"
 )
 
 var genesisPtr, gcePtr *bool
