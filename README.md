@@ -108,6 +108,7 @@ jeffCoin uses the following technology,
 * Creates a jeffCoin Address from the ECDSA Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
+* Transaction as stored using the unspent transaction output model
 
 What jeffCoin does not have,
 
@@ -236,6 +237,11 @@ A transaction request comes from the wallet which holds
 the private key. All transaction requests are broadcast to the entire Network
 before it is validated. Each Node does its own Proof of Work (PoW).
 
+The transactions are stored in the block using the
+**unspent transaction output model**.
+Basically a chain of ledger transactions.  The illustration below
+will show this better than a explanation.
+
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
 A transaction for a block is the following go struct,
@@ -274,9 +280,13 @@ the transaction is added onto the blockchain.
 
 ![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
 
-This illustration shows the ledger,
+This illustration shows the transactions (ledger) in the block,
 
-![IMAGE - transactions-and-ledger - IMAGE](docs/pics/ledger-and-transactions.jpg)
+![IMAGE - transactions - IMAGE](docs/pics/transactions.jpg)
+
+The flow will look like,
+
+![IMAGE - transaction-and-verification-flow - IMAGE](docs/pics/transaction-and-verification-flow.jpg)
 
 ## 2. MINER
 
