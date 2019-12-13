@@ -44,8 +44,11 @@ This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-  and the ECDSA digital signature verification was built from my
+* The **BLOCKCHAIN TRANSACTIONS** is build with my
+  ecdsa signature verification from
   [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+  and the transaction ledger was built from my
+  [bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -137,6 +140,9 @@ transactions secure. A transaction is a transfer of value (jeffCoins) between
 jeffCoin Addresses.
 Like bitcoin, the value (jeffCoins) is contained in the ledger.
 The wallets just hold the public/private keys to request a transaction.
+
+This blockchain is built from my
+[single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
 
 This blockchain section has two main parts, the blockchain and the transactions
 (the data on the blockchain).
@@ -239,8 +245,13 @@ before it is validated. Each Node does its own Proof of Work (PoW).
 
 The transactions are stored in the block using the
 **unspent transaction output model**.
-Basically a chain of ledger transactions.  The illustration below
-will show this better than a explanation.
+Basically a chain of ledger transactions.
+
+This was built using my
+ecdsa signature verification from
+[ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+and the transaction ledger was built from my
+[bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model).
 
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
@@ -280,14 +291,6 @@ the transaction is added onto the blockchain.
 
 ![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
 
-This illustration shows the transactions (ledger) in the block,
-
-![IMAGE - transactions - IMAGE](docs/pics/transactions.jpg)
-
-The flow will look like,
-
-![IMAGE - transaction-and-verification-flow - IMAGE](docs/pics/transaction-and-verification-flow.jpg)
-
 ## 2. MINER
 
 The miner section has the following features,
@@ -326,9 +329,11 @@ type tbd struct {
 
 The Routingnode section has two main parts, the nodeList
 and the ability to handle the Node TCP Requests (TCP Server).
-
 The nodeList keeps a listing of all Nodes in the Network.
 The TCP Server handles requests from other Nodes.
+
+The routingnode is built from my
+[simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 
 ### 3.1 NODELIST
 
@@ -440,6 +445,9 @@ The wallet section holds the Public Key, the Private Key and the jeffCoin Addres
 Like bitcoin, wallets do not have or hold any jeffCoins.
 The jeffCoins are in the blockchain transactions (ledger).
 
+Generating keys and creating the jeffCoin address is built from my
+[create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey).
+
 Your wallet will be saved in the following file based on your nodename,
 `/wallet/{nodename}-wallet.json`.
 
@@ -512,6 +520,9 @@ type walletStruct struct {
 ## 5. WEBSERVER
 
 The webserver section has two main parts, the GUI and the REST API.
+
+This webserver is built from my
+[simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST).
 
 ### 5.1 GUI
 
