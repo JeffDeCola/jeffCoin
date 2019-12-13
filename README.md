@@ -37,18 +37,17 @@ Table of Contents,
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
   * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
   * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
-* [RUN ON GCE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-gce-optional)
-* [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
+* [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
 
 This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-* The **BLOCKCHAIN TRANSACTIONS** is build with my
-  ecdsa signature verification from
-  [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
-  and the transaction ledger was built from my
-  [bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model)
+  * The **BLOCKCHAIN TRANSACTIONS** is build with my
+    ecdsa signature verification from
+    [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+    and the transaction ledger was built from my
+    [bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -141,13 +140,13 @@ jeffCoin Addresses.
 Like bitcoin, the value (jeffCoins) is contained in the ledger.
 The wallets just hold the public/private keys to request a transaction.
 
-This blockchain is built from my
-[single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-
 This blockchain section has two main parts, the blockchain and the transactions
 (the data on the blockchain).
 
 ### 1.1 BLOCKCHAIN
+
+This blockchain is built from my
+[single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST).
 
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
@@ -333,7 +332,7 @@ The nodeList keeps a listing of all Nodes in the Network.
 The TCP Server handles requests from other Nodes.
 
 The routingnode is built from my
-[simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
+[simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server).
 
 ### 3.1 NODELIST
 
@@ -528,7 +527,7 @@ This webserver is built from my
 
 Currently, there is the main page that also lists the available APIs.
 
-* [192.168.20.100:1234](192.168.20.100:1234/)
+* [192.168.20.100:1234](http://192.168.20.100:1234)
 
 ### 5.2 REST API
 
@@ -637,7 +636,7 @@ And request commands such as,
 SEND-ADDRESS-BALANCE
 ```
 
-## RUN ON GCE (OPTIONAL)
+## RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
 
 Make sure your create a firewall rule and have your instance use
 it as a network tag,
