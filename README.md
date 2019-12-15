@@ -47,7 +47,7 @@ This project was built from some of my other projects,
     ecdsa signature verification from
     [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
     and the transaction ledger was built from my
-    [bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model)
+    [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -250,7 +250,7 @@ This was built using my
 ecdsa signature verification from
 [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
 and the transaction ledger was built from my
-[bitcoin-unspent-transaction-output-model](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-unspent-transaction-output-model).
+[bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger).
 
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
