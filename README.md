@@ -90,11 +90,11 @@ build bigger and better things.
 Coins (a.k.a jeffCoins) are minted as follows,
 
 * A grand total of **1,000,000 jeffCoins**
-* The blockchain will not store jeffCoins but **jefftoshi** which are
+* The blockchain will not store jeffCoins but **addies** which are
   1/1000 of a jeffCoin (.001 JEFC).
-* The founders wallet will start with **100,000 jeffCoins (100,000,000 jefftoshi)**
+* The founders wallet will start with **100,000 jeffCoins (100,000,000 addies)**
   (10% of all jeffCoins)
-* Rewards **1 jeffCoin (1000 jefftoshi) every 10 minutes**
+* Rewards **1 jeffCoin (1000 addies) every 10 minutes**
   _(144 jeffCoins/day or 52,560 jeffCoins/year)_
 * Will take **17.12 years to mint all the jeffCoins**
   _(900,000/52,560 = 17.12)_
