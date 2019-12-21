@@ -37,15 +37,17 @@ Table of Contents,
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
   * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
   * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
-* [RUN ON GCE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-gce-optional)
-* [UPDATE GITHUB WEBPAGE USING CONCOURSE (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#update-github-webpage-using-concourse-optional)
+* [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
 
 This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-  and the ECDSA digital signature verification was built from my
-  [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+  * The **BLOCKCHAIN TRANSACTIONS** is build with my
+    ecdsa signature verification from
+    [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+    and the transaction ledger was built from my
+    [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -81,15 +83,18 @@ go get -u -v github.com/pkg/errors
 
 ## OVERVIEW
 
-`jeffCoin` is my interpretation of a transaction based (ledger) using a blockchain.
+`jeffCoin` (JEFC) is my interpretation of a transaction based (ledger) using a blockchain.
 This is a work in progress I feel can be used as a foundation to
 build bigger and better things.
 
 Coins (a.k.a jeffCoins) are minted as follows,
 
 * A grand total of **1,000,000 jeffCoins**
-* The founders wallet will start with **100,000 jeffCoins** (10% of all jeffCoins)
-* Rewards **1 jeffCoin every 10 minutes**
+* The blockchain will not store jeffCoins but **addies** which are
+  1/1000 of a jeffCoin (.001 JEFC).
+* The founders wallet will start with **100,000 jeffCoins (100,000,000 addies)**
+  (10% of all jeffCoins)
+* Rewards **1 jeffCoin (1000 addies) every 10 minutes**
   _(144 jeffCoins/day or 52,560 jeffCoins/year)_
 * Will take **17.12 years to mint all the jeffCoins**
   _(900,000/52,560 = 17.12)_
@@ -105,6 +110,7 @@ jeffCoin uses the following technology,
 * Creates a jeffCoin Address from the ECDSA Public Key _(Just like bitcoin)_
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
+* Transaction as stored using the unspent transaction output model
 
 What jeffCoin does not have,
 
@@ -138,6 +144,9 @@ This blockchain section has two main parts, the blockchain and the transactions
 (the data on the blockchain).
 
 ### 1.1 BLOCKCHAIN
+
+This blockchain is built from my
+[single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST).
 
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
@@ -233,6 +242,16 @@ A transaction request comes from the wallet which holds
 the private key. All transaction requests are broadcast to the entire Network
 before it is validated. Each Node does its own Proof of Work (PoW).
 
+The transactions are stored in the block using the
+**unspent transaction output model**.
+Basically a chain of ledger transactions.
+
+This was built using my
+ecdsa signature verification from
+[ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+and the transaction ledger was built from my
+[bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger).
+
 **[BLOCKCHAIN-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-datastructures.go)**
 
 A transaction for a block is the following go struct,
@@ -270,10 +289,6 @@ and addition onto the currentBlock. A transaction is never valid until
 the transaction is added onto the blockchain.
 
 ![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
-
-This illustration shows the ledger,
-
-![IMAGE - transactions-and-ledger - IMAGE](docs/pics/transactions-and-ledger.jpg)
 
 ## 2. MINER
 
@@ -313,9 +328,11 @@ type tbd struct {
 
 The Routingnode section has two main parts, the nodeList
 and the ability to handle the Node TCP Requests (TCP Server).
-
 The nodeList keeps a listing of all Nodes in the Network.
 The TCP Server handles requests from other Nodes.
+
+The routingnode is built from my
+[simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server).
 
 ### 3.1 NODELIST
 
@@ -427,6 +444,9 @@ The wallet section holds the Public Key, the Private Key and the jeffCoin Addres
 Like bitcoin, wallets do not have or hold any jeffCoins.
 The jeffCoins are in the blockchain transactions (ledger).
 
+Generating keys and creating the jeffCoin address is built from my
+[create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey).
+
 Your wallet will be saved in the following file based on your nodename,
 `/wallet/{nodename}-wallet.json`.
 
@@ -500,11 +520,14 @@ type walletStruct struct {
 
 The webserver section has two main parts, the GUI and the REST API.
 
+This webserver is built from my
+[simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST).
+
 ### 5.1 GUI
 
 Currently, there is the main page that also lists the available APIs.
 
-* [192.168.20.100:1234](192.168.20.100:1234/)
+* [192.168.20.100:1234](http://192.168.20.100:1234)
 
 ### 5.2 REST API
 
@@ -613,7 +636,7 @@ And request commands such as,
 SEND-ADDRESS-BALANCE
 ```
 
-## RUN ON GCE (OPTIONAL)
+## RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
 
 Make sure your create a firewall rule and have your instance use
 it as a network tag,
