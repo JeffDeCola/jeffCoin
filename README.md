@@ -277,7 +277,7 @@ type txOutputStruct struct {
 **[TRANSACTION FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/transactions.go)**
 
 * TRANSACTIONS
-  * **transactionRequest()**
+  * **processTxRequestMessage()**
     _Request to transfer jeffCoins to a jeffCoin Address_
 * SIGNATURE
   * **verifySignature()**

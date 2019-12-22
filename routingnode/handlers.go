@@ -168,19 +168,19 @@ func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 	s := "START  handleBroadcastTransactionRequest() - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 
-	s = "Please enter the transactionRequestMessageSigned"
+	s = "Please enter the txRequestMessageSigned"
 	log.Info("ROUTINGNODE: HDLR            " + s)
 	returnMessage(s, rw)
 
 	// RECEIVING - TRANSACTION REQUEST
-	transactionRequestMessageSigned, err := rw.ReadString('\n')
+	txRequestMessageSigned, err := rw.ReadString('\n')
 	checkErr(err)
-	transactionRequestMessageSigned = strings.Trim(transactionRequestMessageSigned, "\n ")
-	s = "-H rcvd   - TRANSACTION: " + transactionRequestMessageSigned
+	txRequestMessageSigned = strings.Trim(txRequestMessageSigned, "\n ")
+	s = "-H rcvd   - TRANSACTION: " + txRequestMessageSigned
 	log.Info("ROUTINGNODE: HDLR   " + s)
 
 	// TRANSACTION REQUEST
-	status := blockchain.TransactionRequest(transactionRequestMessageSigned)
+	status := blockchain.ProcessTxRequestMessage(txRequestMessageSigned)
 	s = "The Status is: " + status
 	log.Info("ROUTINGNODE: HDLR            " + s)
 	returnMessage(s, rw)
@@ -237,32 +237,52 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 }
 
-// handleTransactionRequest - TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
-func handleTransactionRequest(rw *bufio.ReadWriter) {
+// handleTxRequestMessage - TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
+func handleTxRequestMessage(rw *bufio.ReadWriter) {
 
-	s := "START  handleTransactionRequest() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
+	s := "START  handleTxRequestMessage() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 
-	s = "Please enter the transactionRequestMessageSigned"
-	log.Info("ROUTINGNODE: HDLR            " + s)
-	returnMessage(s, rw)
-
-	// RECEIVING TRANSACTION REQUEST
-	transactionRequestMessageSigned, err := rw.ReadString('\n')
+	// SENT - RESPOND - SEND NEW NODE
+	s = "Please send the txRequestMessageSigned"
+	_, err := rw.WriteString(s + "\n")
 	checkErr(err)
-	transactionRequestMessageSigned = strings.Trim(transactionRequestMessageSigned, "\n ")
-	s = "-H rcvd   - TRANSACTION: " + transactionRequestMessageSigned
+	err = rw.Flush()
+	checkErr(err)
+	s = "Please send The New Node so I can append to my nodeList"
+	log.Info("ROUTINGNODE: HDLR  -H sent   " + s)
+
+	// RCVD - RECEIVING TRANSACTION REQUEST
+	txRequestMessageSigned, err := rw.ReadString('\n')
+	checkErr(err)
+	txRequestMessageSigned = strings.Trim(txRequestMessageSigned, "\n ")
+	s = "-H rcvd   - TX REQUEST MESSAGE SIGNED: " + txRequestMessageSigned
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	// BROADCAST TRANSACTION REQUEST TO ALL NODES
 	// ???????????????????????????????????????????????
 
-	// TRANSACTION REQUEST
-	status := blockchain.TransactionRequest(transactionRequestMessageSigned)
+	// PROCESS TRANSACTION REQUEST MESSAGE
+	status := blockchain.ProcessTxRequestMessage(txRequestMessageSigned)
 	s = "The Status is: " + status
 	log.Info("ROUTINGNODE: HDLR            " + s)
-	returnMessage(s, rw)
 
-	s = "END    handleTransactionRequest() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
+	// SENT - RESPOND - Status of transaction request
+	s = "Status of transaction request is " + status
+	_, err = rw.WriteString(s + "\n")
+	checkErr(err)
+	err = rw.Flush()
+	checkErr(err)
+	s = "Status of transaction request is " + status
+	log.Info("ROUTINGNODE: HDLR  -H sent   " + s)
+
+	// RCVD - THANK YOU
+	msgThankYou, err := rw.ReadString('\n')
+	checkErr(err)
+	msgThankYou = strings.Trim(msgThankYou, "\n ")
+	s = "-H rcvd   - " + msgThankYou
+	log.Info("ROUTINGNODE: HDLR  " + s)
+
+	s = "END    handleTxRequestMessage() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 }

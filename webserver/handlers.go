@@ -404,55 +404,78 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
 
-	// GET ADDRESS & VALUE
-	destinationAddress := params["destinationaddress"]
-	value := params["value"]
+	// ------------------------------------
+	// GET ADDRESS & VALUE (COMMA DELIMITED)
+	destinationAddressComma := params["destinationaddress"]
+	valueComma := params["value"]
 
+	// ------------------------------------
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
 	nodeIP := thisNode.IP
 	nodeTCPPort := thisNode.TCPPort
 
-	// GET wallet
-	gotWallet := wallet.GetWallet()
-
+	// ------------------------------------
 	// GET sourceAddress FROM wallet
+	gotWallet := wallet.GetWallet()
 	sourceAddress := gotWallet.JeffCoinAddress
-
 	// GET ENCODED KEYS FROM wallet
 	privateKeyHex := gotWallet.PrivateKeyHex
 	publicKeyHex := gotWallet.PublicKeyHex
-
 	// DECODE KEYS
 	privateKeyRaw, _ := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
 
+	// ------------------------------------
 	// BUILD TRANSACTION REQUEST MESSAGE
-	requestMessage := `
+	// The destinationAddress and Value are comma delimited
+	// Clean/remove the comma into a space
+	destinationAddressSpace := strings.Replace(destinationAddressComma, ",", " ", -1)
+	valueSpace := strings.Replace(valueComma, ",", " ", -1)
+	// Convert 'cleaned' comma separated string to slice
+	destinationAddressSlice := strings.Fields(destinationAddressSpace)
+	valueSlice := strings.Fields(valueSpace)
+	// Build destinations first
+	destinations := "["
+	for i := range destinationAddressSlice {
+		destinations = destinations + `
+            {
+                "destinationAddress": "` + destinationAddressSlice[i] + `",
+                "value": ` + valueSlice[i] + `
+            }`
+		// Add comma between destinations
+		if i != (len(destinationAddressSlice) - 1) {
+			destinations = destinations + ","
+		}
+	}
+	destinations = destinations + "]"
+	// Build tx request message
+	txRequestMessage := `
         { 
             "sourceAddress": "` + sourceAddress + `",
-            "destinationAddress": "` + destinationAddress + `",
-            "value" : ` + value + `
+            "destinations": ` + destinations + `
         }`
-
 	// Make a long string - Remove /n and whitespace
-	requestMessage = strings.Replace(requestMessage, "\n", "", -1)
-	requestMessage = strings.Replace(requestMessage, " ", "", -1)
+	txRequestMessage = strings.Replace(txRequestMessage, "\n", "", -1)
+	txRequestMessage = strings.Replace(txRequestMessage, " ", "", -1)
 
+	// ------------------------------------
 	// SIGN YOUR MESSAGE
-	signature := wallet.CreateSignature(privateKeyRaw, requestMessage)
+	signature := wallet.CreateSignature(privateKeyRaw, txRequestMessage)
 
-	// SIGNED TRANSACTION REQUEST MESSAGE
-	transactionRequestMessageSigned := `
+	// ------------------------------------
+	// BUILD SIGNED TRANSACTION REQUEST MESSAGE
+	txRequestMessageSigned := `
         {
-            "requestMessage": ` + requestMessage + `,
+            "txRequestMessage": ` + txRequestMessage + `,
             "signature" : "` + signature + `"
         }`
 	// Make a long string - Remove /n and whitespace
-	transactionRequestMessageSigned = strings.Replace(transactionRequestMessageSigned, "\n", "", -1)
-	transactionRequestMessageSigned = strings.Replace(transactionRequestMessageSigned, " ", "", -1)
+	txRequestMessageSigned = strings.Replace(txRequestMessageSigned, "\n", "", -1)
+	txRequestMessageSigned = strings.Replace(txRequestMessageSigned, " ", "", -1)
 
-	// REQUEST TRANSACTION TO SEND COINS
-	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, transactionRequestMessageSigned)
+	// ------------------------------------
+	// REQUEST TRANSACTION
+	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSigned)
 	checkErr(err)
 
 	// RESPOND with status

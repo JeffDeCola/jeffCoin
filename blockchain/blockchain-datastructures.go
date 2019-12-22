@@ -54,15 +54,20 @@ type outputsStruct struct {
 
 // TRANSACTION REQUESTS **************************************************************************************************
 
-// transactionRequestMessageStruct is your transaction request
-type transactionRequestMessageStruct struct {
-	RequestMessage requestMessageStruct `json:"requestMessage"`
-	Signature      string               `json:"signature"`
+// txRequestMessageSignedStruct - Signed
+type txRequestMessageSignedStruct struct {
+	TxRequestMessage txRequestMessageStruct `json:"txRequestMessage"`
+	Signature        string                 `json:"signature"`
 }
 
-// requestMessageStruct
-type requestMessageStruct struct {
-	SourceAddress      string `json:"sourceAddress"`
+// txRequestMessageStruct - Unsigned
+type txRequestMessageStruct struct {
+	SourceAddress string              `json:"sourceAddress"`
+	Destinations  []destinationStruct `json:"destinations"`
+}
+
+// destinationStruct for multiple destinations
+type destinationStruct struct {
 	DestinationAddress string `json:"destinationAddress"`
 	Value              int64  `json:"value"`
 }

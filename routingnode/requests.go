@@ -81,7 +81,7 @@ func HandleRequest(conn net.Conn) {
 		case cmd == "SEND-ADDRESS-BALANCE" || cmd == "SAB":
 			handleSendAddressBalance(rw)
 		case cmd == "TRANSACTION-REQUEST" || cmd == "TR":
-			handleTransactionRequest(rw)
+			handleTxRequestMessage(rw)
 		// EOF *****************************************************
 		case cmd == "EOF":
 			s = "----------------------------------------------------------------"
