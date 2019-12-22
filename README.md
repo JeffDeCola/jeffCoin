@@ -185,7 +185,7 @@ The states of a block are,
 * LOCKED BLOCK
   * **GetLockedBlock()**
     _Gets the lockedBlock_
-* CURRENT BLOCK
+* PENDING BLOCK
   * **GetPendingBlock()**
     _Gets the pendingBlock_
   * **AddTransactionToPendingBlock()**
@@ -218,7 +218,7 @@ The states of a block are,
     _Gets the lockedBlock_
   * **appendLockedBlock()**
     _Appends the lockedBlock to the blockchain_
-* CURRENT BLOCK
+* PENDING BLOCK
   * **getPendingBlock()**
     _Gets the pendingBlock_
   * **loadPendingBlock()**
@@ -541,12 +541,13 @@ Currently, there is the main page that also lists the available APIs.
   * **/shownodelist**
   * **/shownode/{nodeID}**
   * **/showthisnode**
-* WALLET
+* WALLET (THIS NODE)
   * **/showwallet**
   * **/showjeffcoinaddress**
   * **/showbalance**
-  * **/showaddressbalance/{jeffcoinaddress}**
   * **/transactionrequest/{destinationaddress}/{value}**
+* WALLET (OTHER)
+  * **/showaddressbalance/{jeffcoinaddress}**
 
 ## RUN
 
