@@ -189,27 +189,27 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// showCurrentBlockHandler - GET: /showcurrentblock
-func showCurrentBlockHandler(res http.ResponseWriter, req *http.Request) {
+// showPendingBlockHandler - GET: /showpendingblock
+func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	logReceivedAPICommand()
 
-	s := "START  showCurrentBlockHandler() - GET: /showcurrentblock"
+	s := "START  showPendingBlockHandler() - GET: /showpendingblock"
 	log.Trace("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET currentBlock
-	theCurrentBlock := blockchain.GetCurrentBlock()
+	// GET pendingBlock
+	thePendingBlock := blockchain.GetPendingBlock()
 
-	// RESPOND with currentBlock
-	js, _ := json.MarshalIndent(theCurrentBlock, "", "    ")
+	// RESPOND with pendingBlock
+	js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
 	s = string(js)
-	log.Info("WEBSERVER:                   " + "currentBlock too long, not shown")
+	log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
 	io.WriteString(res, s+"\n")
 	//respondMessage(s, res)
 
-	s = "END    showCurrentBlockHandler() - GET: /showcurrentblock"
+	s = "END    showPendingBlockHandler() - GET: /showpendingblock"
 	log.Trace("WEBSERVER:            " + s)
 
 	logDoneAPICommand()

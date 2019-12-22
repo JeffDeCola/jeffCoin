@@ -13,10 +13,10 @@ import (
 
 // FROM BLOCKCHAIN I/F ***************************************************************************************************
 
-// handleSendBlockchain - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node
+// handleSendBlockchain - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and pendingBlock to another Node
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
-	s := "START  handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node"
+	s := "START  handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and pendingBlock to another Node"
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 
 	// SENT - RESPOND - SEND BLOCKCHAIN
@@ -37,15 +37,15 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	s = "-H rcvd   - " + msgThankYou
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
-	// SENT - RESPOND - SEND CurrentBlock
-	sendCurrentBlock := blockchain.GetCurrentBlock()
-	js, _ = json.Marshal(sendCurrentBlock)
+	// SENT - RESPOND - SEND PendingBlock
+	sendPendingBlock := blockchain.GetPendingBlock()
+	js, _ = json.Marshal(sendPendingBlock)
 	s = string(js)
 	_, err = rw.WriteString(s + "\n")
 	checkErr(err)
 	err = rw.Flush()
 	checkErr(err)
-	s = "Sent currentBlock to another node"
+	s = "Sent pendingBlock to another node"
 	log.Info("ROUTINGNODE: HDLR  -H sent   " + s)
 
 	// RCVD - THANK YOU
@@ -55,7 +55,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	s = "-H rcvd   - " + msgThankYou
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
-	s = "END    handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and currentBlock to another Node"
+	s = "END    handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and pendingBlock to another Node"
 	log.Trace("ROUTINGNODE: HDLR     " + s)
 }
 

@@ -41,10 +41,10 @@ var routes = Routes{
 		showLockedBlockHandler,
 	},
 	Route{
-		"ShowCurrentBlock",
+		"ShowPendingBlock",
 		"GET",
-		"/showcurrentblock",
-		showCurrentBlockHandler,
+		"/showpendingblock",
+		showPendingBlockHandler,
 	},
 	Route{
 		"ShowNodeList",
