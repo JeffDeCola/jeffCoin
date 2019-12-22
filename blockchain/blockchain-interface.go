@@ -36,8 +36,8 @@ func GenesisBlockchain(transaction string, difficulty int) {
 	s := "START  GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	resetCurrentBlock(transaction)
-	lockCurrentBlock(difficulty)
+	resetPendingBlock(transaction)
+	lockPendingBlock(difficulty)
 	newBlock := appendLockedBlock()
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
@@ -49,10 +49,10 @@ func GenesisBlockchain(transaction string, difficulty int) {
 
 }
 
-// RequestBlockchain - Requests the blockchain and the currentBlock from a Network Node
+// RequestBlockchain - Requests the blockchain and the pendingBlock from a Network Node
 func RequestBlockchain(networkIP string, networkTCPPort string) error {
 
-	s := "START  RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
+	s := "START  RequestBlockchain() - Requests the blockchain and the pendingBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	//  CONN - SETUP THE CONNECTION
@@ -100,18 +100,18 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	fmt.Fprintf(conn, "Thank You\n")
 
-	// RCV - GET THE currentBlock
-	messageCurrentBlock, _ := bufio.NewReader(conn).ReadString('\n')
-	s = "-C rcv    Message from Network Node: (NOT SHOWN) - Received currentBlock"
+	// RCV - GET THE pendingBlock
+	messagePendingBlock, _ := bufio.NewReader(conn).ReadString('\n')
+	s = "-C rcv    Message from Network Node: (NOT SHOWN) - Received pendingBlock"
 	log.Info("BLOCKCHAIN:  I/F   " + s)
-	if messageCurrentBlock == "ERROR" {
-		s = "ERROR: Could not get currentBlock from node"
+	if messagePendingBlock == "ERROR" {
+		s = "ERROR: Could not get pendingBlock from node"
 		log.Error("BLOCKCHAIN:  I/F              " + s)
 		return errors.New(s)
 	}
 
-	// LOAD THE CurrentBlock
-	loadCurrentBlock(messageCurrentBlock)
+	// LOAD THE PendingBlock
+	loadPendingBlock(messagePendingBlock)
 
 	// SEND - THANK YOU
 	s = "-C send   - Thank you"
@@ -141,7 +141,7 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 	s = "----------------------------------------------------------------"
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
-	s = "END    RequestBlockchain() - Requests the blockchain and the currentBlock from a Network Node"
+	s = "END    RequestBlockchain() - Requests the blockchain and the pendingBlock from a Network Node"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return nil
@@ -186,34 +186,34 @@ func GetLockedBlock() blockStruct {
 
 // CURRENT BLOCK *********************************************************************************************************
 
-// GetCurrentBlock - Gets the currentBlock
-func GetCurrentBlock() blockStruct {
+// GetPendingBlock - Gets the pendingBlock
+func GetPendingBlock() blockStruct {
 
-	s := "START  GetCurrentBlock() - Gets the currentBlock"
+	s := "START  GetPendingBlock() - Gets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	theBlock := getCurrentBlock()
+	theBlock := getPendingBlock()
 
 	// RETURN NOT FOUND
-	s = "END    GetCurrentBlock() - Gets the currentBlock"
+	s = "END    GetPendingBlock() - Gets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
 }
 
-// AddTransactionToCurrentBlock - Adds a transaction to the currentBlock
-func AddTransactionToCurrentBlock(transaction string) blockStruct {
+// AddTransactionToPendingBlock - Adds a transaction to the pendingBlock
+func AddTransactionToPendingBlock(transaction string) blockStruct {
 
-	s := "START  AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
+	s := "START  AddTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	theCurrentBlock := addTransactionToCurrentBlock(transaction)
+	thePendingBlock := addTransactionToPendingBlock(transaction)
 
-	s = "END    AddTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
+	s = "END    AddTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	return theCurrentBlock
+	return thePendingBlock
 
 }
 

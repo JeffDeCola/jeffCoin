@@ -43,11 +43,10 @@ This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-  * The **BLOCKCHAIN TRANSACTIONS** is build with my
-    ecdsa signature verification from
-    [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
-    and the transaction ledger was built from my
+  * The **BLOCKCHAIN TRANSACTIONS** is built from my
     [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
+  * The ecdsa signature verification from my
+    [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -166,7 +165,7 @@ type blockStruct struct {
 
 The states of a block are,
 
-* **currentBlock** Receiving transactions and not part of blockchain
+* **pendingBlock** Receiving transactions and not part of blockchain
 * **lockedBlock** To be mined and added to the blockchain
 * **Part of Chain** Already in the **blockchain**
 
@@ -178,7 +177,7 @@ The states of a block are,
   * **GenesisBlockchain()**
     _Creates the blockchain_
   * **RequestBlockchain()**
-    _Requests the blockchain and the currentBlock from a Network Node_
+    _Requests the blockchain and the pendingBlock from a Network Node_
     * `SEND-BLOCKCHAIN Request`
 * BLOCK
   * **GetBlock()**
@@ -187,10 +186,10 @@ The states of a block are,
   * **GetLockedBlock()**
     _Gets the lockedBlock_
 * CURRENT BLOCK
-  * **GetCurrentBlock()**
-    _Gets the currentBlock_
-  * **AddTransactionToCurrentBlock()**
-    _Adds a transaction to the currentBlock_
+  * **GetPendingBlock()**
+    _Gets the pendingBlock_
+  * **AddTransactionToPendingBlock()**
+    _Adds a transaction to the pendingBlock_
 * JEFFCOINS
   * **GetAddressBalance()**
     _Gets the jeffCoin Address balance_
@@ -220,16 +219,16 @@ The states of a block are,
   * **appendLockedBlock()**
     _Appends the lockedBlock to the blockchain_
 * CURRENT BLOCK
-  * **getCurrentBlock()**
-    _Gets the currentBlock_
-  * **loadCurrentBlock()**
-    _Loads the currentBlock_
-  * **resetCurrentBlock()**
-    _Resets the currentBlock_
-  * **addTransactionToCurrentBlock()**
-    _Adds a transaction to the currentBlock_
-  * **lockCurrentBlock()**
-    _Moves the currentBlock to the lockedBlock and resets the currentBlock_
+  * **getPendingBlock()**
+    _Gets the pendingBlock_
+  * **loadPendingBlock()**
+    _Loads the pendingBlock_
+  * **resetPendingBlock()**
+    _Resets the pendingBlock_
+  * **addTransactionToPendingBlock()**
+    _Adds a transaction to the pendingBlock_
+  * **lockPendingBlock()**
+    _Moves the pendingBlock to the lockedBlock and resets the pendingBlock_
 * JEFFCOINS
   * **getAddressBalance()**
     _Gets the jeffCoin Address balance_
@@ -285,7 +284,7 @@ type txOutputStruct struct {
     _Verifies a ECDSA Digital Signature_
 
 This illustration shows transaction requests, verification for that request
-and addition onto the currentBlock. A transaction is never valid until
+and addition onto the pendingBlock. A transaction is never valid until
 the transaction is added onto the blockchain.
 
 ![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
@@ -295,7 +294,7 @@ the transaction is added onto the blockchain.
 The miner section has the following features,
 
 * Miner automatically tells blockchain-interface to place
-  currentBlock into lockedBlock
+  pendingBlock into lockedBlock
 * Performs the `mining (poW)` on the lockedBlocked
 * Difficulty is how many zero are needed at the beginning of the hash
 * When block is solved, broadcast block to entire Network to check for `consensus`
@@ -413,7 +412,7 @@ An illustration of client-server handshakes,
 
 * FROM BLOCKCHAIN I/F
   * **handleSendBlockchain()**
-    _SEND-BLOCKCHAIN - Sends the blockchain and currentBlock to another Node_
+    _SEND-BLOCKCHAIN - Sends the blockchain and pendingBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **handleBroadcastAddNewNode()**
     _BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList_
@@ -537,7 +536,7 @@ Currently, there is the main page that also lists the available APIs.
   * **/showBlockchain**
   * **/showBlock/{blockID}**
   * **/showlockedblock**
-  * **/showcurrentblock**
+  * **/showpendingblock**
 * NODELIST
   * **/shownodelist**
   * **/shownode/{nodeID}**

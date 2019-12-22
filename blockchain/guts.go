@@ -84,7 +84,7 @@ func getBlock(id string) blockStruct {
 
 	// SEARCH DATA FOR blockID
 	for _, blockItem := range blockchain {
-		if strconv.Itoa(blockItem.Index) == id {
+		if strconv.FormatInt(blockItem.BlockID, 10) == id {
 			// RETURN BLOCK
 			s = "END    getBlock() - Gets a block in the blockchain"
 			log.Trace("BLOCKCHAIN:  GUTS     " + s)
@@ -110,7 +110,7 @@ func calculateBlockHash(block blockStruct) string {
 		transactionBytes, _ = json.Marshal(transaction)
 	}
 
-	hashMe := strconv.Itoa(block.Index) + block.Timestamp + string(transactionBytes) + block.PrevHash + string(block.Difficulty) + block.Nonce
+	hashMe := strconv.FormatInt(block.BlockID, 10) + block.Timestamp + string(transactionBytes) + block.PrevHash + string(block.Difficulty) + block.Nonce
 	hashedByte := sha256.Sum256([]byte(hashMe))
 	hashed := hex.EncodeToString(hashedByte[:])
 
@@ -131,7 +131,7 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	// Check index
-	if oldBlock.Index+1 != checkBlock.Index {
+	if oldBlock.BlockID+1 != checkBlock.BlockID {
 		return false
 	}
 
@@ -185,36 +185,36 @@ func appendLockedBlock() blockStruct {
 
 // CURRENT BLOCK *********************************************************************************************************
 
-// getCurrentBlock - Gets the currentBlock
-func getCurrentBlock() blockStruct {
+// getPendingBlock - Gets the pendingBlock
+func getPendingBlock() blockStruct {
 
-	s := "START  getCurrentBlock() - Gets the currentBlock"
+	s := "START  getPendingBlock() - Gets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	s = "END    getCurrentBlock() - Gets the currentBlock"
+	s = "END    getPendingBlock() - Gets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	return currentBlock
+	return pendingBlock
 }
 
-// loadCurrentBlock - Loads the currentBlock
-func loadCurrentBlock(message string) {
+// loadPendingBlock - Loads the pendingBlock
+func loadPendingBlock(message string) {
 
-	s := "START  loadCurrentBlock() - Loads the currentBlock"
+	s := "START  loadPendingBlock() - Loads the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	// LOAD
-	json.Unmarshal([]byte(message), &currentBlock)
+	json.Unmarshal([]byte(message), &pendingBlock)
 
-	s = "END    loadCurrentBlock() - Loads the currentBlock"
+	s = "END    loadPendingBlock() - Loads the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
-// resetCurrentBlock - Resets the currentBlock
-func resetCurrentBlock(transaction string) {
+// resetPendingBlock - Resets the pendingBlock
+func resetPendingBlock(transaction string) {
 
-	s := "START  resetCurrentBlock() - Resets the currentBlock"
+	s := "START  resetPendingBlock() - Resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	t := time.Now()
@@ -229,49 +229,49 @@ func resetCurrentBlock(transaction string) {
 	var transactionSlice []transactionStruct
 	transactionSlice = append(transactionSlice, theTransactionStruct)
 
-	currentBlock.Index = 0
-	currentBlock.Timestamp = t.String()
-	currentBlock.Transactions = transactionSlice
-	currentBlock.PrevHash = currentBlock.Hash
-	currentBlock.Difficulty = currentBlock.Difficulty
-	currentBlock.Hash = ""
-	currentBlock.Nonce = ""
+	pendingBlock.BlockID = 0
+	pendingBlock.Timestamp = t.String()
+	pendingBlock.Transactions = transactionSlice
+	pendingBlock.PrevHash = pendingBlock.Hash
+	pendingBlock.Difficulty = pendingBlock.Difficulty
+	pendingBlock.Hash = ""
+	pendingBlock.Nonce = ""
 
-	s = "END    resetCurrentBlock() - Resets the currentBlock"
+	s = "END    resetPendingBlock() - Resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
-// addTransactionToCurrentBlock - Adds a transaction to the currentBlock
-func addTransactionToCurrentBlock(transaction string) blockStruct {
+// addTransactionToPendingBlock - Adds a transaction to the pendingBlock
+func addTransactionToPendingBlock(transaction string) blockStruct {
 
-	s := "START  addTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
+	s := "START  addTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	// DO STUFF WITH STRING????????????????????????????????????????????????????
 	transaction1 := transactionStruct{}
 
-	currentBlock.Transactions = append(currentBlock.Transactions, transaction1)
+	pendingBlock.Transactions = append(pendingBlock.Transactions, transaction1)
 
-	s = "END    addTransactionToCurrentBlock() - Adds a transaction to the currentBlock"
+	s = "END    addTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	return currentBlock
+	return pendingBlock
 
 }
 
-// lockCurrentBlock - Moves the currentBlock to the lockedBlock and resets the currentBlock
-func lockCurrentBlock(difficulty int) {
+// lockPendingBlock - Moves the pendingBlock to the lockedBlock and resets the pendingBlock
+func lockPendingBlock(difficulty int) {
 
-	s := "START  lockCurrentBlock() - Moves the currentBlock to the lockedBlock and resets the currentBlock"
+	s := "START  lockPendingBlock() - Moves the pendingBlock to the lockedBlock and resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	currentBlock.Hash = calculateBlockHash(currentBlock)
-	currentBlock.Difficulty = difficulty
+	pendingBlock.Hash = calculateBlockHash(pendingBlock)
+	pendingBlock.Difficulty = difficulty
 
-	lockedBlock = currentBlock
+	lockedBlock = pendingBlock
 
-	s = "END    lockCurrentBlock() -  Moves the currentBlock to the lockedBlock and resets the currentBlock"
+	s = "END    lockPendingBlock() -  Moves the pendingBlock to the lockedBlock and resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 }
