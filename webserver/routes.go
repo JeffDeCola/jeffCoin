@@ -83,15 +83,15 @@ var routes = Routes{
 		showBalanceHandler,
 	},
 	Route{
-		"ShowAddressBalance",
-		"GET",
-		"/showaddressbalance/{jeffCoinAddress}",
-		showAddressBalanceHandler,
-	},
-	Route{
 		"TransactionRequest",
 		"GET",
 		"/transactionrequest/{destinationaddress}/{value}",
 		transactionRequestHandler,
+	},
+	Route{
+		"ShowAddressBalance",
+		"GET",
+		"/showaddressbalance/{jeffCoinAddress}",
+		showAddressBalanceHandler,
 	},
 }

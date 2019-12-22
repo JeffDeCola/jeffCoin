@@ -303,7 +303,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// WALLET ****************************************************************************************************************
+// WALLET (THIS NODE) ****************************************************************************************************
 
 // showWalletHandler - GET: /showwallet
 func showWalletHandler(res http.ResponseWriter, req *http.Request) {
@@ -393,40 +393,6 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// showAddressBalanceHandler - GET: /showaddressbalance/{jeffcoinaddress}
-func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
-
-	logReceivedAPICommand()
-
-	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
-	log.Trace("WEBSERVER:            " + s)
-
-	res.Header().Set("Content-Type", "application/json")
-	params := mux.Vars(req)
-
-	// GET jeffCoin Address
-	jeffCoinAddress := params["jeffCoinAddress"]
-
-	// GET nodeIP & nodeTCPPort from thisNode
-	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
-
-	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
-	checkErr(err)
-
-	// RESPOND with Address Balance
-	s = gotAddressBalance
-	respondMessage(s, res)
-
-	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
-	log.Trace("WEBSERVER:            " + s)
-
-	logDoneAPICommand()
-
-}
-
 // transactionRequestHandler - GET: /transactionrequest/{destinationaddress}/{value}
 func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
@@ -494,6 +460,42 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END    transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
+	log.Trace("WEBSERVER:            " + s)
+
+	logDoneAPICommand()
+
+}
+
+// WALLET (OTHER) ********************************************************************************************************
+
+// showAddressBalanceHandler - GET: /showaddressbalance/{jeffcoinaddress}
+func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
+	log.Trace("WEBSERVER:            " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(req)
+
+	// GET jeffCoin Address
+	jeffCoinAddress := params["jeffCoinAddress"]
+
+	// GET nodeIP & nodeTCPPort from thisNode
+	thisNode := routingnode.GetThisNode()
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.TCPPort
+
+	// GET ADDRESS BALANCE
+	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	checkErr(err)
+
+	// RESPOND with Address Balance
+	s = gotAddressBalance
+	respondMessage(s, res)
+
+	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
 	log.Trace("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
