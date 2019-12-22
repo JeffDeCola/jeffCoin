@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"math/big"
 	"strconv"
 
@@ -17,34 +18,38 @@ import (
 
 // TRANSACTIONS **********************************************************************************************************
 
-// transactionRequest - Request to transfer jeffCoins to a jeffCoin Address
-func transactionRequest(transactionRequestMessageSigned string) string {
+// processTxRequestMessage - Request to transfer jeffCoins to a jeffCoin Address
+func processTxRequestMessage(txRequestMessageSigned string) string {
 
-	s := "START  transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
+	s := "START  processTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:          " + s)
 
-	// PLACE THIS IS A STRUCT theTransactionRequestMessageStruct
-	transactionRequestMessageSignedByte := []byte(transactionRequestMessageSigned)
-	var theTransactionRequestMessageStruct transactionRequestMessageStruct
-	err := json.Unmarshal(transactionRequestMessageSignedByte, &theTransactionRequestMessageStruct)
+	// PLACE THIS IS A STRUCT theTxnRequestMessageStruct
+	txRequestMessageSignedByte := []byte(txRequestMessageSigned)
+	var theTxRequestMessageSignedStruct txRequestMessageSignedStruct
+	err := json.Unmarshal(txRequestMessageSignedByte, &theTxRequestMessageSignedStruct)
 	checkErr(err)
+
+	// PRINT IT OUT
+	fmt.Printf("\nThe theTxRequestMessageSignedStruct:\n\n")
+	js, _ := json.MarshalIndent(theTxRequestMessageSignedStruct, "", "    ")
+	fmt.Printf("%v\n\n", string(js))
 
 	// EXTRACT WHAT YOU NEED
-	signature := theTransactionRequestMessageStruct.Signature
-	theRequestMessageStruct := theTransactionRequestMessageStruct.RequestMessage
-	theRequestMessageByte, err := json.Marshal(theRequestMessageStruct)
+	signature := theTxRequestMessageSignedStruct.Signature
+	theTxRequestMessageStruct := theTxRequestMessageSignedStruct.TxRequestMessage
+	theTxRequestMessageByte, err := json.Marshal(theTxRequestMessageStruct)
 	checkErr(err)
-	theRequestMessage := string(theRequestMessageByte)
+	theTxRequestMessage := string(theTxRequestMessageByte)
 
-	// GET THE PUBLIC KEY ?????????????????????????????????????????????
-	// FIX THIS THE RIGHT WAY
+	// GET THE PUBLIC KEY FROM BLOCKCHAIN ???????????????????????????
 	theWallet := wallet.GetWallet()
 	privateKeyHex := theWallet.PrivateKeyHex
 	publicKeyHex := theWallet.PublicKeyHex
 	_, publicKeyRawCheck := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
 
 	// VERIFY THIS IS FROM THE SENDER
-	verifyStatus := verifySignature(publicKeyRawCheck, signature, theRequestMessage)
+	verifyStatus := verifySignature(publicKeyRawCheck, signature, theTxRequestMessage)
 
 	// CHECK BALANCE???????????????????
 
@@ -52,7 +57,7 @@ func transactionRequest(transactionRequestMessageSigned string) string {
 
 	status := "Was this verified?: " + strconv.FormatBool(verifyStatus)
 
-	s = "END    transactionRequest() - Request to transfer jeffCoins to a jeffCoin Address"
+	s = "END    processTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:          " + s)
 
 	return status
