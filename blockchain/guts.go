@@ -260,10 +260,10 @@ func addTransactionToPendingBlock(transaction string) blockStruct {
 
 }
 
-// lockPendingBlock - Moves the pendingBlock to the lockedBlock and resets the pendingBlock
+// lockPendingBlock - Moves the pendingBlock to the lockedBlock
 func lockPendingBlock(difficulty int) {
 
-	s := "START  lockPendingBlock() - Moves the pendingBlock to the lockedBlock and resets the pendingBlock"
+	s := "START  lockPendingBlock() - Moves the pendingBlock to the lockedBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	pendingBlock.Hash = calculateBlockHash(pendingBlock)
@@ -271,7 +271,7 @@ func lockPendingBlock(difficulty int) {
 
 	lockedBlock = pendingBlock
 
-	s = "END    lockPendingBlock() -  Moves the pendingBlock to the lockedBlock and resets the pendingBlock"
+	s = "END    lockPendingBlock() -  Moves the pendingBlock to the lockedBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 }

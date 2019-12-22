@@ -31,12 +31,12 @@ func GetBlockchain() blockchainSlice {
 }
 
 // GenesisBlockchain - Creates the blockchain
-func GenesisBlockchain(transaction string, difficulty int) {
+func GenesisBlockchain(firstTransaction string, difficulty int) {
 
 	s := "START  GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	resetPendingBlock(transaction)
+	resetPendingBlock(firstTransaction)
 	lockPendingBlock(difficulty)
 	newBlock := appendLockedBlock()
 

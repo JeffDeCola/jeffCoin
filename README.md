@@ -228,7 +228,7 @@ The states of a block are,
   * **addTransactionToPendingBlock()**
     _Adds a transaction to the pendingBlock_
   * **lockPendingBlock()**
-    _Moves the pendingBlock to the lockedBlock and resets the pendingBlock_
+    _Moves the pendingBlock to the lockedBlock_
 * JEFFCOINS
   * **getAddressBalance()**
     _Gets the jeffCoin Address balance_
@@ -568,6 +568,11 @@ go run jeffCoin.go \
 ```
 
 This will created the founders Node.
+
+`-v` will show the version and `-test` will load the blockchain with test data
+I use in my
+[bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
+example.
 
 ### ADDING NEW NODES
 

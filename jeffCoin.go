@@ -12,6 +12,7 @@ import (
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 	routingnode "github.com/JeffDeCola/jeffCoin/routingnode"
+	testdata "github.com/JeffDeCola/jeffCoin/testdata"
 	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 	webserver "github.com/JeffDeCola/jeffCoin/webserver"
 )
@@ -20,7 +21,7 @@ const (
 	toolVersion = "1.3.1"
 )
 
-var genesisPtr, gcePtr *bool
+var genesisPtr, testPtr, gcePtr *bool
 var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
@@ -31,7 +32,7 @@ func checkErr(err error) {
 	}
 }
 
-func genesisNode(JeffCoinAddress string) {
+func genesisNode(jeffCoinAddress string) {
 
 	// GENESIS blockchain
 	firstTransaction := `
@@ -46,7 +47,7 @@ func genesisNode(JeffCoinAddress string) {
             ],
             "outputs": [
                 {
-                    "jeffCoinAddress": "` + JeffCoinAddress + `",
+                    "jeffCoinAddress": "` + jeffCoinAddress + `",
                     "value": 100000
                 }
             ]
@@ -111,6 +112,8 @@ func init() {
 
 	// VERSION FLAG
 	versionPtr := flag.Bool("v", false, "prints current version")
+	// TEST FLAG
+	testPtr = flag.Bool("test", false, "Loads the blockchain with test data")
 	// CREATE FIRST NODE (GENISIS)
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// LOG LEVEL
@@ -184,26 +187,31 @@ func main() {
 	log.Info("MAIN:                        " + s)
 	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
 
-	var JeffCoinAddress string
+	var jeffCoinAddress string
 
 	// DO YOU ALREADY HAVE A WALLET
 	if _, err := os.Stat("wallet/" + *nodeNamePtr + "-wallet.json"); err == nil {
 		// READ existing wallet from a file (Keys and jeffCoin Address)
 		s = "READ existing wallet from a file (Keys and jeffCoin Address)"
 		log.Info("MAIN:                        " + s)
-		JeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
+		jeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
 	} else {
 		// GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)
 		s = "GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)"
 		log.Info("MAIN:                        " + s)
-		JeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
+		jeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
 	}
 
 	// CREATE GENESIS NODE OR A NEW NODE
 	if *genesisPtr {
-		genesisNode(JeffCoinAddress)
+		genesisNode(jeffCoinAddress)
 	} else {
 		newNode()
+	}
+
+	// LOAD BLOCKCHAIN WITH TEST DATA
+	if *testPtr {
+		testdata.LoadTestDatatoBlockchain()
 	}
 
 	// KICK OFF MASTER CONTROL
