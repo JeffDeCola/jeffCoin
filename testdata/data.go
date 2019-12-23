@@ -11,25 +11,10 @@ const (
 	foundersSig     = "Founders Signature"
 	jeffSig         = "Jeffs Signature"
 	mattSig         = "Matts Signature"
+)
 
-	genesisTransactionString = `
-        {
-        "txID": 0,
-        "inputs": [
-                {
-                    "inID": 0,
-                    "refTxID": -1,
-                    "inPubKey": "",
-                    "signature": "Hello World, Welcome to the first transaction and block of jeffCoin"
-                }
-            ],
-            "outputs": [
-                {
-                    "outPubKey": "` + foundersPubKey + `",
-                    "value": 100000000
-                }
-            ]
-        }`
+// TRANSACTION REQUEST MESSAGES SIGNED
+const (
 	txRequestMessageSignedDataString1 = `
         {
             "txRequestMessage": {
