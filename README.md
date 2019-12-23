@@ -185,11 +185,17 @@ The states of a block are,
 * LOCKED BLOCK
   * **GetLockedBlock()**
     _Gets the lockedBlock_
+  * **AppendLockedBlock()**
+    _Appends the lockedBlock to the blockchain_
 * PENDING BLOCK
   * **GetPendingBlock()**
     _Gets the pendingBlock_
+  * **ResetPendingBlock()**
+    _Resets the pendingBlock_
   * **AddTransactionToPendingBlock()**
     _Adds a transaction to the pendingBlock_
+  * **LockPendingBlock()**
+    _Moves the pendingBlock to the lockedBlock_
 * JEFFCOINS
   * **GetAddressBalance()**
     _Gets the jeffCoin Address balance_

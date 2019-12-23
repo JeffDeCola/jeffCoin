@@ -167,7 +167,7 @@ func getLockedBlock() blockStruct {
 }
 
 // appendLockedBlock - Appends the lockedBlock to the blockchain
-func appendLockedBlock() blockStruct {
+func appendLockedBlock() {
 
 	s := "START  appendLockedBlock() - Appends the lockedBlock to the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
@@ -179,11 +179,9 @@ func appendLockedBlock() blockStruct {
 	s = "END    appendLockedBlock() - Appends the lockedBlock to the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	return lockedBlock
-
 }
 
-// CURRENT BLOCK *********************************************************************************************************
+// PENDING BLOCK *********************************************************************************************************
 
 // getPendingBlock - Gets the pendingBlock
 func getPendingBlock() blockStruct {
@@ -198,13 +196,19 @@ func getPendingBlock() blockStruct {
 }
 
 // loadPendingBlock - Loads the pendingBlock
-func loadPendingBlock(message string) {
+func loadPendingBlock(blockDataString string) {
 
 	s := "START  loadPendingBlock() - Loads the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	// LOAD
-	json.Unmarshal([]byte(message), &pendingBlock)
+	// LOAD THE PENDING BLOCK - Place block data in pendingBlock
+	blockDataByte := []byte(blockDataString)
+	err := json.Unmarshal(blockDataByte, &pendingBlock)
+	checkErr(err)
+
+	// TIMESTAMP IT
+	t := time.Now()
+	pendingBlock.Timestamp = t.String()
 
 	s = "END    loadPendingBlock() - Loads the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
@@ -212,30 +216,41 @@ func loadPendingBlock(message string) {
 }
 
 // resetPendingBlock - Resets the pendingBlock
-func resetPendingBlock(transaction string) {
+func resetPendingBlock() {
 
 	s := "START  resetPendingBlock() - Resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
+	var transactionSlice []transactionStruct
+	var transaction transactionStruct
+
 	t := time.Now()
 
-	// Place data in struct
-	transactionByte := []byte(transaction)
-	var theTransactionStruct transactionStruct
-	err := json.Unmarshal(transactionByte, &theTransactionStruct)
-	checkErr(err)
+	// INCREMENT BlockID
+	pendingBlock.BlockID = pendingBlock.BlockID + 1
 
-	// Place data in slice
-	var transactionSlice []transactionStruct
-	transactionSlice = append(transactionSlice, theTransactionStruct)
-
-	pendingBlock.BlockID = 0
+	// TIMESTAMP THE PENDING BLOCK
 	pendingBlock.Timestamp = t.String()
-	pendingBlock.Transactions = transactionSlice
-	pendingBlock.PrevHash = pendingBlock.Hash
-	pendingBlock.Difficulty = pendingBlock.Difficulty
+
+	// TRANSACTIONS
+	// INCREMENT TxID (From last one)
+	transaction.TxID = pendingBlock.Transactions[len(pendingBlock.Transactions)-1].TxID + 1
+	transactionSlice = append(transactionSlice, transaction)
+
+	// HASH
 	pendingBlock.Hash = ""
+
+	// PREVIOUS HASH
+	pendingBlock.PrevHash = pendingBlock.Hash
+
+	// DIFFICULTY
+	pendingBlock.Difficulty = pendingBlock.Difficulty
+
+	// NONCE
 	pendingBlock.Nonce = ""
+
+	// LOAD THE BLOCK
+	pendingBlock.Transactions = transactionSlice
 
 	s = "END    resetPendingBlock() - Resets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)

@@ -34,28 +34,38 @@ func checkErr(err error) {
 
 func genesisNode(jeffCoinAddress string) {
 
+	genesisBlockDataString := `
+    {
+        "blockID": 0,
+        "timestamp": "",
+        "transactions": [
+            {
+                "txID": 0,
+                "inputs": [
+                    {
+                        "refTxID": -1,
+                        "inPubKey": "",
+                        "signature": "Hello World, Welcome to the first transaction and block of jeffCoin"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "outPubKey": " ` + jeffCoinAddress + `",
+                        "value": 100000000
+                    }
+                ]
+            }
+        ],
+        "hash": "",
+        "prevhash": "",
+        "difficulty": 8,
+        "nonce": ""
+    }`
+
 	// GENESIS blockchain
-	firstTransaction := `
-        {
-            "ID": 0,
-            "inputs": [
-                {
-                    "txID": 0,
-                    "referenceTXID": -1,
-                    "signature": ""
-                }
-            ],
-            "outputs": [
-                {
-                    "jeffCoinAddress": "` + jeffCoinAddress + `",
-                    "value": 100000
-                }
-            ]
-        }`
-	difficulty := 8
 	s := "GENESIS blockchain"
 	log.Info("MAIN:                        " + s)
-	blockchain.GenesisBlockchain(firstTransaction, difficulty)
+	blockchain.GenesisBlockchain(genesisBlockDataString)
 
 	// GENESIS nodeList
 	s = "GENESIS nodeList"

@@ -31,14 +31,16 @@ func GetBlockchain() blockchainSlice {
 }
 
 // GenesisBlockchain - Creates the blockchain
-func GenesisBlockchain(firstTransaction string, difficulty int) {
+func GenesisBlockchain(blockDataString string) {
 
 	s := "START  GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	resetPendingBlock(firstTransaction)
-	lockPendingBlock(difficulty)
-	newBlock := appendLockedBlock()
+	loadPendingBlock(blockDataString)
+	lockPendingBlock(pendingBlock.Difficulty)
+	appendLockedBlock()
+
+	newBlock := getLockedBlock()
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
 	js, _ := json.MarshalIndent(newBlock, "", "    ")
@@ -176,7 +178,6 @@ func GetLockedBlock() blockStruct {
 
 	theBlock := getLockedBlock()
 
-	// RETURN NOT FOUND
 	s = "END    GetLockedBlock() - Gets the lockedBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
@@ -184,7 +185,20 @@ func GetLockedBlock() blockStruct {
 
 }
 
-// CURRENT BLOCK *********************************************************************************************************
+// AppendLockedBlock - Appends the lockedBlock to the blockchain
+func AppendLockedBlock() {
+
+	s := "START  AppendLockedBlock() - Appends the lockedBlock to the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
+
+	appendLockedBlock()
+
+	s = "END    AppendLockedBlock() - Appends the lockedBlock to the blockchain"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
+
+}
+
+// PENDING BLOCK *********************************************************************************************************
 
 // GetPendingBlock - Gets the pendingBlock
 func GetPendingBlock() blockStruct {
@@ -194,11 +208,23 @@ func GetPendingBlock() blockStruct {
 
 	theBlock := getPendingBlock()
 
-	// RETURN NOT FOUND
 	s = "END    GetPendingBlock() - Gets the pendingBlock"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
+
+}
+
+// ResetPendingBlock - Resets the pendingBlock
+func ResetPendingBlock() {
+
+	s := "START  ResetPendingBlock() - Resets the pendingBlock"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
+
+	resetPendingBlock()
+
+	s = "END    ResetPendingBlock() - Resets the pendingBlock"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -214,6 +240,19 @@ func AddTransactionToPendingBlock(transaction string) blockStruct {
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 	return thePendingBlock
+
+}
+
+// LockPendingBlock - Moves the pendingBlock to the lockedBlock
+func LockPendingBlock(difficulty int) {
+
+	s := "START  LockPendingBlock() - Moves the pendingBlock to the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
+
+	lockPendingBlock(difficulty)
+
+	s = "END    LockPendingBlock() - Moves the pendingBlock to the lockedBlock"
+	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
 }
 

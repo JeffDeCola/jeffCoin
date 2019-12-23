@@ -6,6 +6,8 @@ import (
 	"fmt"
 
 	log "github.com/sirupsen/logrus"
+
+	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
 )
 
 func checkErr(err error) {
@@ -19,25 +21,45 @@ func checkErr(err error) {
 func LoadTestDatatoBlockchain() {
 
 	s := "START  LoadTestDatatoBlockchain() - Load the blockchain with test data"
-	log.Trace("TRANSACTION:          " + s)
+	log.Trace("*** LOAD-TEST-DATA:   " + s)
 
-	// RECEIVING SOME TRANSACTION REQUEST MESSAGES
-	s = "RECEIVING SOME TRANSACTION REQUEST MESSAGES"
-	log.Info("LoadTestDatatoBlockchain()                " + s)
+	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
+	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
 	receivingTransaction(txRequestMessageSignedDataString1)
-	receivingTransaction(txRequestMessageSignedDataStringBad)
+	receivingTransaction(txRequestMessageSignedDataString2)
 
-	// s = "Verified status is: " + strconv.FormatBool(verifyStatus)
-	// log.Info("TRANSACTION:                 " + s)
+	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
+	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	// GET DIFFICULTY FROM LAST LOCKED BLOCK
+	theLockedBlock := blockchain.GetLockedBlock()
+	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
+
+	// MOCK - ADD lockedBlock TO THE blockchain
+	theLockedBlock = blockchain.GetLockedBlock()
+	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.AppendLockedBlock()
+
+	// RESET pendingBlock
+	s = "MOCK - RESET pendingBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.ResetPendingBlock()
 
 	s = "END    LoadTestDatatoBlockchain() - Load the blockchain with test data"
-	log.Trace("TRANSACTION:          " + s)
+	log.Trace("*** LOAD-TEST-DATA:   " + s)
+
 }
 
+// receivingTransaction - Place the transaction into txRequestMessageSignedStruct and process
 func receivingTransaction(txRequestMessageSignedDataString string) {
 
-	s := "------------------------------------------------------------------"
-	log.Info("receivingTransaction()           " + s)
+	s := "START  receivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
+	log.Trace("*** LOAD-TEST-DATA:   " + s)
+
+	s = "--------------------------------------------"
+	log.Trace("*** LOAD-TEST-DATA:   " + s)
 
 	//var trms blockchain.txRequestMessageSignedStruct
 
@@ -55,5 +77,8 @@ func receivingTransaction(txRequestMessageSignedDataString string) {
 	//s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
 	//	fmt.Sprint(trms.TxRequestMessage.Destinations) + " is " + status
 	//log.Info("receivingTransaction()           " + s)
+
+	s = "END    receivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
+	log.Trace("*** LOAD-TEST-DATA:   " + s)
 
 }
