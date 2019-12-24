@@ -211,10 +211,13 @@ func main() {
 		log.Info("MAIN:                        " + s)
 		jeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
 	}
+	s = "Not using jeffCoinAddress " + jeffCoinAddress
+	log.Info("MAIN:                        " + s)
 
 	// CREATE GENESIS NODE OR A NEW NODE
+	theWallet := wallet.GetWallet()
 	if *genesisPtr {
-		genesisNode(jeffCoinAddress)
+		genesisNode(theWallet.PublicKeyHex)
 	} else {
 		newNode()
 	}

@@ -13,8 +13,6 @@ import (
 	"math/big"
 	"strconv"
 
-	wallet "github.com/JeffDeCola/jeffCoin/wallet"
-
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,6 +31,7 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 
 	// EXTRACT WHAT YOU NEED
 	signature := trms.Signature
+	publicKeyHex := trms.TxRequestMessage.SourceAddress
 	theTxRequestMessageStruct := trms.TxRequestMessage
 	theTxRequestMessageByte, err := json.Marshal(theTxRequestMessageStruct)
 	checkErr(err)
@@ -40,18 +39,18 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 
 	// ---------------------------------------------------------------------------
 	// STEP 1 - VERIFY SIGNATURE
-
-	// GET THE PUBLIC KEY (ADDRESS) FROM BLOCKCHAIN ???????????????????????????UPDATE THIS
-	theWallet := wallet.GetWallet()
-	publicKeyHex := theWallet.PublicKeyHex
-
-	// VERIFY THIS IS FROM THE SENDER
+	s = "STEP 1 - VERIFY SIGNATURE"
+	log.Info("TRANSACTION:                 " + s)
 	verifyStatus := verifySignature(publicKeyHex, signature, theTxRequestMessage)
 	status := strconv.FormatBool(verifyStatus)
 
 	// ---------------------------------------------------------------------------
-	// STEP 2 - CHECK BALANCE TO SEE IF YOU HAVE THE MONEY
-	//getBalance()
+	// STEP 2 - GET BALANCE AND GET LIST OF Output unspent transactions
+	s = "STEP 2 - GET BALANCE AND GET LIST OF Output unspent transactions"
+	log.Info("TRANSACTION:                 " + s)
+	balance, unspentOutput := getAddressBalance(trms.TxRequestMessage.SourceAddress)
+
+	fmt.Printf("\n\nThe balance is %v and unspent is %v\n\n", balance, unspentOutput)
 
 	// ---------------------------------------------------------------------------
 	// STEP 3 - CHECK IF YOU HAVE ENOUGH jeffCoins

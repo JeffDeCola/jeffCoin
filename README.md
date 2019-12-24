@@ -621,7 +621,7 @@ Adding a second Node in the network can look like,
 ```bash
 go run jeffCoin.go \
        -loglevel trace \
-       -nodename Jeffry \
+       -nodename Jeff \
        -ip 192.168.20.100 \
        -httpport 1235 \
        -tcpport 3335 \
@@ -634,7 +634,7 @@ Adding a third Node,
 ```bash
 go run jeffCoin.go \
        -loglevel trace \
-       -nodename Larry \
+       -nodename Matt \
        -ip 192.168.20.100 \
        -httpport 1236 \
        -tcpport 3336 \
@@ -712,7 +712,7 @@ Add another node (not at gce) with,
 ```bash
 go run jeffCoin.go \
        -loglevel trace \
-       -nodename Jeffry \
+       -nodename Jeff \
        -ip 192.168.20.100 \
        -httpport 1235 \
        -tcpport 3335 \

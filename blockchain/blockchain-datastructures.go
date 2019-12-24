@@ -52,6 +52,13 @@ type outputsStruct struct {
 	Value     int64  `json:"value"`
 }
 
+// UNSPENT OUTPUT ********************************************************************************************************
+
+type unspentOutputStruct struct {
+	TxID  int64 `json:"txID"`
+	Value int64 `json:"value"`
+}
+
 // TRANSACTION REQUESTS **************************************************************************************************
 
 // txRequestMessageSignedStruct - Signed
