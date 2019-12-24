@@ -4,11 +4,14 @@ package testdata
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 
 	blockchain "github.com/JeffDeCola/jeffCoin/blockchain"
+	routingnode "github.com/JeffDeCola/jeffCoin/routingnode"
+	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 )
 
 func checkErr(err error) {
@@ -27,9 +30,9 @@ func LoadTestDatatoBlockchain() {
 	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
-	receivingTransaction(txRequestMessageSignedDataString1)
+	mockReceivingTransaction(txRequestMessageSignedDataString1)
 
-	time.Sleep(100000 * time.Second)
+	time.Sleep(100000 * time.Second) // ???????????????????????????????????????????????????????????????????????
 
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
@@ -54,33 +57,42 @@ func LoadTestDatatoBlockchain() {
 
 }
 
-// receivingTransaction - Place the transaction into txRequestMessageSignedStruct and process
-func receivingTransaction(txRequestMessageSignedDataString string) {
+// mockReceivingTransaction - Place the transaction into txRequestMessageSignedStruct and process
+func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 
-	s := "START  receivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
+	s := "START  mockReceivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
 	log.Trace("*** LOAD-TEST-DATA:   " + s)
+
+	// Remove all spaces and returns, etc... - squish it
+	// Make a long string - Remove /n and whitespace
+	txRequestMessageSignedDataString = strings.Replace(txRequestMessageSignedDataString, "\n", "", -1)
+	txRequestMessageSignedDataString = strings.Replace(txRequestMessageSignedDataString, " ", "", -1)
 
 	s = "--------------------------------------------"
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
 
-	//var trms blockchain.txRequestMessageSignedStruct
+	// GET nodeIP & nodeTCPPort from thisNode
+	thisNode := routingnode.GetThisNode()
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.TCPPort
 
-	// RECEIVED TRANSACTION MESSAGE txRequestMessageSignedDataStringBad
-	// Place transaction Request Message data in transaction Request Message struct
-	//txRequestMessageSignedDataStringByte := []byte(txRequestMessageSignedDataString)
-	//err := json.Unmarshal(txRequestMessageSignedDataStringByte, &trms)
-	//checkErr(err)
+	// REQUEST TRANSACTION
+	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSignedDataString)
+	checkErr(err)
+
+	s = "Status is " + status
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
 
 	// Check is message valid, get balance and add to pendingBlock
 	//s = "Received transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
 	//		fmt.Sprint(trms.TxRequestMessage.Destinations)
-	//	log.Info("receivingTransaction()           " + s)
+	//	log.Info("mockReceivingTransaction()           " + s)
 	// status := trms.processTransactionRequest()
 	//s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
 	//	fmt.Sprint(trms.TxRequestMessage.Destinations) + " is " + status
-	//log.Info("receivingTransaction()           " + s)
+	//log.Info("mockReceivingTransaction()           " + s)
 
-	s = "END    receivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
+	s = "END    mockReceivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
 	log.Trace("*** LOAD-TEST-DATA:   " + s)
 
 }

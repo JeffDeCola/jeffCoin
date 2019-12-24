@@ -296,28 +296,34 @@ func encodeKeyHash(verPublicKeyHash []byte, checkSum []byte) string {
 // SIGNATURE *************************************************************************************************************
 
 // createSignature - Creates a ECDSA Digital Signature
-func createSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
+func createSignature(privateKeyHex string, plainText string) string {
 
 	s := "START  createSignature() - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      GUTS     " + s)
+
+	// DECODE PRIVATE KEY
+	privateKeyPEM, _ := hex.DecodeString(privateKeyHex)
+	block, _ := pem.Decode([]byte(privateKeyPEM))
+	privateKeyx509Encoded := block.Bytes
+	privateKeyRaw, _ := x509.ParseECPrivateKey(privateKeyx509Encoded)
 
 	// HASH plainText
 	hashedPlainText := sha256.Sum256([]byte(plainText))
 	hashedPlainTextByte := hashedPlainText[:]
 
-	rSign := big.NewInt(0)
-	sSign := big.NewInt(0)
+	r := big.NewInt(0)
+	ss := big.NewInt(0)
 
 	// CREATE SIGNATURE
-	rSign, sSign, err := ecdsa.Sign(
+	r, ss, err := ecdsa.Sign(
 		rand.Reader,
-		senderPrivateKeyRaw,
+		privateKeyRaw,
 		hashedPlainTextByte,
 	)
 	checkErr(err)
 
-	signatureByte := rSign.Bytes()
-	signatureByte = append(signatureByte, sSign.Bytes()...)
+	signatureByte := r.Bytes()
+	signatureByte = append(signatureByte, ss.Bytes()...)
 
 	// ENCODE - RETURN HEX
 	signature := hex.EncodeToString(signatureByte)
