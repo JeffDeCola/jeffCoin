@@ -11,4 +11,4 @@
 **/build-push/hello-go
 
 // Ignore private wallets
-/wallet/*.json
+// /wallet/*.json
