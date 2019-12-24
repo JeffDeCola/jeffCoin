@@ -4,6 +4,7 @@ package testdata
 
 import (
 	"fmt"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -27,7 +28,8 @@ func LoadTestDatatoBlockchain() {
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
 	receivingTransaction(txRequestMessageSignedDataString1)
-	receivingTransaction(txRequestMessageSignedDataString2)
+
+	time.Sleep(100000 * time.Second)
 
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
@@ -59,7 +61,7 @@ func receivingTransaction(txRequestMessageSignedDataString string) {
 	log.Trace("*** LOAD-TEST-DATA:   " + s)
 
 	s = "--------------------------------------------"
-	log.Trace("*** LOAD-TEST-DATA:   " + s)
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
 
 	//var trms blockchain.txRequestMessageSignedStruct
 

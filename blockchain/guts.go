@@ -75,27 +75,21 @@ func replaceBlockchain(newBlock blockchainSlice) {
 // BLOCK *****************************************************************************************************************
 
 // getBlock - Gets a block in the blockchain
-func getBlock(id string) blockStruct {
+func getBlock(blockID string) blockStruct {
 
 	s := "START  getBlock() - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	var blockItem blockStruct
 
-	// SEARCH DATA FOR blockID
-	for _, blockItem := range blockchain {
-		if strconv.FormatInt(blockItem.BlockID, 10) == id {
-			// RETURN BLOCK
-			s = "END    getBlock() - Gets a block in the blockchain"
-			log.Trace("BLOCKCHAIN:  GUTS     " + s)
-			return blockItem
-		}
-	}
+	blockIDint, _ := strconv.ParseInt(blockID, 10, 64)
+	blockItem = blockchain[blockIDint]
 
 	s = "END    getBlock() - Gets a block in the blockchain"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
 	return blockItem
+
 }
 
 // calculateBlockHash - Calculates SHA256 hash on a block
@@ -206,7 +200,7 @@ func loadPendingBlock(blockDataString string) {
 	err := json.Unmarshal(blockDataByte, &pendingBlock)
 	checkErr(err)
 
-	// TIMESTAMP IT
+	// TIMESTAMP BLOCK
 	t := time.Now()
 	pendingBlock.Timestamp = t.String()
 
@@ -240,8 +234,10 @@ func resetPendingBlock() {
 	// HASH
 	pendingBlock.Hash = ""
 
-	// PREVIOUS HASH
-	pendingBlock.PrevHash = pendingBlock.Hash
+	// PREVIOUS HASH FROM BLOCKCHAIN
+	// I know, I incremented it above
+	theBlock := getBlock(string(pendingBlock.BlockID - 1))
+	pendingBlock.PrevHash = theBlock.Hash
 
 	// DIFFICULTY
 	pendingBlock.Difficulty = pendingBlock.Difficulty

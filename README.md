@@ -153,7 +153,7 @@ A block in the blockchain is the following go struct,
 
 ```go
 type blockStruct struct {
-    Index        int                 `json:"index"`
+    BlockID      int64               `json:"blockID"`
     Timestamp    string              `json:"timestamp"`
     Transactions []transactionStruct `json:"transactions"`
     Hash         string              `json:"hash"`
@@ -168,6 +168,10 @@ The states of a block are,
 * **pendingBlock** Receiving transactions and not part of blockchain
 * **lockedBlock** To be mined and added to the blockchain
 * **Part of Chain** Already in the **blockchain**
+
+This illustration may help,
+
+![IMAGE - pendingBlock-lockedBlock-and-blockchain-flow - IMAGE](docs/pics/pendingBlock-lockedBlock-and-blockchain-flow.jpg)
 
 **[BLOCKCHAIN-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
@@ -200,7 +204,7 @@ The states of a block are,
   * **GetAddressBalance()**
     _Gets the jeffCoin Address balance_
 * TRANSACTIONS
-  * **TransactionRequest()**
+  * **ProcessTxRequestMessage()**
     _Request to transfer jeffCoins to a jeffCoin Address_
 
 **[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/guts.go)**
@@ -263,20 +267,39 @@ A transaction for a block is the following go struct,
 
 ```go
 type transactionStruct struct {
-    ID      int64            `json:"id"`
-    Inputs  []txInputStruct  `json:"inputs"`
-    Outputs []txOutputStruct `json:"outputs"`
+    TxID    int64           `json:"txID"`
+    Inputs  []inputsStruct  `json:"inputs"`
+    Outputs []outputsStruct `json:"outputs"`
 }
 
-type txInputStruct struct {
-    TXID          int64  `json:"txID"`
-    ReferenceTXID int64  `json:"referenceTXID"`
-    Signature     string `json:"signature"`
+type inputsStruct struct {
+    RefTxID   int64  `json:"refTxID"`
+    InPubKey  string `json:"inPubKey"`
+    Signature string `json:"signature"`
 }
 
-type txOutputStruct struct {
-    JeffCoinAddress string `json:"jeffCoinAddress"`
-    Value           int64  `json:"value"`
+type outputsStruct struct {
+    OutPubKey string `json:"outPubKey"`
+    Value     int64  `json:"value"`
+}
+```
+
+And the transaction request message is,
+
+```go
+type txRequestMessageSignedStruct struct {
+    TxRequestMessage txRequestMessageStruct `json:"txRequestMessage"`
+    Signature        string                 `json:"signature"`
+}
+
+type txRequestMessageStruct struct {
+    SourceAddress string              `json:"sourceAddress"`
+    Destinations  []destinationStruct `json:"destinations"`
+}
+
+type destinationStruct struct {
+    DestinationAddress string `json:"destinationAddress"`
+    Value              int64  `json:"value"`
 }
 ```
 
