@@ -36,15 +36,31 @@ func GenesisBlockchain(blockDataString string) {
 	s := "START  GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
+	// LOAD pendingBlock - loadPendingBlock()
+	s = "LOAD pendingBlock - loadPendingBlock()"
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	loadPendingBlock(blockDataString)
+
+	// LOCK pendingBlock - lockPendingBlock()
+	s = "LOCK pendingBlock - lockPendingBlock()"
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	lockPendingBlock(pendingBlock.Difficulty)
+
+	// APPEND lockBlock - appendLockedBlock()
+	s = "APPEND lockBlock - appendLockedBlock()"
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	appendLockedBlock()
 
-	newBlock := getLockedBlock()
+	firstBlock := getBlock("0")
 
 	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
-	js, _ := json.MarshalIndent(newBlock, "", "    ")
+	js, _ := json.MarshalIndent(firstBlock, "", "    ")
 	fmt.Printf("%v\n\n", string(js))
+
+	// RESET pendingBlock - resetPendingBlock()
+	s = "RESET pendingBlock - resetPendingBlock()"
+	log.Info("BLOCKCHAIN:  I/F             " + s)
+	resetPendingBlock()
 
 	s = "END    GenesisBlockchain() - Creates the blockchain"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
