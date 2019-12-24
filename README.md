@@ -19,6 +19,7 @@ Or more simply, **a distributed decentralized public ledger.**
 
 Table of Contents,
 
+* [IMPORTANT](https://github.com/JeffDeCola/jeffCoin#important)
 * [PREREQUISITES](https://github.com/JeffDeCola/jeffCoin#prerequisites)
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin#1-blockchain)
@@ -69,6 +70,11 @@ Documentation and reference,
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
+
+## IMPORTANT
+
+Your private keys are kept in `/wallet`.  So .gitignore them or
+don't git push.  The keys currently in there are used for testing.
 
 ## PREREQUISITES
 
@@ -574,7 +580,7 @@ Currently, there is the main page that also lists the available APIs.
   * **/showwallet**
   * **/showjeffcoinaddress**
   * **/showbalance**
-  * **/transactionrequest/{destinationaddress}/{value}**
+  * **/transactionrequest/{destinationaddress1,destinationaddress2,...}/{value1,value2,...}**
 * WALLET (OTHER)
   * **/showaddressbalance/{jeffcoinaddress}**
 
