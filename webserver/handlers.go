@@ -421,9 +421,9 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	sourceAddress := gotWallet.JeffCoinAddress
 	// GET ENCODED KEYS FROM wallet
 	privateKeyHex := gotWallet.PrivateKeyHex
-	publicKeyHex := gotWallet.PublicKeyHex
+	// publicKeyHex := gotWallet.PublicKeyHex
 	// DECODE KEYS
-	privateKeyRaw, _ := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
+	// privateKeyRaw, _ := wallet.DecodeKeys(privateKeyHex, publicKeyHex)
 
 	// ------------------------------------
 	// BUILD TRANSACTION REQUEST MESSAGE
@@ -460,7 +460,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
 	// ------------------------------------
 	// SIGN YOUR MESSAGE
-	signature := wallet.CreateSignature(privateKeyRaw, txRequestMessage)
+	signature := wallet.CreateSignature(privateKeyHex, txRequestMessage)
 
 	// ------------------------------------
 	// BUILD SIGNED TRANSACTION REQUEST MESSAGE

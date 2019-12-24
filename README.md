@@ -598,10 +598,12 @@ go run jeffCoin.go \
 
 This will created the founders Node.
 
-`-v` will show the version and `-test` will load the blockchain with test data
-I use in my
-[bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
-example.
+* `-v` will show the version
+* `-test` will load the blockchain with test data
+  I use in my
+  [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
+  example
+* `-h` shows help
 
 ### ADDING NEW NODES
 

@@ -296,12 +296,12 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 // SIGNATURE *************************************************************************************************************
 
 // CreateSignature - Creates a ECDSA Digital Signature
-func CreateSignature(senderPrivateKeyRaw *ecdsa.PrivateKey, plainText string) string {
+func CreateSignature(senderPrivateKeyHex string, plainText string) string {
 
 	s := "START  CreateSignature() - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F      " + s)
 
-	signature := createSignature(senderPrivateKeyRaw, plainText)
+	signature := createSignature(senderPrivateKeyHex, plainText)
 
 	s = "END    CreateSignature() - Creates a ECDSA Digital Signature"
 	log.Trace("WALLET:      I/F      " + s)

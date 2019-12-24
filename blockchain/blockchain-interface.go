@@ -10,6 +10,7 @@ import (
 	"net"
 	"time"
 
+	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -297,7 +298,37 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	s := "START  ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	status := processTxRequestMessage(txRequestMessageSigned)
+	var trms txRequestMessageSignedStruct
+
+	// PLACE txRequestMessageSigned IN A STRUCT theTxnRequestMessageStruct
+	txRequestMessageSignedByte := []byte(txRequestMessageSigned)
+	err := json.Unmarshal(txRequestMessageSignedByte, &trms)
+	checkErr(err)
+
+	// PRINT NOTE
+	s = "Received transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
+		fmt.Sprint(trms.TxRequestMessage.Destinations)
+	log.Info("BLOCKCHAIN:  I/F             " + s)
+
+	// CREATE SIG BASED ON PRIVATE KEY ????????????????????????????????????????????????
+	gotWallet := wallet.GetWallet()
+	sourceAddress := gotWallet.JeffCoinAddress
+	// GET ENCODED KEYS FROM wallet
+	privateKeyHex := gotWallet.PrivateKeyHex
+	// Make a long string - Remove /n and whitespace
+	txRequestMessageStruct := trms.TxRequestMessage
+	txRequestMessage, _ := json.Marshal(txRequestMessageStruct)
+	signature := wallet.CreateSignature(privateKeyHex, string(txRequestMessage))
+	fmt.Printf("\n\n%v\n\n", sourceAddress)
+	fmt.Printf("\n\n%v\n\n", signature)
+
+	// PROCESS
+	status := trms.processTxRequestMessage()
+
+	// PRINT STATUS
+	s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
+		fmt.Sprint(trms.TxRequestMessage.Destinations) + " is " + status
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
