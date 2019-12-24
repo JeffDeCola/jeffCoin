@@ -249,7 +249,7 @@ func handleTxRequestMessage(rw *bufio.ReadWriter) {
 	checkErr(err)
 	err = rw.Flush()
 	checkErr(err)
-	s = "Please send The New Node so I can append to my nodeList"
+	s = "Please send the txRequestMessageSigned"
 	log.Info("ROUTINGNODE: HDLR  -H sent   " + s)
 
 	// RCVD - RECEIVING TRANSACTION REQUEST

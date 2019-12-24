@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strconv"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -280,12 +281,12 @@ func GetAddressBalance(jeffCoinAddress string) string {
 	s := "START  GetAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	balance := getAddressBalance(jeffCoinAddress)
+	balance, _ := getAddressBalance(jeffCoinAddress)
 
 	s = "END    GetAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	return balance
+	return strconv.FormatInt(balance, 10)
 
 }
 
@@ -310,16 +311,17 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	// CREATE SIG BASED ON PRIVATE KEY
-	// gotWallet := wallet.GetWallet()
-	// sourceAddress := gotWallet.JeffCoinAddress
+	//gotWallet := wallet.GetWallet()
+	//sourceAddress := gotWallet.JeffCoinAddress
 	// GET ENCODED KEYS FROM wallet
-	// privateKeyHex := gotWallet.PrivateKeyHex
+	//privateKeyHex := gotWallet.PrivateKeyHex
 	// Make a long string - Remove /n and whitespace
-	// txRequestMessageStruct := trms.TxRequestMessage
-	// txRequestMessage, _ := json.Marshal(txRequestMessageStruct)
-	// signature := wallet.CreateSignature(privateKeyHex, string(txRequestMessage))
-	// fmt.Printf("\n\n%v\n\n", sourceAddress)
-	// fmt.Printf("\n\n%v\n\n", signature)
+	//txRequestMessageStruct := trms.TxRequestMessage
+	//txRequestMessage, _ := json.Marshal(txRequestMessageStruct)
+	//signature := wallet.CreateSignature(privateKeyHex, string(txRequestMessage))
+	//fmt.Printf("\n\n%v\n\n", sourceAddress)
+	//fmt.Printf("\n\n%v\n\n", signature)
+	//time.Sleep(100000 * time.Second)
 
 	// PROCESS
 	status := trms.processTxRequestMessage()

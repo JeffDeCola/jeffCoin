@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strconv"
 	"sync"
 	"time"
@@ -290,29 +291,71 @@ func lockPendingBlock(difficulty int) {
 // JEFFCOINS *************************************************************************************************************
 
 // getAddressBalance - Gets the jeffCoin Address balance
-func getAddressBalance(jeffCoinAddress string) string {
+// Returns entire list of the TxID of output unspent transactions
+func getAddressBalance(jeffCoinAddress string) (int64, []unspentOutputStruct) {
 
 	s := "START  getAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	// WORK BACKWARDS TO FIND THE TRANSACTION
-	// GET BLOCK
-	for _, blockItem := range blockchain {
-		// GET TRANSACTION
-		for _, transactionItem := range blockItem.Transactions {
-			fmt.Println(transactionItem)
+	unspentOutputMap := make(map[int64]int64)
+
+	var unspentOutput unspentOutputStruct
+	unspentOutputSlice := []unspentOutputStruct{}
+
+	// GET UNSPENT OUTPUT TRANSACTIONS - Make unspentOutputSlice
+	s = "GET UNSPENT OUTPUT TRANSACTIONS  - Make unspentOutputSlice"
+	log.Trace("BLOCKCHAIN:  GUTS            " + s)
+
+	// LETS ITERATE OVER ALL TRANSACTIONS IN BLOCK CHAIN
+	for _, blocks := range blockchain {
+
+		for _, transaction := range blocks.Transactions {
+
+			// ITERATE OVER INPUTS - find inputs with address
+			for _, input := range transaction.Inputs {
+				if jeffCoinAddress == input.InPubKey {
+					// DID AN OUTPUT USE THIS? If so, delete from map.
+					refTxID := input.RefTxID
+					if unspentOutputMap[refTxID] != 0 {
+						delete(unspentOutputMap, refTxID)
+					}
+				}
+
+			}
+
+			// ITERATE OVER OUTPUTS - find outputs with address
+			for _, output := range transaction.Outputs {
+				if jeffCoinAddress == output.OutPubKey {
+					// Place in map
+					unspentOutputMap[transaction.TxID] = output.Value
+				}
+			}
 		}
 	}
 
-	balance := "333333"
+	// PUT MAP unspentOutputMap IN SLICE unspentOutputSlice
+	for k, v := range unspentOutputMap {
+		unspentOutput = unspentOutputStruct{k, v}
+		unspentOutputSlice = append(unspentOutputSlice, unspentOutput)
+	}
 
-	if jeffCoinAddress == "1234" {
-		balance = "1111111"
+	// SORT SLICE FROM TxID (LOW TO HIGH)
+	sort.Slice(unspentOutputSlice, func(i, j int) bool {
+		return unspentOutputSlice[i].TxID < unspentOutputSlice[j].TxID
+	})
+
+	// STEP 2.2 - GET BALANCE from unspentOutputSlice
+	s = "GET BALANCE from unspentOutputSlice"
+	log.Trace("BLOCKCHAIN:  GUTS            " + s)
+	var balance int64
+	balance = 0
+	for _, unspentOutput := range unspentOutputSlice {
+		balance = balance + unspentOutput.Value
 	}
 
 	s = "END    getAddressBalance() - Gets the jeffCoin Address balance"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	return balance
+	return balance, unspentOutputSlice
 
 }
