@@ -24,10 +24,10 @@ func checkErr(err error) {
 func getNodeList() nodeSlice {
 
 	s := "START  getNodeList() - Gets the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	s = "END    getNodeList() - Gets the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return nodeList
 
@@ -37,13 +37,13 @@ func getNodeList() nodeSlice {
 func loadNodeList(message string) {
 
 	s := "START  loadNodeList() -  Loads the entire nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	// LOAD
 	json.Unmarshal([]byte(message), &nodeList)
 
 	s = "END    loadNodeList() -  Loads the entire nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 }
 
@@ -53,7 +53,7 @@ func loadNodeList(message string) {
 func getNode(id string) nodeStruct {
 
 	s := "START  getNode() - Gets a Node in the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	var item nodeStruct
 
@@ -67,13 +67,13 @@ func getNode(id string) nodeStruct {
 		if strconv.Itoa(item.Index) == id {
 			// RETURN ITEM
 			s = "END    getNode() - Gets a Node in the nodeList"
-			log.Trace("ROUTINGNODE: GUTS     " + s)
+			log.Debug("ROUTINGNODE: GUTS     " + s)
 			return item
 		}
 	}
 
 	s = "END    getNode() - FAILED: Did Not get a Node in the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return item
 
@@ -83,7 +83,7 @@ func getNode(id string) nodeStruct {
 func appendNewNode(messageNewNode string) nodeStruct {
 
 	s := "START  appendNewNode() - Appends a new Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	newNode := nodeStruct{}
 	json.Unmarshal([]byte(messageNewNode), &newNode)
@@ -92,7 +92,7 @@ func appendNewNode(messageNewNode string) nodeStruct {
 	nodeList = append(nodeList, newNode)
 
 	s = "END    appendNewNode() - Appends a new Node to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return newNode
 
@@ -104,10 +104,10 @@ func appendNewNode(messageNewNode string) nodeStruct {
 func getThisNode() nodeStruct {
 
 	s := "START  getThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	s = "END    getThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return thisNode
 
@@ -117,7 +117,7 @@ func getThisNode() nodeStruct {
 func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
 	s := "START  loadThisNode() - Loads thisNode"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	t := time.Now()
 
@@ -133,7 +133,7 @@ func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 	}
 
 	s = "END    loadThisNode() - Loads thisNode"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 }
 
@@ -141,7 +141,7 @@ func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 func appendThisNode() nodeStruct {
 
 	s := "START  appendThisNode() - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	thisNode.Index = len(nodeList)
 
@@ -149,7 +149,7 @@ func appendThisNode() nodeStruct {
 	nodeList = append(nodeList, thisNode)
 
 	s = "END    appendThisNode() - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return thisNode
 
@@ -159,7 +159,7 @@ func appendThisNode() nodeStruct {
 func checkIfThisNodeinNodeList() bool {
 
 	s := "START  checkIfThisNodeinNodeList() - Check if thisNode is already in the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	// FOR EACH NODE IN NODELIST
 	for _, item := range nodeList {
@@ -171,7 +171,7 @@ func checkIfThisNodeinNodeList() bool {
 			log.Warn("ROUTINGNODE: GUTS            " + s)
 
 			s = "END    checkIfThisNodeinNodeList() - Check if thisNode is already in the nodeList"
-			log.Trace("ROUTINGNODE: GUTS     " + s)
+			log.Debug("ROUTINGNODE: GUTS     " + s)
 
 			return true
 		}
@@ -182,7 +182,7 @@ func checkIfThisNodeinNodeList() bool {
 	log.Info("ROUTINGNODE: GUTS            " + s)
 
 	s = "END    checkIfThisNodeinNodeList() - Check if thisNode is already in the nodeList"
-	log.Trace("ROUTINGNODE: GUTS     " + s)
+	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	return false
 

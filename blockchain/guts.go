@@ -30,10 +30,10 @@ func checkErr(err error) {
 func getBlockchain() blockchainSlice {
 
 	s := "START  getBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	s = "END    getBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return blockchain
 
@@ -43,13 +43,13 @@ func getBlockchain() blockchainSlice {
 func loadBlockchain(message string) {
 
 	s := "START  loadBlockchain() - Loads the entire blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	// LOAD
 	json.Unmarshal([]byte(message), &blockchain)
 
 	s = "END    loadBlockchain() - Loads the entire blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -57,7 +57,7 @@ func loadBlockchain(message string) {
 func replaceBlockchain(newBlock blockchainSlice) {
 
 	s := "START  replaceChain() - Replaces blockchain with the longer one"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	if len(newBlock) > len(blockchain) {
 		s = "New block added to chain"
@@ -69,7 +69,7 @@ func replaceBlockchain(newBlock blockchainSlice) {
 	}
 
 	s = "END    replaceChain() - Replaces blockchain with the longer one"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -79,7 +79,7 @@ func replaceBlockchain(newBlock blockchainSlice) {
 func getBlock(blockID string) blockStruct {
 
 	s := "START  getBlock() - Gets a block in the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	var blockItem blockStruct
 
@@ -87,7 +87,7 @@ func getBlock(blockID string) blockStruct {
 	blockItem = blockchain[blockIDint]
 
 	s = "END    getBlock() - Gets a block in the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return blockItem
 
@@ -97,7 +97,7 @@ func getBlock(blockID string) blockStruct {
 func calculateBlockHash(block blockStruct) string {
 
 	s := "START  calculateBlockHash() - Calculates SHA256 hash on a block"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	// GET ALL THE TRANSACTIONS
 	transactionBytes := []byte{}
@@ -113,7 +113,7 @@ func calculateBlockHash(block blockStruct) string {
 	log.Info("BLOCKCHAIN:  GUTS            " + s)
 
 	s = "END    calculateBlockHash() - Calculates SHA256 hash on a block"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return hashed
 
@@ -123,7 +123,7 @@ func calculateBlockHash(block blockStruct) string {
 func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 
 	s := "START  isBlockValid() - Checks if block is valid"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	// Check index
 	if oldBlock.BlockID+1 != checkBlock.BlockID {
@@ -141,7 +141,7 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 	}
 
 	s = "END    isBlockValid() - Checks if block is valid"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return true
 
@@ -153,10 +153,10 @@ func isBlockValid(checkBlock, oldBlock blockStruct) bool {
 func getLockedBlock() blockStruct {
 
 	s := "START  getLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	s = "END    getLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return lockedBlock
 }
@@ -165,14 +165,14 @@ func getLockedBlock() blockStruct {
 func appendLockedBlock() {
 
 	s := "START  appendLockedBlock() - Appends the lockedBlock to the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	mutex.Lock()
 	blockchain = append(blockchain, lockedBlock)
 	mutex.Unlock()
 
 	s = "END    appendLockedBlock() - Appends the lockedBlock to the blockchain"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -182,10 +182,10 @@ func appendLockedBlock() {
 func getPendingBlock() blockStruct {
 
 	s := "START  getPendingBlock() - Gets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	s = "END    getPendingBlock() - Gets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return pendingBlock
 }
@@ -194,7 +194,7 @@ func getPendingBlock() blockStruct {
 func loadPendingBlock(blockDataString string) {
 
 	s := "START  loadPendingBlock() - Loads the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	// LOAD THE PENDING BLOCK - Place block data in pendingBlock
 	blockDataByte := []byte(blockDataString)
@@ -206,7 +206,7 @@ func loadPendingBlock(blockDataString string) {
 	pendingBlock.Timestamp = t.String()
 
 	s = "END    loadPendingBlock() - Loads the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -214,7 +214,7 @@ func loadPendingBlock(blockDataString string) {
 func resetPendingBlock() {
 
 	s := "START  resetPendingBlock() - Resets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	var transactionSlice []transactionStruct
 	var transaction transactionStruct
@@ -250,7 +250,7 @@ func resetPendingBlock() {
 	pendingBlock.Transactions = transactionSlice
 
 	s = "END    resetPendingBlock() - Resets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -258,7 +258,7 @@ func resetPendingBlock() {
 func (trms txRequestMessageSignedStruct) addTransactionToPendingBlock(unspentOutputSlice []unspentOutputStruct, change int64) {
 
 	s := "START  addTransactionToPendingBlock() - Adds a transaction to the pendingBlock and makes change"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	// Check if first transaction in pendingBlock
 	first := false
@@ -329,11 +329,10 @@ func (trms txRequestMessageSignedStruct) addTransactionToPendingBlock(unspentOut
 	transactionTemp.Inputs = inputsSlice
 	transactionTemp.Outputs = outputsSlice
 
-	fmt.Printf("\nThe transactionTemp is:\n\n")
-	js, _ := json.MarshalIndent(transactionTemp, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
-
+	s = "The transactionTemp is (-loglevel trace to display)"
 	log.Info("BLOCKCHAIN:  GUTS            " + s)
+	js, _ := json.MarshalIndent(transactionTemp, "", "    ")
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	//-------------------------------------------------------
 	// STEP 4 - PLACE transactionStruct IN transactionSlice
@@ -358,7 +357,7 @@ func (trms txRequestMessageSignedStruct) addTransactionToPendingBlock(unspentOut
 	pendingBlock.Transactions = transactionSlice
 
 	s = "END    addTransactionToPendingBlock() - Adds a transaction to the pendingBlock and makes change"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -366,7 +365,7 @@ func (trms txRequestMessageSignedStruct) addTransactionToPendingBlock(unspentOut
 func lockPendingBlock(difficulty int) {
 
 	s := "START  lockPendingBlock() - Moves the pendingBlock to the lockedBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	pendingBlock.Hash = calculateBlockHash(pendingBlock)
 	pendingBlock.Difficulty = difficulty
@@ -374,7 +373,7 @@ func lockPendingBlock(difficulty int) {
 	lockedBlock = pendingBlock
 
 	s = "END    lockPendingBlock() -  Moves the pendingBlock to the lockedBlock"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 }
 
@@ -385,7 +384,7 @@ func lockPendingBlock(difficulty int) {
 func getAddressBalance(jeffCoinAddress string) (int64, []unspentOutputStruct) {
 
 	s := "START  getAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	unspentOutputMap := make(map[int64]int64)
 
@@ -443,7 +442,7 @@ func getAddressBalance(jeffCoinAddress string) (int64, []unspentOutputStruct) {
 	}
 
 	s = "END    getAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  GUTS     " + s)
+	log.Debug("BLOCKCHAIN:  GUTS     " + s)
 
 	return balance, unspentOutputSlice
 

@@ -25,7 +25,7 @@ func checkErr(err error) {
 func mine() {
 
 	s := "START  mine() - tbd"
-	log.Trace("MINER:       GUTS     " + s)
+	log.Debug("MINER:       GUTS     " + s)
 
 	// GET THE LOCKED BLOCK
 	theLockedblock := blockchain.GetLockedBlock()
@@ -42,7 +42,7 @@ func mine() {
 	fmt.Println("The hash is", hash)
 
 	s = "END    mine() - tbd"
-	log.Trace("MINER:       GUTS     " + s)
+	log.Debug("MINER:       GUTS     " + s)
 
 }
 
@@ -50,7 +50,7 @@ func mine() {
 func (pow *ProofOfWork) Run() (int, []byte) {
 
 	s := "START  Run() - tbd"
-	log.Trace("MINER:       GUTS     " + s)
+	log.Debug("MINER:       GUTS     " + s)
 
 	var hashInt big.Int
 	var hash [32]byte
@@ -72,7 +72,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	fmt.Print("\n\n")
 
 	s = "END    Run() - tbd"
-	log.Trace("MINER:       GUTS     " + s)
+	log.Debug("MINER:       GUTS     " + s)
 
 	return nonce, hash[:]
 

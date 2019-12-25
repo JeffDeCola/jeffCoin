@@ -20,12 +20,12 @@ import (
 func GetBlockchain() blockchainSlice {
 
 	s := "START  GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	theBlockchain := getBlockchain()
 
 	s = "END    GetBlockchain() - Gets the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlockchain
 
@@ -35,7 +35,7 @@ func GetBlockchain() blockchainSlice {
 func GenesisBlockchain(blockDataString string) {
 
 	s := "START  GenesisBlockchain() - Creates the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	// LOAD pendingBlock - loadPendingBlock()
 	s = "LOAD pendingBlock - loadPendingBlock()"
@@ -54,9 +54,10 @@ func GenesisBlockchain(blockDataString string) {
 
 	firstBlock := getBlock("0")
 
-	fmt.Printf("\nCongrats, your first block in your blockchain is:\n\n")
+	s = "Congrats, your first block in your blockchain is: (-loglevel trace to display)"
+	log.Info("BLOCKCHAIN:  I/F             " + s)
 	js, _ := json.MarshalIndent(firstBlock, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	// RESET pendingBlock - resetPendingBlock()
 	s = "RESET pendingBlock - resetPendingBlock()"
@@ -64,7 +65,7 @@ func GenesisBlockchain(blockDataString string) {
 	resetPendingBlock()
 
 	s = "END    GenesisBlockchain() - Creates the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -72,7 +73,7 @@ func GenesisBlockchain(blockDataString string) {
 func RequestBlockchain(networkIP string, networkTCPPort string) error {
 
 	s := "START  RequestBlockchain() - Requests the blockchain and the pendingBlock from a Network Node"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	//  CONN - SETUP THE CONNECTION
 	s = "----------------------------------------------------------------"
@@ -143,7 +144,7 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 	log.Info("BLOCKCHAIN:  I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("BLOCKCHAIN:  I/F              " + s)
+		log.Debug("BLOCKCHAIN:  I/F              " + s)
 		return errors.New(s)
 	}
 
@@ -161,7 +162,7 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    RequestBlockchain() - Requests the blockchain and the pendingBlock from a Network Node"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return nil
 
@@ -173,13 +174,13 @@ func RequestBlockchain(networkIP string, networkTCPPort string) error {
 func GetBlock(id string) blockStruct {
 
 	s := "START  GetBlock() - Gets a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getBlock(id)
 
 	// RETURN NOT FOUND
 	s = "END    GetBlock() - Gets a block (via Index number) from the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -191,12 +192,12 @@ func GetBlock(id string) blockStruct {
 func GetLockedBlock() blockStruct {
 
 	s := "START  GetLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getLockedBlock()
 
 	s = "END    GetLockedBlock() - Gets the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -206,12 +207,12 @@ func GetLockedBlock() blockStruct {
 func AppendLockedBlock() {
 
 	s := "START  AppendLockedBlock() - Appends the lockedBlock to the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	appendLockedBlock()
 
 	s = "END    AppendLockedBlock() - Appends the lockedBlock to the blockchain"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -221,12 +222,12 @@ func AppendLockedBlock() {
 func GetPendingBlock() blockStruct {
 
 	s := "START  GetPendingBlock() - Gets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	theBlock := getPendingBlock()
 
 	s = "END    GetPendingBlock() - Gets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return theBlock
 
@@ -236,12 +237,12 @@ func GetPendingBlock() blockStruct {
 func ResetPendingBlock() {
 
 	s := "START  ResetPendingBlock() - Resets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	resetPendingBlock()
 
 	s = "END    ResetPendingBlock() - Resets the pendingBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -249,12 +250,12 @@ func ResetPendingBlock() {
 func (trms txRequestMessageSignedStruct) AddTransactionToPendingBlock(unspentOutputSlice []unspentOutputStruct, change int64) {
 
 	s := "START  AddTransactionToPendingBlock() -  Adds a transaction to the pendingBlock and makes change"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	trms.addTransactionToPendingBlock(unspentOutputSlice, change)
 
 	s = "END    AddTransactionToPendingBlock() -  Adds a transaction to the pendingBlock and makes change"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -262,12 +263,12 @@ func (trms txRequestMessageSignedStruct) AddTransactionToPendingBlock(unspentOut
 func LockPendingBlock(difficulty int) {
 
 	s := "START  LockPendingBlock() - Moves the pendingBlock to the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	lockPendingBlock(difficulty)
 
 	s = "END    LockPendingBlock() - Moves the pendingBlock to the lockedBlock"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 }
 
@@ -277,12 +278,12 @@ func LockPendingBlock(difficulty int) {
 func GetAddressBalance(jeffCoinAddress string) string {
 
 	s := "START  GetAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	balance, _ := getAddressBalance(jeffCoinAddress)
 
 	s = "END    GetAddressBalance() - Gets the jeffCoin Address balance"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return strconv.FormatInt(balance, 10)
 
@@ -294,7 +295,7 @@ func GetAddressBalance(jeffCoinAddress string) string {
 func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 
 	s := "START  ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	var trms txRequestMessageSignedStruct
 
@@ -304,10 +305,10 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	checkErr(err)
 
 	// PRINT NOTE
-	s = "Received transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
-		fmt.Sprint(trms.TxRequestMessage.Destinations)
+	s = "Received transaction message from/to: (-loglevel trace to display)"
 	log.Info("BLOCKCHAIN:  I/F             " + s)
-
+	s = "Received transaction message from/to: (-loglevel trace to display)"
+	log.Trace("\n\nFROM: " + trms.TxRequestMessage.SourceAddress + "\nTO: " + fmt.Sprint(trms.TxRequestMessage.Destinations) + "\n\n")
 	// CREATE SIG BASED ON PRIVATE KEY
 	//gotWallet := wallet.GetWallet()
 	//sourceAddress := gotWallet.JeffCoinAddress
@@ -330,7 +331,7 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("BLOCKCHAIN:  I/F      " + s)
+	log.Debug("BLOCKCHAIN:  I/F      " + s)
 
 	return status
 

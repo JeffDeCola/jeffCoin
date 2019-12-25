@@ -17,7 +17,7 @@ import (
 func handleSendBlockchain(rw *bufio.ReadWriter) {
 
 	s := "START  handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and pendingBlock to another Node"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	// SENT - RESPOND - SEND BLOCKCHAIN
 	sendBlockchain := blockchain.GetBlockchain()
@@ -56,7 +56,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	s = "END    handleSendBlockchain() - REQUEST-BLOCKCHAIN (RBC) - Sends the blockchain and pendingBlock to another Node"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }
 
 // FROM ROUTINGNODE I/F **************************************************************************************************
@@ -65,7 +65,7 @@ func handleSendBlockchain(rw *bufio.ReadWriter) {
 func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 
 	s := "START  handleBroadcastAddNewNode() - BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	// SENT - RESPOND - SEND NEW NODE
 	s = "Please send The New Node so I can append to my nodeList"
@@ -107,7 +107,7 @@ func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	s = "END    handleBroadcastAddNewNode() - BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 }
 
@@ -115,7 +115,7 @@ func handleBroadcastAddNewNode(rw *bufio.ReadWriter) {
 func handleSendNodeList(rw *bufio.ReadWriter) {
 
 	s := "START  handleSendNodeList() - SEND-NODELIST (SNL) - Sends the nodeList to another Node"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	// GET nodeList
 	sendNodeList := GetNodeList()
@@ -138,7 +138,7 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	s = "END    handleSendNodeList() - SEND-NODELIST (SNL) - Sends the nodeList to another Node"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 }
 
@@ -146,27 +146,27 @@ func handleSendNodeList(rw *bufio.ReadWriter) {
 func handleBroadcastVerifiedBlock(rw *bufio.ReadWriter) {
 
 	s := "START  handleBroadcastVerifiedBlock() - BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block, get block and verify"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	s = "END   handleBroadcastVerifiedBlock() - BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block, get block and verify"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }
 
 // handleBroadcastConsensus - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain
 func handleBroadcastConsensus(rw *bufio.ReadWriter) {
 
 	s := "START  handleBroadcastConsensus() - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	s = "END   handleBroadcastConsensus() - BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }
 
 // handleBroadcastTransactionRequest - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address
 func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 
 	s := "START  handleBroadcastTransactionRequest() - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	s = "Please enter the txRequestMessageSigned"
 	log.Info("ROUTINGNODE: HDLR            " + s)
@@ -186,7 +186,7 @@ func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 	returnMessage(s, rw)
 
 	s = "END   handleBroadcastTransactionRequest() - BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }
 
 // FROM WALLET I/F *******************************************************************************************************
@@ -195,7 +195,7 @@ func handleBroadcastTransactionRequest(rw *bufio.ReadWriter) {
 func handleSendAddressBalance(rw *bufio.ReadWriter) {
 
 	s := "START  handleSendAddressBalance() - SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	// SENT - RESPOND - SEND NEW NODE
 	s = "Please send the jeffCoinAddress you want the balance for"
@@ -234,14 +234,14 @@ func handleSendAddressBalance(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	s = "END    handleSendAddressBalance() - SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance for a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }
 
 // handleTxRequestMessage - TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins to a jeffCoin Address
 func handleTxRequestMessage(rw *bufio.ReadWriter) {
 
 	s := "START  handleTxRequestMessage() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 
 	// SENT - RESPOND - SEND NEW NODE
 	s = "Please send the txRequestMessageSigned"
@@ -256,8 +256,9 @@ func handleTxRequestMessage(rw *bufio.ReadWriter) {
 	txRequestMessageSigned, err := rw.ReadString('\n')
 	checkErr(err)
 	txRequestMessageSigned = strings.Trim(txRequestMessageSigned, "\n ")
-	s = "-H rcvd   - TX REQUEST MESSAGE SIGNED: " + txRequestMessageSigned
+	s = "-H rcvd   - TX REQUEST MESSAGE SIGNED: (-loglevel trace to display)"
 	log.Info("ROUTINGNODE: HDLR  " + s)
+	log.Trace("\n\n" + txRequestMessageSigned + "\n\n")
 
 	// BROADCAST TRANSACTION REQUEST TO ALL NODES
 	// ???????????????????????????????????????????????
@@ -284,5 +285,5 @@ func handleTxRequestMessage(rw *bufio.ReadWriter) {
 	log.Info("ROUTINGNODE: HDLR  " + s)
 
 	s = "END    handleTxRequestMessage() - TRANSACTION-REQUEST (TR) - Request from Wallet to Transfer jeffCoins to a jeffCoin Address"
-	log.Trace("ROUTINGNODE: HDLR     " + s)
+	log.Debug("ROUTINGNODE: HDLR     " + s)
 }

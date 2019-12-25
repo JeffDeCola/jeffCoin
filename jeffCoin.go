@@ -127,7 +127,7 @@ func init() {
 	// CREATE FIRST NODE (GENISIS)
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// LOG LEVEL
-	logLevelPtr := flag.String("loglevel", "trace", "LogLevel (trace or info)")
+	logLevelPtr := flag.String("loglevel", "info", "LogLevel (info, debug or trace)")
 	// GCE
 	gcePtr = flag.Bool("gce", false, "Is this Node on GCE")
 	// YOUR IP
@@ -148,6 +148,8 @@ func init() {
 	// SET LOG LEVEL
 	if *logLevelPtr == "trace" {
 		log.SetLevel(log.TraceLevel)
+	} else if *logLevelPtr == "debug" {
+		log.SetLevel(log.DebugLevel)
 	} else if *logLevelPtr == "info" {
 		log.SetLevel(log.InfoLevel)
 	} else {
@@ -227,15 +229,15 @@ func main() {
 		testdata.LoadTestDatatoBlockchain()
 		// SHOW BALANCES
 		balance := blockchain.GetAddressBalance(testdata.FoundersPubKey)
-		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.FoundersPubKey[0:40], balance)
+		log.Info("\n\nThe balance for " + testdata.FoundersPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 		balance = blockchain.GetAddressBalance(testdata.JeffPubKey)
-		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.JeffPubKey[0:40], balance)
+		log.Info("\n\nThe balance for " + testdata.JeffPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 		balance = blockchain.GetAddressBalance(testdata.MattPubKey)
-		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.MattPubKey[0:40], balance)
+		log.Info("\n\nThe balance for " + testdata.MattPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 		balance = blockchain.GetAddressBalance(testdata.JillPubKey)
-		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.JillPubKey[0:40], balance)
+		log.Info("\n\nThe balance for " + testdata.JillPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 		balance = blockchain.GetAddressBalance(testdata.CoinVaultPubKey)
-		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.CoinVaultPubKey[0:40], balance)
+		log.Info("\n\nThe balance for " + testdata.CoinVaultPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 	}
 
 	// KICK OFF MASTER CONTROL

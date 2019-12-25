@@ -22,12 +22,13 @@ import (
 func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 
 	s := "START  processTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
 	// PRINT OUT TX REQUEST MESSAGE
-	fmt.Printf("\nThe theTxRequestMessageSignedStruct:\n\n")
+	s = "The theTxRequestMessageSignedStruct (-loglevel trace to display)"
+	log.Info("TRANSACTION:                 " + s)
 	js, _ := json.MarshalIndent(trms, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	// EXTRACT WHAT YOU NEED
 	signature := trms.Signature
@@ -43,7 +44,9 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 	log.Info("TRANSACTION:                 " + s)
 	verifyStatus := verifySignature(publicKeyHex, signature, theTxRequestMessage)
 	if !(verifyStatus) {
-		return "Signature failed"
+		s = "Signature Failed"
+		log.Warn("TRANSACTION:                 " + s)
+		return "Signature Failed"
 	}
 
 	// ---------------------------------------------------------------------------
@@ -65,7 +68,9 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 	s = "The value to remove is " + strconv.FormatInt(value, 10) + " from " + fmt.Sprint(unspentOutput)
 	log.Info("TRANSACTION:                 " + s)
 	if balance < value {
-		return "Not enough money"
+		s = "Not Enough jeffCoins/Value"
+		log.Warn("TRANSACTION:                 " + s)
+		return "Not Enough jeffCoins/Value"
 	}
 
 	// ---------------------------------------------------------------------------
@@ -85,9 +90,9 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 	trms.addTransactionToPendingBlock(useUnspentOutput, change)
 
 	s = "END    processTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
-	return "Pending"
+	return "Pending Transaction"
 
 }
 
@@ -97,7 +102,7 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 func verifySignature(publicKeyHex string, signature string, plainText string) bool {
 
 	s := "START  verifySignature() - Verifies a ECDSA Digital Signature"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
 	// DECODE PUBLIC KEY
 	publicKeyPEM, _ := hex.DecodeString(publicKeyHex)
@@ -132,7 +137,7 @@ func verifySignature(publicKeyHex string, signature string, plainText string) bo
 	log.Info("TRANSACTION:                 " + s)
 
 	s = "END    verifySignature() - Verifies a ECDSA Digital Signature"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
 	return verifyStatus
 
@@ -144,7 +149,7 @@ func verifySignature(publicKeyHex string, signature string, plainText string) bo
 func pickUnspentOutputs(pickUnspentOutputSlice []unspentOutputStruct, value int64) ([]unspentOutputStruct, int64) {
 
 	s := "START  pickUnspentOutputs() - Pick the Unspent Outputs to use and provide change"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
 	var unspentOutputStructTemp = unspentOutputStruct{}
 	var useUnspentOutputSlice []unspentOutputStruct
@@ -172,7 +177,7 @@ func pickUnspentOutputs(pickUnspentOutputSlice []unspentOutputStruct, value int6
 	}
 
 	s = "END    pickUnspentOutputs() - Pick the Unspent Outputs to use and provide change"
-	log.Trace("TRANSACTION:          " + s)
+	log.Debug("TRANSACTION:          " + s)
 
 	return useUnspentOutputSlice, change
 
