@@ -228,16 +228,16 @@ func main() {
 	if *testPtr {
 		testdata.LoadTestDatatoBlockchain()
 		// SHOW BALANCES
-		balance := blockchain.GetAddressBalance(testdata.FoundersPubKey)
-		log.Info("\n\nThe balance for " + testdata.FoundersPubKey[0:40] + "... (Address) is " + balance + "\n\n")
-		balance = blockchain.GetAddressBalance(testdata.JeffPubKey)
-		log.Info("\n\nThe balance for " + testdata.JeffPubKey[0:40] + "... (Address) is " + balance + "\n\n")
-		balance = blockchain.GetAddressBalance(testdata.MattPubKey)
-		log.Info("\n\nThe balance for " + testdata.MattPubKey[0:40] + "... (Address) is " + balance + "\n\n")
-		balance = blockchain.GetAddressBalance(testdata.JillPubKey)
-		log.Info("\n\nThe balance for " + testdata.JillPubKey[0:40] + "... (Address) is " + balance + "\n\n")
-		balance = blockchain.GetAddressBalance(testdata.CoinVaultPubKey)
-		log.Info("\n\nThe balance for " + testdata.CoinVaultPubKey[0:40] + "... (Address) is " + balance + "\n\n")
+		balance := blockchain.GetAddressBalance(testdata.MockFoundersPubKey)
+		log.Info("\n\nThe balance for " + testdata.MockFoundersPubKey[0:40] + "... (Address) is " + balance + "\n\n")
+		balance = blockchain.GetAddressBalance(testdata.MockJeffPubKey)
+		log.Info("\n\nThe balance for " + testdata.MockJeffPubKey[0:40] + "... (Address) is " + balance + "\n\n")
+		balance = blockchain.GetAddressBalance(testdata.MockMattPubKey)
+		log.Info("\n\nThe balance for " + testdata.MockMattPubKey[0:40] + "... (Address) is " + balance + "\n\n")
+		balance = blockchain.GetAddressBalance(testdata.MockJillPubKey)
+		log.Info("\n\nThe balance for " + testdata.MockJillPubKey[0:40] + "... (Address) is " + balance + "\n\n")
+		balance = blockchain.GetAddressBalance(testdata.MockCoinVaultPubKey)
+		log.Info("\n\nThe balance for " + testdata.MockCoinVaultPubKey[0:40] + "... (Address) is " + balance + "\n\n")
 	}
 
 	// KICK OFF MASTER CONTROL
