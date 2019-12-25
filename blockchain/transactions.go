@@ -42,41 +42,56 @@ func (trms txRequestMessageSignedStruct) processTxRequestMessage() string {
 	s = "STEP 1 - VERIFY SIGNATURE"
 	log.Info("TRANSACTION:                 " + s)
 	verifyStatus := verifySignature(publicKeyHex, signature, theTxRequestMessage)
-	status := strconv.FormatBool(verifyStatus)
+	if !(verifyStatus) {
+		return "Signature failed"
+	}
 
 	// ---------------------------------------------------------------------------
-	// STEP 2 - GET BALANCE AND GET LIST OF Output unspent transactions
-	s = "STEP 2 - GET BALANCE AND GET LIST OF Output unspent transactions"
+	// STEP 2 - GET BALANCE AND A LIST OF UNSPENT OUTPUTS
+	s = "STEP 2 - GET BALANCE AND A LIST OF UNSPENT OUTPUTS"
 	log.Info("TRANSACTION:                 " + s)
 	balance, unspentOutput := getAddressBalance(trms.TxRequestMessage.SourceAddress)
 
-	fmt.Printf("\n\nThe balance is %v and unspent is %v\n\n", balance, unspentOutput)
-
 	// ---------------------------------------------------------------------------
 	// STEP 3 - CHECK IF YOU HAVE ENOUGH jeffCoins
+	s = "STEP 3 - CHECK IF YOU HAVE ENOUGH jeffCoins"
+	log.Info("TRANSACTION:                 " + s)
+	var value int64
+	for _, destinations := range trms.TxRequestMessage.Destinations {
+		value = value + destinations.Value
+	}
+	s = "The balance for " + trms.TxRequestMessage.SourceAddress[0:50] + "... " + "is " + strconv.FormatInt(balance, 10)
+	log.Info("TRANSACTION:                 " + s)
+	s = "The value to remove is " + strconv.FormatInt(value, 10) + " from " + fmt.Sprint(unspentOutput)
+	log.Info("TRANSACTION:                 " + s)
+	if balance < value {
+		return "Not enough money"
+	}
 
 	// ---------------------------------------------------------------------------
 	// STEP 4 - PICK THE UNSPENT OUTPUTS TO USE AND PROVIDE CHANGE
-	//pickUnspentOutputs()
+	s = "STEP 4 - PICK THE UNSPENT OUTPUTS TO USE AND PROVIDE CHANGE"
+	log.Info("TRANSACTION:                 " + s)
+	useUnspentOutput, change := pickUnspentOutputs(unspentOutput, value)
+	s = "You are using unspent outputs " + fmt.Sprint(useUnspentOutput)
+	log.Info("TRANSACTION:                 " + s)
+	s = "The change will be " + strconv.FormatInt(change, 10)
+	log.Info("TRANSACTION:                 " + s)
 
 	// ---------------------------------------------------------------------------
 	// STEP 5 - ADD TRANSACTION to pendingBlock and MAKE CHANGE
-	//addTransactionToPendingBlock()
-
-	// ????????
-
-	// CHECK BALANCE???????????????????
-
-	// ADD TRANSACTIONS TO pendingBlock???????????????????
+	s = "STEP 5 - ADD TRANSACTION to pendingBlock and MAKE CHANGE"
+	log.Info("TRANSACTION:                 " + s)
+	trms.addTransactionToPendingBlock(useUnspentOutput, change)
 
 	s = "END    processTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
 	log.Trace("TRANSACTION:          " + s)
 
-	return status
+	return "Pending"
 
 }
 
-// SIGNATURE  ************************************************************************************************************
+// SIGNATURE *************************************************************************************************************
 
 // verifySignature - Verifies a ECDSA Digital Signature
 func verifySignature(publicKeyHex string, signature string, plainText string) bool {
@@ -120,5 +135,45 @@ func verifySignature(publicKeyHex string, signature string, plainText string) bo
 	log.Trace("TRANSACTION:          " + s)
 
 	return verifyStatus
+
+}
+
+// UNSPENT OUTPUTS *******************************************************************************************************
+
+// pickUnspentOutputs - Pick the Unspent Outputs to use and provide change
+func pickUnspentOutputs(pickUnspentOutputSlice []unspentOutputStruct, value int64) ([]unspentOutputStruct, int64) {
+
+	s := "START  pickUnspentOutputs() - Pick the Unspent Outputs to use and provide change"
+	log.Trace("TRANSACTION:          " + s)
+
+	var unspentOutputStructTemp = unspentOutputStruct{}
+	var useUnspentOutputSlice []unspentOutputStruct
+
+	var change int64
+	var runningTotal int64
+
+	// Once you hit the value, stop
+	for _, unspentOutput := range pickUnspentOutputSlice {
+
+		unspentOutputStructTemp.TxID = unspentOutput.TxID
+		unspentOutputStructTemp.Value = unspentOutput.Value
+
+		// Place in slice
+		useUnspentOutputSlice = append(useUnspentOutputSlice, unspentOutputStructTemp)
+
+		runningTotal = runningTotal + unspentOutput.Value
+
+		// did you get enough - If yes, provide change
+		if value < runningTotal {
+			change = runningTotal - value
+			break
+		}
+
+	}
+
+	s = "END    pickUnspentOutputs() - Pick the Unspent Outputs to use and provide change"
+	log.Trace("TRANSACTION:          " + s)
+
+	return useUnspentOutputSlice, change
 
 }

@@ -5,7 +5,6 @@ package testdata
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -32,8 +31,6 @@ func LoadTestDatatoBlockchain() {
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
 	mockReceivingTransaction(txRequestMessageSignedDataString1)
 
-	time.Sleep(100000 * time.Second) // ???????????????????????????????????????????????????????????????????????
-
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
@@ -47,10 +44,63 @@ func LoadTestDatatoBlockchain() {
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
 	blockchain.AppendLockedBlock()
 
-	// RESET pendingBlock
+	// MOCK - RESET pendingBlock
 	s = "MOCK - RESET pendingBlock"
 	log.Trace("*** LOAD-TEST-DATA:          " + s)
 	blockchain.ResetPendingBlock()
+
+	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
+	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	mockReceivingTransaction(txRequestMessageSignedDataString2)
+
+	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
+	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	// GET DIFFICULTY FROM LAST LOCKED BLOCK
+	theLockedBlock = blockchain.GetLockedBlock()
+	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
+
+	// MOCK - ADD lockedBlock TO THE blockchain
+	theLockedBlock = blockchain.GetLockedBlock()
+	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.AppendLockedBlock()
+
+	// MOCK - RESET pendingBlock
+	s = "MOCK - RESET pendingBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.ResetPendingBlock()
+
+	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
+	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	mockReceivingTransaction(txRequestMessageSignedDataString3)
+	mockReceivingTransaction(txRequestMessageSignedDataString4)
+
+	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
+	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	// GET DIFFICULTY FROM LAST LOCKED BLOCK
+	theLockedBlock = blockchain.GetLockedBlock()
+	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
+
+	// MOCK - ADD lockedBlock TO THE blockchain
+	theLockedBlock = blockchain.GetLockedBlock()
+	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.AppendLockedBlock()
+
+	// MOCK - RESET pendingBlock
+	s = "MOCK - RESET pendingBlock"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	blockchain.ResetPendingBlock()
+
+	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
+	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
+	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	mockReceivingTransaction(txRequestMessageSignedDataString5)
+	mockReceivingTransaction(txRequestMessageSignedDataString6)
 
 	s = "END    LoadTestDatatoBlockchain() - Load the blockchain with test data"
 	log.Trace("*** LOAD-TEST-DATA:   " + s)

@@ -245,18 +245,16 @@ func ResetPendingBlock() {
 
 }
 
-// AddTransactionToPendingBlock - Adds a transaction to the pendingBlock
-func AddTransactionToPendingBlock(transaction string) blockStruct {
+// AddTransactionToPendingBlock - Adds a transaction to the pendingBlock and makes change
+func (trms txRequestMessageSignedStruct) AddTransactionToPendingBlock(unspentOutputSlice []unspentOutputStruct, change int64) {
 
-	s := "START  AddTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
+	s := "START  AddTransactionToPendingBlock() -  Adds a transaction to the pendingBlock and makes change"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
 
-	thePendingBlock := addTransactionToPendingBlock(transaction)
+	trms.addTransactionToPendingBlock(unspentOutputSlice, change)
 
-	s = "END    AddTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
+	s = "END    AddTransactionToPendingBlock() -  Adds a transaction to the pendingBlock and makes change"
 	log.Trace("BLOCKCHAIN:  I/F      " + s)
-
-	return thePendingBlock
 
 }
 
@@ -327,8 +325,8 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	status := trms.processTxRequestMessage()
 
 	// PRINT STATUS
-	s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
-		fmt.Sprint(trms.TxRequestMessage.Destinations) + " is " + status
+	s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress[0:50] + "... " + "to " +
+		fmt.Sprint(trms.TxRequestMessage.Destinations)[0:50] + "... " + "is " + status
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
