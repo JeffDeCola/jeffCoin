@@ -203,7 +203,7 @@ This illustration may help,
   * **ResetPendingBlock()**
     _Resets the pendingBlock_
   * **AddTransactionToPendingBlock()**
-    _Adds a transaction to the pendingBlock_
+    _Adds a transaction to the pendingBlock and makes change_
   * **LockPendingBlock()**
     _Moves the pendingBlock to the lockedBlock_
 * JEFFCOINS
@@ -242,7 +242,7 @@ This illustration may help,
   * **resetPendingBlock()**
     _Resets the pendingBlock_
   * **addTransactionToPendingBlock()**
-    _Adds a transaction to the pendingBlock_
+    _Adds a transaction to the pendingBlock and makes change_
   * **lockPendingBlock()**
     _Moves the pendingBlock to the lockedBlock_
 * JEFFCOINS
@@ -317,12 +317,15 @@ type destinationStruct struct {
 * SIGNATURE
   * **verifySignature()**
     _Verifies a ECDSA Digital Signature_
+* UNSPENT OUTPUTS
+  * **pickUnspentOutputs()**
+    _Pick the Unspent Outputs to use and provide change_
 
 This illustration shows transaction requests, verification for that request
 and addition onto the pendingBlock. A transaction is never valid until
 the transaction is added onto the blockchain.
 
-![IMAGE - transaction-request-message-verification-and-addition-flow - IMAGE](docs/pics/transaction-request-message-verification-and-addition-flow.jpg)
+![IMAGE - transaction-request-message-flow - IMAGE](docs/pics/transaction-request-message-flow.jpg)
 
 ## 2. MINER
 

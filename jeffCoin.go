@@ -50,7 +50,7 @@ func genesisNode(jeffCoinAddress string) {
                 ],
                 "outputs": [
                     {
-                        "outPubKey": " ` + jeffCoinAddress + `",
+                        "outPubKey": "` + jeffCoinAddress + `",
                         "value": 100000000
                     }
                 ]

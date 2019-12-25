@@ -254,21 +254,111 @@ func resetPendingBlock() {
 
 }
 
-// addTransactionToPendingBlock - Adds a transaction to the pendingBlock
-func addTransactionToPendingBlock(transaction string) blockStruct {
+// addTransactionToPendingBlock - Adds a transaction to the pendingBlock and makes change
+func (trms txRequestMessageSignedStruct) addTransactionToPendingBlock(unspentOutputSlice []unspentOutputStruct, change int64) {
 
-	s := "START  addTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
+	s := "START  addTransactionToPendingBlock() - Adds a transaction to the pendingBlock and makes change"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
 
-	// DO STUFF WITH STRING????????????????????????????????????????????????????
-	transaction1 := transactionStruct{}
+	// Check if first transaction in pendingBlock
+	first := false
+	if pendingBlock.Transactions[0].Inputs == nil {
+		first = true
+	}
 
-	pendingBlock.Transactions = append(pendingBlock.Transactions, transaction1)
+	//-------------------------------------------------------
+	// STEP 1 - BUILD INPUT STRUCT FOR EACH UNSPENT OUTPUT
+	//-------------------------------------------------------
+	s = "STEP 1 - BUILD INPUT STRUCT FOR EACH UNSPENT OUTPUT"
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+	var inputsTemp = inputsStruct{}
+	var inputsSlice []inputsStruct
 
-	s = "END    addTransactionToPendingBlock() - Adds a transaction to the pendingBlock"
+	// Using the following unspent outputs
+	for _, unspentOutput := range unspentOutputSlice {
+		inputsTemp.RefTxID = unspentOutput.TxID
+		inputsTemp.InPubKey = trms.TxRequestMessage.SourceAddress
+		inputsTemp.Signature = trms.Signature
+
+		// Place in slice
+		inputsSlice = append(inputsSlice, inputsTemp)
+	}
+
+	//-------------------------------------------------------
+	// STEP 2 - BUILD OUTPUT STRUCT
+	//-------------------------------------------------------
+	s = "STEP 2 - BUILD OUTPUT STRUCT"
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+	var outputsTemp = outputsStruct{}
+	var outputsSlice []outputsStruct
+
+	// Using the following destinations
+	for _, destination := range trms.TxRequestMessage.Destinations {
+
+		outputsTemp.OutPubKey = destination.DestinationAddress
+		outputsTemp.Value = destination.Value
+
+		// Place in slice
+		outputsSlice = append(outputsSlice, outputsTemp)
+	}
+
+	// PROVIDE CHANGE if > 0
+	if change > 0 {
+
+		outputsTemp.OutPubKey = trms.TxRequestMessage.SourceAddress
+		outputsTemp.Value = change
+
+		// Place in slice
+		outputsSlice = append(outputsSlice, outputsTemp)
+
+	}
+
+	//-------------------------------------------------------
+	// STEP 3 - BUILD THE TRANSACTION
+	//-------------------------------------------------------
+	s = "STEP 3 - BUILD THE TRANSACTION"
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+	var transactionTemp = transactionStruct{}
+
+	// Check if first transaction
+	if first {
+		transactionTemp.TxID = pendingBlock.Transactions[0].TxID
+	} else {
+		transactionTemp.TxID = pendingBlock.Transactions[len(pendingBlock.Transactions)-1].TxID + 1
+	}
+	transactionTemp.Inputs = inputsSlice
+	transactionTemp.Outputs = outputsSlice
+
+	fmt.Printf("\nThe transactionTemp is:\n\n")
+	js, _ := json.MarshalIndent(transactionTemp, "", "    ")
+	fmt.Printf("%v\n\n", string(js))
+
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+
+	//-------------------------------------------------------
+	// STEP 4 - PLACE transactionStruct IN transactionSlice
+	//-------------------------------------------------------
+	s = "STEP 4 - PLACE transactionStruct IN transactionSlice"
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+	var transactionSlice []transactionStruct
+
+	// Check if first transaction
+	if first {
+		transactionSlice = append(transactionSlice, transactionTemp)
+	} else {
+		transactionSlice = append(pendingBlock.Transactions, transactionTemp)
+	}
+
+	//-------------------------------------------------------
+	// STEP 5 - LOAD THE PENDING BLOCK WITH TRANSACTION
+	//-------------------------------------------------------
+	s = "STEP 5 - LOAD THE PENDING BLOCK WITH TRANSACTION"
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
+
+	pendingBlock.Transactions = transactionSlice
+
+	s = "END    addTransactionToPendingBlock() - Adds a transaction to the pendingBlock and makes change"
 	log.Trace("BLOCKCHAIN:  GUTS     " + s)
-
-	return pendingBlock
 
 }
 
@@ -304,11 +394,10 @@ func getAddressBalance(jeffCoinAddress string) (int64, []unspentOutputStruct) {
 
 	// GET UNSPENT OUTPUT TRANSACTIONS - Make unspentOutputSlice
 	s = "GET UNSPENT OUTPUT TRANSACTIONS  - Make unspentOutputSlice"
-	log.Trace("BLOCKCHAIN:  GUTS            " + s)
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
 
 	// LETS ITERATE OVER ALL TRANSACTIONS IN BLOCK CHAIN
 	for _, blocks := range blockchain {
-
 		for _, transaction := range blocks.Transactions {
 
 			// ITERATE OVER INPUTS - find inputs with address
@@ -346,7 +435,7 @@ func getAddressBalance(jeffCoinAddress string) (int64, []unspentOutputStruct) {
 
 	// STEP 2.2 - GET BALANCE from unspentOutputSlice
 	s = "GET BALANCE from unspentOutputSlice"
-	log.Trace("BLOCKCHAIN:  GUTS            " + s)
+	log.Info("BLOCKCHAIN:  GUTS            " + s)
 	var balance int64
 	balance = 0
 	for _, unspentOutput := range unspentOutputSlice {
