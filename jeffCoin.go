@@ -225,6 +225,17 @@ func main() {
 	// LOAD BLOCKCHAIN WITH TEST DATA
 	if *testPtr {
 		testdata.LoadTestDatatoBlockchain()
+		// SHOW BALANCES
+		balance := blockchain.GetAddressBalance(testdata.FoundersPubKey)
+		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.FoundersPubKey[0:40], balance)
+		balance = blockchain.GetAddressBalance(testdata.JeffPubKey)
+		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.JeffPubKey[0:40], balance)
+		balance = blockchain.GetAddressBalance(testdata.MattPubKey)
+		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.MattPubKey[0:40], balance)
+		balance = blockchain.GetAddressBalance(testdata.JillPubKey)
+		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.JillPubKey[0:40], balance)
+		balance = blockchain.GetAddressBalance(testdata.CoinVaultPubKey)
+		fmt.Printf("The balance for %s... (Address) is %s\n\n", testdata.CoinVaultPubKey[0:40], balance)
 	}
 
 	// KICK OFF MASTER CONTROL
