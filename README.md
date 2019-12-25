@@ -681,6 +681,29 @@ And request commands such as,
 SEND-ADDRESS-BALANCE
 ```
 
+### TEST MOCK TRANSACTIONS
+
+If you add the `-test` switch you will run some mock transactions.
+
+These transactions are the same I used in my
+[bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
+example.
+
+The blockchain and pendingBlock should look like
+[blockchain-output.txt](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger/blockchain-otuput.txt).
+
+And the balances in the blockchain should be,
+
+```txt
+The balance for Founders PubKey (Address) is 99657000
+The balance for Jeffs PubKey (Address) is 42500
+The balance for Matts PubKey (Address) is 265000
+The balance for Jills PubKey (Address) is 35000
+The balance for CoinVaults PubKey (Address) is 500
+```
+
+Remember, the pendingBlock is pending so it's not part of this calculation.
+
 ## RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
 
 Make sure your create a firewall rule and have your instance use
