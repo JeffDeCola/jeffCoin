@@ -60,7 +60,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	log.Info("WEBSERVER:                   " + s)
 
 	s = "START  indexHandler() - GET: /"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	t, err := template.ParseFiles("webserver/index.html")
 	checkErr(err)
@@ -85,7 +85,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	checkErr(err)
 
 	s = "END    indexHandler() - GET: /"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
@@ -111,7 +111,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showBlockchainHandler() - GET: /showblockchain"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -125,7 +125,7 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 	io.WriteString(res, s+"\n")
 
 	s = "END    showBlockchainHandler() - GET: /showblockchain"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -137,7 +137,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showBlockHandler() - GET: /showblock/{blockID}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -156,7 +156,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showBlockHandler() - GET: /showblock/{blockID}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -168,7 +168,7 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -183,7 +183,7 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -195,7 +195,7 @@ func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showPendingBlockHandler() - GET: /showpendingblock"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -210,7 +210,7 @@ func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showPendingBlockHandler() - GET: /showpendingblock"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -224,7 +224,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showNodeListHandler() - GET: /shownodelist"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -239,7 +239,7 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showNodeListHandler() - GET: /shownodelist"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -251,7 +251,7 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showNodeHandler() - GET: /shownode/{nodeID}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -270,7 +270,7 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showNodeHandler() - GET: /shownode/{nodeID}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -282,7 +282,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showThisNodeHandler() - GET: /showthisnode"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -297,7 +297,7 @@ func showThisNodeHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showThisNodeHandler() - GET: /showthisnode"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -311,7 +311,7 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showWalletHandler() - GET: /showwallet"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -326,7 +326,7 @@ func showWalletHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showWalletHandler() - GET: /showwallet"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -338,7 +338,7 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showJeffCoinAddressHandler() - GET: /showjeffcoinaddress"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -353,7 +353,7 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END    showJeffCoinAddressHandler() - GET: /showjeffcoinaddress"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -365,7 +365,7 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showBalanceHandler() - GET: /showaddressbalance"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
@@ -387,7 +387,7 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END    showBalanceHandler() - GET: /showaddressbalance"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -399,7 +399,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -483,7 +483,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END    transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
@@ -497,7 +497,7 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	logReceivedAPICommand()
 
 	s := "START  showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
@@ -519,7 +519,7 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	respondMessage(s, res)
 
 	s = "END    showAddressBalanceHandler() - GET: /showaddressbalance/{jeffcoinaddress}"
-	log.Trace("WEBSERVER:            " + s)
+	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 

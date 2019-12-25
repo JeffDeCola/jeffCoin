@@ -22,12 +22,12 @@ import (
 func GetWallet() walletStruct {
 
 	s := "START  GetWallet() - Gets the wallet"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	theWallet := getWallet()
 
 	s = "END    GetWallet() - Gets the wallet"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return theWallet
 
@@ -37,16 +37,17 @@ func GetWallet() walletStruct {
 func GenesisWallet(nodeName string) string {
 
 	s := "START  GenesisWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	theWallet := makeWallet(nodeName)
 
-	fmt.Printf("\nCongrats, you created your wallet:\n\n")
+	s = "Congrats, you created your wallet (-loglevel trace to display)"
+	log.Info("ROUTINGNODE: I/F             " + s)
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    GenesisWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return theWallet.JeffCoinAddress
 }
@@ -55,16 +56,17 @@ func GenesisWallet(nodeName string) string {
 func ReadWalletFile(nodeName string) string {
 
 	s := "START  ReadWalletFile() - Reads the wallet from a file"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	theWallet := readWalletFile(nodeName)
 
-	fmt.Printf("\nCongrats, you loaded your old wallet from a file:\n\n")
+	s = "Congrats, you loaded your old wallet from a file (-loglevel trace to display)"
+	log.Info("ROUTINGNODE: I/F             " + s)
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    ReadWalletFile() - Reads the wallet from a file"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return theWallet.JeffCoinAddress
 }
@@ -75,12 +77,12 @@ func ReadWalletFile(nodeName string) string {
 func EncodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) (string, string) {
 
 	s := "START  EncodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	privateKeyHex, publicKeyHex := encodeKeys(privateKeyRaw, publicKeyRaw)
 
 	s = "END    EncodeKeys() - Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return privateKeyHex, publicKeyHex
 
@@ -90,12 +92,12 @@ func EncodeKeys(privateKeyRaw *ecdsa.PrivateKey, publicKeyRaw *ecdsa.PublicKey) 
 func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *ecdsa.PublicKey) {
 
 	s := "START  DecodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	privateKeyRaw, publicKeyRaw := decodeKeys(privateKeyHex, publicKeyHex)
 
 	s = "END    DecodeKeys() - Decodes privateKeyHex & publicKeyHex to privateKeyRaw & publicKeyRaw"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return privateKeyRaw, publicKeyRaw
 
@@ -107,7 +109,7 @@ func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
 
 	s := "START  RequestAddressBalance() - Requests the jeffCoin balance for a jeffCoin Address"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	//  CONN - SETUP THE CONNECTION
 	s = "----------------------------------------------------------------"
@@ -127,7 +129,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("WALLET:      I/F                   " + s)
+		log.Debug("WALLET:      I/F                   " + s)
 		return "error", errors.New(s)
 	}
 
@@ -142,7 +144,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: ASKING TO SEND jeffCoin Address"
-		log.Trace("WALLET:      I/F                   " + s)
+		log.Debug("WALLET:      I/F                   " + s)
 		return "error", errors.New(s)
 	}
 
@@ -159,7 +161,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Could not get balance"
-		log.Trace("WALLET: I/F                 " + s)
+		log.Debug("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
@@ -174,7 +176,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("WALLET:      I/F              " + s)
+		log.Debug("WALLET:      I/F              " + s)
 		return "error", errors.New(s)
 	}
 
@@ -192,7 +194,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F             " + s)
 
 	s = "END    RequestAddressBalance() - Requests the jeffCoin balance for a jeffCoin Address"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return theBalance, nil
 
@@ -202,7 +204,7 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMessageSigned string) (string, error) {
 
 	s := "START  TransactionRequest() - Request to transfer Coins to a jeffCoin Address"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	//  CONN - SETUP THE CONNECTION
 	s = "----------------------------------------------------------------"
@@ -222,7 +224,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("WALLET: I/F                 " + s)
+		log.Debug("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
@@ -237,13 +239,14 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: ?????????????????????????????"
-		log.Trace("WALLET: I/F                 " + s)
+		log.Debug("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
 	// SEND - transactionRequestMessageSigned
-	s = "-C send   SEND transactionRequestMessageSigned " + transactionRequestMessageSigned
+	s = "-C send   SEND transactionRequestMessageSigned (-loglevel trace to display)"
 	log.Info("WALLET:      I/F   " + s)
+	log.Trace("\n\n" + transactionRequestMessageSigned + "\n\n")
 	fmt.Fprintf(conn, transactionRequestMessageSigned+"\n")
 
 	// RCV - GET THE STATUS
@@ -252,9 +255,10 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	status = strings.Trim(status, "\n")
 	s = "-C rcv    Message from Network Node: " + status
 	log.Info("WALLET:      I/F   " + s)
+
 	if status == "ERROR" {
 		s = "ERROR: Could not get the status from node"
-		log.Trace("WALLET: I/F                 " + s)
+		log.Debug("WALLET: I/F                 " + s)
 		return "error", errors.New(s)
 	}
 
@@ -269,7 +273,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	log.Info("WALLET:      I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("WALLET:      I/F              " + s)
+		log.Debug("WALLET:      I/F              " + s)
 		return "error", errors.New(s)
 	}
 
@@ -287,7 +291,7 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 	log.Info("WALLET:      I/F             " + s)
 
 	s = "END    TransactionRequest() - Request to transfer Coins to a jeffCoin Address"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return status, nil
 
@@ -299,12 +303,12 @@ func TransactionRequest(nodeIP string, nodeTCPPort string, transactionRequestMes
 func CreateSignature(senderPrivateKeyHex string, plainText string) string {
 
 	s := "START  CreateSignature() - Creates a ECDSA Digital Signature"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	signature := createSignature(senderPrivateKeyHex, plainText)
 
 	s = "END    CreateSignature() - Creates a ECDSA Digital Signature"
-	log.Trace("WALLET:      I/F      " + s)
+	log.Debug("WALLET:      I/F      " + s)
 
 	return signature
 

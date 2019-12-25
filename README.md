@@ -598,7 +598,7 @@ of logs.
 
 ```bash
 go run jeffCoin.go \
-       -loglevel trace \
+       -loglevel debug \
        -genesis \
        -nodename Founders \
        -ip 192.168.20.100 \
@@ -624,7 +624,7 @@ Adding a second Node in the network can look like,
 
 ```bash
 go run jeffCoin.go \
-       -loglevel trace \
+       -loglevel debug \
        -nodename Jeff \
        -ip 192.168.20.100 \
        -httpport 1235 \
@@ -637,7 +637,7 @@ Adding a third Node,
 
 ```bash
 go run jeffCoin.go \
-       -loglevel trace \
+       -loglevel debug \
        -nodename Matt \
        -ip 192.168.20.100 \
        -httpport 1236 \
@@ -726,7 +726,7 @@ The IP `0.0.0.0` gets forwarded to your external IP, hence I added a
 ```bash
 go run jeffCoin.go \
        -gce \
-       -loglevel trace \
+       -loglevel debug \
        -genesis \
        -nodename Founders \
        -ip 35.203.189.193 \
@@ -738,7 +738,7 @@ Add another node (not at gce) with,
 
 ```bash
 go run jeffCoin.go \
-       -loglevel trace \
+       -loglevel debug \
        -nodename Jeff \
        -ip 192.168.20.100 \
        -httpport 1235 \

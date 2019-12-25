@@ -14,7 +14,7 @@ import (
 func StartHTTPServer(nodeIP string, nodeWebPort string) {
 
 	s := "START  StartHTTPServer() - Start the WebServer"
-	log.Trace("WEBSERVER:   SERVER   " + s)
+	log.Debug("WEBSERVER:   SERVER   " + s)
 
 	s = "HTTP Server listening on " + nodeIP + ":" + nodeWebPort
 	log.Info("WEBSERVER:   SERVER          " + s)

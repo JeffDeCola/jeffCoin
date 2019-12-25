@@ -24,16 +24,16 @@ func checkErr(err error) {
 func LoadTestDatatoBlockchain() {
 
 	s := "START  LoadTestDatatoBlockchain() - Load the blockchain with test data"
-	log.Trace("*** LOAD-TEST-DATA:   " + s)
+	log.Debug("*** LOAD-TEST-DATA:   " + s)
 
 	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	mockReceivingTransaction(txRequestMessageSignedDataString1)
 
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	// GET DIFFICULTY FROM LAST LOCKED BLOCK
 	theLockedBlock := blockchain.GetLockedBlock()
 	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
@@ -41,22 +41,22 @@ func LoadTestDatatoBlockchain() {
 	// MOCK - ADD lockedBlock TO THE blockchain
 	theLockedBlock = blockchain.GetLockedBlock()
 	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.AppendLockedBlock()
 
 	// MOCK - RESET pendingBlock
 	s = "MOCK - RESET pendingBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.ResetPendingBlock()
 
 	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	mockReceivingTransaction(txRequestMessageSignedDataString2)
 
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	// GET DIFFICULTY FROM LAST LOCKED BLOCK
 	theLockedBlock = blockchain.GetLockedBlock()
 	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
@@ -64,23 +64,23 @@ func LoadTestDatatoBlockchain() {
 	// MOCK - ADD lockedBlock TO THE blockchain
 	theLockedBlock = blockchain.GetLockedBlock()
 	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.AppendLockedBlock()
 
 	// MOCK - RESET pendingBlock
 	s = "MOCK - RESET pendingBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.ResetPendingBlock()
 
 	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	mockReceivingTransaction(txRequestMessageSignedDataString3)
 	mockReceivingTransaction(txRequestMessageSignedDataString4)
 
 	// MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock
 	s = "MOCK - lockPendingBlock() - Move pendingBlock to lockedBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	// GET DIFFICULTY FROM LAST LOCKED BLOCK
 	theLockedBlock = blockchain.GetLockedBlock()
 	blockchain.LockPendingBlock(theLockedBlock.Difficulty)
@@ -88,22 +88,22 @@ func LoadTestDatatoBlockchain() {
 	// MOCK - ADD lockedBlock TO THE blockchain
 	theLockedBlock = blockchain.GetLockedBlock()
 	s = "MOCK - ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.AppendLockedBlock()
 
 	// MOCK - RESET pendingBlock
 	s = "MOCK - RESET pendingBlock"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	blockchain.ResetPendingBlock()
 
 	// MOCK - RECEIVING SOME TRANSACTION REQUEST MESSAGES
 	s = "MOCK - RECEIVING TRANSACTION REQUEST MESSAGES"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 	mockReceivingTransaction(txRequestMessageSignedDataString5)
 	mockReceivingTransaction(txRequestMessageSignedDataString6)
 
 	s = "END    LoadTestDatatoBlockchain() - Load the blockchain with test data"
-	log.Trace("*** LOAD-TEST-DATA:   " + s)
+	log.Debug("*** LOAD-TEST-DATA:   " + s)
 
 }
 
@@ -111,7 +111,7 @@ func LoadTestDatatoBlockchain() {
 func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 
 	s := "START  mockReceivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
-	log.Trace("*** LOAD-TEST-DATA:   " + s)
+	log.Debug("*** LOAD-TEST-DATA:   " + s)
 
 	// Remove all spaces and returns, etc... - squish it
 	// Make a long string - Remove /n and whitespace
@@ -119,7 +119,7 @@ func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 	txRequestMessageSignedDataString = strings.Replace(txRequestMessageSignedDataString, " ", "", -1)
 
 	s = "--------------------------------------------"
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
@@ -131,7 +131,7 @@ func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 	checkErr(err)
 
 	s = "Status is " + status
-	log.Trace("*** LOAD-TEST-DATA:          " + s)
+	log.Debug("*** LOAD-TEST-DATA:          " + s)
 
 	// Check is message valid, get balance and add to pendingBlock
 	//s = "Received transaction message from " + trms.TxRequestMessage.SourceAddress + " to " +
@@ -143,6 +143,6 @@ func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 	//log.Info("mockReceivingTransaction()           " + s)
 
 	s = "END    mockReceivingTransaction() - Place the transaction into txRequestMessageSignedStruct and process"
-	log.Trace("*** LOAD-TEST-DATA:   " + s)
+	log.Debug("*** LOAD-TEST-DATA:   " + s)
 
 }

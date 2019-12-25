@@ -19,12 +19,12 @@ import (
 func GetNodeList() nodeSlice {
 
 	s := "START  GetNodeList() -  Gets the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	theNodeList := getNodeList()
 
 	s = "END    GetNodeList() -  Gets the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return theNodeList
 
@@ -34,16 +34,17 @@ func GetNodeList() nodeSlice {
 func GenesisNodeList() {
 
 	s := "START  GenesisNodeList() - Creates the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	thisNode := appendThisNode()
 
-	fmt.Printf("\nCongrats, your first Node in your nodeList is:\n\n")
+	s = "Congrats, your first Node is in your nodeList (-loglevel trace to display)"
+	log.Info("ROUTINGNODE: I/F             " + s)
 	js, _ := json.MarshalIndent(thisNode, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    GenesisNodeList() - Creates the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 }
 
@@ -51,7 +52,7 @@ func GenesisNodeList() {
 func RequestNodeList(networkIP string, networkTCPPort string) error {
 
 	s := "START  RequestNodeList() -  Requests the nodeList from a Network Node"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	// CONN - SETUP THE CONNECTION
 	s = "----------------------------------------------------------------"
@@ -71,7 +72,7 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 	log.Info("ROUTINGNODE: I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("ROUTINGNODE: I/F              " + s)
+		log.Debug("ROUTINGNODE: I/F              " + s)
 		return errors.New(s)
 	}
 
@@ -104,7 +105,7 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 	log.Info("ROUTINGNODE: I/F   " + s)
 	if message == "ERROR" {
 		s = "ERROR: Waiting for Command"
-		log.Trace("ROUTINGNODE: I/F              " + s)
+		log.Debug("ROUTINGNODE: I/F              " + s)
 		return errors.New(s)
 	}
 
@@ -122,7 +123,7 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 	log.Info("ROUTINGNODE: I/F             " + s)
 
 	s = "END    RequestNodeList() -  Requests the nodeList from a Network Node"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return nil
 
@@ -134,13 +135,13 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 func GetNode(id string) nodeStruct {
 
 	s := "START  GetNode() - Gets a Node (via Index number) from the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	theNode := getNode(id)
 
 	// RETURN NOT FOUND
 	s = "END    GetNode() - Gets a Node (via Index number) from the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return theNode
 
@@ -150,12 +151,12 @@ func GetNode(id string) nodeStruct {
 func AppendNewNode(messageNewNode string) nodeStruct {
 
 	s := "START  AppendNewNode() - Appends a new Node to the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	newNode := appendNewNode(messageNewNode)
 
 	s = "END    AppendNewNode() - Appends a new Node to the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return newNode
 
@@ -167,12 +168,12 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 func GetThisNode() nodeStruct {
 
 	s := "START  GetThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	theNode := getThisNode()
 
 	s = "END    GetThisNode() - Gets thisNode"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return theNode
 }
@@ -181,16 +182,17 @@ func GetThisNode() nodeStruct {
 func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
 
 	s := "START  LoadThisNode() - Loads thisNode"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	loadThisNode(ip, httpPort, tcpPort, nodeName, toolVersion)
 
-	fmt.Printf("\nCongrats, you created your thisNode:\n\n")
+	s = "Congrats, you loaded thisNode (-loglevel trace to display)"
+	log.Info("ROUTINGNODE: I/F             " + s)
 	js, _ := json.MarshalIndent(thisNode, "", "    ")
-	fmt.Printf("%v\n\n", string(js))
+	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    LoadThisNode() - Loads thisNode"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 }
 
@@ -198,7 +200,7 @@ func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 func AppendThisNode() {
 
 	s := "START  AppendThisNode() - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	// DO YOU ALREADY HAVE thisNode IN THE nodeList?
 	if !checkIfThisNodeinNodeList() {
@@ -208,7 +210,7 @@ func AppendThisNode() {
 	}
 
 	s = "END    AppendThisNode() - Appends thisNode to the nodeList"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 }
 
@@ -216,7 +218,7 @@ func AppendThisNode() {
 func BroadcastThisNode() error {
 
 	s := "START  BroadcastThisNode() - Broadcasts thisNode to the Network"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	// DO YOU ALREADY HAVE thisNode IN THE nodeList?
 	if checkIfThisNodeinNodeList() {
@@ -225,7 +227,7 @@ func BroadcastThisNode() error {
 		log.Info("ROUTINGNODE: I/F             " + s)
 
 		s = "END    BroadcastThisNode() - Broadcasts thisNode to the Network"
-		log.Trace("ROUTINGNODE: I/F      " + s)
+		log.Debug("ROUTINGNODE: I/F      " + s)
 
 		return nil
 
@@ -298,7 +300,7 @@ func BroadcastThisNode() error {
 		log.Info("ROUTINGNODE: I/F   " + s)
 		if message == "ERROR" {
 			s = "ERROR: AppendedNode to the Nodelist"
-			log.Trace("ROUTINGNODE: I/F              " + s)
+			log.Debug("ROUTINGNODE: I/F              " + s)
 			return errors.New(s)
 		}
 
@@ -313,7 +315,7 @@ func BroadcastThisNode() error {
 		log.Info("ROUTINGNODE: I/F   " + s)
 		if message == "ERROR" {
 			s = "ERROR: Waiting for Command"
-			log.Trace("ROUTINGNODE: I/F              " + s)
+			log.Debug("ROUTINGNODE: I/F              " + s)
 			return errors.New(s)
 		}
 
@@ -333,7 +335,7 @@ func BroadcastThisNode() error {
 	}
 
 	s = "END    BroadcastThisNode() - Broadcasts thisNode to the Network"
-	log.Trace("ROUTINGNODE: I/F      " + s)
+	log.Debug("ROUTINGNODE: I/F      " + s)
 
 	return nil
 
