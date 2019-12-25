@@ -690,7 +690,7 @@ These transactions are the same I used in my
 example.
 
 The blockchain and pendingBlock should look like
-[blockchain-output.txt](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger/blockchain-otuput.txt).
+[blockchain-output.txt](https://github.com/JeffDeCola/my-go-examples/blob/master/blockchain/bitcoin-ledger/blockchain-output.txt).
 
 And the balances in the blockchain should be,
 
