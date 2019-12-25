@@ -17,6 +17,8 @@ the Nodes over IP._
 
 Or more simply, **a distributed decentralized public ledger.**
 
+To dive in a get a Node running, head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run).
+
 Table of Contents,
 
 * [IMPORTANT](https://github.com/JeffDeCola/jeffCoin#important)
@@ -74,8 +76,9 @@ Documentation and reference,
 
 ## IMPORTANT
 
-Your private keys are kept in `/wallet`.  So .gitignore them or
-don't git push.  The keys currently in there are used for testing.
+Your private keys are kept in `/wallet`.  The .gitignore
+file does ignore them, but just be aware were they live.
+The keys currently there are used for testing.
 
 ## PREREQUISITES
 
@@ -591,8 +594,39 @@ Currently, there is the main page that also lists the available APIs.
 ## RUN
 
 If this is you first time running, you need to create the first Node (Genesis Node).
-You only do this once. You can set the log level to info to cut down on the amount
-of logs.
+You only do this once. You can set the log level (info, debug, trace)
+to cut down on the amount of logging.
+
+### SWITCHES
+
+  `-h` prints the following
+  
+  -gce
+        Is this Node on GCE
+  -genesis
+        Create your first Node
+  -httpport string
+        Node Web Port (default "1234")
+  -ip string
+        Node IP (default "127.0.0.1")
+  -loglevel string
+        LogLevel (info, debug or trace) (default "info")
+  -netip string
+        Network IP (default "192.169.20.100")
+  -netport string
+        Network TCP Port (default "3333")
+  -nodename string
+        Node Name (default "Monkey")
+  -tcpport string
+        Node TCP Port (default "3333")
+  -test
+        Loads the blockchain with test data
+  -v    prints current version
+
+* `-test` will load the blockchain with test data
+  I use in my
+  [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
+  example
 
 ### GENESIS NODE
 
@@ -606,21 +640,16 @@ go run jeffCoin.go \
        -tcpport 3334
 ```
 
-This will created the founders Node.
-
-* `-v` will show the version
-* `-test` will load the blockchain with test data
-  I use in my
-  [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
-  example
-* `-h` shows help
+This will created the first Node, the Founders node.
+It will also create a wallet. But having one node is boring
+so create more.
 
 ### ADDING NEW NODES
 
-To hook up to the Network.  You need the ip of any
-working Network Node.
-
-Adding a second Node in the network can look like,
+To hook up to the Network.  You need the IP of any
+working Network Node. If you have the above running
+on `192.168.20.100:3334`, adding a second Node
+"Jeff" in your network can look like,
 
 ```bash
 go run jeffCoin.go \
@@ -633,7 +662,7 @@ go run jeffCoin.go \
        -netport 3334
 ```
 
-Adding a third Node,
+Might as well add a third Node,
 
 ```bash
 go run jeffCoin.go \
@@ -646,9 +675,12 @@ go run jeffCoin.go \
        -netport 3335
 ```
 
+Each node has it's own wallet, So now you can send jeffCoins/Value.
+To do this, use the webserver and API interface.
+
 ### WEBSERVER AND API
 
-The user GUI for all 3 Nodes,
+The GUI for the three nodes you just created will look like,
 
 [192.168.20.100:1234](http://192.168.20.100:1234/)
 
@@ -656,19 +688,13 @@ The user GUI for all 3 Nodes,
 
 [192.168.20.100:1236](http://192.168.20.100:1236/)
 
-You could also use curl from the command line,
-
-```go
-curl 192.168.20.100:1234
-```
-
 The main page will list the various API commands.
 
 For example, to show a particular block,
 
 [192.168.20.100:1234//showblock/0](http://192.168.20.100:1234/showblock/0)
 
-### ROUTINGNODE
+### ROUTINGNODE (OPTIONAL)
 
 You can also bypass the API and just open a connection to the TCP server itself,
 
@@ -682,28 +708,30 @@ And request commands such as,
 SEND-ADDRESS-BALANCE
 ```
 
-### TEST MOCK TRANSACTIONS
+### TEST MOCK TRANSACTIONS (OPTIONAL)
 
-If you add the `-test` switch you will run some mock transactions.
+If you add the `-test` switch you will run some mock transactions from mock wallets.
+Those wallets are located in `/wallets` and this is just used for testing.
 
 These transactions are the same I used in my
 [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
 example.
 
-The blockchain and pendingBlock should look like
+So your blockchain and pendingBlock should look like
 [blockchain-output.txt](https://github.com/JeffDeCola/my-go-examples/blob/master/blockchain/bitcoin-ledger/blockchain-output.txt).
 
 And the balances in the blockchain should be,
 
 ```txt
-The balance for Founders PubKey (Address) is 99657000
-The balance for Jeffs PubKey (Address) is 42500
-The balance for Matts PubKey (Address) is 265000
-The balance for Jills PubKey (Address) is 35000
-The balance for CoinVaults PubKey (Address) is 500
+The balance for MockFounders PubKey (Address) is 99657000
+The balance for MockJeffs PubKey (Address) is 42500
+The balance for MockMatts PubKey (Address) is 265000
+The balance for MockJills PubKey (Address) is 35000
+The balance for MockCoinVaults PubKey (Address) is 500
 ```
 
-Remember, the pendingBlock is pending so it's not part of this calculation.
+Remember, the pendingBlock is pending, so it's not part of this calculation.
+Transaction do not have value if they are not part of the blockchain.
 
 ## RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
 

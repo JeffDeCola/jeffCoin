@@ -2,12 +2,13 @@
 
 package testdata
 
+// Public Keys (address) and mock signatures
 const (
-	FoundersPubKey       = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a3044415163445167414535727549786d5146754548414c747437517778636247446b3863705a0a49684971512b4f4f336a492b31723177734a33686c693133414763686f66523639574b4c354b394a34574278696e2f37736c6f6f7030665268513d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
-	JeffPubKey           = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a304441516344516741457668696a41504c7844367071746a4539356c5272536748782b2b33350a634230674443395746445a703236325276337569464770414b625143422b796d577a5a665a6c66696a6f4e4942616a6f306f414e7873515a73413d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
-	MattPubKey           = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a30444151634451674145315772756f54335a4b77466d676e45426851353163354d6a6f5950430a5a61333845476873793675435739576a3771514d6a7874512b6f44534d3648536631367363706e3367394a2b63566a2b6f694b337179736e70413d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
-	CoinVaultPubKey      = "CoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKey"
-	JillPubKey           = "JillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKey"
+	MockFoundersPubKey   = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a3044415163445167414535727549786d5146754548414c747437517778636247446b3863705a0a49684971512b4f4f336a492b31723177734a33686c693133414763686f66523639574b4c354b394a34574278696e2f37736c6f6f7030665268513d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
+	MockJeffPubKey       = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a304441516344516741457668696a41504c7844367071746a4539356c5272536748782b2b33350a634230674443395746445a703236325276337569464770414b625143422b796d577a5a665a6c66696a6f4e4942616a6f306f414e7873515a73413d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
+	MockMattPubKey       = "2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d2d0a4d466b77457759484b6f5a497a6a3043415159494b6f5a497a6a30444151634451674145315772756f54335a4b77466d676e45426851353163354d6a6f5950430a5a61333845476873793675435739576a3771514d6a7874512b6f44534d3648536631367363706e3367394a2b63566a2b6f694b337179736e70413d3d0a2d2d2d2d2d454e44205055424c4943204b45592d2d2d2d2d0a"
+	MockCoinVaultPubKey  = "CoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKeyCoinVaultsPubKey"
+	MockJillPubKey       = "JillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKeyJillsPubKey"
 	signatureDataString1 = "1516a84bf05592225aff22d7b8b2b98de5f763bf2d62f291860f864234efe8de5125e7c3e3f987baeae80a790b950892c747eeabd9ea690334ecc681f98d9d48"
 	signatureDataString2 = "bb873b906093bef32eedd37e6b37a591f52373eb77843cbf006d65cd9b2cfa494ff8786b120ff1c3d6f8645fbbce1da3dab1dbb6a9e9ab7c89adc22e8456334d"
 	signatureDataString3 = "b607df0a311676afc1a271ed1266f5f0212f950e7cf2ffe4f24955345f025d4fe3dcfd34b66f87310924c613bf944b14914e08efeeb46b988f627e9f1f9b5c9e"
@@ -21,10 +22,10 @@ const (
 	txRequestMessageSignedDataString1 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + FoundersPubKey + `",
+                "sourceAddress": "` + MockFoundersPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + JeffPubKey + `",
+                        "destinationAddress": "` + MockJeffPubKey + `",
                         "value": 80000
                     }
                 ]
@@ -34,14 +35,14 @@ const (
 	txRequestMessageSignedDataString2 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + JeffPubKey + `",
+                "sourceAddress": "` + MockJeffPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + MattPubKey + `",
+                        "destinationAddress": "` + MockMattPubKey + `",
                         "value": 50000
                     },
                     {
-                        "destinationAddress": "` + CoinVaultPubKey + `",
+                        "destinationAddress": "` + MockCoinVaultPubKey + `",
                         "value": 500
                     }
                 ]
@@ -51,14 +52,14 @@ const (
 	txRequestMessageSignedDataString3 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + FoundersPubKey + `",
+                "sourceAddress": "` + MockFoundersPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + MattPubKey + `",
+                        "destinationAddress": "` + MockMattPubKey + `",
                         "value": 250000
                     },
                     {
-                        "destinationAddress": "` + JeffPubKey + `",
+                        "destinationAddress": "` + MockJeffPubKey + `",
                         "value": 13000
                     }
                 ]
@@ -68,10 +69,10 @@ const (
 	txRequestMessageSignedDataString4 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + MattPubKey + `",
+                "sourceAddress": "` + MockMattPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + JillPubKey + `",
+                        "destinationAddress": "` + MockJillPubKey + `",
                         "value": 35000
                     }
                 ]
@@ -81,10 +82,10 @@ const (
 	txRequestMessageSignedDataString5 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + MattPubKey + `",
+                "sourceAddress": "` + MockMattPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + JeffPubKey + `",
+                        "destinationAddress": "` + MockJeffPubKey + `",
                         "value": 15000
                     }
                 ]
@@ -94,10 +95,10 @@ const (
 	txRequestMessageSignedDataString6 = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + JeffPubKey + `",
+                "sourceAddress": "` + MockJeffPubKey + `",
                 "destinations": [
                     {
-                        "destinationAddress": "` + JillPubKey + `",
+                        "destinationAddress": "` + MockJillPubKey + `",
                         "value": 33000
                     }
                 ]
@@ -107,7 +108,7 @@ const (
 	txRequestMessageSignedDataStringBad = `
         {
             "txRequestMessage": {
-                "sourceAddress": "` + FoundersPubKey + `",
+                "sourceAddress": "` + MockFoundersPubKey + `",
                 "destinations": [
                     {
                         "destinationAddress": "Bad Pub Key",
