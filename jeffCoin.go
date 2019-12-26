@@ -217,8 +217,8 @@ func main() {
 	log.Info("MAIN:                        " + s)
 
 	// CREATE GENESIS NODE OR A NEW NODE
-	theWallet := wallet.GetWallet()
 	if *genesisPtr {
+        theWallet := wallet.GetWallet()
 		genesisNode(theWallet.PublicKeyHex)
 	} else {
 		newNode()

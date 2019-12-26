@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -18,13 +19,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type htmlData struct {
-	NodeName        string
-	JeffCoinAddress string
-	ToolVersion     string
-	IP              string
-	HTTPPort        string
-	TCPPort         string
+type htmlIndexData struct {
+	NodeName     string
+	PublicKeyHex string
+	Balance      string
+	ToolVersion  string
+	IP           string
+	HTTPPort     string
+	TCPPort      string
+}
+
+type htmlAPIData struct {
+	NodeName string
+}
+
+type htmlSendData struct {
+	NodeName string
 }
 
 func logReceivedAPICommand() {
@@ -69,15 +79,32 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	thisNode := routingnode.GetThisNode()
 
 	// GET WALLET
-	wallet := wallet.GetWallet()
+	theWallet := wallet.GetWallet()
 
-	htmlTemplateData := htmlData{
-		NodeName:        thisNode.NodeName,
-		JeffCoinAddress: wallet.JeffCoinAddress,
-		ToolVersion:     thisNode.ToolVersion,
-		IP:              thisNode.IP,
-		HTTPPort:        thisNode.HTTPPort,
-		TCPPort:         thisNode.TCPPort,
+	// GET nodeIP & nodeTCPPort from thisNode
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.TCPPort
+
+	// GET address PublicKeyHex from wallet
+	addressPublicKeyHex := theWallet.PublicKeyHex
+
+	// GET ADDRESS BALANCE
+	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, addressPublicKeyHex)
+	gotAddressBalance = strings.Trim(gotAddressBalance, "\"")
+	checkErr(err)
+	gotAddressBalanceInt, err := strconv.ParseFloat(gotAddressBalance, 64)
+	checkErr(err)
+	balance := gotAddressBalanceInt / float64(1000)
+	gotAddressBalance = strconv.FormatFloat(balance, 'f', 3, 64)
+
+	htmlTemplateData := htmlIndexData{
+		NodeName:     thisNode.NodeName,
+		PublicKeyHex: addressPublicKeyHex,
+		Balance:      gotAddressBalance,
+		ToolVersion:  thisNode.ToolVersion,
+		IP:           thisNode.IP,
+		HTTPPort:     thisNode.HTTPPort,
+		TCPPort:      thisNode.TCPPort,
 	}
 
 	// Merge data and execute
@@ -90,6 +117,80 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
 	s = "HTTP SERVER - COMPLETE DISPLAY MAIN WEBPAGE"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+}
+
+// apiHandler - GET: /
+func apiHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - DISPLAY API COMMANDS"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+	s = "START  apiHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	t, err := template.ParseFiles("webserver/api.html")
+	checkErr(err)
+
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	htmlTemplateData := htmlAPIData{
+		NodeName: thisNode.NodeName,
+	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
+
+	s = "END    apiHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - COMPLETE DISPLAY API COMMANDS"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+}
+
+// sendHandler - GET: /
+func sendHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - DISPLAY API COMMANDS"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+	s = "START  sendHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	t, err := template.ParseFiles("webserver/send.html")
+	checkErr(err)
+
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	htmlTemplateData := htmlSendData{
+		NodeName: thisNode.NodeName,
+	}
+
+	s = "END    sendHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - COMPLETE DISPLAY API COMMANDS"
 	log.Info("WEBSERVER:                   " + s)
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
@@ -351,7 +452,14 @@ func showJeffCoinAddressHandler(res http.ResponseWriter, req *http.Request) {
 	jeffCoinAddress := gotWallet.JeffCoinAddress
 
 	// RESPOND with jeffCoin Address
-	s = jeffCoinAddress
+	s = "\njeffCoinAddress (Not Used) = " + jeffCoinAddress
+	respondMessage(s, res)
+
+	// Get PubKeyHex
+	theWallet := wallet.GetWallet()
+	s = "\nPublicKeyHex = " + theWallet.PublicKeyHex
+
+	// RESPOND with PubKeyHex
 	respondMessage(s, res)
 
 	s = "END    showJeffCoinAddressHandler() - GET: /showjeffcoinaddress"
