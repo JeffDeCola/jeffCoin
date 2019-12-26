@@ -21,18 +21,24 @@ var routes = Routes{
 		"GET",
 		"/",
 		indexHandler,
-    },
-    Route{
+	},
+	Route{
 		"GetAPI",
 		"GET",
 		"/api",
 		apiHandler,
-    },
-    Route{
+	},
+	Route{
 		"GetSend",
 		"GET",
 		"/send",
 		sendHandler,
+	},
+	Route{
+		"GetConfirm",
+		"POST",
+		"/confirm",
+		confirmHandler,
 	},
 	Route{
 		"ShowBlockchain",

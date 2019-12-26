@@ -34,7 +34,16 @@ type htmlAPIData struct {
 }
 
 type htmlSendData struct {
-	NodeName string
+	NodeName     string
+	PublicKeyHex string
+	Balance      string
+}
+
+type htmlConfirmData struct {
+	NodeName           string
+	PublicKeyHex       string
+	DestinationAddress string
+	Value              string
 }
 
 func logReceivedAPICommand() {
@@ -58,6 +67,15 @@ func logDoneAPICommand() {
 	log.Info("WEBSERVER:                   " + s)
 
 }
+
+func respondMessage(s string, res http.ResponseWriter) {
+
+	log.Info("WEBSERVER:                   " + s)
+	io.WriteString(res, s+"\n")
+
+}
+
+// HTML PAGES *************************************************************************************************************
 
 // indexHandler - GET: /
 func indexHandler(res http.ResponseWriter, req *http.Request) {
@@ -181,9 +199,34 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
+	// GET WALLET
+	theWallet := wallet.GetWallet()
+
+	// GET nodeIP & nodeTCPPort from thisNode
+	nodeIP := thisNode.IP
+	nodeTCPPort := thisNode.TCPPort
+
+	// GET address PublicKeyHex from wallet
+	addressPublicKeyHex := theWallet.PublicKeyHex
+
+	// GET ADDRESS BALANCE
+	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, addressPublicKeyHex)
+	gotAddressBalance = strings.Trim(gotAddressBalance, "\"")
+	checkErr(err)
+	gotAddressBalanceInt, err := strconv.ParseFloat(gotAddressBalance, 64)
+	checkErr(err)
+	balance := gotAddressBalanceInt / float64(1000)
+	gotAddressBalance = strconv.FormatFloat(balance, 'f', 3, 64)
+
 	htmlTemplateData := htmlSendData{
-		NodeName: thisNode.NodeName,
+		NodeName:     thisNode.NodeName,
+		PublicKeyHex: addressPublicKeyHex,
+		Balance:      gotAddressBalance,
 	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
 
 	s = "END    sendHandler() - GET: /"
 	log.Debug("WEBSERVER:            " + s)
@@ -197,10 +240,54 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-func respondMessage(s string, res http.ResponseWriter) {
+// confirmHandler - GET: /
+func confirmHandler(res http.ResponseWriter, req *http.Request) {
 
+	s := "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
-	io.WriteString(res, s+"\n")
+	s = "HTTP SERVER - DISPLAY CONFIRM SEND"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+	s = "START  confirmHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	t, err := template.ParseFiles("webserver/confirm.html")
+	checkErr(err)
+
+	// GET THE PARAMATERS SENT VIA POST FORM
+	// Parses the request body
+	req.ParseForm()
+	Value := req.Form.Get("Value")
+	DestinationAddress := req.Form.Get("DestinationAddress")
+
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	// GET WALLET
+	theWallet := wallet.GetWallet()
+
+	htmlTemplateData := htmlConfirmData{
+		NodeName:           thisNode.NodeName,
+		PublicKeyHex:       theWallet.PublicKeyHex,
+		DestinationAddress: DestinationAddress,
+		Value:              Value,
+	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
+
+	s = "END    confirmHandler() - GET: /"
+	log.Debug("WEBSERVER:            " + s)
+
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - COMPLETE CONFIRM SEND"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
 
 }
 
@@ -589,7 +676,14 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	checkErr(err)
 
 	// RESPOND with status
-	s = status
+	s = `<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <link rel="stylesheet" type="text/css" href="css/mystyles.css">
+        </head>
+        <body>` + status + `
+        </body>    
+    `
 	respondMessage(s, res)
 
 	s = "END    transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"

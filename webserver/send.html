@@ -5,9 +5,37 @@
         <link rel="stylesheet" type="text/css" href="css/mystyles.css">
     </head>
     <body>
-
-        <p> SEND hi </p>
-
+        <div id="title_box">
+            <h1> SEND jeffCOIN </h1>
+        </div>
+        <div id="info_box">
+            <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
+            <p> Balance <b id="balance">{{.Balance}}</b> jeffCoins</p>
+        </div>
+        <div id="from_box">
+            <p> FROM YOUR ADDRESS </p>
+            <div id="address_box">
+                {{.PublicKeyHex}}
+            </div>
+        </div>
+        <!--  This will place the dat in the request body -->
+        <!-- You extract this in go using  -->
+        <!-- req.ParseForm() -->            
+	    <!-- Value := req.Form.Get("Value") -->
+        <form class="form_box" method="POST" action="/confirm">
+            <div id="to_box">
+                <p> TO THIS ADDRESS </p>
+                <p>(Can't word wrap, but don't worry since you confirm on next page)</p>
+                <input id="address_input" type="text" name="DestinationAddress"><br>
+            </div>
+            <div id="amount_box">
+                <p>NUMBER OF COINS</p>
+                <input  id="value_input" type="text" name="Value"><br>
+            </div>
+            <div id="send_button">
+                <button><b>CONFIRM ON NEXT PAGE</b></button>
+            </div>
+        </form>
     </body>
-    </html>
+</html>
     

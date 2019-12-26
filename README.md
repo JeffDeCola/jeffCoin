@@ -565,15 +565,15 @@ The webserver section has two main parts, the GUI and the REST API.
 This webserver is built from my
 [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST).
 
-The screen should look similar to the following,
-
-![IMAGE - webpage - IMAGE](docs/pics/webpage.jpg)
-
 ### 5.1 GUI
 
 Currently, there is the main page that also lists the available APIs.
 
 * [127.0.0.1:2000](http://127.0.0.1:2000)
+
+The screen should look similar to the following,
+
+![IMAGE - webpage - IMAGE](docs/pics/webpage.jpg)
 
 ### 5.2 REST API
 
