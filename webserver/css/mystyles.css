@@ -31,6 +31,27 @@ a {
     color: rgb(167, 58, 31);
 }
 
+input.break {
+    word-wrap: break-word;
+    word-break: break-all;
+    height: 80px;
+}
+
+button {
+    cursor:pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;		/* Center it */
+    color: rgb(167, 58, 31);
+    background-color: rgb(174, 204, 144);
+    border-color: rgb(0, 0, 0);
+    border-width:2px;
+    border-style:solid;
+    font-size: 16px;
+    max-width: 300px;
+    padding:10px;
+    margin: auto;
+}
+
 /* MAIN PAGE *************************************************************************** */
 
 #balance {
@@ -68,13 +89,12 @@ a {
 #send_box {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;		/* Center it */
-    color: rgb(167, 58, 31);
     background-color: rgb(174, 204, 144);
-    color: rgb(28, 136, 14);
+    border-color: rgb(0, 0, 0);
     border-width:2px;
     border-style:solid;
     font-size: 16px;
-    max-width: 100px;
+    max-width: 200px;
     padding:5px;
     margin: auto;
 }
@@ -85,9 +105,15 @@ a {
     padding-top: 30px;
 }
 
+
+
+
+
+/* API PAGE **************************************************************************** */
+
 #api_commands_box {
     padding-left: 20px;
-    padding-top:10px;
+    padding-top:30px;
     padding-bottom: 40px;
 	text-align: left;		/* Left */
 	overflow: hidden;
@@ -98,7 +124,91 @@ a {
     padding-bottom: 10px;
 }
 
-/* API PAGE **************************************************************************** */
-
-
 /* SEND PAGE *************************************************************************** */
+
+.form_box {
+    text-align: center;		/* Center it */
+}
+
+#from_box {
+    text-align: center;		/* Center it */
+    padding:10px;
+    padding-top: 20px;
+}
+
+#to_box {
+    text-align: center;		/* Center it */
+}
+
+#address_input {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    width: 500px;
+    padding:10px;
+    margin: auto;
+    margin-bottom:40px;
+}
+
+#value_input {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    width: 100px;
+    padding:10px;
+    margin: auto;
+    margin-bottom:40px;
+}
+
+#amount_box {
+    text-align: center;		/* Center it */
+}
+
+#send_button {
+    text-align: center;		/* Center it */
+}
+
+/* CONFIRM PAGE *************************************************************************** */
+
+#confirm_from_box {
+    text-align: center;		/* Center it */
+    padding-top: 30px;
+}
+
+#confirm_address_box {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    max-width: 500px;
+    padding:10px;
+    margin: auto;
+    margin-bottom:40px;
+    overflow-wrap: break-word;
+}
+
+#confirm_to_box {
+    text-align: center;		/* Center it */
+}
+
+#confirm_value_box {
+    text-align: center;		/* Center it */
+}
+
+#confirm_value {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    max-width: 100px;
+    padding:10px;
+    margin: auto;
+    margin-bottom:40px;
+    overflow-wrap: break-word;
+}
+
+#confirm_button_box {
+    text-align: center;		/* Center it */
+}

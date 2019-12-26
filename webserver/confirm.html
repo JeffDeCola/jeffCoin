@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Welcome to jeffCoin ({{.NodeName}})</title>
+        <link rel="stylesheet" type="text/css" href="css/mystyles.css">
+    </head>
+    <body>
+        <div id="title_box">
+            <h1> CONFIRM SEND FOR WALLET <b>{{.NodeName}}</b> </h1>
+            <p> <b>NOTE: THIS IS PERMANENT</b></p>
+        </div>
+        <div id="confirm_from_box">
+            <p> FROM YOUR ADDRESS </p>
+            <div id="confirm_address_box">
+                {{.PublicKeyHex}}
+            </div>
+        </div>
+        <div id="confirm_to_box">
+            <p> TO THIS ADDRESS </p>
+            <div id="confirm_address_box">
+                {{.DestinationAddress}}
+            </div>
+        </div>
+        <div id="confirm_value_box">
+            <p> FOR VALUE</p>
+            <div id="confirm_value">
+                {{.Value}}
+            </div>
+        </div>
+        <div id="confirm_button_box">
+            <p> <a href="/transactionrequest/{{.DestinationAddress}}/{{.Value}}"> <b>CONFIRM</b> </a> <b>/</b>
+            <a href="/"> CANCEL </a> </p>
+    </body>
+</html>
+    

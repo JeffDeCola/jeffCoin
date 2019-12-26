@@ -5,9 +5,44 @@
         <link rel="stylesheet" type="text/css" href="css/mystyles.css">
     </head>
     <body>
-
-        <p> API hi </p>
-
+        <div id="title_box">
+            <h1> API COMMANDS </h1>
+        </div>
+        <div id="info_box">
+            <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
+            <p> <a href="/"><b>HOME</b></a> </p>
+        </div>
+        <div id="api_commands_box" class="data_left">
+            <h2> API REST Commands </h2>
+            <h3>BLOCKCHAIN</h3>
+                <div class="api_block">
+                    <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
+                    <p> <a href="/showblock/0">/showblock/0</a> Show a particular <b>blockID</b> in the blockchain </p>
+                </div>
+            <h3>PENDING AND LOCKED BLOCK </h3>
+                <div class="api_block">
+                    <p> <a href="/showpendingblock">/showpendingblock</a> Show the pendingBlock </p>
+                    <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
+                </div>
+            <h3>NODELIST</h3>
+                <div class="api_block">
+                    <p> <a href="/shownodelist">/shownodelist</a> Show the nodelist </p>
+                    <p> <a href="/shownode/0">/shownode/0</a> Show a particular <b>index</b> in nodeList </p>
+                    <p> <a href="/showthisnode">/showthisnode</a> Show thisNode</p>
+                </div>
+            <h3>WALLET ({{.NodeName}})</h3>
+                <div class="api_block">
+                    <p> <a href="/showwallet">/showwallet</a> Show this wallet (Public &amp; Private Keys) </p>
+                    <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show this Address </p>
+                    <p> <a href="/showbalance">/showbalance</a> Show the balance for this wallet </p>
+                    <p> <b>/transactionrequest/aaa,bbb/23,44</b> Request to transfer <b>23</b> coins to address <b>aaa</b> & <b>44</b> coins to address <b>bbb</b> <br>
+                    This API link not enabled here because it will transfer coins and this action is irreversible. Use SEND above. </p>
+                </div>
+            <h3>WALLET (Other)</h3>
+                <div class="api_block">
+                    <p> <a href="/showaddressbalance/1234">/showaddressbalance/1234</a> Show balance for the Address <b>1234</b></p>
+                </div>
+        </div>
     </body>
-    </html>
+</html>
     
