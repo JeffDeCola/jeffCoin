@@ -17,7 +17,7 @@ the Nodes over IP._
 
 Or more simply, **a distributed decentralized public ledger.**
 
-To dive in a get a Node running, head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run).
+To dive right in, head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run).
 
 Table of Contents,
 
@@ -454,7 +454,7 @@ An illustration of client-server handshakes,
 
 * FROM BLOCKCHAIN I/F
   * **handleSendBlockchain()**
-    _SEND-BLOCKCHAIN - Sends the blockchain and pendingBlock to another Node_
+    _SEND-BLOCKCHAIN (SBC)- Sends the blockchain and pendingBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **handleBroadcastAddNewNode()**
     _BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList_
@@ -597,37 +597,6 @@ If this is you first time running, you need to create the first Node (Genesis No
 You only do this once. You can set the log level (info, debug, trace)
 to cut down on the amount of logging.
 
-### SWITCHES
-
-  `-h` prints the following
-  
-  -gce
-        Is this Node on GCE
-  -genesis
-        Create your first Node
-  -httpport string
-        Node Web Port (default "1234")
-  -ip string
-        Node IP (default "127.0.0.1")
-  -loglevel string
-        LogLevel (info, debug or trace) (default "info")
-  -netip string
-        Network IP (default "192.169.20.100")
-  -netport string
-        Network TCP Port (default "3333")
-  -nodename string
-        Node Name (default "Monkey")
-  -tcpport string
-        Node TCP Port (default "3333")
-  -test
-        Loads the blockchain with test data
-  -v    prints current version
-
-* `-test` will load the blockchain with test data
-  I use in my
-  [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
-  example
-
 ### GENESIS NODE
 
 ```bash
@@ -635,9 +604,9 @@ go run jeffCoin.go \
        -loglevel debug \
        -genesis \
        -nodename Founders \
-       -ip 192.168.20.100 \
-       -httpport 1234 \
-       -tcpport 3334
+       -ip 127.0.0.1 \
+       -httpport 2000 \
+       -tcpport 3000
 ```
 
 This will created the first Node, the Founders node.
@@ -648,18 +617,18 @@ so create more.
 
 To hook up to the Network.  You need the IP of any
 working Network Node. If you have the above running
-on `192.168.20.100:3334`, adding a second Node
+on `127.0.0.1:3000`, adding a second Node
 "Jeff" in your network can look like,
 
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
        -nodename Jeff \
-       -ip 192.168.20.100 \
-       -httpport 1235 \
-       -tcpport 3335 \
-       -netip 192.168.20.100 \
-       -netport 3334
+       -ip 127.0.0.1 \
+       -httpport 2001 \
+       -tcpport 3001 \
+       -netip 127.0.0.1 \
+       -netport 3000
 ```
 
 Might as well add a third Node,
@@ -668,56 +637,91 @@ Might as well add a third Node,
 go run jeffCoin.go \
        -loglevel debug \
        -nodename Matt \
-       -ip 192.168.20.100 \
-       -httpport 1236 \
-       -tcpport 3336 \
-       -netip 192.168.20.100 \
-       -netport 3335
+       -ip 127.0.0.1 \
+       -httpport 2002 \
+       -tcpport 3002 \
+       -netip 127.0.0.1 \
+       -netport 3000
 ```
 
-Each node has it's own wallet, So now you can send jeffCoins/Value.
+Each node has it's own wallet, so now you can send jeffCoins/Value.
 To do this, use the webserver and API interface.
 
-### WEBSERVER AND API
+### WEBSERVER & REST API
 
 The GUI for the three nodes you just created will look like,
 
-[192.168.20.100:1234](http://192.168.20.100:1234/)
+[127.0.0.1:2000](http://127.0.0.1:2000/)
 
-[192.168.20.100:1235](http://192.168.20.100:1235/)
+[127.0.0.1:2001](http://127.0.0.1:2001/)
 
-[192.168.20.100:1236](http://192.168.20.100:1236/)
+[127.0.0.1:2002](http://127.0.0.1:2002/)
 
 The main page will list the various API commands.
 
 For example, to show a particular block,
 
-[192.168.20.100:1234//showblock/0](http://192.168.20.100:1234/showblock/0)
+[127.0.0.1:2000/showblock/0](http://127.0.0.1:2000/showblock/0)
 
-### ROUTINGNODE (OPTIONAL)
+### SWITCHES (REFERENCE)
 
-You can also bypass the API and just open a connection to the TCP server itself,
+  `-h` prints the following,
+  
+* `-gce`
+  Is this Node on GCE
+* `-genesis`
+  Create your first Node
+* `-httpport` _string_
+  Node Web Port (default "2001")
+* `-ip` string
+  Node IP (default "127.0.0.1")
+* `-loglevel` _string_
+  LogLevel (info, debug or trace) (default "info")
+* `-netip` _string_
+  Network IP (default "127.0.0.1")
+* `-netport` _string_
+  Network TCP Port (default "3000")
+* `-nodename` _string_
+  Node Name (default "Jeff")
+* `-tcpport` _string_
+  Node TCP Port (default "3001")
+* `-test`
+  Loads the blockchain with test data (SEE BELOW)
+* `-v`
+  prints current version
+
+### CONNECT OVER TCP (OPTIONAL)
+
+You can also bypass the REST API and just open a connection to the TCP server itself,
 
 ```txt
-netcat -q -1 192.168.20.100 3334
+netcat -q -1 127.0.0.1 3000
 ```
 
 And request commands such as,
 
 ```txt
-SEND-ADDRESS-BALANCE
+--- Waiting for command: SBC, BANN, SNL, BVB, BC, BTR, SAB, TR, EOF
+SNL
+[...nodeList...]
+thank you
 ```
+
+Notice you will need to handshake it with a `thank you` at the end.
+
+There is a complete list of commands up above in
+[3.2 TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-tcp-requests--handlers).
 
 ### TEST MOCK TRANSACTIONS (OPTIONAL)
 
 If you add the `-test` switch you will run some mock transactions from mock wallets.
-Those wallets are located in `/wallets` and this is just used for testing.
+Those wallets are located in `/wallets` and just used for testing.
 
 These transactions are the same I used in my
 [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
 example.
 
-So your blockchain and pendingBlock should look like
+So your blockchain and pendingBlock should look similar to
 [blockchain-output.txt](https://github.com/JeffDeCola/my-go-examples/blob/master/blockchain/bitcoin-ledger/blockchain-output.txt).
 
 And the balances in the blockchain should be,

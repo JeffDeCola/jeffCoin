@@ -133,15 +133,15 @@ func init() {
 	// YOUR IP
 	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
 	// YOUR WEB PORT
-	nodeHTTPPortPtr = flag.String("httpport", "1234", "Node Web Port")
+	nodeHTTPPortPtr = flag.String("httpport", "2001", "Node Web Port")
 	// YOUR TCP PORT
-	nodeTCPPortPtr = flag.String("tcpport", "3333", "Node TCP Port")
+	nodeTCPPortPtr = flag.String("tcpport", "3001", "Node TCP Port")
 	// NETWORK NODE IP
-	networkIPPtr = flag.String("netip", "192.169.20.100", "Network IP")
+	networkIPPtr = flag.String("netip", "127.0.0.1", "Network IP")
 	// NETWORK NODE TCP PORT
-	networkTCPPortPtr = flag.String("netport", "3333", "Network TCP Port")
+	networkTCPPortPtr = flag.String("netport", "3000", "Network TCP Port")
 	// NODE NAME
-	nodeNamePtr = flag.String("nodename", "Monkey", "Node Name")
+	nodeNamePtr = flag.String("nodename", "Jeff", "Node Name")
 	// Parse the flags
 	flag.Parse()
 
