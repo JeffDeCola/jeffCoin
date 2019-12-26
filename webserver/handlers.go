@@ -162,32 +162,7 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// showLockedBlockHandler - GET: /showlockedblock
-func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
-
-	logReceivedAPICommand()
-
-	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
-	log.Debug("WEBSERVER:            " + s)
-
-	res.Header().Set("Content-Type", "application/json")
-
-	// GET lockedBlock
-	theLockedBlock := blockchain.GetLockedBlock()
-
-	// RESPOND with lockedBlock
-	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
-
-	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
-	log.Debug("WEBSERVER:            " + s)
-
-	logDoneAPICommand()
-
-}
+// PENDING AND LOCKED BLOCK  *********************************************************************************************
 
 // showPendingBlockHandler - GET: /showpendingblock
 func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
@@ -210,6 +185,33 @@ func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 	//respondMessage(s, res)
 
 	s = "END    showPendingBlockHandler() - GET: /showpendingblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	logDoneAPICommand()
+
+}
+
+// showLockedBlockHandler - GET: /showlockedblock
+func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET lockedBlock
+	theLockedBlock := blockchain.GetLockedBlock()
+
+	// RESPOND with lockedBlock
+	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+	s = string(js)
+	log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
+
+	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
@@ -376,7 +378,7 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 	// GET jeffCoinAddress from wallet
 	gotWallet := wallet.GetWallet()
-	jeffCoinAddress := gotWallet.JeffCoinAddress
+	jeffCoinAddress := gotWallet.PublicKeyHex
 
 	// GET ADDRESS BALANCE
 	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
@@ -418,7 +420,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	// ------------------------------------
 	// GET sourceAddress FROM wallet
 	gotWallet := wallet.GetWallet()
-	sourceAddress := gotWallet.JeffCoinAddress
+	sourceAddress := gotWallet.PublicKeyHex
 	// GET ENCODED KEYS FROM wallet
 	privateKeyHex := gotWallet.PrivateKeyHex
 	// publicKeyHex := gotWallet.PublicKeyHex

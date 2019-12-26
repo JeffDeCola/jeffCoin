@@ -454,26 +454,26 @@ An illustration of client-server handshakes,
 
 * FROM BLOCKCHAIN I/F
   * **handleSendBlockchain()**
-    _SEND-BLOCKCHAIN (SBC)- Sends the blockchain and pendingBlock to another Node_
+    _SEND-BLOCKCHAIN (**SBC**)- Sends the blockchain and pendingBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **handleBroadcastAddNewNode()**
-    _BROADCAST-ADD-NEW-NODE (BANN) - Adds a Node to the nodeList_
+    _BROADCAST-ADD-NEW-NODE (**BANN**) - Adds a Node to the nodeList_
   * **handleSendNodeList()**
     _SEND-NODELIST (SNL) - Sends the nodeList to another Node_
   * **handleBroadcastVerifiedBlock()**
-    _BROADCAST-VERIFIED-BLOCK (BVB) - A Node verified the next block,
+    _BROADCAST-VERIFIED-BLOCK (**BVB**) - A Node verified the next block,
     get block and verify_
   * **handleBroadcastConsensus()**
-    _BROADCAST-CONSENSUS (BC) - 51% Consensus reached, get block to add to blockchain_
+    _BROADCAST-CONSENSUS (**BC**) - 51% Consensus reached, get block to add to blockchain_
   * **handleBroadcastTransactionRequest()**
-    _BROADCAST-TRANSACTION-REQUEST (BTR) - Request from a Node
+    _BROADCAST-TRANSACTION-REQUEST (**BTR**) - Request from a Node
     to transfer jeffCoins to a jeffCoin Address_
 * FROM WALLET I/F
   * **handleSendAddressBalance()**
-    _SEND-ADDRESS-BALANCE (SAB) - Sends the jeffCoin balance
+    _SEND-ADDRESS-BALANCE (**SAB**) - Sends the jeffCoin balance
     for a jeffCoin Address_
   * **handleTransactionRequest()**
-    _TRANSACTION-REQUEST (TR) - Request from Wallet to transfer jeffCoins
+    _TRANSACTION-REQUEST (**TR**) - Request from Wallet to transfer jeffCoins
     to a jeffCoin Address_
 * EOF
   * **EOF**
@@ -577,8 +577,9 @@ Currently, there is the main page that also lists the available APIs.
 * BLOCKCHAIN
   * **/showBlockchain**
   * **/showBlock/{blockID}**
-  * **/showlockedblock**
+* PENDING AND LOCKED BLOCK  
   * **/showpendingblock**
+  * **/showlockedblock**
 * NODELIST
   * **/shownodelist**
   * **/shownode/{nodeID}**
@@ -609,16 +610,16 @@ go run jeffCoin.go \
        -tcpport 3000
 ```
 
-This will created the first Node, the Founders node.
-It will also create a wallet. But having one node is boring
-so create more.
+This will created the first Node (the Founders node) in the Network.
+It will also create a wallet and save the credentials in `/wallet`.
+But having one node is boring so create more.
 
 ### ADDING NEW NODES
 
 To hook up to the Network.  You need the IP of any
 working Network Node. If you have the above running
 on `127.0.0.1:3000`, adding a second Node
-"Jeff" in your network can look like,
+"Jeff" in your network could look like,
 
 ```bash
 go run jeffCoin.go \
@@ -649,16 +650,15 @@ To do this, use the webserver and API interface.
 
 ### WEBSERVER & REST API
 
-The GUI for the three nodes you just created will look like,
+The GUI for the three nodes you just created are,
 
 [127.0.0.1:2000](http://127.0.0.1:2000/)
-
+**/**
 [127.0.0.1:2001](http://127.0.0.1:2001/)
-
+**/**
 [127.0.0.1:2002](http://127.0.0.1:2002/)
 
 The main page will list the various API commands.
-
 For example, to show a particular block,
 
 [127.0.0.1:2000/showblock/0](http://127.0.0.1:2000/showblock/0)
@@ -690,7 +690,7 @@ For example, to show a particular block,
 * `-v`
   prints current version
 
-### CONNECT OVER TCP (OPTIONAL)
+### CONNECT USING TCP (OPTIONAL)
 
 You can also bypass the REST API and just open a connection to the TCP server itself,
 
@@ -710,12 +710,25 @@ thank you
 Notice you will need to handshake it with a `thank you` at the end.
 
 There is a complete list of commands up above in
-[3.2 TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-tcp-requests--handlers).
+[TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-tcp-requests--handlers).
 
 ### TEST MOCK TRANSACTIONS (OPTIONAL)
 
 If you add the `-test` switch you will run some mock transactions from mock wallets.
 Those wallets are located in `/wallets` and just used for testing.
+
+You must use the MockFounders nodename,
+
+```bash
+go run jeffCoin.go \
+       -loglevel debug \
+       -genesis \
+       -nodename MockFounders \
+       -ip 127.0.0.1 \
+       -httpport 2000 \
+       -tcpport 3000 \
+       -test
+```
 
 These transactions are the same I used in my
 [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)

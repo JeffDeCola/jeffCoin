@@ -309,7 +309,8 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 	s = "Received transaction message from/to: (-loglevel trace to display)"
 	log.Trace("\n\nFROM: " + trms.TxRequestMessage.SourceAddress + "\nTO: " + fmt.Sprint(trms.TxRequestMessage.Destinations) + "\n\n")
-	// CREATE SIG BASED ON PRIVATE KEY
+
+	// CREATE SIG BASED ON PRIVATE KEY - USED TO CREATE TEST-DATA
 	//gotWallet := wallet.GetWallet()
 	//sourceAddress := gotWallet.JeffCoinAddress
 	// GET ENCODED KEYS FROM wallet
@@ -326,8 +327,13 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	status := trms.processTxRequestMessage()
 
 	// PRINT STATUS
-	s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress[0:50] + "... " + "to " +
-		fmt.Sprint(trms.TxRequestMessage.Destinations)[0:50] + "... " + "is " + status
+	if len(trms.TxRequestMessage.Destinations) > 50 && len(trms.TxRequestMessage.Destinations) > 50 {
+		s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress[0:50] + "... " + "to " +
+			fmt.Sprint(trms.TxRequestMessage.Destinations)[0:50] + "... " + "is " + status
+	} else {
+		s = "The status of transaction message from " + trms.TxRequestMessage.SourceAddress + "... " + "to " +
+			fmt.Sprint(trms.TxRequestMessage.Destinations) + "... " + "is " + status
+	}
 	log.Info("BLOCKCHAIN:  I/F             " + s)
 
 	s = "END    ProcessTxRequestMessage() - Request to transfer jeffCoins to a jeffCoin Address"
