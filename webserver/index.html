@@ -14,23 +14,34 @@
         </div>
 
         <div id="api_commands_box" class="data_left">
-            <h1> API REST Commands: </h1>
+            <h1> API REST Commands </h1>
             <h2>BLOCKCHAIN</h2>
-            <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
-            <p> <a href="/showblock/0">/showblock/0</a> Show a particular {<b>blockID</b>} in the blockchain </p>
-            <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
-            <p> <a href="/showpendingblock">/showpendingblock</a> Show the pendingBlock </p>
+                <div class="api_block">
+                    <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
+                    <p> <a href="/showblock/0">/showblock/0</a> Show a particular <b>blockID</b> in the blockchain </p>
+                </div>
+            <h2>PENDING AND LOCKED BLOCK </h2>
+                <div class="api_block">
+                    <p> <a href="/showpendingblock">/showpendingblock</a> Show the pendingBlock </p>
+                    <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
+                </div>
             <h2>NODELIST</h2>
-            <p> <a href="/shownodelist">/shownodelist</a> Show the nodelist </p>
-            <p> <a href="/shownode/0">/shownode/0</a> Show a particular {<b>index</b>} in nodeList </p>
-            <p> <a href="/showthisnode">/showthisnode</a> Show thisNode</p>
+                <div class="api_block">
+                    <p> <a href="/shownodelist">/shownodelist</a> Show the nodelist </p>
+                    <p> <a href="/shownode/0">/shownode/0</a> Show a particular <b>index</b> in nodeList </p>
+                    <p> <a href="/showthisnode">/showthisnode</a> Show thisNode</p>
+                </div>
             <h2>WALLET ({{.NodeName}})</h2>
-            <p> <a href="/showwallet">/showwallet</a> Show this wallet (Public &amp; Private Keys) </p>
-            <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show this jeffCoin Address </p>
-            <p> <a href="/showbalance">/showbalance</a> Show the balance for this wallet </p>
-            <p> <a href="/transactionrequest/aaa,bbb/23,24">/transactionrequest/aaa,bbb/23,44</a> Request to transfer {<b>23</b>} coins from this wallet to the Destination Address {<b>aaa</b>} & {<b>44</b>} coins to destination address {<b>bbb</b>} </p>
+                <div class="api_block">
+                    <p> <a href="/showwallet">/showwallet</a> Show this wallet (Public &amp; Private Keys) </p>
+                    <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show this Address </p>
+                    <p> <a href="/showbalance">/showbalance</a> Show the balance for this wallet </p>
+                    <p> <a href="/transactionrequest/aaa,bbb/23,24">/transactionrequest/aaa,bbb/23,44</a> Request to transfer <b>23</b> coins from this wallet to the Destination Address <b>aaa</b> & <b>44</b> coins to <b>bbb</b> </p>
+                </div>
             <h2>WALLET (Other)</h2>
-            <p> <a href="/showaddressbalance/1234">/showaddressbalance/1234</a> Show balance for the jeffCoin Address {<b>1234</b>}</p>
+                <div class="api_block">
+                    <p> <a href="/showaddressbalance/1234">/showaddressbalance/1234</a> Show balance for the Address <b>1234</b></p>
+                </div>
         </div>
 
     </body>

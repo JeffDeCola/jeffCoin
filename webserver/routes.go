@@ -35,16 +35,16 @@ var routes = Routes{
 		showBlockHandler,
 	},
 	Route{
-		"ShowLockedBlock",
-		"GET",
-		"/showlockedblock/",
-		showLockedBlockHandler,
-	},
-	Route{
 		"ShowPendingBlock",
 		"GET",
 		"/showpendingblock",
 		showPendingBlockHandler,
+	},
+	Route{
+		"ShowLockedBlock",
+		"GET",
+		"/showlockedblock/",
+		showLockedBlockHandler,
 	},
 	Route{
 		"ShowNodeList",

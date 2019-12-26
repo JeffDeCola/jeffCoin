@@ -3,7 +3,12 @@ body {
 }
 
 h1  {
-  color: rgb(167, 58, 31);
+    font-size: 30px;
+    color: rgb(167, 58, 31);
+}
+
+h2 {
+    font-size: 20px;
 }
 
 p  {
@@ -16,6 +21,12 @@ p  {
 }
 
 #api_commands_box {
+    padding-left: 20px;
+    padding-bottom: 40px;
 	text-align: left;		/* Left */
 	overflow: hidden;
+}
+
+.api_block {
+    padding-left: 30px;
 }
