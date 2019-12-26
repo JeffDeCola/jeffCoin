@@ -38,9 +38,10 @@ Table of Contents,
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
   * [GENESIS NODE](https://github.com/JeffDeCola/jeffCoin#genesis-node)
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
-  * [WEBSERVER AND API](https://github.com/JeffDeCola/jeffCoin#webserver-and-api)
-  * [ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin#routingnode)
-  * [TEST MOCK TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions)
+  * [WEBSERVER & REST API](https://github.com/JeffDeCola/jeffCoin#webserver--rest-api)
+  * [SWITCHES (REFERENCE)](https://github.com/JeffDeCola/jeffCoin#switches-reference)
+  * [CONNECT USING TCP (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#connect-using-tcp-optional)
+  * [TEST MOCK TRANSACTIONS (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions-optional)
 * [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
 
 This project was built from some of my other projects,
@@ -78,7 +79,7 @@ Documentation and reference,
 
 Your private keys are kept in `/wallet`.  The .gitignore
 file does ignore them, but just be aware were they live.
-The keys currently there are used for testing.
+There are a few mock keys there used for testing.
 
 ## PREREQUISITES
 
@@ -568,7 +569,7 @@ This webserver is built from my
 
 Currently, there is the main page that also lists the available APIs.
 
-* [192.168.20.100:1234](http://192.168.20.100:1234)
+* [127.0.0.1:2000](http://127.0.0.1:2000)
 
 ### 5.2 REST API
 
