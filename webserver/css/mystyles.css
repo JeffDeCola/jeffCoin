@@ -1,27 +1,93 @@
 body {
-  background-color:  rgb(228, 216, 199);
+  background-color:  hsl(35, 35%, 84%);
+  font-family: 'Times New Roman', Times, serif; 
 }
 
 h1  {
     font-size: 30px;
     color: rgb(167, 58, 31);
+    margin: 5px;
 }
 
 h2 {
-    font-size: 20px;
+    color: rgb(167, 58, 31);
+    font-size: 22px;
+    margin: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    margin: 10px;
 }
 
 p  {
   color: black;
+  margin: 5px;
+  font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(167, 58, 31);
+}
+
+/* MAIN PAGE *************************************************************************** */
+
+#balance {
+    color: rgb(14, 134, 30);
 }
 
 #title_box {
-	text-align: center;		/* Center it */
-	overflow: hidden;
+    text-align: center;		/* Center it */
+    padding-top:20px;
+}
+
+#info_box {
+    text-align: center;		/* Center it */
+    padding:10px;
+}
+
+#wallet_box {
+    text-align: center;		/* Center it */
+    padding:10px;
+    padding-top: 20px;
+}
+
+#address_box {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    max-width: 500px;
+    padding:10px;
+    margin: auto;
+    margin-bottom:40px;
+    overflow-wrap: break-word;
+}
+
+#send_box {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;		/* Center it */
+    color: rgb(167, 58, 31);
+    background-color: rgb(174, 204, 144);
+    color: rgb(28, 136, 14);
+    border-width:2px;
+    border-style:solid;
+    font-size: 16px;
+    max-width: 100px;
+    padding:5px;
+    margin: auto;
+}
+
+#software_box {
+    text-align: center;		/* Center it */
+    padding:10px;
+    padding-top: 30px;
 }
 
 #api_commands_box {
     padding-left: 20px;
+    padding-top:10px;
     padding-bottom: 40px;
 	text-align: left;		/* Left */
 	overflow: hidden;
@@ -29,4 +95,10 @@ p  {
 
 .api_block {
     padding-left: 30px;
+    padding-bottom: 10px;
 }
+
+/* API PAGE **************************************************************************** */
+
+
+/* SEND PAGE *************************************************************************** */

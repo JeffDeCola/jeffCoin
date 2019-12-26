@@ -21,6 +21,18 @@ var routes = Routes{
 		"GET",
 		"/",
 		indexHandler,
+    },
+    Route{
+		"GetAPI",
+		"GET",
+		"/api",
+		apiHandler,
+    },
+    Route{
+		"GetSend",
+		"GET",
+		"/send",
+		sendHandler,
 	},
 	Route{
 		"ShowBlockchain",
