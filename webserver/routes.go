@@ -53,16 +53,34 @@ var routes = Routes{
 		showBlockHandler,
 	},
 	Route{
+		"ShowLockedBlock",
+		"GET",
+		"/showlockedblock/",
+		showLockedBlockHandler,
+	},
+	Route{
+		"AppendLockedBlock",
+		"GET",
+		"/appendlockedblock/",
+		appendLockedBlockHandler,
+	},
+	Route{
 		"ShowPendingBlock",
 		"GET",
 		"/showpendingblock",
 		showPendingBlockHandler,
 	},
 	Route{
-		"ShowLockedBlock",
+		"ResetPendingBlock",
 		"GET",
-		"/showlockedblock/",
-		showLockedBlockHandler,
+		"/resetpendingblock",
+		resetPendingBlockHandler,
+	},
+	Route{
+		"LockPendingBlock",
+		"GET",
+		"/lockpendingblock",
+		lockPendingBlockHandler,
 	},
 	Route{
 		"ShowNodeList",

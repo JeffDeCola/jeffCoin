@@ -362,7 +362,53 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// PENDING AND LOCKED BLOCK  *********************************************************************************************
+// LOCKED BLOCK  *********************************************************************************************************
+
+// showLockedBlockHandler - GET: /showlockedblock
+func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	// GET lockedBlock
+	theLockedBlock := blockchain.GetLockedBlock()
+
+	// RESPOND with lockedBlock
+	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+	s = string(js)
+	log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
+	io.WriteString(res, s+"\n")
+	//respondMessage(s, res)
+
+	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	logDoneAPICommand()
+
+}
+
+// appendLockedBlockHandler - GET: /appendlockedblock
+func appendLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  appendLockedBlockHandler() - - GET: /appendlockedblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	s = "END    appendLockedBlockHandler() -  - GET: /appendlockedblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	logDoneAPICommand()
+
+}
+
+// PENDING BLOCK  ********************************************************************************************************
 
 // showPendingBlockHandler - GET: /showpendingblock
 func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
@@ -391,32 +437,40 @@ func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// showLockedBlockHandler - GET: /showlockedblock
-func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
+// resetPendingBlockHandler - GET: /resetpendingblock
+func resetPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	logReceivedAPICommand()
 
-	s := "START  showLockedBlockHandler() - GET: /showlockedblock"
+	s := "START  resetPendingBlockHandler() - GET: /resetpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET lockedBlock
-	theLockedBlock := blockchain.GetLockedBlock()
-
-	// RESPOND with lockedBlock
-	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
-
-	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
+	s = "END    resetPendingBlockHandler() - GET: /resetpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
 }
+
+// lockPendingBlockHandler - GET: /lockpendingblock
+func lockPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
+
+	logReceivedAPICommand()
+
+	s := "START  lockPendingBlockHandler() - GET: /lockpendingblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	res.Header().Set("Content-Type", "application/json")
+
+	s = "END    lockPendingBlockHandler() - GET: /lockpendingblock"
+	log.Debug("WEBSERVER:            " + s)
+
+	logDoneAPICommand()
+
+}
+
 
 // NODELIST **************************************************************************************************************
 

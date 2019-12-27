@@ -1,3 +1,5 @@
+/* NORMAL *************************************************************************** */
+
 body {
   background-color:  hsl(35, 35%, 84%);
   font-family: 'Times New Roman', Times, serif; 
@@ -37,26 +39,7 @@ input.break {
     height: 80px;
 }
 
-button {
-    cursor:pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;		/* Center it */
-    color: rgb(167, 58, 31);
-    background-color: rgb(174, 204, 144);
-    border-color: rgb(0, 0, 0);
-    border-width:2px;
-    border-style:solid;
-    font-size: 16px;
-    max-width: 300px;
-    padding:10px;
-    margin: auto;
-}
-
-/* MAIN PAGE *************************************************************************** */
-
-#balance {
-    color: rgb(14, 134, 30);
-}
+/* COMMON ONES ************************************************************************* */
 
 #title_box {
     text-align: center;		/* Center it */
@@ -66,6 +49,30 @@ button {
 #info_box {
     text-align: center;		/* Center it */
     padding:10px;
+}
+
+#home_box {
+    text-align: center;		/* Center it */
+    padding-bottom:10px;
+}
+
+.my_button {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;		/* Center it */
+        color: rgb(167, 58, 31);
+        background-color: rgb(174, 204, 144);
+        border-color: rgb(0, 0, 0);
+        border-width:2px;
+        border-style:solid;
+        font-size: 16px;
+        padding:10px;
+        margin: auto;
+}
+
+/* MAIN PAGE *************************************************************************** */
+
+#balance {
+    color: rgb(14, 134, 30);
 }
 
 #wallet_box {
@@ -87,16 +94,8 @@ button {
 }
 
 #send_box {
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;		/* Center it */
-    background-color: rgb(174, 204, 144);
-    border-color: rgb(0, 0, 0);
-    border-width:2px;
-    border-style:solid;
-    font-size: 16px;
-    max-width: 200px;
-    padding:5px;
-    margin: auto;
+    max-width: 170px;
 }
 
 #coin_stats_box {
@@ -131,14 +130,14 @@ button {
 
 /* SEND PAGE *************************************************************************** */
 
-.form_box {
-    text-align: center;		/* Center it */
-}
-
 #from_box {
     text-align: center;		/* Center it */
     padding:10px;
     padding-top: 20px;
+}
+
+.form_box {
+    text-align: center;		/* Center it */
 }
 
 #to_box {
@@ -155,6 +154,11 @@ button {
     margin: auto;
 }
 
+#amount_box {
+    margin-top: 40px;
+    text-align: center;		/* Center it */
+}
+
 #value_input {
     text-align: center;		/* Center it */
     border-width:2px;
@@ -163,11 +167,6 @@ button {
     width: 100px;
     padding:10px;
     margin: auto;
-}
-
-#amount_box {
-    margin-top: 40px;
-    text-align: center;		/* Center it */
 }
 
 #send_button {
@@ -214,14 +213,17 @@ button {
     overflow-wrap: break-word;
 }
 
-#confirm_button_box {
+#confirm_box {
     text-align: center;		/* Center it */
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+#cancel_box {
+    text-align: center;		/* Center it */
+    max-width: 150px;
+    margin-bottom: 20px;
+    background-color: rgb(235, 171, 184);
 }
 
 /* TRANSACTION REQUEST PAGE ********************************************************************* */
-
-#status_box {
-    text-align: center;		/* Center it */
-    padding: 10px;
-    margin-top: 10px;
-}
