@@ -99,6 +99,12 @@ button {
     margin: auto;
 }
 
+#coin_stats_box {
+    text-align: center;		/* Center it */
+    padding:10px;
+    padding-top: 30px;
+}
+
 #software_box {
     text-align: center;		/* Center it */
     padding:10px;
