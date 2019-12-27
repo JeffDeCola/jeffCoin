@@ -46,6 +46,10 @@ type htmlConfirmData struct {
 	Value              string
 }
 
+type htmlTransactionRequestData struct {
+	Status string
+}
+
 func logReceivedAPICommand() {
 
 	s := "----------------------------------------------------------------"
@@ -141,7 +145,7 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// apiHandler - GET: /
+// apiHandler - GET: /api
 func apiHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "----------------------------------------------------------------"
@@ -151,7 +155,7 @@ func apiHandler(res http.ResponseWriter, req *http.Request) {
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
 
-	s = "START  apiHandler() - GET: /"
+	s = "START  apiHandler() - GET: /api"
 	log.Debug("WEBSERVER:            " + s)
 
 	t, err := template.ParseFiles("webserver/api.html")
@@ -168,7 +172,7 @@ func apiHandler(res http.ResponseWriter, req *http.Request) {
 	err = t.Execute(res, htmlTemplateData)
 	checkErr(err)
 
-	s = "END    apiHandler() - GET: /"
+	s = "END    apiHandler() - GET: /api"
 	log.Debug("WEBSERVER:            " + s)
 
 	s = "----------------------------------------------------------------"
@@ -180,7 +184,7 @@ func apiHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// sendHandler - GET: /
+// sendHandler - GET: /send
 func sendHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "----------------------------------------------------------------"
@@ -190,7 +194,7 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
 
-	s = "START  sendHandler() - GET: /"
+	s = "START  sendHandler() - GET: /send"
 	log.Debug("WEBSERVER:            " + s)
 
 	t, err := template.ParseFiles("webserver/send.html")
@@ -228,7 +232,7 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 	err = t.Execute(res, htmlTemplateData)
 	checkErr(err)
 
-	s = "END    sendHandler() - GET: /"
+	s = "END    sendHandler() - GET: /send"
 	log.Debug("WEBSERVER:            " + s)
 
 	s = "----------------------------------------------------------------"
@@ -240,7 +244,7 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 
 }
 
-// confirmHandler - GET: /
+// confirmHandler - GET: /confirm
 func confirmHandler(res http.ResponseWriter, req *http.Request) {
 
 	s := "----------------------------------------------------------------"
@@ -250,7 +254,7 @@ func confirmHandler(res http.ResponseWriter, req *http.Request) {
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
 
-	s = "START  confirmHandler() - GET: /"
+	s = "START  confirmHandler() - GET: /confirm"
 	log.Debug("WEBSERVER:            " + s)
 
 	t, err := template.ParseFiles("webserver/confirm.html")
@@ -279,7 +283,7 @@ func confirmHandler(res http.ResponseWriter, req *http.Request) {
 	err = t.Execute(res, htmlTemplateData)
 	checkErr(err)
 
-	s = "END    confirmHandler() - GET: /"
+	s = "END    confirmHandler() - GET: /confirm"
 	log.Debug("WEBSERVER:            " + s)
 
 	s = "----------------------------------------------------------------"
@@ -598,7 +602,10 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	s := "START  transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Debug("WEBSERVER:            " + s)
 
-	res.Header().Set("Content-Type", "application/json")
+	t, err := template.ParseFiles("webserver/transactionrequest.html")
+	checkErr(err)
+
+	//res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
 
 	// ------------------------------------
@@ -675,16 +682,13 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSigned)
 	checkErr(err)
 
-	// RESPOND with status
-	s = `<!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <link rel="stylesheet" type="text/css" href="css/mystyles.css">
-        </head>
-        <body>` + status + `
-        </body>    
-    `
-	respondMessage(s, res)
+	htmlTemplateData := htmlTransactionRequestData{
+		Status: status,
+	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
 
 	s = "END    transactionRequestHandler() - GET: /transactionrequest/{destinationaddress}/{value}"
 	log.Debug("WEBSERVER:            " + s)

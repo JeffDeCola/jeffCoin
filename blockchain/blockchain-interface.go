@@ -302,8 +302,12 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	// PLACE txRequestMessageSigned IN A STRUCT theTxnRequestMessageStruct
 	txRequestMessageSignedByte := []byte(txRequestMessageSigned)
 	err := json.Unmarshal(txRequestMessageSignedByte, &trms)
-	checkErr(err)
-
+	fmt.Println("hiasdjhfljkasdhflkjashdflkjhasdlkfjhalsdkjhlakjsdhflkjasdhflkjashdf")
+	if err != nil {
+		fmt.Printf("Carlidan Error is %+v\n", err)
+		log.Warning("ERROR:", err)
+		return "Invalid Value"
+	}
 	// PRINT NOTE
 	s = "Received transaction message from/to: (-loglevel trace to display)"
 	log.Info("BLOCKCHAIN:  I/F             " + s)
