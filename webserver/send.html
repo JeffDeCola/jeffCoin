@@ -6,11 +6,14 @@
     </head>
     <body>
         <div id="title_box">
-            <h1> SEND jeffCOIN </h1>
+            <h1> SEND jeffCoins </h1>
         </div>
         <div id="info_box">
             <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
             <p> Balance <b id="balance">{{.Balance}}</b> jeffCoins</p>
+        </div>
+        <div id="home_box">
+            <a href="/"><b>HOME</b></a>
         </div>
         <div id="from_box">
             <p> <b>FROM YOUR ADDRESS</b> </p>
@@ -34,10 +37,10 @@
                 <input  id="value_input" type="text" name="Value" maxlength="10"><br>
                 <p>Like above, if you send to multiple addresses, use a comma with no whitespace as a delimiter</p>
                 <p>1 jeffCoin is 1000 Addies</p>
-                <p>For example, to send 1 jeffCoin enter 1000</p>
+                <p>For example, to send 23 jeffCoins enter 23000</p>
             </div>
             <div id="send_button">
-                <button><b>CONFIRM ON NEXT PAGE</b></button>
+                <button class="my_button"><b>CONFIRM ON NEXT PAGE</b></button>
             </div>
         </form>
     </body>

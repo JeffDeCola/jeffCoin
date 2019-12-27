@@ -7,29 +7,38 @@
     <body>
         <div id="title_box">
             <h1> CONFIRM SEND FOR WALLET <b>{{.NodeName}}</b> </h1>
+        </div>
+        <div id="info_box">
             <p> <b>NOTE: THIS IS PERMANENT</b></p>
         </div>
+        <div id="home_box">
+            <a href="/"><b>HOME</b></a>
+        </div>
         <div id="confirm_from_box">
-            <p> FROM YOUR ADDRESS </p>
+            <p> <b>FROM YOUR ADDRESS</b> </p>
             <div id="confirm_address_box">
                 {{.PublicKeyHex}}
             </div>
         </div>
         <div id="confirm_to_box">
-            <p> TO THIS ADDRESS </p>
+            <p> <b>TO THIS ADDRESS</b> </p>
             <div id="confirm_address_box">
                 {{.DestinationAddressNewLine}}
             </div>
         </div>
         <div id="confirm_value_box">
-            <p> FOR VALUE</p>
+            <p> <b>NUMBER OF ADDIES (1/1000 of a jeffCoin)</b></p>
             <div id="confirm_value">
                 <p>{{.ValueNewLine}}</p>
             </div>
         </div>
-        <div id="confirm_button_box">
-            <p> <a href="/transactionrequest/{{.DestinationAddressComma}}/{{.ValueComma}}"> <b>CONFIRM</b> </a> <b>/</b>
-            <a href="/"> CANCEL </a> </p>
+        <div id="confirm_box" class="my_button">
+            <a href="/transactionrequest/{{.DestinationAddressComma}}/{{.ValueComma}}"> <b>CONFIRM</b> </a>
+        </div>
+        <div id="cancel_box" class="my_button">
+            <a href="/"> <b>CANCEL</b> </a>
+        </div>
+        </div>
     </body>
 </html>
     

@@ -10,7 +10,9 @@
         </div>
         <div id="info_box">
             <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
-            <p> <a href="/"><b>HOME</b></a> </p>
+        </div>
+        <div id="home_box">
+            <a href="/"><b>HOME</b></a>
         </div>
         <div id="api_commands_box" class="data_left">
             <h3>BLOCKCHAIN</h3>
@@ -18,10 +20,16 @@
                     <p> <a href="/showblockchain">/showblockchain</a> Shows the blockchain </p>
                     <p> <a href="/showblock/0">/showblock/0</a> Show a particular <b>blockID</b> in the blockchain </p>
                 </div>
-            <h3>PENDING AND LOCKED BLOCK </h3>
+            <h3>LOCKED BLOCK </h3>
+                <div class="api_block">
+                    <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
+                    <p> <a href="/appendlockedblock">/appendlockedblock</a> Appends the lockedBlock to the blockchain - <b>Must be Founder</b></p>
+                </div>
+            <h3>PENDING BLOCK </h3>
                 <div class="api_block">
                     <p> <a href="/showpendingblock">/showpendingblock</a> Show the pendingBlock </p>
-                    <p> <a href="/showlockedblock">/showlockedblock</a> Show the lockedBlock</p>
+                    <p> <a href="/resetpendingblock">/resetpendingblock</a> Resets the pendingBlock - <b>Must be Founder</b></p>
+                    <p> <a href="/lockpendingblock">/lockpendingblock</a> Moves the pendingBlock to the lockedBlock - <b>Must be Founder</b></p>
                 </div>
             <h3>NODELIST</h3>
                 <div class="api_block">
@@ -35,7 +43,8 @@
                     <p> <a href="/showjeffcoinaddress">/showjeffcoinaddress</a> Show this Address </p>
                     <p> <a href="/showbalance">/showbalance</a> Show the balance for this wallet </p>
                     <p> <b>/transactionrequest/aaa,bbb/23,44</b> Request to transfer <b>23</b> coins to address <b>aaa</b> & <b>44</b> coins to address <b>bbb</b> <br>
-                    This API link not enabled here because it will transfer coins and this action is irreversible. Use SEND above. </p>
+                    This API link not enabled here because it will transfer coins and this action is irreversible.
+                    Use the <a href="/send">Send Page</a>. </p>
                 </div>
             <h3>WALLET (Other)</h3>
                 <div class="api_block">

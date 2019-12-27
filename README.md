@@ -582,9 +582,13 @@ The screen should look similar to the following,
 * BLOCKCHAIN
   * **/showBlockchain**
   * **/showBlock/{blockID}**
-* PENDING AND LOCKED BLOCK  
-  * **/showpendingblock**
+* LOCKED BLOCK  
   * **/showlockedblock**
+  * **/appendlockedblock**
+* PENDING BLOCK
+  * **/showpendingblock**
+  * **/resetpendingblock**
+  * **/lockpendingblock**
 * NODELIST
   * **/shownodelist**
   * **/shownode/{nodeID}**
