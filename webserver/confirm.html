@@ -18,17 +18,17 @@
         <div id="confirm_to_box">
             <p> TO THIS ADDRESS </p>
             <div id="confirm_address_box">
-                {{.DestinationAddress}}
+                {{.DestinationAddressNewLine}}
             </div>
         </div>
         <div id="confirm_value_box">
             <p> FOR VALUE</p>
             <div id="confirm_value">
-                {{.Value}}
+                <p>{{.ValueNewLine}}</p>
             </div>
         </div>
         <div id="confirm_button_box">
-            <p> <a href="/transactionrequest/{{.DestinationAddress}}/{{.Value}}"> <b>CONFIRM</b> </a> <b>/</b>
+            <p> <a href="/transactionrequest/{{.DestinationAddressComma}}/{{.ValueComma}}"> <b>CONFIRM</b> </a> <b>/</b>
             <a href="/"> CANCEL </a> </p>
     </body>
 </html>

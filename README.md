@@ -101,7 +101,7 @@ Coins (a.k.a jeffCoins) are minted as follows,
 
 * A grand total of **1,000,000 jeffCoins**
 * The blockchain will not store jeffCoins but **addies** which are
-  1/1000 of a jeffCoin (.001 JEFC).
+  1/1000 of a jeffCoin (.001 JEFF)
 * The founders wallet will start with **100,000 jeffCoins (100,000,000 addies)**
   (10% of all jeffCoins)
 * Rewards **1 jeffCoin (1000 addies) every 10 minutes**

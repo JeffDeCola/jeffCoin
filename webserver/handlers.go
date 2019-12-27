@@ -40,10 +40,12 @@ type htmlSendData struct {
 }
 
 type htmlConfirmData struct {
-	NodeName           string
-	PublicKeyHex       string
-	DestinationAddress string
-	Value              string
+	NodeName                  string
+	PublicKeyHex              string
+	DestinationAddressComma   string
+	DestinationAddressNewLine string
+	ValueComma                string
+	ValueNewLine              string
 }
 
 type htmlTransactionRequestData struct {
@@ -262,10 +264,14 @@ func confirmHandler(res http.ResponseWriter, req *http.Request) {
 
 	// GET THE PARAMATERS SENT VIA POST FORM
 	// Parses the request body
+	// It may or may not have a comma
 	req.ParseForm()
-	Value := req.Form.Get("Value")
-	DestinationAddress := req.Form.Get("DestinationAddress")
+	destinationAddressComma := req.Form.Get("DestinationAddress")
+	valueComma := req.Form.Get("Value")
 
+	// ADD NEWLINE TO COMMAS (Just added whitespace but would like to figure this out)
+	destinationAddressNewline := strings.Replace(destinationAddressComma, ",", ", ", -1)
+	valueNewLine := strings.Replace(valueComma, ",", ", ", -1)
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
@@ -273,10 +279,12 @@ func confirmHandler(res http.ResponseWriter, req *http.Request) {
 	theWallet := wallet.GetWallet()
 
 	htmlTemplateData := htmlConfirmData{
-		NodeName:           thisNode.NodeName,
-		PublicKeyHex:       theWallet.PublicKeyHex,
-		DestinationAddress: DestinationAddress,
-		Value:              Value,
+		NodeName:                  thisNode.NodeName,
+		PublicKeyHex:              theWallet.PublicKeyHex,
+		DestinationAddressComma:   destinationAddressComma,
+		DestinationAddressNewLine: destinationAddressNewline,
+		ValueComma:                valueComma,
+		ValueNewLine:              valueNewLine,
 	}
 
 	// Merge data and execute
@@ -631,56 +639,64 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
 	// ------------------------------------
 	// BUILD TRANSACTION REQUEST MESSAGE
-	// The destinationAddress and Value are comma delimited
+	// The destinationAddress and Value are comma delimiter
 	// Clean/remove the comma into a space
 	destinationAddressSpace := strings.Replace(destinationAddressComma, ",", " ", -1)
 	valueSpace := strings.Replace(valueComma, ",", " ", -1)
 	// Convert 'cleaned' comma separated string to slice
 	destinationAddressSlice := strings.Fields(destinationAddressSpace)
 	valueSlice := strings.Fields(valueSpace)
-	// Build destinations first
-	destinations := "["
-	for i := range destinationAddressSlice {
-		destinations = destinations + `
+
+	// Check that both slices have the same amount
+	// ------------------------------------------------
+	var status string
+	if cap(destinationAddressSlice) == cap(valueSlice) {
+		// Build destinations first
+		destinations := "["
+		for i := range destinationAddressSlice {
+			destinations = destinations + `
             {
                 "destinationAddress": "` + destinationAddressSlice[i] + `",
                 "value": ` + valueSlice[i] + `
             }`
-		// Add comma between destinations
-		if i != (len(destinationAddressSlice) - 1) {
-			destinations = destinations + ","
+			// Add comma between destinations
+			if i != (len(destinationAddressSlice) - 1) {
+				destinations = destinations + ","
+			}
 		}
-	}
-	destinations = destinations + "]"
-	// Build tx request message
-	txRequestMessage := `
+		destinations = destinations + "]"
+		// Build tx request message
+		txRequestMessage := `
         { 
             "sourceAddress": "` + sourceAddress + `",
             "destinations": ` + destinations + `
         }`
-	// Make a long string - Remove /n and whitespace
-	txRequestMessage = strings.Replace(txRequestMessage, "\n", "", -1)
-	txRequestMessage = strings.Replace(txRequestMessage, " ", "", -1)
+		// Make a long string - Remove /n and whitespace
+		txRequestMessage = strings.Replace(txRequestMessage, "\n", "", -1)
+		txRequestMessage = strings.Replace(txRequestMessage, " ", "", -1)
 
-	// ------------------------------------
-	// SIGN YOUR MESSAGE
-	signature := wallet.CreateSignature(privateKeyHex, txRequestMessage)
+		// ------------------------------------
+		// SIGN YOUR MESSAGE
+		signature := wallet.CreateSignature(privateKeyHex, txRequestMessage)
 
-	// ------------------------------------
-	// BUILD SIGNED TRANSACTION REQUEST MESSAGE
-	txRequestMessageSigned := `
+		// ------------------------------------
+		// BUILD SIGNED TRANSACTION REQUEST MESSAGE
+		txRequestMessageSigned := `
         {
             "txRequestMessage": ` + txRequestMessage + `,
             "signature" : "` + signature + `"
         }`
-	// Make a long string - Remove /n and whitespace
-	txRequestMessageSigned = strings.Replace(txRequestMessageSigned, "\n", "", -1)
-	txRequestMessageSigned = strings.Replace(txRequestMessageSigned, " ", "", -1)
+		// Make a long string - Remove /n and whitespace
+		txRequestMessageSigned = strings.Replace(txRequestMessageSigned, "\n", "", -1)
+		txRequestMessageSigned = strings.Replace(txRequestMessageSigned, " ", "", -1)
 
-	// ------------------------------------
-	// REQUEST TRANSACTION
-	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSigned)
-	checkErr(err)
+		// ------------------------------------
+		// REQUEST TRANSACTION
+		status, err = wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSigned)
+		checkErr(err)
+	} else {
+		status = "Field are incorrect. Try again."
+	}
 
 	htmlTemplateData := htmlTransactionRequestData{
 		Status: status,

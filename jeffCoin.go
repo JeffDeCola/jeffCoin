@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	toolVersion = "1.3.1"
+	toolVersion = "1.3.2"
 )
 
 var genesisPtr, testPtr, gcePtr *bool
@@ -218,7 +218,7 @@ func main() {
 
 	// CREATE GENESIS NODE OR A NEW NODE
 	if *genesisPtr {
-        theWallet := wallet.GetWallet()
+		theWallet := wallet.GetWallet()
 		genesisNode(theWallet.PublicKeyHex)
 	} else {
 		newNode()
