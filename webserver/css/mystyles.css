@@ -102,13 +102,16 @@ button {
 #coin_stats_box {
     text-align: center;		/* Center it */
     padding:10px;
-    padding-top: 30px;
+    padding-top: 40px;
+}
+
+#coin_stats_box p {
+    font-size: 12px;
 }
 
 #software_box {
     text-align: center;		/* Center it */
-    padding:10px;
-    padding-top: 30px;
+    padding-top: 10px;
 }
 
 /* API PAGE **************************************************************************** */
@@ -150,7 +153,6 @@ button {
     width: 500px;
     padding:10px;
     margin: auto;
-    margin-bottom:40px;
 }
 
 #value_input {
@@ -161,14 +163,15 @@ button {
     width: 100px;
     padding:10px;
     margin: auto;
-    margin-bottom:40px;
 }
 
 #amount_box {
+    margin-top: 40px;
     text-align: center;		/* Center it */
 }
 
 #send_button {
+    margin-top: 40px;
     text-align: center;		/* Center it */
 }
 
