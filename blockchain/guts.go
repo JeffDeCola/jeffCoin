@@ -105,7 +105,8 @@ func calculateBlockHash(block blockStruct) string {
 		transactionBytes, _ = json.Marshal(transaction)
 	}
 
-	hashMe := strconv.FormatInt(block.BlockID, 10) + block.Timestamp + string(transactionBytes) + block.PrevHash + string(block.Difficulty) + block.Nonce
+	// HASH blockID, timestamp, transactions, prevhash, difficulty, nonce
+	hashMe := strconv.FormatInt(block.BlockID, 10) + block.Timestamp + string(transactionBytes) + block.PrevHash + strconv.Itoa(block.Difficulty) + block.Nonce
 	hashedByte := sha256.Sum256([]byte(hashMe))
 	hashed := hex.EncodeToString(hashedByte[:])
 

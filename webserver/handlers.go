@@ -4,6 +4,7 @@ package webserver
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -52,6 +53,8 @@ type htmlTransactionRequestData struct {
 	Status string
 }
 
+// SOME GLOBAL FUNCTIONS **************************************************************************************************
+
 func logReceivedAPICommand() {
 
 	s := "----------------------------------------------------------------"
@@ -78,6 +81,24 @@ func respondMessage(s string, res http.ResponseWriter) {
 
 	log.Info("WEBSERVER:                   " + s)
 	io.WriteString(res, s+"\n")
+
+}
+
+func checkIfFounder() bool {
+
+	// GET publicKeyHex FROM FIRST block IN blockchain
+	firstBlock := blockchain.GetBlock("0")
+	publicKeyHexFromFirstBlock := firstBlock.Transactions[0].Outputs[0].OutPubKey
+
+	// GET publicKeyHex FROM THIS WALLET
+	gotWallet := wallet.GetWallet()
+	publicKeyHexFromWallet := gotWallet.PublicKeyHex
+
+	if publicKeyHexFromFirstBlock == publicKeyHexFromWallet {
+		return true
+	}
+
+	return false
 
 }
 
@@ -396,12 +417,41 @@ func appendLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	logReceivedAPICommand()
 
-	s := "START  appendLockedBlockHandler() - - GET: /appendlockedblock"
+	s := "START  appendLockedBlockHandler() - GET: /appendlockedblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	res.Header().Set("Content-Type", "application/json")
 
-	s = "END    appendLockedBlockHandler() -  - GET: /appendlockedblock"
+	// ONLY FOUNDERS CAN MAKE THESE CHANGES
+	if checkIfFounder() {
+
+		// GET BlockID FROM LOCKED BLOCK
+		theLockedBlock := blockchain.GetLockedBlock()
+
+		// ADD lockedBlock TO THE blockchain
+		s = "ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+		log.Info("WEBSERVER:                   " + s)
+		blockchain.AppendLockedBlock()
+
+		// GET THE NEW BLOCK
+		theNewBlock := blockchain.GetBlock(strconv.FormatInt(theLockedBlock.BlockID, 10))
+
+		// RESPOND with New Block in the blockchain
+		js, _ := json.MarshalIndent(theNewBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "New Block too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	} else {
+
+		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+		s = "Sorry, only Founders can make these changes"
+		respondMessage(s, res)
+
+	}
+
+	s = "END    appendLockedBlockHandler() - GET: /appendlockedblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
@@ -447,6 +497,32 @@ func resetPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
+	// ONLY FOUNDERS CAN MAKE THESE CHANGES
+	if checkIfFounder() {
+
+		// RESET pendingBlock
+		s = "RESET pendingBlock"
+		log.Info("WEBSERVER:                   " + s)
+		blockchain.ResetPendingBlock()
+
+		// GET NEW pendingBlock
+		thePendingBlock := blockchain.GetPendingBlock()
+
+		// RESPOND with pendingBlock
+		js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	} else {
+
+		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+		s = "Sorry, only Founders can make these changes"
+		respondMessage(s, res)
+
+	}
+
 	s = "END    resetPendingBlockHandler() - GET: /resetpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
@@ -464,13 +540,41 @@ func lockPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
+	// ONLY FOUNDERS CAN MAKE THESE CHANGES
+	if checkIfFounder() {
+
+		// GET DIFFICULTY FROM LAST LOCKED BLOCK
+		theLockedBlock := blockchain.GetLockedBlock()
+
+		// MOVE pendingBlock to the lockedBlock
+		s = "MOVE pendingBlock to the lockedBlock with difficulty " + strconv.Itoa(theLockedBlock.Difficulty)
+		log.Info("WEBSERVER:                   " + s)
+		blockchain.LockPendingBlock(theLockedBlock.Difficulty)
+
+		// GET THE NEW LOCKED BLOCK
+		theLockedBlock = blockchain.GetLockedBlock()
+
+		// RESPOND with lockedBlock
+		js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	} else {
+
+		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+		s = "Sorry, only Founders can make these changes"
+		respondMessage(s, res)
+
+	}
+
 	s = "END    lockPendingBlockHandler() - GET: /lockpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
 	logDoneAPICommand()
 
 }
-
 
 // NODELIST **************************************************************************************************************
 
