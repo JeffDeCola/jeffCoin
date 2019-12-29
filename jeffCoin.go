@@ -21,7 +21,7 @@ const (
 	toolVersion = "1.3.2"
 )
 
-var genesisPtr, testPtr, gcePtr *bool
+var genesisPtr, testPtr, gcePtr, walletPtr *bool
 var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
 
@@ -130,18 +130,20 @@ func init() {
 	networkIPPtr = flag.String("netip", "127.0.0.1", "Network IP")
 	// NETWORK NODE TCP PORT
 	networkTCPPortPtr = flag.String("netport", "3000", "Network TCP Port")
-    // YOUR NODE WEB PORT
-    nodeHTTPPortPtr = flag.String("nodehttpport", "2001", "Node Web Port")
-    // YOUR NODE IP
+	// YOUR NODE WEB PORT
+	nodeHTTPPortPtr = flag.String("nodehttpport", "2001", "Node Web Port")
+	// YOUR NODE IP
 	nodeIPPtr = flag.String("nodeip", "127.0.0.1", "Node IP")
 	// NODE NAME
 	nodeNamePtr = flag.String("nodename", "Jeff", "Node Name")
 	// YOUR NODE TCP PORT
-    nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
+	nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
 	// TEST FLAG
 	testPtr = flag.Bool("test", false, "Loads the blockchain with test data")
 	// VERSION FLAG
 	versionPtr := flag.Bool("v", false, "prints current version")
+	// VERSION FLAG
+	walletPtr = flag.Bool("wallet", false, "Only the wallet and webserver (GUI/API)")
 
 	// Parse the flags
 	flag.Parse()
@@ -184,12 +186,15 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 	// START ROUTING NODE (TCP SERVER)
-	s = "START ROUTING NODE (TCP SERVER)"
-	log.Info("MAIN:                        " + s)
-	if *gcePtr {
-		go routingnode.StartRoutingNode("0.0.0.0", *nodeTCPPortPtr)
-	} else {
-		go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
+	// Do not start if wallet only
+	if !*walletPtr {
+		s = "START ROUTING NODE (TCP SERVER)"
+		log.Info("MAIN:                        " + s)
+		if *gcePtr {
+			go routingnode.StartRoutingNode("0.0.0.0", *nodeTCPPortPtr)
+		} else {
+			go routingnode.StartRoutingNode(*nodeIPPtr, *nodeTCPPortPtr)
+		}
 	}
 
 	// GIVE IT A SECOND
@@ -218,11 +223,14 @@ func main() {
 	log.Info("MAIN:                        " + s)
 
 	// CREATE GENESIS NODE OR A NEW NODE
-	if *genesisPtr {
-		theWallet := wallet.GetWallet()
-		genesisNode(theWallet.PublicKeyHex)
-	} else {
-		newNode()
+	// Do not start if wallet only
+	if !*walletPtr {
+		if *genesisPtr {
+			theWallet := wallet.GetWallet()
+			genesisNode(theWallet.PublicKeyHex)
+		} else {
+			newNode()
+		}
 	}
 
 	// LOAD BLOCKCHAIN WITH TEST DATA

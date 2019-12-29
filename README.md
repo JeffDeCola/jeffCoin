@@ -11,7 +11,7 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
 _A cryptocurrency (transaction based data) built on decentralized
-multi-node P2P open Network using a sha256 Proof of Work (PoW) blockchain
+multi-node P2P open Network using a sha256 Proof of Work (PoW) **blockchain**
 with a REST JSON API and a TCP Server to communicate between
 the Nodes over IP._
 
@@ -30,7 +30,7 @@ Table of Contents,
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
   * [WEBSERVER & REST API](https://github.com/JeffDeCola/jeffCoin#webserver--rest-api)
   * [SWITCHES (REFERENCE)](https://github.com/JeffDeCola/jeffCoin#switches-reference)
-  * [JUST WALLET (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#just-wallet-optional)
+  * [WALLET ONLY (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#wallet-only-optional)
   * [CONNECT USING TCP (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#connect-using-tcp-optional)
   * [TEST MOCK TRANSACTIONS (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions-optional)
   * [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
@@ -63,16 +63,16 @@ Documentation and reference,
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
-* jeffCoin software
+* My software architecture is located in another readme
   [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
 
 ## IMPORTANT
 
-Your private keys are kept in `/wallet`.  The .gitignore
+Your private keys are kept in `/wallet`.  The `.gitignore`
 file does ignore them, but just be aware were they live.
-There are a few mock keys there used for testing.
+There are a few mock keys in there used for testing.
 
 ## PREREQUISITES
 
@@ -126,10 +126,10 @@ What jeffCoin does not have,
 
 ## SOFTWARE ARCHITECTURE
 
-This readme got too big so I moved the software explanation to
+This readme got too big so I moved my software explanation to
 [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md).
 
-You will see that the software is divided into 5 sections,
+I divided the software into 5 sections,
 
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#1-blockchain)
   * [1.1 BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#11-blockchain)
@@ -145,8 +145,9 @@ You will see that the software is divided into 5 sections,
 
 ## RUN
 
-If this is you first time running, you need to create the first Node (Genesis Node).
-You only do this once. You can set the log level (info, debug, trace)
+If this is you first time running and you want to create your own private
+Network, you need to create your first Node (Genesis Node).
+You only do this once. You can also set the log level (info, debug, trace)
 to cut down on the amount of logging.
 
 ### GENESIS NODE
@@ -163,12 +164,12 @@ go run jeffCoin.go \
 
 This will created the first Node (the Founders node) in the Network.
 It will also create a wallet and save the credentials in `/wallet`.
-But having one node is boring so create more.
+**But having one node is boring so create more.**
 
 ### ADDING NEW NODES
 
-To hook up to the Network.  You need the IP of any
-working Network Node. If you have the above running
+To hook up to the Network you need the IP of any
+working Network Node. If you have the above running Node
 on `127.0.0.1:3000`, adding a second Node
 "Jeff" in your network could look like,
 
@@ -241,7 +242,7 @@ For example, to show a particular block,
 * `-v`
   prints current version
 * -`wallet`
-  Just the wallet and gui/api
+  Only the wallet and webserver (GUI/API)
 
 ### WALLET ONLY (OPTIONAL)
 
@@ -259,7 +260,7 @@ go run jeffCoin.go \
        -nodehttpport 2005 \
        -nodeip 127.0.0.1 \
        -nodename Jills-Wallet \
-       -nodetcpport 3005
+       -nodetcpport 3005 \
        -wallet
 ```
 
@@ -284,8 +285,8 @@ thank you
 
 Notice you will need to handshake it with a `thank you` at the end.
 
-There is a complete list of commands up above in
-[TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin#32-tcp-requests--handlers).
+There is a complete list of commands in the architecture README
+[TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#32-tcp-requests--handlers).
 
 ### TEST MOCK TRANSACTIONS (OPTIONAL)
 
@@ -301,7 +302,7 @@ go run jeffCoin.go \
        -nodehttpport 2000 \
        -nodeip 127.0.0.1 \
        -nodename MockFounders \
-       -nodetcpport 3000
+       -nodetcpport 3000 \
        -test
 ```
 
