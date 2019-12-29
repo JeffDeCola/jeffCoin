@@ -243,7 +243,7 @@ For example, to show a particular block,
 * -`wallet`
   Just the wallet and gui/api
 
-### JUST WALLET (OPTIONAL)
+### WALLET ONLY (OPTIONAL)
 
 If you want to just have the wallet, use the `-wallet` switch.
 You will not be part of the network since there is no blockchain
