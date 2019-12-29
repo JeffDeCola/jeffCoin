@@ -129,6 +129,20 @@ What jeffCoin does not have,
 This readme got too big so I moved the software explanation to
 [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md).
 
+You will see that the software is divided into 5 sections,
+
+* [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#1-blockchain)
+  * [1.1 BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#11-blockchain)
+  * [1.2 TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#12-transactions)
+* [2. MINER](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#2-miner)
+* [3. ROUTINGNODE](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#3-routingnode)
+  * [3.1 NODELIST](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#31-nodelist)
+  * [3.2 TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#32-tcp-requests--handlers)
+* [4. WALLET](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#4-wallet)
+* [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#5-webserver)
+  * [5.1 GUI](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#51-gui)
+  * [5.2 REST API](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#52-rest-api)
+
 ## RUN
 
 If this is you first time running, you need to create the first Node (Genesis Node).
@@ -334,11 +348,10 @@ go run jeffCoin.go \
        -gce \
        -genesis \
        -loglevel debug \
-       -nodehttpport 2000 \
+       -nodehttpport 1234 \
        -nodeip 35.203.189.193 \
-       -nodename MockFounders \
-       -nodetcpport 3000 \
-       -test
+       -nodename Founders \
+       -nodetcpport 3334
 ```
 
 Add another node (not at gce) is as simple as connecting to it,
@@ -347,7 +360,7 @@ Add another node (not at gce) is as simple as connecting to it,
 go run jeffCoin.go \
        -loglevel debug \
        -netip 35.203.189.193 \
-       -netport 3000 \
+       -netport 3334 \
        -nodehttpport 2003 \
        -nodeip 127.0.0.1 \
        -nodename Jill \
