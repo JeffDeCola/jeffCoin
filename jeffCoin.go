@@ -120,28 +120,29 @@ func init() {
 	// SET OUTPUT (DEFAULT stderr)
 	log.SetOutput(os.Stdout)
 
-	// VERSION FLAG
-	versionPtr := flag.Bool("v", false, "prints current version")
-	// TEST FLAG
-	testPtr = flag.Bool("test", false, "Loads the blockchain with test data")
+	// GCE
+	gcePtr = flag.Bool("gce", false, "Is this Node on GCE")
 	// CREATE FIRST NODE (GENISIS)
 	genesisPtr = flag.Bool("genesis", false, "Create your first Node")
 	// LOG LEVEL
 	logLevelPtr := flag.String("loglevel", "info", "LogLevel (info, debug or trace)")
-	// GCE
-	gcePtr = flag.Bool("gce", false, "Is this Node on GCE")
-	// YOUR IP
-	nodeIPPtr = flag.String("ip", "127.0.0.1", "Node IP")
-	// YOUR WEB PORT
-	nodeHTTPPortPtr = flag.String("httpport", "2001", "Node Web Port")
-	// YOUR TCP PORT
-	nodeTCPPortPtr = flag.String("tcpport", "3001", "Node TCP Port")
 	// NETWORK NODE IP
 	networkIPPtr = flag.String("netip", "127.0.0.1", "Network IP")
 	// NETWORK NODE TCP PORT
 	networkTCPPortPtr = flag.String("netport", "3000", "Network TCP Port")
+    // YOUR NODE WEB PORT
+    nodeHTTPPortPtr = flag.String("nodehttpport", "2001", "Node Web Port")
+    // YOUR NODE IP
+	nodeIPPtr = flag.String("nodeip", "127.0.0.1", "Node IP")
 	// NODE NAME
 	nodeNamePtr = flag.String("nodename", "Jeff", "Node Name")
+	// YOUR NODE TCP PORT
+    nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
+	// TEST FLAG
+	testPtr = flag.Bool("test", false, "Loads the blockchain with test data")
+	// VERSION FLAG
+	versionPtr := flag.Bool("v", false, "prints current version")
+
 	// Parse the flags
 	flag.Parse()
 

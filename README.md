@@ -63,7 +63,7 @@ Documentation and reference,
   [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
-* jeffCoin
+* jeffCoin software
   [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
@@ -86,7 +86,7 @@ go get -u -v github.com/pkg/errors
 
 ## OVERVIEW
 
-`jeffCoin` (JEFC) is my interpretation of a transaction based (ledger) using a blockchain.
+`jeffCoin` (JEFF) is my interpretation of a transaction based (ledger) using a blockchain.
 This is a work in progress I feel can be used as a foundation to
 build bigger and better things.
 
@@ -139,12 +139,12 @@ to cut down on the amount of logging.
 
 ```bash
 go run jeffCoin.go \
-       -loglevel debug \
        -genesis \
+       -loglevel debug \
+       -nodehttpport 2000 \
+       -nodeip 127.0.0.1 \
        -nodename Founders \
-       -ip 127.0.0.1 \
-       -httpport 2000 \
-       -tcpport 3000
+       -nodetcpport 3000
 ```
 
 This will created the first Node (the Founders node) in the Network.
@@ -161,12 +161,12 @@ on `127.0.0.1:3000`, adding a second Node
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -nodename Jeff \
-       -ip 127.0.0.1 \
-       -httpport 2001 \
-       -tcpport 3001 \
        -netip 127.0.0.1 \
        -netport 3000
+       -nodehttpport 2001 \
+       -nodeip 127.0.0.1 \
+       -nodename Jeff \
+       -nodetcpport 3001
 ```
 
 Might as well add a third Node,
@@ -174,12 +174,12 @@ Might as well add a third Node,
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -nodename Matt \
-       -ip 127.0.0.1 \
-       -httpport 2002 \
-       -tcpport 3002 \
        -netip 127.0.0.1 \
        -netport 3000
+       -nodehttpport 2002 \
+       -nodeip 127.0.0.1 \
+       -nodename Matt \
+       -nodetcpport 3002
 ```
 
 Each node has it's own wallet, so now you can send jeffCoins/Value.
@@ -208,9 +208,9 @@ For example, to show a particular block,
   Is this Node on GCE
 * `-genesis`
   Create your first Node
-* `-httpport` _string_
+* `-nodehttpport` _string_
   Node Web Port (default "2001")
-* `-ip` string
+* `-nodeip` string
   Node IP (default "127.0.0.1")
 * `-loglevel` _string_
   LogLevel (info, debug or trace) (default "info")
@@ -220,7 +220,7 @@ For example, to show a particular block,
   Network TCP Port (default "3000")
 * `-nodename` _string_
   Node Name (default "Jeff")
-* `-tcpport` _string_
+* `-nodetcpport` _string_
   Node TCP Port (default "3001")
 * `-test`
   Loads the blockchain with test data (SEE BELOW)
@@ -240,12 +240,12 @@ You will need to hook up to a node, so the following could work,
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -nodename Jeff \
-       -ip 127.0.0.1 \
-       -httpport 2001 \
-       -tcpport 3001 \
        -netip 127.0.0.1 \
        -netport 3000
+       -nodehttpport 2005 \
+       -nodeip 127.0.0.1 \
+       -nodename Jills-Wallet \
+       -nodetcpport 3005
        -wallet
 ```
 
@@ -278,16 +278,16 @@ There is a complete list of commands up above in
 If you add the `-test` switch you will run some mock transactions from mock wallets.
 Those wallets are located in `/wallets` and just used for testing.
 
-You must use the MockFounders nodename,
+You must use the **MockFounders** nodename,
 
 ```bash
 go run jeffCoin.go \
-       -loglevel debug \
        -genesis \
+       -loglevel debug \
+       -nodehttpport 2000 \
+       -nodeip 127.0.0.1 \
        -nodename MockFounders \
-       -ip 127.0.0.1 \
-       -httpport 2000 \
-       -tcpport 3000 \
+       -nodetcpport 3000
        -test
 ```
 
@@ -332,25 +332,26 @@ The IP `0.0.0.0` gets forwarded to your external IP, hence I added a
 ```bash
 go run jeffCoin.go \
        -gce \
-       -loglevel debug \
        -genesis \
-       -nodename Founders \
-       -ip 35.203.189.193 \
-       -httpport 1234 \
-       -tcpport 3334
+       -loglevel debug \
+       -nodehttpport 2000 \
+       -nodeip 35.203.189.193 \
+       -nodename MockFounders \
+       -nodetcpport 3000
+       -test
 ```
 
-Add another node (not at gce) with,
+Add another node (not at gce) is as simple as connecting to it,
 
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -nodename Jeff \
-       -ip 192.168.20.100 \
-       -httpport 1235 \
-       -tcpport 3335 \
        -netip 35.203.189.193 \
-       -netport 3334
+       -netport 3000
+       -nodehttpport 2003 \
+       -nodeip 127.0.0.1 \
+       -nodename Jill \
+       -nodetcpport 3003
 ```
 
 I have a gce build example
