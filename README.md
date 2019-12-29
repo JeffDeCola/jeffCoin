@@ -35,9 +35,6 @@ Table of Contents,
   * [TEST MOCK TRANSACTIONS (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions-optional)
   * [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
 
-The explanation of the software architecture is
-[architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md).
-
 This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
@@ -67,7 +64,7 @@ Documentation and reference,
 * I got a lot of inspiration
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
 * jeffCoin
-  [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md).
+  [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
 
@@ -92,6 +89,10 @@ go get -u -v github.com/pkg/errors
 `jeffCoin` (JEFC) is my interpretation of a transaction based (ledger) using a blockchain.
 This is a work in progress I feel can be used as a foundation to
 build bigger and better things.
+
+The following illustration shows the jeffCoin network of nodes,
+
+![IMAGE - the-jeffcoin-network - IMAGE](docs/pics/the-jeffcoin-network.jpg)
 
 Coins (a.k.a jeffCoins) are minted as follows,
 
@@ -122,10 +123,6 @@ What jeffCoin does not have,
 
 * No database, so if the entire Network dies, the chain dies
 * Rigorous testing of all corner cases
-
-The following illustration shows the network of nodes,
-
-![IMAGE - the-jeffcoin-network - IMAGE](docs/pics/the-jeffcoin-network.jpg)
 
 ## SOFTWARE ARCHITECTURE
 
