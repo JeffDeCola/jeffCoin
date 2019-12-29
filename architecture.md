@@ -463,11 +463,11 @@ The screen should look similar to the following,
   * **/showBlock/{blockID}**
 * LOCKED BLOCK  
   * **/showlockedblock**
-  * **/appendlockedblock**
+  * **/appendlockedblock** - _Must be Founder_
 * PENDING BLOCK
   * **/showpendingblock**
-  * **/resetpendingblock**
-  * **/lockpendingblock**
+  * **/resetpendingblock** - _Must be Founder_
+  * **/lockpendingblock** - _Must be Founder_
 * NODELIST
   * **/shownodelist**
   * **/shownode/{nodeID}**
