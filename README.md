@@ -162,7 +162,7 @@ on `127.0.0.1:3000`, adding a second Node
 go run jeffCoin.go \
        -loglevel debug \
        -netip 127.0.0.1 \
-       -netport 3000
+       -netport 3000 \
        -nodehttpport 2001 \
        -nodeip 127.0.0.1 \
        -nodename Jeff \
@@ -175,7 +175,7 @@ Might as well add a third Node,
 go run jeffCoin.go \
        -loglevel debug \
        -netip 127.0.0.1 \
-       -netport 3000
+       -netport 3000 \
        -nodehttpport 2002 \
        -nodeip 127.0.0.1 \
        -nodename Matt \
@@ -241,7 +241,7 @@ You will need to hook up to a node, so the following could work,
 go run jeffCoin.go \
        -loglevel debug \
        -netip 127.0.0.1 \
-       -netport 3000
+       -netport 3000 \
        -nodehttpport 2005 \
        -nodeip 127.0.0.1 \
        -nodename Jills-Wallet \
@@ -337,7 +337,7 @@ go run jeffCoin.go \
        -nodehttpport 2000 \
        -nodeip 35.203.189.193 \
        -nodename MockFounders \
-       -nodetcpport 3000
+       -nodetcpport 3000 \
        -test
 ```
 
@@ -347,7 +347,7 @@ Add another node (not at gce) is as simple as connecting to it,
 go run jeffCoin.go \
        -loglevel debug \
        -netip 35.203.189.193 \
-       -netport 3000
+       -netport 3000 \
        -nodehttpport 2003 \
        -nodeip 127.0.0.1 \
        -nodename Jill \
