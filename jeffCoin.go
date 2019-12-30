@@ -225,7 +225,7 @@ func main() {
 	s = "LOAD thisNode"
 	log.Info("MAIN:                        " + s)
 	myNode := routingnode.NodeStruct{
-		NodeName:       *nodeIPPtr,
+		NodeName:       *nodeNamePtr,
 		NodeIP:         *nodeIPPtr,
 		NodeHTTPPort:   *nodeHTTPPortPtr,
 		NodeTCPPort:    *nodeTCPPortPtr,

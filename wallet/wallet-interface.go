@@ -106,7 +106,7 @@ func DecodeKeys(privateKeyHex string, publicKeyHex string) (*ecdsa.PrivateKey, *
 // JEFFCOINS *************************************************************************************************************
 
 // RequestAddressBalance - Requests the jeffCoin balance for a jeffCoin Address
-func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress string) (string, error) {
+func RequestAddressBalance(IP string, TCPPort string, jeffCoinAddress string) (string, error) {
 
 	s := "START  RequestAddressBalance() - Requests the jeffCoin balance for a jeffCoin Address"
 	log.Debug("WALLET:      I/F      " + s)
@@ -118,9 +118,9 @@ func RequestAddressBalance(nodeIP string, nodeTCPPort string, jeffCoinAddress st
 	log.Info("WALLET:      I/F             " + s)
 	s = "----------------------------------------------------------------"
 	log.Info("WALLET:      I/F             " + s)
-	s = "-C conn   TCP Connection on " + nodeIP + ":" + nodeTCPPort
+	s = "-C conn   TCP Connection on " + IP + ":" + TCPPort
 	log.Info("WALLET:      I/F   " + s)
-	conn, err := net.Dial("tcp", nodeIP+":"+nodeTCPPort)
+	conn, err := net.Dial("tcp", IP+":"+TCPPort)
 	checkErr(err)
 
 	// RCV - GET THE RESPONSE MESSAGE (Waiting for Command)

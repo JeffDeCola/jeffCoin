@@ -28,6 +28,8 @@ type htmlIndexData struct {
 	NodeIP       string
 	NodeHTTPPort string
 	NodeTCPPort  string
+	WalletOnly   string
+	NodeComment  string
 }
 
 type htmlAPIData struct {
@@ -102,6 +104,14 @@ func checkIfFounder() bool {
 
 }
 
+func checkIfWalletOnly() bool {
+
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	return thisNode.WalletOnly
+}
+
 // HTML PAGES *************************************************************************************************************
 
 // indexHandler - GET: /
@@ -123,18 +133,35 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
+	// CHECK IF WALLET ONLY
+	// GET IP & TCPPort from thisNode
+	var IP, TCPPort, walletOnly, nodeComment string
+	if checkIfWalletOnly() {
+
+		IP = thisNode.NetworkIP
+		TCPPort = thisNode.NetworkTCPPort
+		walletOnly = "WALLET ONLY"
+		nodeComment = ""
+		s = "WALLET ONLY - Use network IP:Port to get balance"
+		log.Info("WEBSERVER:                   " + s)
+
+	} else {
+
+		IP = thisNode.NodeIP
+		TCPPort = thisNode.NodeTCPPort
+		walletOnly = ""
+		nodeComment = "Node &"
+
+	}
+
 	// GET WALLET
 	theWallet := wallet.GetWallet()
-
-	// GET nodeIP & nodeTCPPort from thisNode
-	nodeIP := thisNode.NodeIP
-	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET address PublicKeyHex from wallet
 	addressPublicKeyHex := theWallet.PublicKeyHex
 
 	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, addressPublicKeyHex)
+	gotAddressBalance, err := wallet.RequestAddressBalance(IP, TCPPort, addressPublicKeyHex)
 	gotAddressBalance = strings.Trim(gotAddressBalance, "\"")
 	checkErr(err)
 	gotAddressBalanceInt, err := strconv.ParseFloat(gotAddressBalance, 64)
@@ -150,6 +177,8 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 		NodeHTTPPort: thisNode.NodeHTTPPort,
 		NodeTCPPort:  thisNode.NodeTCPPort,
 		ToolVersion:  thisNode.ToolVersion,
+		WalletOnly:   walletOnly,
+		NodeComment:  nodeComment,
 	}
 
 	// Merge data and execute
@@ -226,18 +255,31 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
+	// CHECK IF WALLET ONLY
+	// GET IP & TCPPort from thisNode
+	var IP, TCPPort string
+	if checkIfWalletOnly() {
+
+		IP = thisNode.NetworkIP
+		TCPPort = thisNode.NetworkTCPPort
+		s = "WALLET ONLY - Use network IP:Port to get balance"
+		log.Info("WEBSERVER:                   " + s)
+
+	} else {
+
+		IP = thisNode.NodeIP
+		TCPPort = thisNode.NodeTCPPort
+
+	}
+
 	// GET WALLET
 	theWallet := wallet.GetWallet()
-
-	// GET nodeIP & nodeTCPPort from thisNode
-	nodeIP := thisNode.NodeIP
-	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET address PublicKeyHex from wallet
 	addressPublicKeyHex := theWallet.PublicKeyHex
 
 	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, addressPublicKeyHex)
+	gotAddressBalance, err := wallet.RequestAddressBalance(IP, TCPPort, addressPublicKeyHex)
 	gotAddressBalance = strings.Trim(gotAddressBalance, "\"")
 	checkErr(err)
 	gotAddressBalanceInt, err := strconv.ParseFloat(gotAddressBalance, 64)
@@ -336,14 +378,25 @@ func showBlockchainHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET BLOCKCHAIN
-	theBlockchain := blockchain.GetBlockchain()
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// RESPOND with blockchain
-	js, _ := json.MarshalIndent(theBlockchain, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "Blockchain too long, not shown")
-	io.WriteString(res, s+"\n")
+		s = "WALLET ONLY - blockchain can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
+
+	} else {
+
+		// GET BLOCKCHAIN
+		theBlockchain := blockchain.GetBlockchain()
+
+		// RESPOND with blockchain
+		js, _ := json.MarshalIndent(theBlockchain, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "Blockchain too long, not shown")
+		io.WriteString(res, s+"\n")
+
+	}
 
 	s = "END    showBlockchainHandler() - GET: /showblockchain"
 	log.Debug("WEBSERVER:            " + s)
@@ -363,18 +416,28 @@ func showBlockHandler(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
 
-	// GET BLOCK ID
-	blockID := params["blockID"]
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// GET BLOCK
-	theBlock := blockchain.GetBlock(blockID)
+		s = "WALLET ONLY - block can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
 
-	// RESPOND with block
-	js, _ := json.MarshalIndent(theBlock, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "Block too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
+	} else {
+
+		// GET BLOCK ID
+		blockID := params["blockID"]
+
+		// GET BLOCK
+		theBlock := blockchain.GetBlock(blockID)
+
+		// RESPOND with block
+		js, _ := json.MarshalIndent(theBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "Block too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+	}
 
 	s = "END    showBlockHandler() - GET: /showblock/{blockID}"
 	log.Debug("WEBSERVER:            " + s)
@@ -395,15 +458,26 @@ func showLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET lockedBlock
-	theLockedBlock := blockchain.GetLockedBlock()
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// RESPOND with lockedBlock
-	js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
+		s = "WALLET ONLY - lockedBlock can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
+
+	} else {
+
+		// GET lockedBlock
+		theLockedBlock := blockchain.GetLockedBlock()
+
+		// RESPOND with lockedBlock
+		js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	}
 
 	s = "END    showLockedBlockHandler() - GET: /showlockedblock"
 	log.Debug("WEBSERVER:            " + s)
@@ -422,32 +496,43 @@ func appendLockedBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// ONLY FOUNDERS CAN MAKE THESE CHANGES
-	if checkIfFounder() {
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-		// GET BlockID FROM LOCKED BLOCK
-		theLockedBlock := blockchain.GetLockedBlock()
-
-		// ADD lockedBlock TO THE blockchain
-		s = "ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+		s = "WALLET ONLY - can not append lockedBlock"
 		log.Info("WEBSERVER:                   " + s)
-		blockchain.AppendLockedBlock()
-
-		// GET THE NEW BLOCK
-		theNewBlock := blockchain.GetBlock(strconv.FormatInt(theLockedBlock.BlockID, 10))
-
-		// RESPOND with New Block in the blockchain
-		js, _ := json.MarshalIndent(theNewBlock, "", "    ")
-		s = string(js)
-		log.Info("WEBSERVER:                   " + "New Block too long, not shown")
 		io.WriteString(res, s+"\n")
-		//respondMessage(s, res)
 
 	} else {
 
-		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
-		s = "Sorry, only Founders can make these changes"
-		respondMessage(s, res)
+		// ONLY FOUNDERS CAN MAKE THESE CHANGES
+		if checkIfFounder() {
+
+			// GET BlockID FROM LOCKED BLOCK
+			theLockedBlock := blockchain.GetLockedBlock()
+
+			// ADD lockedBlock TO THE blockchain
+			s = "ADD lockedBlock TO THE blockchain. Adding block number " + fmt.Sprint(theLockedBlock.BlockID)
+			log.Info("WEBSERVER:                   " + s)
+			blockchain.AppendLockedBlock()
+
+			// GET THE NEW BLOCK
+			theNewBlock := blockchain.GetBlock(strconv.FormatInt(theLockedBlock.BlockID, 10))
+
+			// RESPOND with New Block in the blockchain
+			js, _ := json.MarshalIndent(theNewBlock, "", "    ")
+			s = string(js)
+			log.Info("WEBSERVER:                   " + "New Block too long, not shown")
+			io.WriteString(res, s+"\n")
+			//respondMessage(s, res)
+
+		} else {
+
+			// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+			s = "Sorry, only Founders can make these changes"
+			respondMessage(s, res)
+
+		}
 
 	}
 
@@ -470,15 +555,26 @@ func showPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET pendingBlock
-	thePendingBlock := blockchain.GetPendingBlock()
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// RESPOND with pendingBlock
-	js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
+		s = "WALLET ONLY - pendingBlock can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
+
+	} else {
+
+		// GET pendingBlock
+		thePendingBlock := blockchain.GetPendingBlock()
+
+		// RESPOND with pendingBlock
+		js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	}
 
 	s = "END    showPendingBlockHandler() - GET: /showpendingblock"
 	log.Debug("WEBSERVER:            " + s)
@@ -497,32 +593,42 @@ func resetPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// ONLY FOUNDERS CAN MAKE THESE CHANGES
-	if checkIfFounder() {
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-		// RESET pendingBlock
-		s = "RESET pendingBlock"
+		s = "WALLET ONLY - can not reset pendingBlock"
 		log.Info("WEBSERVER:                   " + s)
-		blockchain.ResetPendingBlock()
-
-		// GET NEW pendingBlock
-		thePendingBlock := blockchain.GetPendingBlock()
-
-		// RESPOND with pendingBlock
-		js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
-		s = string(js)
-		log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
 		io.WriteString(res, s+"\n")
-		//respondMessage(s, res)
 
 	} else {
 
-		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
-		s = "Sorry, only Founders can make these changes"
-		respondMessage(s, res)
+		// ONLY FOUNDERS CAN MAKE THESE CHANGES
+		if checkIfFounder() {
+
+			// RESET pendingBlock
+			s = "RESET pendingBlock"
+			log.Info("WEBSERVER:                   " + s)
+			blockchain.ResetPendingBlock()
+
+			// GET NEW pendingBlock
+			thePendingBlock := blockchain.GetPendingBlock()
+
+			// RESPOND with pendingBlock
+			js, _ := json.MarshalIndent(thePendingBlock, "", "    ")
+			s = string(js)
+			log.Info("WEBSERVER:                   " + "pendingBlock too long, not shown")
+			io.WriteString(res, s+"\n")
+			//respondMessage(s, res)
+
+		} else {
+
+			// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+			s = "Sorry, only Founders can make these changes"
+			respondMessage(s, res)
+
+		}
 
 	}
-
 	s = "END    resetPendingBlockHandler() - GET: /resetpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
@@ -540,35 +646,45 @@ func lockPendingBlockHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// ONLY FOUNDERS CAN MAKE THESE CHANGES
-	if checkIfFounder() {
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-		// GET DIFFICULTY FROM LAST LOCKED BLOCK
-		theLockedBlock := blockchain.GetLockedBlock()
-
-		// MOVE pendingBlock to the lockedBlock
-		s = "MOVE pendingBlock to the lockedBlock with difficulty " + strconv.Itoa(theLockedBlock.Difficulty)
+		s = "WALLET ONLY - can not move pendingBlock to lockedBlock"
 		log.Info("WEBSERVER:                   " + s)
-		blockchain.LockPendingBlock(theLockedBlock.Difficulty)
-
-		// GET THE NEW LOCKED BLOCK
-		theLockedBlock = blockchain.GetLockedBlock()
-
-		// RESPOND with lockedBlock
-		js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
-		s = string(js)
-		log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
 		io.WriteString(res, s+"\n")
-		//respondMessage(s, res)
 
 	} else {
 
-		// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
-		s = "Sorry, only Founders can make these changes"
-		respondMessage(s, res)
+		// ONLY FOUNDERS CAN MAKE THESE CHANGES
+		if checkIfFounder() {
+
+			// GET DIFFICULTY FROM LAST LOCKED BLOCK
+			theLockedBlock := blockchain.GetLockedBlock()
+
+			// MOVE pendingBlock to the lockedBlock
+			s = "MOVE pendingBlock to the lockedBlock with difficulty " + strconv.Itoa(theLockedBlock.Difficulty)
+			log.Info("WEBSERVER:                   " + s)
+			blockchain.LockPendingBlock(theLockedBlock.Difficulty)
+
+			// GET THE NEW LOCKED BLOCK
+			theLockedBlock = blockchain.GetLockedBlock()
+
+			// RESPOND with lockedBlock
+			js, _ := json.MarshalIndent(theLockedBlock, "", "    ")
+			s = string(js)
+			log.Info("WEBSERVER:                   " + "lockedBlock too long, not shown")
+			io.WriteString(res, s+"\n")
+			//respondMessage(s, res)
+
+		} else {
+
+			// ONLY FOUNDER GENESIS CAN MAKE THESE CHANGES
+			s = "Sorry, only Founders can make these changes"
+			respondMessage(s, res)
+
+		}
 
 	}
-
 	s = "END    lockPendingBlockHandler() - GET: /lockpendingblock"
 	log.Debug("WEBSERVER:            " + s)
 
@@ -588,15 +704,26 @@ func showNodeListHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET NODELIST
-	theNodeList := routingnode.GetNodeList()
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// RESPOND with nodeList
-	js, _ := json.MarshalIndent(theNodeList, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "NodeList too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
+		s = "WALLET ONLY - nodeList can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
+
+	} else {
+
+		// GET NODELIST
+		theNodeList := routingnode.GetNodeList()
+
+		// RESPOND with nodeList
+		js, _ := json.MarshalIndent(theNodeList, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "NodeList too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	}
 
 	s = "END    showNodeListHandler() - GET: /shownodelist"
 	log.Debug("WEBSERVER:            " + s)
@@ -619,15 +746,26 @@ func showNodeHandler(res http.ResponseWriter, req *http.Request) {
 	// GET NODE ID
 	nodeID := params["nodeID"]
 
-	// GET NODE
-	theNode := routingnode.GetNode(nodeID)
+	// CHECK IF WALLET ONLY
+	if checkIfWalletOnly() {
 
-	// RESPOND with node
-	js, _ := json.MarshalIndent(theNode, "", "    ")
-	s = string(js)
-	log.Info("WEBSERVER:                   " + "Node too long, not shown")
-	io.WriteString(res, s+"\n")
-	//respondMessage(s, res)
+		s = "WALLET ONLY - node can not be shown"
+		log.Info("WEBSERVER:                   " + s)
+		io.WriteString(res, s+"\n")
+
+	} else {
+
+		// GET NODE
+		theNode := routingnode.GetNode(nodeID)
+
+		// RESPOND with node
+		js, _ := json.MarshalIndent(theNode, "", "    ")
+		s = string(js)
+		log.Info("WEBSERVER:                   " + "Node too long, not shown")
+		io.WriteString(res, s+"\n")
+		//respondMessage(s, res)
+
+	}
 
 	s = "END    showNodeHandler() - GET: /shownode/{nodeID}"
 	log.Debug("WEBSERVER:            " + s)
@@ -736,17 +874,32 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 	res.Header().Set("Content-Type", "application/json")
 
-	// GET nodeIP & nodeTCPPort from thisNode
+	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.NodeIP
-	nodeTCPPort := thisNode.NodeTCPPort
+
+	// CHECK IF WALLET ONLY
+	// GET IP & TCPPort from thisNode
+	var IP, TCPPort string
+	if checkIfWalletOnly() {
+
+		IP = thisNode.NetworkIP
+		TCPPort = thisNode.NetworkTCPPort
+		s = "WALLET ONLY - Use network IP:Port to get balance"
+		log.Info("WEBSERVER:                   " + s)
+
+	} else {
+
+		IP = thisNode.NodeIP
+		TCPPort = thisNode.NodeTCPPort
+
+	}
 
 	// GET jeffCoinAddress from wallet
 	gotWallet := wallet.GetWallet()
 	jeffCoinAddress := gotWallet.PublicKeyHex
 
 	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	gotAddressBalance, err := wallet.RequestAddressBalance(IP, TCPPort, jeffCoinAddress)
 	checkErr(err)
 
 	// RESPOND with Address Balance
@@ -779,11 +932,22 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	destinationAddressComma := params["destinationaddress"]
 	valueComma := params["value"]
 
-	// ------------------------------------
-	// GET nodeIP & nodeTCPPort from thisNode
+	// -----------------------------------
+	// GET IP & TCPPort
+	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.NodeIP
-	nodeTCPPort := thisNode.NodeTCPPort
+	// CHECK IF WALLET ONLY
+	// GET IP & TCPPort from thisNode
+	var IP, TCPPort string
+	if checkIfWalletOnly() {
+		IP = thisNode.NetworkIP
+		TCPPort = thisNode.NetworkTCPPort
+		s = "WALLET ONLY - Use network IP:Port for transaction request"
+		log.Info("WEBSERVER:                   " + s)
+	} else {
+		IP = thisNode.NodeIP
+		TCPPort = thisNode.NodeTCPPort
+	}
 
 	// ------------------------------------
 	// GET sourceAddress FROM wallet
@@ -806,7 +970,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	valueSlice := strings.Fields(valueSpace)
 
 	// Check that both slices have the same amount
-	// ------------------------------------------------
+	// -----------------------------------------
 	var status string
 	if cap(destinationAddressSlice) == cap(valueSlice) {
 		// Build destinations first
@@ -850,7 +1014,7 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 
 		// ------------------------------------
 		// REQUEST TRANSACTION
-		status, err = wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSigned)
+		status, err = wallet.TransactionRequest(IP, TCPPort, txRequestMessageSigned)
 		checkErr(err)
 	} else {
 		status = "Field are incorrect. Try again."
@@ -887,13 +1051,28 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 	// GET jeffCoin Address
 	jeffCoinAddress := params["jeffCoinAddress"]
 
-	// GET nodeIP & nodeTCPPort from thisNode
+	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.NodeIP
-	nodeTCPPort := thisNode.NodeTCPPort
+
+	// CHECK IF WALLET ONLY
+	// GET IP & TCPPort from thisNode
+	var IP, TCPPort string
+	if checkIfWalletOnly() {
+
+		IP = thisNode.NetworkIP
+		TCPPort = thisNode.NetworkTCPPort
+		s = "WALLET ONLY - Use network IP:Port to get balance"
+		log.Info("WEBSERVER:                   " + s)
+
+	} else {
+
+		IP = thisNode.NodeIP
+		TCPPort = thisNode.NodeTCPPort
+
+	}
 
 	// GET ADDRESS BALANCE
-	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)
+	gotAddressBalance, err := wallet.RequestAddressBalance(IP, TCPPort, jeffCoinAddress)
 	checkErr(err)
 
 	// RESPOND with Address Balance
