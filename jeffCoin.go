@@ -6,6 +6,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
+	"runtime"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -18,7 +20,7 @@ import (
 )
 
 const (
-	toolVersion = "1.3.2"
+	toolVersion = "1.3.3"
 )
 
 var genesisPtr, testblockchainPtr, gcePtr, walletPtr *bool
@@ -111,6 +113,25 @@ func masterFlowControl(genesis bool) {
 
 }
 
+// ContextHook ...
+type ContextHook struct{}
+
+// Levels ...
+func (hook ContextHook) Levels() []log.Level {
+	return log.AllLevels
+}
+
+// Fire ...
+func (hook ContextHook) Fire(entry *log.Entry) error {
+	if pc, file, line, ok := runtime.Caller(10); ok {
+		funcName := runtime.FuncForPC(pc).Name()
+
+		entry.Data["source"] = fmt.Sprintf("%s:%v:%s", path.Base(file), line, path.Base(funcName))
+	}
+
+	return nil
+}
+
 func init() {
 
 	// SET FORMAT
@@ -127,9 +148,9 @@ func init() {
 	// LOG LEVEL
 	logLevelPtr := flag.String("loglevel", "info", "LogLevel (info, debug or trace)")
 	// NETWORK NODE IP
-	networkIPPtr = flag.String("netip", "127.0.0.1", "Network IP")
+	networkIPPtr = flag.String("networkip", "127.0.0.1", "Network IP")
 	// NETWORK NODE TCP PORT
-	networkTCPPortPtr = flag.String("netport", "3000", "Network TCP Port")
+	networkTCPPortPtr = flag.String("networktcpport", "3000", "Network TCP Port")
 	// YOUR NODE WEB PORT
 	nodeHTTPPortPtr = flag.String("nodehttpport", "2001", "Node Web Port")
 	// YOUR NODE IP
@@ -203,7 +224,18 @@ func main() {
 	// LOAD thisNode
 	s = "LOAD thisNode"
 	log.Info("MAIN:                        " + s)
-	routingnode.LoadThisNode(*nodeIPPtr, *nodeHTTPPortPtr, *nodeTCPPortPtr, *nodeNamePtr, toolVersion)
+	myNode := routingnode.NodeStruct{
+		NodeName:       *nodeIPPtr,
+		NodeIP:         *nodeIPPtr,
+		NodeHTTPPort:   *nodeHTTPPortPtr,
+		NodeTCPPort:    *nodeTCPPortPtr,
+		NetworkIP:      *networkIPPtr,
+		NetworkTCPPort: *networkTCPPortPtr,
+		TestBlockChain: *testblockchainPtr,
+		WalletOnly:     *walletPtr,
+		ToolVersion:    toolVersion,
+	}
+	myNode.LoadThisNode()
 
 	var jeffCoinAddress string
 

@@ -25,9 +25,9 @@ type htmlIndexData struct {
 	PublicKeyHex string
 	Balance      string
 	ToolVersion  string
-	IP           string
-	HTTPPort     string
-	TCPPort      string
+	NodeIP       string
+	NodeHTTPPort string
+	NodeTCPPort  string
 }
 
 type htmlAPIData struct {
@@ -127,8 +127,8 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 	theWallet := wallet.GetWallet()
 
 	// GET nodeIP & nodeTCPPort from thisNode
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET address PublicKeyHex from wallet
 	addressPublicKeyHex := theWallet.PublicKeyHex
@@ -146,10 +146,10 @@ func indexHandler(res http.ResponseWriter, req *http.Request) {
 		NodeName:     thisNode.NodeName,
 		PublicKeyHex: addressPublicKeyHex,
 		Balance:      gotAddressBalance,
+		NodeIP:       thisNode.NodeIP,
+		NodeHTTPPort: thisNode.NodeHTTPPort,
+		NodeTCPPort:  thisNode.NodeTCPPort,
 		ToolVersion:  thisNode.ToolVersion,
-		IP:           thisNode.IP,
-		HTTPPort:     thisNode.HTTPPort,
-		TCPPort:      thisNode.TCPPort,
 	}
 
 	// Merge data and execute
@@ -230,8 +230,8 @@ func sendHandler(res http.ResponseWriter, req *http.Request) {
 	theWallet := wallet.GetWallet()
 
 	// GET nodeIP & nodeTCPPort from thisNode
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET address PublicKeyHex from wallet
 	addressPublicKeyHex := theWallet.PublicKeyHex
@@ -738,8 +738,8 @@ func showBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET jeffCoinAddress from wallet
 	gotWallet := wallet.GetWallet()
@@ -782,8 +782,8 @@ func transactionRequestHandler(res http.ResponseWriter, req *http.Request) {
 	// ------------------------------------
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// ------------------------------------
 	// GET sourceAddress FROM wallet
@@ -889,8 +889,8 @@ func showAddressBalanceHandler(res http.ResponseWriter, req *http.Request) {
 
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// GET ADDRESS BALANCE
 	gotAddressBalance, err := wallet.RequestAddressBalance(nodeIP, nodeTCPPort, jeffCoinAddress)

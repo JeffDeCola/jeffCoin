@@ -123,8 +123,8 @@ func mockReceivingTransaction(txRequestMessageSignedDataString string) {
 
 	// GET nodeIP & nodeTCPPort from thisNode
 	thisNode := routingnode.GetThisNode()
-	nodeIP := thisNode.IP
-	nodeTCPPort := thisNode.TCPPort
+	nodeIP := thisNode.NodeIP
+	nodeTCPPort := thisNode.NodeTCPPort
 
 	// REQUEST TRANSACTION
 	status, err := wallet.TransactionRequest(nodeIP, nodeTCPPort, txRequestMessageSignedDataString)

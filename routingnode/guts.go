@@ -50,12 +50,12 @@ func loadNodeList(message string) {
 // NODE ******************************************************************************************************************
 
 // getNode - Gets a Node in the nodeList
-func getNode(id string) nodeStruct {
+func getNode(id string) NodeStruct {
 
 	s := "START  getNode() - Gets a Node in the nodeList"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
 
-	var item nodeStruct
+	var item NodeStruct
 
 	// Just a special case to get the Last Node
 	if id == "last" {
@@ -80,12 +80,12 @@ func getNode(id string) nodeStruct {
 }
 
 // appendNewNode - Appends a new Node to the nodeList
-func appendNewNode(messageNewNode string) nodeStruct {
+func appendNewNode(messageNewNode string) NodeStruct {
 
 	s := "START  appendNewNode() - Appends a new Node to the nodeList"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
 
-	newNode := nodeStruct{}
+	newNode := NodeStruct{}
 	json.Unmarshal([]byte(messageNewNode), &newNode)
 
 	newNode.Index = len(nodeList)
@@ -101,7 +101,7 @@ func appendNewNode(messageNewNode string) nodeStruct {
 // THIS NODE *************************************************************************************************************
 
 // getThisNode - Gets thisNode
-func getThisNode() nodeStruct {
+func getThisNode() NodeStruct {
 
 	s := "START  getThisNode() - Gets thisNode"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
@@ -114,23 +114,17 @@ func getThisNode() nodeStruct {
 }
 
 // loadThisNode - Loads thisNode
-func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
+func (n NodeStruct) loadThisNode() {
 
 	s := "START  loadThisNode() - Loads thisNode"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
 
 	t := time.Now()
 
-	thisNode = nodeStruct{
-		Index:       0,
-		Status:      "active",
-		Timestamp:   t.String(),
-		NodeName:    nodeName,
-		ToolVersion: toolVersion,
-		IP:          ip,
-		HTTPPort:    httpPort,
-		TCPPort:     tcpPort,
-	}
+	thisNode = n
+	thisNode.Index = 0
+	thisNode.Status = "active"
+	thisNode.Timestamp = t.String()
 
 	s = "END    loadThisNode() - Loads thisNode"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
@@ -138,7 +132,7 @@ func loadThisNode(ip string, httpPort string, tcpPort string, nodeName string, t
 }
 
 // appendThisNode - Appends thisNode to the nodeList
-func appendThisNode() nodeStruct {
+func appendThisNode() NodeStruct {
 
 	s := "START  appendThisNode() - Appends thisNode to the nodeList"
 	log.Debug("ROUTINGNODE: GUTS     " + s)
@@ -165,7 +159,7 @@ func checkIfThisNodeinNodeList() bool {
 	for _, item := range nodeList {
 
 		// DO YOU FIND IT
-		if item.IP == thisNode.IP && item.TCPPort == thisNode.TCPPort {
+		if item.NodeIP == thisNode.NodeIP && item.NodeTCPPort == thisNode.NodeTCPPort {
 
 			s = "thisNode is already in the nodeList"
 			log.Warn("ROUTINGNODE: GUTS            " + s)
