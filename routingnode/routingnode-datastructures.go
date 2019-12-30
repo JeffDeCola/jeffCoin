@@ -5,22 +5,26 @@ package routingnode
 // NODELIST **************************************************************************************************************
 
 // NodeStruct is your node info
-type nodeStruct struct {
-	Index       int    `json:"index"`
-	Status      string `json:"status"`
-	Timestamp   string `json:"timestamp"`
-	NodeName    string `json:"nodename"`
-	ToolVersion string `json:"toolversion"`
-	IP          string `json:"ip"`
-	HTTPPort    string `json:"httpport"`
-	TCPPort     string `json:"tcpport"`
+type NodeStruct struct {
+	Index          int    `json:"index"`
+	Status         string `json:"status"`
+	Timestamp      string `json:"timestamp"`
+	NodeName       string `json:"nodename"`
+	NodeIP         string `json:"nodeip"`
+	NodeHTTPPort   string `json:"nodehttpport"`
+	NodeTCPPort    string `json:"nodetcpport"`
+	NetworkIP      string `json:"networkip"`
+	NetworkTCPPort string `json:"networktcpport"`
+	TestBlockChain bool   `json:"testblockchain"`
+	WalletOnly     bool   `json:"walletonly"`
+	ToolVersion    string `json:"toolversion"`
 }
 
 // thisNode - The Current Node Info
-var thisNode = nodeStruct{}
+var thisNode = NodeStruct{}
 
 // nodeSlice is my type
-type nodeSlice []nodeStruct
+type nodeSlice []NodeStruct
 
 // nodeList is the the Node List
 var nodeList = nodeSlice{}

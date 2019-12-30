@@ -185,8 +185,8 @@ on `127.0.0.1:3000`, adding a second Node
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -netip 127.0.0.1 \
-       -netport 3000 \
+       -networkip 127.0.0.1 \
+       -networktcpport 3000 \
        -nodehttpport 2001 \
        -nodeip 127.0.0.1 \
        -nodename Jeff \
@@ -198,8 +198,8 @@ Why stop, might as well add a third Node,
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -netip 127.0.0.1 \
-       -netport 3000 \
+       -networkip 127.0.0.1 \
+       -networktcpport 3000 \
        -nodehttpport 2002 \
        -nodeip 127.0.0.1 \
        -nodename Matt \
@@ -208,8 +208,8 @@ go run jeffCoin.go \
 
 ### LOGGING
 
-You will notice logging is set to -debug. You can be more explicit
-and set to -trace or less wordy and set to -info.
+You will notice logging is set to `-debug`. You can be more explicit
+and set to `-trace` or less wordy and set to `-info`.
 
 ### WEBSERVER & REST API
 
@@ -252,9 +252,9 @@ the Network to validate the transactions and reach consensus.
   Node IP (default "127.0.0.1")
 * `-loglevel` _string_
   LogLevel (info, debug or trace) (default "info")
-* `-netip` _string_
+* `-networkip` _string_
   Network IP (default "127.0.0.1")
-* `-netport` _string_
+* `-networktcpport` _string_
   Network TCP Port (default "3000")
 * `-nodename` _string_
   Node Name (default "Jeff")
@@ -278,8 +278,8 @@ You will need to hook up to a Node, so the following could work,
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -netip 127.0.0.1 \
-       -netport 3000 \
+       -networkip 127.0.0.1 \
+       -networktcpport 3000 \
        -nodehttpport 2005 \
        -nodeip 127.0.0.1 \
        -nodename Jills-Wallet \
@@ -388,8 +388,8 @@ Add another node (not at gce) is as simple as connecting to it,
 ```bash
 go run jeffCoin.go \
        -loglevel debug \
-       -netip 35.203.189.193 \
-       -netport 3334 \
+       -networkip 35.203.189.193 \
+       -networktcpport 3334 \
        -nodehttpport 2003 \
        -nodeip 127.0.0.1 \
        -nodename Jill \

@@ -132,7 +132,7 @@ func RequestNodeList(networkIP string, networkTCPPort string) error {
 // NODE ******************************************************************************************************************
 
 // GetNode - Gets a Node (via Index number) from the nodeList
-func GetNode(id string) nodeStruct {
+func GetNode(id string) NodeStruct {
 
 	s := "START  GetNode() - Gets a Node (via Index number) from the nodeList"
 	log.Debug("ROUTINGNODE: I/F      " + s)
@@ -148,7 +148,7 @@ func GetNode(id string) nodeStruct {
 }
 
 // AppendNewNode - Appends a new Node to the nodeList
-func AppendNewNode(messageNewNode string) nodeStruct {
+func AppendNewNode(messageNewNode string) NodeStruct {
 
 	s := "START  AppendNewNode() - Appends a new Node to the nodeList"
 	log.Debug("ROUTINGNODE: I/F      " + s)
@@ -165,7 +165,7 @@ func AppendNewNode(messageNewNode string) nodeStruct {
 // THISNODE **************************************************************************************************************
 
 // GetThisNode - Gets thisNode
-func GetThisNode() nodeStruct {
+func GetThisNode() NodeStruct {
 
 	s := "START  GetThisNode() - Gets thisNode"
 	log.Debug("ROUTINGNODE: I/F      " + s)
@@ -179,12 +179,12 @@ func GetThisNode() nodeStruct {
 }
 
 // LoadThisNode - Loads thisNode
-func LoadThisNode(ip string, httpPort string, tcpPort string, nodeName string, toolVersion string) {
+func (n NodeStruct) LoadThisNode() {
 
 	s := "START  LoadThisNode() - Loads thisNode"
 	log.Debug("ROUTINGNODE: I/F      " + s)
 
-	loadThisNode(ip, httpPort, tcpPort, nodeName, toolVersion)
+	n.loadThisNode()
 
 	s = "Congrats, you loaded thisNode (-loglevel trace to display)"
 	log.Info("ROUTINGNODE: I/F             " + s)
@@ -241,8 +241,8 @@ func BroadcastThisNode() error {
 	// FOR EACH NODE IN NODELIST
 	for _, item := range theNodeList {
 
-		networkIP := item.IP
-		networkTCPPort := item.TCPPort
+		networkIP := item.NodeIP
+		networkTCPPort := item.NodeTCPPort
 
 		//  CONN - SETUP THE CONNECTION
 		s = "----------------------------------------------------------------"
