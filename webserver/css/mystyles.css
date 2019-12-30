@@ -46,6 +46,14 @@ input.break {
     padding-top:20px;
 }
 
+#wallet_only_box {
+    text-align: center;		/* Center it */
+    color: rgb(52, 119, 8);
+    padding: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
 #info_box {
     text-align: center;		/* Center it */
     padding:10px;

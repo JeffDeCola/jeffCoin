@@ -8,8 +8,11 @@
         <div id="title_box">
             <h1> Welcome to jeffCoin </h1>
         </div>
+        <div id="wallet_only_box">
+            {{.WalletOnly}}
+        </div>
         <div id="info_box">
-            <p> Node & Wallet Name: <b>{{.NodeName}}</b> </p>
+            <p> {{.NodeComment}} Wallet Name: <b>{{.NodeName}}</b> </p>
             <p> Balance <b id="balance">{{.Balance}}</b> jeffCoins</p>
         </div>
         <div id="wallet_box">
