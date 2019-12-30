@@ -1,6 +1,6 @@
 // jeffCoin TESTDATA data.go
 
-package testdata
+package testblockchain
 
 // Public Keys (address) and mock signatures
 const (
