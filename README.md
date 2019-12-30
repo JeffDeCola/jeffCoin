@@ -28,12 +28,15 @@ Table of Contents,
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
   * [GENESIS NODE](https://github.com/JeffDeCola/jeffCoin#genesis-node)
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
+  * [LOGGING](https://github.com/JeffDeCola/jeffCoin#logging)
   * [WEBSERVER & REST API](https://github.com/JeffDeCola/jeffCoin#webserver--rest-api)
+  * [PLAY AROUND](https://github.com/JeffDeCola/jeffCoin#play-around)
   * [SWITCHES (REFERENCE)](https://github.com/JeffDeCola/jeffCoin#switches-reference)
-  * [WALLET ONLY (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#wallet-only-optional)
-  * [CONNECT USING TCP (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#connect-using-tcp-optional)
-  * [TEST MOCK TRANSACTIONS (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions-optional)
-  * [RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce-optional)
+* [RUN (WALLET ONLY)](https://github.com/JeffDeCola/jeffCoin#run-wallet-only)
+* [RUN (OPTIONAL)](https://github.com/JeffDeCola/jeffCoin#run-optional)
+  * [CONNECT USING TCP](https://github.com/JeffDeCola/jeffCoin#connect-using-tcp)
+  * [TEST MOCK TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions)
+  * [RUN ON GOOGLE COMPUTE ENGINE (GCE)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce)
 
 This project was built from some of my other projects,
 
@@ -264,7 +267,7 @@ the Network to validate the transactions and reach consensus.
 * -`wallet`
   Only the wallet and webserver (GUI/API)
 
-### WALLET ONLY (OPTIONAL)
+## RUN (WALLET ONLY)
 
 If you just want to have a wallet, use the `-wallet` switch.
 You will not be part of the Network since there is no blockchain
@@ -286,7 +289,11 @@ go run jeffCoin.go \
 
 The Node name is the same as the Wallet name.
 
-### CONNECT USING TCP (OPTIONAL)
+## RUN (OPTIONAL)
+
+Here are some optional things you can do.
+
+### CONNECT USING TCP
 
 You can also bypass the Webserver REST API and just open
 a connection to the TCP server itself,
@@ -309,7 +316,7 @@ Note you will need to handshake it with a `thank you` at the end.
 There is a complete list of commands in the architecture readme
 [TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#32-tcp-requests--handlers).
 
-### TEST MOCK TRANSACTIONS (OPTIONAL)
+### TEST MOCK TRANSACTIONS
 
 If you add the `-test` switch you will run some mock transactions from mock wallets.
 Those wallets are located in `/wallets` and just used for testing.
@@ -347,7 +354,7 @@ The balance for MockCoinVaults PubKey (Address) is 500
 Remember, the pendingBlock is pending, so it's not part of this calculation.
 Transaction do not have value until they are part of the blockchain.
 
-### RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
+### RUN ON GOOGLE COMPUTE ENGINE (GCE)
 
 Make sure your create a firewall rule and have your instance use
 it as a network tag,
