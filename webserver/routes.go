@@ -17,6 +17,12 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
+		"GetLogin",
+		"GET",
+		"/login",
+		loginHandler,
+	},
+	Route{
 		"GetIndex",
 		"GET",
 		"/",

@@ -26,6 +26,7 @@ const (
 var genesisPtr, testblockchainPtr, gcePtr, walletPtr *bool
 var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
+var passwordPtr *string
 
 func checkErr(err error) {
 	if err != nil {
@@ -159,6 +160,8 @@ func init() {
 	nodeNamePtr = flag.String("nodename", "Jeff", "Node Name")
 	// YOUR NODE TCP PORT
 	nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
+	// PASSWORD
+	passwordPtr = flag.String("password", "yourpassword", "Set/Reset your Password")
 	// TEST FLAG
 	testblockchainPtr = flag.Bool("testblockchain", false, "Loads the blockchain with test data")
 	// VERSION FLAG
@@ -178,6 +181,12 @@ func init() {
 		log.SetLevel(log.InfoLevel)
 	} else {
 		log.Error("Error setting log levels")
+		os.Exit(0)
+	}
+
+	// CHECK IF SET PASSWORD
+	if *passwordPtr == "yourpassword" {
+		fmt.Println("Please set a password")
 		os.Exit(0)
 	}
 
