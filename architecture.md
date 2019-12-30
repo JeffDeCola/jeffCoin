@@ -446,6 +446,37 @@ The webserver section has two main parts, the GUI and the REST API.
 This webserver is built from my
 [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST).
 
+**[WEBSERVER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/webserver-datastructures.go)**
+
+A password has the following go struct,
+
+```go
+// passwordStruct is your password
+type passwordStruct struct {
+    Password   string `json:"password"`
+}
+```
+
+**[WEBSERVER-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/webserver-interface.go)**
+
+* PASSWORD
+  * **GetPassword()**
+    _Gets the password_
+  * **WritePassword()**
+    _Writes the password to file (AES-256 encryption)_
+  * **ReadPasswordFile()**
+    _Reads the password from a file (AES-256 decrypt)_
+
+**[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/guts.go)**
+
+* PASSWORD
+  * **getPassword()**
+    _Gets the password_
+  * **writePassword()**
+    _Writes the password to file (AES-256 encryption)_
+  * **readPasswordFile()**
+    _Reads the password from a file (AES-256 decrypt)_
+
 ### 5.1 GUI
 
 Currently, there is the main page that also lists the available APIs.

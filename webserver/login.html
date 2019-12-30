@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Welcome to jeffCoin ({{.NodeName}})</title>
+        <link rel="stylesheet" type="text/css" href="css/mystyles.css">
+    </head>
+    <body>
+        <div id="title_box">
+            <h1> Welcome to jeffCoin </h1>
+        </div>
+        <!--  This will place the data in the request body -->
+        <!-- You extract this in go using  -->
+        <!-- req.ParseForm() -->            
+	    <!-- Value := req.Form.Get("Value") -->
+        <form class="form_box" method="POST" action="/confirm">
+            <div id ="login_box">
+                <p><b>LOGIN WITH PASSWORD</b></p>
+                <input  id="password" type="text" name="Value" maxlength="20"><br>
+            </div>
+            <div id="login_button">
+                <button class="my_button"><b>LOGIN</b></button>
+            </div>
+        </form>
+        <div id="software_box">
+            <p> Version:  <b>{{.ToolVersion}}</b> </p>
+            <p> {{.NodeIP}}:{{.NodeHTTPPort}} (Using TCP Port {{.NodeTCPPort}})
+        </div>
+    </body>
+</html>

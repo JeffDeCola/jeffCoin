@@ -20,6 +20,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type htmlLoginData struct {
+	NodeName     string
+	ToolVersion  string
+	NodeIP       string
+	NodeHTTPPort string
+	NodeTCPPort  string
+}
+
 type htmlIndexData struct {
 	NodeName     string
 	PublicKeyHex string
@@ -113,6 +121,52 @@ func checkIfWalletOnly() bool {
 }
 
 // HTML PAGES *************************************************************************************************************
+
+// loginHandler - GET: /login
+func loginHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - LOGIN"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+	s = "START  loginHandler() - GET: /login"
+	log.Debug("WEBSERVER:            " + s)
+
+	t, err := template.ParseFiles("webserver/login.html")
+	checkErr(err)
+
+
+
+    
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	htmlTemplateData := htmlLoginData{
+		NodeName:     thisNode.NodeName,
+		NodeIP:       thisNode.NodeIP,
+		NodeHTTPPort: thisNode.NodeHTTPPort,
+		NodeTCPPort:  thisNode.NodeTCPPort,
+		ToolVersion:  thisNode.ToolVersion,
+	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
+
+	s = "END    loginHandler() - GET: /login"
+	log.Debug("WEBSERVER:            " + s)
+
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - COMPLETE LOGIN"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+}
 
 // indexHandler - GET: /
 func indexHandler(res http.ResponseWriter, req *http.Request) {

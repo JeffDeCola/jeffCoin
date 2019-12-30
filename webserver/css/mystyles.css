@@ -75,6 +75,29 @@ input.break {
         font-size: 16px;
         padding:10px;
         margin: auto;
+        cursor: pointer;
+}
+
+/* LOGIN ******************************************************************************* */
+
+#login_box {
+    text-align: center;		/* Center it */
+    padding-top: 40px;
+}
+
+#password {
+    text-align: center;		/* Center it */
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+    width: 200px;
+    padding:10px;
+    margin: auto;
+}
+
+#login_button {
+    margin-top: 40px;
+    text-align: center;		/* Center it */
 }
 
 /* MAIN PAGE *************************************************************************** */
