@@ -1,6 +1,6 @@
 // jeffCoin TESTDATA load-test-data.go
 
-package testdata
+package testblockchain
 
 import (
 	"fmt"

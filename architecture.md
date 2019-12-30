@@ -1,5 +1,7 @@
 # jeffCoin ARCHITECTURE
 
+_This readme describes the software architecture and functions/methods of jeffCoin._
+
 Table of contents,
 
 * [ARCHITECTURE OVERVIEW](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#architecture-overview)

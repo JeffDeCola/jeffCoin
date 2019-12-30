@@ -114,10 +114,11 @@ jeffCoin uses the following technology,
 * A Webserver with both a GUI and a REST API
 * A TCP Server for inter-node communication
 * ECDSA Private & Public Key generation
-* Creates a jeffCoin Address from the ECDSA Public Key _(Just like bitcoin)_
+* Creates a jeffCoin Address from the ECDSA Public Key
+  _(Just like bitcoin)_ currently not being used
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
-* Transaction as stored using the unspent transaction output model
+* Transaction as stored using an unspent transaction output model
 
 What jeffCoin does not have,
 
@@ -164,7 +165,12 @@ go run jeffCoin.go \
 
 This will created the first Node (the Founders node) in the Network.
 It will also create a wallet and save the credentials in `/wallet`.
-**But having one node is boring so create more.**
+
+Note that the node has an IP address and port for both http and tcp.
+For this example I use the localhost or 127.0.0.1. But obviously,
+you can pick anything you want that works for you.
+
+**Having one node is boring so lets create more.**
 
 ### ADDING NEW NODES
 
@@ -184,7 +190,7 @@ go run jeffCoin.go \
        -nodetcpport 3001
 ```
 
-Might as well add a third Node,
+Why stop, might as well add a third Node,
 
 ```bash
 go run jeffCoin.go \
@@ -197,8 +203,10 @@ go run jeffCoin.go \
        -nodetcpport 3002
 ```
 
-Each node has it's own wallet, so now you can send jeffCoins/Value.
-To do this, use the webserver and API interface.
+### LOGGING
+
+You will notice logging is set to -debug. You can be more explicit
+and set to -trace or less wordy and set to -info.
 
 ### WEBSERVER & REST API
 
@@ -214,6 +222,18 @@ The main page will list the various API commands.
 For example, to show a particular block,
 
 [127.0.0.1:2000/showblock/0](http://127.0.0.1:2000/showblock/0)
+
+### PLAY AROUND
+
+Each Node has it's own wallet, so now you can send jeffCoins/Value.
+To do this, use the Webserver and API.
+You will notice only the Founders have jeffCoins to send.
+So Jeff or Matt will not be able to send coins at this point.
+
+Send some coins from the Founders to Jeff or Matt and note they are pending.
+That's because they are not validated.  Like bitcoin, you will need
+to wait 10 minutes for a miner to solve the nonce and then for
+the Network to validate the transactions and reach consensus.
 
 ### SWITCHES (REFERENCE)
 
@@ -237,8 +257,8 @@ For example, to show a particular block,
   Node Name (default "Jeff")
 * `-nodetcpport` _string_
   Node TCP Port (default "3001")
-* `-test`
-  Loads the blockchain with test data (SEE BELOW)
+* `-testblockchain`
+  Loads the blockchain with test data (SEE BELOW)  
 * `-v`
   prints current version
 * -`wallet`
@@ -246,11 +266,11 @@ For example, to show a particular block,
 
 ### WALLET ONLY (OPTIONAL)
 
-If you want to just have the wallet, use the `-wallet` switch.
-You will not be part of the network since there is no blockchain
-or miner.  But you can always restart and become part of the node.
+If you just want to have a wallet, use the `-wallet` switch.
+You will not be part of the Network since there is no blockchain
+or miner.  But you can always restart and become part of the Node.
 
-You will need to hook up to a node, so the following could work,
+You will need to hook up to a Node, so the following could work,
 
 ```bash
 go run jeffCoin.go \
@@ -264,11 +284,12 @@ go run jeffCoin.go \
        -wallet
 ```
 
-Note the node name is the wallet name.
+The Node name is the same as the Wallet name.
 
 ### CONNECT USING TCP (OPTIONAL)
 
-You can also bypass the REST API and just open a connection to the TCP server itself,
+You can also bypass the Webserver REST API and just open
+a connection to the TCP server itself,
 
 ```txt
 netcat -q -1 127.0.0.1 3000
@@ -283,9 +304,9 @@ SNL
 thank you
 ```
 
-Notice you will need to handshake it with a `thank you` at the end.
+Note you will need to handshake it with a `thank you` at the end.
 
-There is a complete list of commands in the architecture README
+There is a complete list of commands in the architecture readme
 [TCP REQUESTS & HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#32-tcp-requests--handlers).
 
 ### TEST MOCK TRANSACTIONS (OPTIONAL)
@@ -303,7 +324,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename MockFounders \
        -nodetcpport 3000 \
-       -test
+       -testblockchain
 ```
 
 These transactions are the same I used in my
@@ -324,7 +345,7 @@ The balance for MockCoinVaults PubKey (Address) is 500
 ```
 
 Remember, the pendingBlock is pending, so it's not part of this calculation.
-Transaction do not have value if they are not part of the blockchain.
+Transaction do not have value until they are part of the blockchain.
 
 ### RUN ON GOOGLE COMPUTE ENGINE (GCE) (OPTIONAL)
 
