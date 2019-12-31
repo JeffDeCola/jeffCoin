@@ -23,6 +23,7 @@ Table of Contents,
 
 * [IMPORTANT](https://github.com/JeffDeCola/jeffCoin#important)
 * [PREREQUISITES](https://github.com/JeffDeCola/jeffCoin#prerequisites)
+* [BUILDING BLOCKS](https://github.com/JeffDeCola/jeffCoin#building-blocks)
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [SOFTWARE ARCHITECTURE](https://github.com/JeffDeCola/jeffCoin#software-architecture)
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
@@ -37,6 +38,38 @@ Table of Contents,
   * [CONNECT USING TCP](https://github.com/JeffDeCola/jeffCoin#connect-using-tcp)
   * [TEST MOCK TRANSACTIONS](https://github.com/JeffDeCola/jeffCoin#test-mock-transactions)
   * [RUN ON GOOGLE COMPUTE ENGINE (GCE)](https://github.com/JeffDeCola/jeffCoin#run-on-google-compute-engine-gce)
+
+Documentation and reference,
+
+* Refer to my
+  [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
+* I got a lot of inspiration
+  [here](https://github.com/nosequeldeebee/blockchain-tutorial)
+* My software architecture is located in another readme
+  [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
+
+[GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
+
+## IMPORTANT
+
+Your private keys are kept in `/wallet` and your passwords are
+kept in `/credentials`.  The `.gitignore`
+file does ignore them, but just be aware were they live.
+Just in case, I encode your password file with AES-256
+for good measure.
+
+## PREREQUISITES
+
+```bash
+go get -v -u github.com/btcsuite/btcutil/base58
+go get -v -u golang.org/x/crypto/ripemd160
+go get -u -v github.com/gorilla/mux
+go get -u -v github.com/sirupsen/logrus
+go get -u -v github.com/pkg/errors
+go get -u -v github.com/satori/go.uuid
+```
+
+## BUILDING BLOCKS
 
 This project was built from some of my other projects,
 
@@ -59,33 +92,6 @@ This project was built from some of my other projects,
   and
   [flag](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/flag)
 projects.
-
-Documentation and reference,
-
-* Refer to my
-  [cheat sheet on blockchains](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
-* I got a lot of inspiration
-  [here](https://github.com/nosequeldeebee/blockchain-tutorial)
-* My software architecture is located in another readme
-  [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
-
-[GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
-
-## IMPORTANT
-
-Your private keys are kept in `/wallet`.  The `.gitignore`
-file does ignore them, but just be aware were they live.
-There are a few mock keys in there used for testing.
-
-## PREREQUISITES
-
-```bash
-go get -v -u github.com/btcsuite/btcutil/base58
-go get -v -u golang.org/x/crypto/ripemd160
-go get -u -v github.com/gorilla/mux
-go get -u -v github.com/sirupsen/logrus
-go get -u -v github.com/pkg/errors
-```
 
 ## OVERVIEW
 
