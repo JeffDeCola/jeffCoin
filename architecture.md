@@ -438,6 +438,11 @@ type walletStruct struct {
 * SIGNATURE
   * **createSignature()**
     _Creates a ECDSA Digital Signature_
+* ENCRYPT/DECRYPT TEXT
+  * **encryptAES()**
+    _AES-256 GCM (Galois/Counter Mode) mode encryption_
+  * **decryptAES()**
+    _AES-256 GCM (Galois/Counter Mode) mode decryption_
 
 ## 5. WEBSERVER
 
@@ -478,11 +483,6 @@ type passwordStruct struct {
     _Writes the password to file (AES-256 encryption) and puts in struct_
   * **readPasswordFile()**
     _Reads the password from a file (AES-256 decrypt) and puts in struct_
-* ENCRYPTION/DECRYPTION
-  * **encrypt()**
-    _AES-256 GCM (Galois/Counter Mode) mode encryption_
-  * **decrypt()**
-    _AES-256 GCM (Galois/Counter Mode) mode decryption_
 
 ### 5.1 GUI
 

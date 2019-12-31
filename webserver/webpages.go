@@ -134,11 +134,11 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 	passwordEntered := req.Form.Get("Password")
 
 	// GET PASSWORD
-	password := GetPassword()
+	thePassword := GetPassword()
 
 	// COMPARE PASSWORDS
 	doesItMatch := "Your password is incorrect, try again"
-	if passwordEntered == password.Password {
+	if passwordEntered == thePassword.Password {
 		doesItMatch = "Your password is valid"
 
 		// CREATE A RANDOM TOKEN - Universally Unique Identifier (UUID) and store in sessionTokenString
