@@ -14,3 +14,6 @@
 /wallet/*.json
 !/wallet/Mock*.json
 
+// Ignore passwords except the mock ones
+/credentials/*.json
+!/credentials/Mock*.json

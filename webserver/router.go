@@ -3,20 +3,12 @@
 package webserver
 
 import (
-	"fmt"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 )
-
-func checkErr(err error) {
-	if err != nil {
-		fmt.Printf("Error is %+v\n", err)
-		log.Fatal("ERROR:", err)
-	}
-}
 
 // Message takes incoming JSON payload for writing data
 type Message struct {

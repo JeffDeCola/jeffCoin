@@ -184,12 +184,6 @@ func init() {
 		os.Exit(0)
 	}
 
-	// CHECK IF SET PASSWORD
-	if *passwordPtr == "yourpassword" {
-		fmt.Println("Please set a password")
-		os.Exit(0)
-	}
-
 	// CHECK VERSION
 	if *versionPtr {
 		fmt.Println(toolVersion)
@@ -202,6 +196,26 @@ func main() {
 
 	fmt.Printf("\nSTART...\n")
 	fmt.Printf("Press return to exit\n\n")
+
+	// CHECK IF SET PASSWORD
+	// If default, see if you already have a password
+	if *passwordPtr == "yourpassword" {
+		// Check if you have a password in file
+		if _, err := os.Stat("credentials/" + *nodeNamePtr + "-password.json"); err == nil {
+			// READ existing password from a file and put in struct
+			s := "READ existing password from a file and put in struct"
+			log.Info("MAIN:                        " + s)
+			_ = webserver.ReadPasswordFile(*nodeNamePtr)
+		} else {
+			fmt.Println("Please set a password")
+			os.Exit(0)
+		}
+	} else {
+		// Writes the password to file (AES-256 encryption)
+		s := "Writes the password to file (AES-256 encryption)"
+		log.Info("MAIN:                        " + s)
+		_ = webserver.WritePasswordFile(*nodeNamePtr, *passwordPtr)
+	}
 
 	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
@@ -246,12 +260,11 @@ func main() {
 	}
 	myNode.LoadThisNode()
 
-	var jeffCoinAddress string
-
 	// DO YOU ALREADY HAVE A WALLET
+	var jeffCoinAddress string
 	if _, err := os.Stat("wallet/" + *nodeNamePtr + "-wallet.json"); err == nil {
-		// READ existing wallet from a file (Keys and jeffCoin Address)
-		s = "READ existing wallet from a file (Keys and jeffCoin Address)"
+		// READ existing wallet from a file (Keys and jeffCoin Address) and put in struct
+		s = "READ existing wallet from a file (Keys and jeffCoin Address) and put in struct"
 		log.Info("MAIN:                        " + s)
 		jeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
 	} else {
@@ -300,4 +313,5 @@ func main() {
 	log.Info("MAIN:                        " + s)
 	fmt.Scanln()
 	fmt.Printf("\n...DONE\n")
+
 }

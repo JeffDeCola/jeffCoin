@@ -3,15 +3,7 @@
 package webserver
 
 import (
-	"bufio"
-	"crypto/ecdsa"
 	"encoding/json"
-	"fmt"
-	"net"
-	"strings"
-	"time"
-
-	errors "github.com/pkg/errors"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -22,57 +14,57 @@ import (
 func GetPassword() passwordStruct {
 
 	s := "START  GetPassword() - Gets the Password"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	log.Debug("WEBSERVER:   I/F      " + s)
 
 	thePassword := getPassword()
 
 	s = "END    GetPassword() - Gets the Password"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	log.Debug("WEBSERVER:   I/F      " + s)
 
 	return thePassword
 
 }
 
-// WritePassword - Writes the password to file (AES-256 encryption)
-func WritePassword(nodeName string, password string) string {
+// WritePasswordFile - Writes the password to file (AES-256 encryption) and puts in struct
+func WritePasswordFile(nodeName string, password string) string {
 
-	s := "START  WritePassword() - Writes the password to file (AES-256 encryption)"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	s := "START  WritePassword() - Writes the password to file (AES-256 encryption) and puts in struct"
+	log.Debug("WEBSERVER:   I/F      " + s)
 
-	thePassword := writePassword(nodeName, password)
-    showPassword := thePassword
-    showPassword.Password = showPassword.Password[0:2} + "..."
+	thePassword := writePasswordFile(nodeName, password)
+	showPassword := thePassword
+	showPassword.Password = showPassword.Password[0:1] + "..."
 
 	s = "Congrats, you created your Password (-loglevel trace to display)"
-    log.Info("WEBSERVER:   I/F             " + s)
+	log.Info("WEBSERVER:   I/F             " + s)
 	js, _ := json.MarshalIndent(showPassword, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
-	s = "END    WritePassword() - Writes the password to file (AES-256 encryption)"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	s = "END    WritePasswordFile() - Writes the password to file (AES-256 encryption) and puts in struct"
+	log.Debug("WEBSERVER:   I/F      " + s)
 
-    return thePassword.Password
-    
+	return thePassword.Password
+
 }
 
-// ReadPasswordFile - Reads the password from a file (AES-256 decrypt)
+// ReadPasswordFile - Reads the password from a file (AES-256 decrypt) and puts in struct
 func ReadPasswordFile(nodeName string) string {
 
-	s := "START  ReadPasswordFile() - Reads the password from a file (AES-256 decrypt)"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	s := "START  ReadPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	log.Debug("WEBSERVER:   I/F      " + s)
 
-    thePassword := readPasswordFile(nodeName)
-    showPassword := thePassword
-    showPassword.Password = showPassword.Password[0:2} + "..."
+	thePassword := readPasswordFile(nodeName)
+	showPassword := thePassword
+	showPassword.Password = showPassword.Password[0:1] + "..."
 
 	s = "Congrats, you loaded your old Password from a file (-loglevel trace to display)"
-	log.Info("WEBSERVER:   I/F     " + s)
+	log.Info("WEBSERVER:   I/F             " + s)
 	js, _ := json.MarshalIndent(showPassword, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
-	s = "END    ReadPasswordFile() - Reads the password from a file (AES-256 decrypt)"
-	log.Debug("WEBSERVER:   I/F     " + s)
+	s = "END    ReadPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	log.Debug("WEBSERVER:   I/F      " + s)
 
-    return thePassword.Password
-    
+	return thePassword.Password
+
 }

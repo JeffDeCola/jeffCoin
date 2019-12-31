@@ -23,6 +23,12 @@ var routes = Routes{
 		loginHandler,
 	},
 	Route{
+		"GetValidate",
+		"POST",
+		"/validate",
+		validateHandler,
+	},
+	Route{
 		"GetIndex",
 		"GET",
 		"/",
