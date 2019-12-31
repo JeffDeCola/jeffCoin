@@ -393,7 +393,7 @@ type walletStruct struct {
   * **GenesisWallet()**
     _Creates the wallet and writes to file (Keys and jeffCoin Address)_
   * **ReadWalletFile()**
-    _Reads the wallet from a file_
+    _Reads the wallet from a file and puts in struct_
 * KEYS
   * **EncodeKeys()**
     _Encodes privateKeyRaw & publicKeyRaw to privateKeyHex & publicKeyHex_
@@ -418,7 +418,7 @@ type walletStruct struct {
   * **makeWallet()**
     _Creates the wallet and writes to file (Keys and jeffCoin Address)_
   * **readWalletFile()**
-    _Reads the wallet from a file_
+    _Reads the wallet from a file and puts in struct_
 * KEYS
   * **generateECDSASKeys()**
     _Generate privateKeyHex and publicKeyHex_
@@ -462,20 +462,25 @@ type passwordStruct struct {
 * PASSWORD
   * **GetPassword()**
     _Gets the password_
-  * **WritePassword()**
-    _Writes the password to file (AES-256 encryption)_
+  * **WritePasswordFile()**
+    _Writes the password to file (AES-256 encryption) and puts in struct_
   * **ReadPasswordFile()**
-    _Reads the password from a file (AES-256 decrypt)_
+    _Reads the password from a file (AES-256 decrypt and puts in struct_
 
 **[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/guts.go)**
 
 * PASSWORD
   * **getPassword()**
     _Gets the password_
-  * **writePassword()**
-    _Writes the password to file (AES-256 encryption)_
+  * **writePasswordFile()**
+    _Writes the password to file (AES-256 encryption) and puts in struct_
   * **readPasswordFile()**
-    _Reads the password from a file (AES-256 decrypt)_
+    _Reads the password from a file (AES-256 decrypt) and puts in struct_
+* ENCRYPTION/DECRYPTION
+  * **encrypt()**
+    _AES-256 GCM (Galois/Counter Mode) mode encryption_
+  * **decrypt()**
+    _AES-256 GCM (Galois/Counter Mode) mode decryption_
 
 ### 5.1 GUI
 

@@ -71,10 +71,10 @@ func makeWallet(nodeName string) walletStruct {
 
 }
 
-// readWalletFile - Reads the wallet from a file
+// readWalletFile - Reads the wallet from a file and puts in struct
 func readWalletFile(nodeName string) walletStruct {
 
-	s := "START  readWalletFile() - Reads the wallet from a file"
+	s := "START  readWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      GUTS     " + s)
 
 	// READ WALLET STRUCT TO JSON FILE
@@ -84,7 +84,7 @@ func readWalletFile(nodeName string) walletStruct {
 	s = "Read wallet from " + filename
 	log.Info("WALLET:      GUTS            " + s)
 
-	s = "END    readWalletFile() - Reads the wallet from a file"
+	s = "END    readWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      GUTS     " + s)
 
 	return wallet

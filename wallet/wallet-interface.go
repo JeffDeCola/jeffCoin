@@ -52,10 +52,10 @@ func GenesisWallet(nodeName string) string {
 	return theWallet.JeffCoinAddress
 }
 
-// ReadWalletFile - Reads the wallet from a file
+// ReadWalletFile - Reads the wallet from a file and puts in struct
 func ReadWalletFile(nodeName string) string {
 
-	s := "START  ReadWalletFile() - Reads the wallet from a file"
+	s := "START  ReadWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      I/F      " + s)
 
 	theWallet := readWalletFile(nodeName)
@@ -65,7 +65,7 @@ func ReadWalletFile(nodeName string) string {
 	js, _ := json.MarshalIndent(theWallet, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
-	s = "END    ReadWalletFile() - Reads the wallet from a file"
+	s = "END    ReadWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      I/F      " + s)
 
 	return theWallet.JeffCoinAddress

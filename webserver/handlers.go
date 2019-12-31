@@ -28,6 +28,11 @@ type htmlLoginData struct {
 	NodeTCPPort  string
 }
 
+type htmlValidateData struct {
+	NodeName    string
+	DoesItMatch string
+}
+
 type htmlIndexData struct {
 	NodeName     string
 	PublicKeyHex string
@@ -138,9 +143,6 @@ func loginHandler(res http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("webserver/login.html")
 	checkErr(err)
 
-
-
-    
 	// GET THIS NODE
 	thisNode := routingnode.GetThisNode()
 
@@ -162,6 +164,60 @@ func loginHandler(res http.ResponseWriter, req *http.Request) {
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
 	s = "HTTP SERVER - COMPLETE LOGIN"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+}
+
+// validateHandler - GET: /validate
+func validateHandler(res http.ResponseWriter, req *http.Request) {
+
+	s := "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - DISPLAY VALIDATE"
+	log.Info("WEBSERVER:                   " + s)
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+
+	s = "START  validateHandler() - GET: /validate"
+	log.Debug("WEBSERVER:            " + s)
+
+	t, err := template.ParseFiles("webserver/validate.html")
+	checkErr(err)
+
+	// GET THE PARAMATERS SENT VIA POST FORM
+	// Parses the request body
+	req.ParseForm()
+	passwordEntered := req.Form.Get("Password")
+
+	// GET PASSWORD
+	password := GetPassword()
+
+	// COMPARE PASSWORDS
+	doesItMatch := "NO it doesn't match"
+	if passwordEntered == password.Password {
+		doesItMatch = "YEAH IT MATCHES"
+	}
+
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	htmlTemplateData := htmlValidateData{
+		NodeName:    thisNode.NodeName,
+		DoesItMatch: doesItMatch,
+	}
+
+	// Merge data and execute
+	err = t.Execute(res, htmlTemplateData)
+	checkErr(err)
+
+	s = "END    validateHandler() - GET: /validate"
+	log.Debug("WEBSERVER:            " + s)
+
+	s = "----------------------------------------------------------------"
+	log.Info("WEBSERVER:                   " + s)
+	s = "HTTP SERVER - COMPLETE VALIDATE"
 	log.Info("WEBSERVER:                   " + s)
 	s = "----------------------------------------------------------------"
 	log.Info("WEBSERVER:                   " + s)
