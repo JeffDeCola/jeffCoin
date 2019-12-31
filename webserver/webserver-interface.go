@@ -28,7 +28,7 @@ func GetPassword() passwordStruct {
 // WritePasswordFile - Writes the password to file (AES-256 encryption) and puts in struct
 func WritePasswordFile(nodeName string, password string) string {
 
-	s := "START  WritePassword() - Writes the password to file (AES-256 encryption) and puts in struct"
+	s := "START  WritePasswordFile() - Writes the password to file (AES-256 encryption) and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
 
 	thePassword := writePasswordFile(nodeName, password)

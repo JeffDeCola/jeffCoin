@@ -21,11 +21,11 @@ var routes = Routes{
 		"GET",
 		"/login",
 		loginHandler,
-    },
-    Route{
+	},
+	Route{
 		"GetLogout",
 		"GET",
-		"/login",
+		"/logout",
 		logoutHandler,
 	},
 	Route{
