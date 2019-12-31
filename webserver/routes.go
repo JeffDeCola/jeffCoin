@@ -21,6 +21,12 @@ var routes = Routes{
 		"GET",
 		"/login",
 		loginHandler,
+    },
+    Route{
+		"GetLogout",
+		"GET",
+		"/login",
+		logoutHandler,
 	},
 	Route{
 		"GetValidate",

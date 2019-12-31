@@ -446,6 +446,8 @@ The webserver section has two main parts, the GUI and the REST API.
 This webserver is built from my
 [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST).
 
+There is also a session based authentication when a user logs in.
+
 **[WEBSERVER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/webserver/webserver-datastructures.go)**
 
 A password has the following go struct,
