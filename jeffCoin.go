@@ -246,15 +246,16 @@ func main() {
 	}
 	// ERASE -------------------------------------
 
-	// CHECK IF SET PASSWORD
+	password := *passwordPtr
+	// CHECK IF SET PASSWORD - MUST DO THIS BEFORE WALLET
 	// If default, see if you already have a password
-	if *passwordPtr == "yourpassword" {
+	if password == "yourpassword" {
 		// Check if you have a password in file
-		if _, err := os.Stat("credentials/" + *nodeNamePtr + "-password.json"); err == nil {
+		if _, err := os.Stat("credentials/" + *nodeNamePtr + "-password-encrypted.json"); err == nil {
 			// READ existing password from a file and put in struct
 			s := "READ existing password from a file and put in struct"
 			log.Info("MAIN:                        " + s)
-			_ = webserver.ReadPasswordFile(*nodeNamePtr)
+			password = webserver.ReadPasswordFile(*nodeNamePtr)
 		} else {
 			fmt.Println("Please set a password")
 			os.Exit(0)
@@ -309,18 +310,18 @@ func main() {
 	}
 	myNode.LoadThisNode()
 
-	// DO YOU ALREADY HAVE A WALLET
+	// DO YOU ALREADY HAVE A WALLET - MUST HAVE PASSWORD SET
 	var jeffCoinAddress string
-	if _, err := os.Stat("wallet/" + *nodeNamePtr + "-wallet.json"); err == nil {
+	if _, err := os.Stat("credentials/" + *nodeNamePtr + "-wallet-encrypted.json"); err == nil {
 		// READ existing wallet from a file (Keys and jeffCoin Address) and put in struct
 		s = "READ existing wallet from a file (Keys and jeffCoin Address) and put in struct"
 		log.Info("MAIN:                        " + s)
-		jeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr)
+		jeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr, password)
 	} else {
 		// GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)
 		s = "GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)"
 		log.Info("MAIN:                        " + s)
-		jeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr)
+		jeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr, password)
 	}
 	s = "Not using jeffCoinAddress " + jeffCoinAddress
 	log.Info("MAIN:                        " + s)

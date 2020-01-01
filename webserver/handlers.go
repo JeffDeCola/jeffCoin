@@ -50,8 +50,11 @@ func checkAuthentication(req *http.Request) bool {
 	s := "START  checkAuthentication() - Get session token from User's cookie and compare to stored one"
 	log.Debug("WEBSERVER:            " + s)
 
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
 	// GET SESSION TOKEN FROM USER
-	cookie, err := req.Cookie("jeffCoin_session_token")
+	cookie, err := req.Cookie("jeffCoin_session_token_" + thisNode.NodeName)
 	if err != nil {
 
 		s = "Cookie not present"
