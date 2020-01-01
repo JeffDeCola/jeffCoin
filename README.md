@@ -174,13 +174,15 @@ go run jeffCoin.go \
 ```
 
 This will created the first Node (the Founders node) in the Network.
-It will also create a wallet and save the credentials in `/wallet`.
+It will also create a wallet and password file and save the credentials
+in `/wallet` and `/password` respectively.  Not to worry, I encrypt
+the secrets using AES-256. I also `.gitignore` them.
 
-Note that the node has an IP address and port for both http and tcp.
+Note that the node has an IP address and port for both HTTP and TCP.
 For this example I use the localhost or 127.0.0.1. But obviously,
-you can pick anything you want that works for you.
+you can pick anything you want for your rig.
 
-**Having one node is boring so lets create more.**
+**But having one node is boring so lets create more.**
 
 ### ADDING NEW NODES
 

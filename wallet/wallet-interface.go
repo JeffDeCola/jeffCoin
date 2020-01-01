@@ -313,3 +313,38 @@ func CreateSignature(senderPrivateKeyHex string, plainText string) string {
 	return signature
 
 }
+
+// ENCRYPT/DECRYPT TEXT **************************************************************************************************
+
+// EncryptAES - AES-256 GCM (Galois/Counter Mode) mode encryption
+func EncryptAES(keyByte []byte, plaintext string, additionalData string) string {
+
+	s := "START  EncryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
+	log.Debug("WALLET:      I/F      " + s)
+
+	// ENCRYPT
+	cipherText := encryptAES(keyByte, plaintext, additionalData)
+
+	s = "END    EncryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
+	log.Debug("WALLET:      I/F      " + s)
+
+	// RETURN HEX
+	return cipherText
+
+}
+
+// DecryptAES - AES-256 GCM (Galois/Counter Mode) mode decryption
+func DecryptAES(keyByte []byte, cipherText string, additionalData string) string {
+
+	s := "START  DecryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
+	log.Debug("WALLET:      I/F      " + s)
+
+	plainText := decryptAES(keyByte, cipherText, additionalData)
+
+	s = "END    DecryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
+	log.Debug("WALLET:      I/F      " + s)
+
+	// RETURN STRING
+	return plainText
+
+}

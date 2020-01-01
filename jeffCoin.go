@@ -3,8 +3,10 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"runtime"
@@ -196,6 +198,53 @@ func main() {
 
 	fmt.Printf("\nSTART...\n")
 	fmt.Printf("Press return to exit\n\n")
+
+	// ERASE -------------------------------------
+	test := false
+	if test {
+		type erasewalletStruct struct {
+			PrivateKeyHex   string `json:"privateKeyHex"`
+			PublicKeyHex    string `json:"publicKeyHex"`
+			JeffCoinAddress string `json:"jeffCoinAddress"`
+		}
+
+		var walletStruct erasewalletStruct
+
+		// READ WALLET STRUCT TO JSON FILE
+		filename := "wallet/" + *nodeNamePtr + "-wallet.json"
+		filedata, _ := ioutil.ReadFile(filename)
+		_ = json.Unmarshal([]byte(filedata), &walletStruct)
+		s := "Read wallet from " + filename
+		log.Info("WALLET:      GUTS            " + s)
+
+		js, _ := json.MarshalIndent(walletStruct, "", "    ")
+		log.Info("\n\n" + string(js) + "\n\n")
+
+		// ENCRYPT privateKeyHex using key
+		keyText := "myverystrongpasswordo32bitlength"
+		keyByte := []byte(keyText)
+		additionalData := "Jeff's additional data for authorization"
+
+		privateKeyHexEncrypted := wallet.EncryptAES(keyByte, walletStruct.PrivateKeyHex, additionalData)
+		publicKeyHex := walletStruct.PublicKeyHex
+		jeffCoinAddressHex := walletStruct.JeffCoinAddress
+
+		// ENCRYPTED STRUCT FOR FILE
+		walletStructEncrypted := erasewalletStruct{privateKeyHexEncrypted, publicKeyHex, jeffCoinAddressHex}
+
+		js, _ = json.MarshalIndent(walletStructEncrypted, "", "    ")
+		log.Info("\n\n" + string(js) + "\n\n")
+
+		// WRITE WALLET STRUCT TO JSON FILE
+		filedata, _ = json.MarshalIndent(walletStructEncrypted, "", " ")
+		filename = "wallet/" + *nodeNamePtr + "-wallet.json"
+		_ = ioutil.WriteFile(filename, filedata, 0644)
+		s = "Wrote wallet to " + filename
+		log.Info("WALLET:      GUTS            " + s)
+
+		os.Exit(0)
+	}
+	// ERASE -------------------------------------
 
 	// CHECK IF SET PASSWORD
 	// If default, see if you already have a password

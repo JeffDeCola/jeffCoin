@@ -409,6 +409,11 @@ type walletStruct struct {
 * SIGNATURE
   * **CreateSignature()**
     _Creates a ECDSA Digital Signature_
+* ENCRYPT/DECRYPT TEXT
+  * **EncryptAES()**
+    _AES-256 GCM (Galois/Counter Mode) mode encryption_
+  * **DecryptAES()**
+    _AES-256 GCM (Galois/Counter Mode) mode decryption_
 
 **[GUTS FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/guts.go)**
 
