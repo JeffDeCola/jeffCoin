@@ -53,7 +53,7 @@ func writePasswordFile(nodeName string, passwordString string) passwordStruct {
 
 	// WRITE PASSWORD STRUCT TO JSON FILE
 	filedata, _ := json.MarshalIndent(passwordStructEncrypted, "", " ")
-	filename := "credentials/" + nodeName + "-password.json"
+	filename := "credentials/" + nodeName + "-password-encrypted.json"
 	_ = ioutil.WriteFile(filename, filedata, 0644)
 	s = "Wrote password to " + filename
 	log.Info("WEBSERVER:   GUTS            " + s)
@@ -74,7 +74,7 @@ func readPasswordFile(nodeName string) passwordStruct {
 	var passwordStructEncrypted passwordStruct
 
 	// READ PASSWORD STRUCT TO JSON FILE
-	filename := "credentials/" + nodeName + "-password.json"
+	filename := "credentials/" + nodeName + "-password-encrypted.json"
 	filedata, _ := ioutil.ReadFile(filename)
 	_ = json.Unmarshal([]byte(filedata), &passwordStructEncrypted)
 	s = "Read password from " + filename

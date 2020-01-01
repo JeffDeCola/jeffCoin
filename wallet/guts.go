@@ -64,14 +64,14 @@ func makeWallet(nodeName string) walletStruct {
 	keyText := "myverystrongpasswordo32bitlength"
 	keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
-	privateKeyHexEncrypted := EncryptAES(keyByte, privateKeyHex, additionalData)
+	privateKeyHexEncrypted := encryptAES(keyByte, privateKeyHex, additionalData)
 
 	// ENCRYPTED STRUCT FOR FILE
 	walletStructEncrypted := walletStruct{privateKeyHexEncrypted, publicKeyHex, jeffCoinAddressHex}
 
 	// WRITE WALLET STRUCT TO JSON FILE
 	filedata, _ := json.MarshalIndent(walletStructEncrypted, "", " ")
-	filename := "wallet/" + nodeName + "-wallet.json"
+	filename := "wallet/" + nodeName + "-wallet-encrypted.json"
 	_ = ioutil.WriteFile(filename, filedata, 0644)
 	s = "Wrote wallet to " + filename
 	log.Info("WALLET:      GUTS            " + s)
@@ -92,7 +92,7 @@ func readWalletFile(nodeName string) walletStruct {
 	var walletStructEncrypted walletStruct
 
 	// READ WALLET STRUCT TO JSON FILE
-	filename := "wallet/" + nodeName + "-wallet.json"
+	filename := "wallet/" + nodeName + "-wallet-encrypted.json"
 	filedata, _ := ioutil.ReadFile(filename)
 	_ = json.Unmarshal([]byte(filedata), &walletStructEncrypted)
 	s = "Read wallet from " + filename
@@ -102,10 +102,10 @@ func readWalletFile(nodeName string) walletStruct {
 	keyText := "myverystrongpasswordo32bitlength"
 	keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
-	privateKeyHex := DecryptAES(keyByte, walletStructEncrypted.PrivateKey, additionalData)
+	privateKeyHex := decryptAES(keyByte, walletStructEncrypted.PrivateKeyHex, additionalData)
 
 	// PLACE privateKeyHex IN STRUCT
-	wallet.PrivateKey = privateKeyHex
+	wallet.PrivateKeyHex = privateKeyHex
 
 	s = "END    readWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      GUTS     " + s)
@@ -360,11 +360,11 @@ func createSignature(privateKeyHex string, plainText string) string {
 
 // ENCRYPT/DECRYPT TEXT **************************************************************************************************
 
-// EncryptAES - AES-256 GCM (Galois/Counter Mode) mode encryption
-func EncryptAES(keyByte []byte, plaintext string, additionalData string) string {
+// encryptAES - AES-256 GCM (Galois/Counter Mode) mode encryption
+func encryptAES(keyByte []byte, plaintext string, additionalData string) string {
 
-	s := "START  EncryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
-	log.Debug("WEBSERVER:   GUTS     " + s)
+	s := "START  encryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
+	log.Debug("WALLET:      GUTS     " + s)
 
 	plaintextByte := []byte(plaintext)
 	additionalDataByte := []byte(additionalData)
@@ -389,8 +389,8 @@ func EncryptAES(keyByte []byte, plaintext string, additionalData string) string 
 	// So we can rip it out when we decrypt
 	cipherTextByte := gcm.Seal(nonce, nonce, plaintextByte, additionalDataByte)
 
-	s = "END    EncryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
-	log.Debug("WEBSERVER:   GUTS     " + s)
+	s = "END    encryptAES() - AES-256 GCM (Galois/Counter Mode) mode encryption"
+	log.Debug("WALLET:      GUTS     " + s)
 
 	// RETURN HEX
 	cipherText := hex.EncodeToString(cipherTextByte)
@@ -398,11 +398,11 @@ func EncryptAES(keyByte []byte, plaintext string, additionalData string) string 
 
 }
 
-// DecryptAES - AES-256 GCM (Galois/Counter Mode) mode decryption
-func DecryptAES(keyByte []byte, cipherText string, additionalData string) string {
+// decryptAES - AES-256 GCM (Galois/Counter Mode) mode decryption
+func decryptAES(keyByte []byte, cipherText string, additionalData string) string {
 
-	s := "START  DecryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
-	log.Debug("WEBSERVER:   GUTS     " + s)
+	s := "START  decryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
+	log.Debug("WALLET:      GUTS     " + s)
 
 	cipherTextByte, _ := hex.DecodeString(cipherText)
 	additionalDataByte := []byte(additionalData)
@@ -424,8 +424,8 @@ func DecryptAES(keyByte []byte, cipherText string, additionalData string) string
 	plainTextByte, err := gcm.Open(nil, nonce, cipherTextByte, additionalDataByte)
 	checkErr(err)
 
-	s = "END    DecryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
-	log.Debug("WEBSERVER:   GUTS     " + s)
+	s = "END    decryptAES() - AES-256 GCM (Galois/Counter Mode) mode decryption"
+	log.Debug("WALLET:      GUTS     " + s)
 
 	// RETURN STRING
 	plainText := string(plainTextByte[:])
