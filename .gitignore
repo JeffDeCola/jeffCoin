@@ -10,10 +10,6 @@
 // Ignore binary used for build
 **/build-push/hello-go
 
-// Ignore private wallets except the mock ones
-/wallet/*.json
-!/wallet/Mock*.json
-
-// Ignore passwords except the mock ones
+// Ignore passwords and wallets except the mock ones
 /credentials/*.json
 !/credentials/Mock*.json

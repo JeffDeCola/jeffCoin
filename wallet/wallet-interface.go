@@ -34,12 +34,12 @@ func GetWallet() walletStruct {
 }
 
 // GenesisWallet - Creates the wallet and writes to file (Keys and jeffCoin Address)
-func GenesisWallet(nodeName string) string {
+func GenesisWallet(nodeName string, password string) string {
 
 	s := "START  GenesisWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Debug("WALLET:      I/F      " + s)
 
-	theWallet := makeWallet(nodeName)
+	theWallet := makeWallet(nodeName, password)
 
 	s = "Congrats, you created your wallet (-loglevel trace to display)"
 	log.Info("ROUTINGNODE: I/F             " + s)
@@ -53,12 +53,12 @@ func GenesisWallet(nodeName string) string {
 }
 
 // ReadWalletFile - Reads the wallet from a file and puts in struct
-func ReadWalletFile(nodeName string) string {
+func ReadWalletFile(nodeName string, password string) string {
 
 	s := "START  ReadWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      I/F      " + s)
 
-	theWallet := readWalletFile(nodeName)
+	theWallet := readWalletFile(nodeName, password)
 
 	s = "Congrats, you loaded your old wallet from a file (-loglevel trace to display)"
 	log.Info("ROUTINGNODE: I/F             " + s)

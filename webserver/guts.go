@@ -87,6 +87,7 @@ func readPasswordFile(nodeName string) passwordStruct {
 	passwordString := wallet.DecryptAES(keyByte, passwordStructEncrypted.Password, additionalData)
 
 	// PLACE passwordString IN STRUCT
+	password = passwordStructEncrypted
 	password.Password = passwordString
 
 	s = "END    readPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"

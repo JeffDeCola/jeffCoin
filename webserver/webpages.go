@@ -136,6 +136,9 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 	// GET PASSWORD
 	thePassword := GetPassword()
 
+    // GET THIS NODE
+    thisNode := routingnode.GetThisNode()
+    
 	// COMPARE PASSWORDS
 	doesItMatch := "Your password is incorrect, try again"
 	if passwordEntered == thePassword.Password {
@@ -147,13 +150,14 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 		sessionToken, err := uuid.NewV4()
 		checkErr(err)
 		sessionTokenString = sessionToken.String()
+        sessionTokenString = "jeffCoin-" + sessionTokenString
 
 		// SET COOKIE ON CLIENT CALLED jeffCoin_session_token
 		// Good for 1 hour
-		s = "SET COOKIE ON CLIENT CALLED jeffCoin_session_token"
+		s = "SET COOKIE ON CLIENT CALLED jeffCoin_session_token-{NodeName}"
 		log.Info("WEBSERVER:                   " + s)
 		http.SetCookie(res, &http.Cookie{
-			Name:    "jeffCoin_session_token",
+			Name:    "jeffCoin_session_token_" + thisNode.NodeName,
 			Value:   sessionTokenString,
 			Expires: time.Now().Add(3600 * time.Second),
 		})
@@ -169,9 +173,6 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 
 	s = "PASSWORD NOT VALID"
 	log.Warn("WEBSERVER:                   " + s)
-
-	// GET THIS NODE
-	thisNode := routingnode.GetThisNode()
 
 	htmlTemplateData := htmlValidateData{
 		NodeName:    thisNode.NodeName,
@@ -207,31 +208,31 @@ func logoutHandler(res http.ResponseWriter, req *http.Request) {
 	s = "START  logoutHandler() - GET: /logout"
 	log.Debug("WEBSERVER:            " + s)
 
-	t, err := template.ParseFiles("webserver/logout.html")
-	checkErr(err)
+	//t, err := template.ParseFiles("webserver/logout.html")
+	//checkErr(err)
 
 	// PUT A RANDOM STRING IN HERE
 	sessionToken, err := uuid.NewV4()
+	checkErr(err)
 	sessionTokenString = sessionToken.String()
+    sessionTokenString = "jeffCoin-" + sessionTokenString
 
 	// GET THIS NODE
-	thisNode := routingnode.GetThisNode()
+	//thisNode := routingnode.GetThisNode()
 
-	htmlTemplateData := htmlLogoutData{
-		NodeName: thisNode.NodeName,
-	}
+	//htmlTemplateData := htmlLogoutData{
+	//		NodeName: thisNode.NodeName,
+	//	}
 
 	// Merge data and execute
-	err = t.Execute(res, htmlTemplateData)
-	checkErr(err)
+	//err = t.Execute(res, htmlTemplateData)
+	//checkErr(err)
 
 	s = "LOGOUT - REDIRECTING to /login"
 	log.Info("WEBSERVER:                   " + s)
 	http.Redirect(res, req, "/login", http.StatusFound)
-	s = "END    validateHandler() - GET: /login"
-	log.Debug("WEBSERVER:            " + s)
 
-	s = "END   logoutHandler() - GET: /logout"
+	s = "END    logoutHandler() - GET: /logout"
 	log.Debug("WEBSERVER:            " + s)
 
 	s = "----------------------------------------------------------------"

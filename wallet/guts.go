@@ -46,7 +46,7 @@ func getWallet() walletStruct {
 }
 
 // makeWallet - Creates the wallet and writes to file (Keys and jeffCoin Address)
-func makeWallet(nodeName string) walletStruct {
+func makeWallet(nodeName string, password string) walletStruct {
 
 	s := "START  makeWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Debug("WALLET:      GUTS     " + s)
@@ -60,8 +60,11 @@ func makeWallet(nodeName string) walletStruct {
 	// LOAD KEYS & JEFFCOIN ADDRESS IN WALLET
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
+	// Create keyText from password
+	keyText := sha256.Sum256([]byte(password))
+
 	// ENCRYPT privateKeyHex using key
-	keyText := "myverystrongpasswordo32bitlength"
+	// keyText := "myverystrongpasswordo32bitlength"
 	keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
 	privateKeyHexEncrypted := encryptAES(keyByte, privateKeyHex, additionalData)
@@ -71,7 +74,7 @@ func makeWallet(nodeName string) walletStruct {
 
 	// WRITE WALLET STRUCT TO JSON FILE
 	filedata, _ := json.MarshalIndent(walletStructEncrypted, "", " ")
-	filename := "wallet/" + nodeName + "-wallet-encrypted.json"
+	filename := "credentials/" + nodeName + "-wallet-encrypted.json"
 	_ = ioutil.WriteFile(filename, filedata, 0644)
 	s = "Wrote wallet to " + filename
 	log.Info("WALLET:      GUTS            " + s)
@@ -84,7 +87,7 @@ func makeWallet(nodeName string) walletStruct {
 }
 
 // readWalletFile - Reads the wallet from a file and puts in struct
-func readWalletFile(nodeName string) walletStruct {
+func readWalletFile(nodeName string, password string) walletStruct {
 
 	s := "START  readWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      GUTS     " + s)
@@ -92,19 +95,23 @@ func readWalletFile(nodeName string) walletStruct {
 	var walletStructEncrypted walletStruct
 
 	// READ WALLET STRUCT TO JSON FILE
-	filename := "wallet/" + nodeName + "-wallet-encrypted.json"
+	filename := "credentials/" + nodeName + "-wallet-encrypted.json"
 	filedata, _ := ioutil.ReadFile(filename)
 	_ = json.Unmarshal([]byte(filedata), &walletStructEncrypted)
 	s = "Read wallet from " + filename
 	log.Info("WALLET:      GUTS            " + s)
 
+	// Create keyText from password
+	keyText := sha256.Sum256([]byte(password))
+
 	// DECRYPT privateKeyHex using key
-	keyText := "myverystrongpasswordo32bitlength"
+	// keyText := "myverystrongpasswordo32bitlength"
 	keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
 	privateKeyHex := decryptAES(keyByte, walletStructEncrypted.PrivateKeyHex, additionalData)
 
 	// PLACE privateKeyHex IN STRUCT
+	wallet = walletStructEncrypted
 	wallet.PrivateKeyHex = privateKeyHex
 
 	s = "END    readWalletFile() - Reads the wallet from a file and puts in struct"
