@@ -50,22 +50,6 @@ Documentation and reference,
 
 [GitHub Webpage](https://jeffdecola.github.io/jeffCoin/)
 
-## IMPORTANT
-
-Your secrets keys are kept in `/credentials` in .json files.
-These file are `.gitignored`.
-But if they did make there way onto git you are still protected as follows,
-
-* Password File
-  * Where your password hash is stored
-  * Password hashing using bcrypt
-* Wallet File
-  * 
-  wPrivate and Public Key
-  * The Private Key is Encrypted using AES-256 with your password as your key
-
-If you loose your password, say goodbye to your wallet (i.e. jeffCoins).
-
 ## PREREQUISITES
 
 ```bash
@@ -166,6 +150,23 @@ I divided the software into 5 sections,
 * [5. WEBSERVER](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#5-webserver)
   * [5.1 GUI](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#51-gui)
   * [5.2 REST API](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#52-rest-api)
+
+## YOUR PASSWORD & KEYS
+
+Your secrets keys are kept in `/credentials` in .json files.
+These file are `.gitignored`.
+But if they did make there way onto git you are still protected as follows,
+
+* Password File
+  * Where your password hash is stored
+  * Password hashing using bcrypt
+* Wallet File
+  * Where your Private and Public ECDSA Key are stored
+  * The Private Key is Encrypted using AES-256 with your password as your key
+
+This illustration may help,
+
+![IMAGE - password-and-key-flow - IMAGE](docs/pics/password-and-key-flow.jpg)
 
 ## RUN
 
