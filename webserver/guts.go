@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	wallet "github.com/JeffDeCola/jeffCoin/wallet"
 	log "github.com/sirupsen/logrus"
+	bcrypt "golang.org/x/crypto/bcrypt"
 )
 
 func checkErr(err error) {
@@ -33,66 +33,74 @@ func getPassword() passwordStruct {
 
 }
 
-// writePasswordFile - Writes the password to file (AES-256 encryption) and puts in struct
-func writePasswordFile(nodeName string, passwordString string) passwordStruct {
+// writePasswordFile - Writes the password hash to a file and puts in struct
+func writePasswordFile(nodeName string, passwordString string) {
 
-	s := "START  writePasswordFile() -  Writes the password to file (AES-256 encryption) and puts in struct"
+	s := "START  writePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
 
-	// LOAD password IN PASSWORD
-	password = passwordStruct{passwordString}
+	// HASH password using bcrypt
+	passwordHash, _ := hashPassword(passwordString)
 
-	// ENCRYPT PASSWORD using key
-	keyText := "myverystrongpasswordo32bitlength"
-	keyByte := []byte(keyText)
-	additionalData := "Jeff's additional data for authorization"
-	passwordEncrypted := wallet.EncryptAES(keyByte, passwordString, additionalData)
-
-	// ENCRYPTED STRUCT FOR FILE
-	passwordStructEncrypted := passwordStruct{passwordEncrypted}
+	// LOAD passwordHash IN password struct
+	password = passwordStruct{passwordHash}
 
 	// WRITE PASSWORD STRUCT TO JSON FILE
-	filedata, _ := json.MarshalIndent(passwordStructEncrypted, "", " ")
-	filename := "credentials/" + nodeName + "-password-encrypted.json"
+	filedata, _ := json.MarshalIndent(password, "", " ")
+	filename := "credentials/" + nodeName + "-password-hash.json"
 	_ = ioutil.WriteFile(filename, filedata, 0644)
 	s = "Wrote password to " + filename
 	log.Info("WEBSERVER:   GUTS            " + s)
 
-	s = "END    writePasswordFile() -  Writes the password to file (AES-256 encryption) and puts in struct"
+	s = "END    writePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
-
-	return password
 
 }
 
-// readPasswordFile - Reads the password from a file (AES-256 decrypt) and puts in struct
-func readPasswordFile(nodeName string) passwordStruct {
+// readPasswordFile - Reads the password hash from a file and puts in struct
+func readPasswordFile(nodeName string) {
 
-	s := "START  readPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	s := "START  readPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
 
-	var passwordStructEncrypted passwordStruct
-
-	// READ PASSWORD STRUCT TO JSON FILE
-	filename := "credentials/" + nodeName + "-password-encrypted.json"
+	// READ PASSWORD STRUCT TO JSON FILE and place in password
+	filename := "credentials/" + nodeName + "-password-hash.json"
 	filedata, _ := ioutil.ReadFile(filename)
-	_ = json.Unmarshal([]byte(filedata), &passwordStructEncrypted)
+	_ = json.Unmarshal([]byte(filedata), &password)
 	s = "Read password from " + filename
 	log.Info("WEBSERVER:   GUTS            " + s)
 
-	// DECRYPT PASSWORD using key
-	keyText := "myverystrongpasswordo32bitlength"
-	keyByte := []byte(keyText)
-	additionalData := "Jeff's additional data for authorization"
-	passwordString := wallet.DecryptAES(keyByte, passwordStructEncrypted.Password, additionalData)
-
-	// PLACE passwordString IN STRUCT
-	password = passwordStructEncrypted
-	password.Password = passwordString
-
-	s = "END    readPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	s = "END    readPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
 
-	return password
+}
+
+// hashPassword - Hashes a password using bcrypt
+func hashPassword(password string) (string, error) {
+
+	s := "START  hashPassword() - Hashes a password using bcrypt"
+	log.Debug("WEBSERVER:   GUTS     " + s)
+
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+
+	s = "END    hashPassword() - Hashes a password using bcrypt"
+	log.Debug("WEBSERVER:   GUTS     " + s)
+
+	return string(bytes), err
+
+}
+
+// checkPasswordHash - Checks a password with a hash using bcrypt
+func checkPasswordHash(password, hash string) bool {
+
+	s := "START  checkPasswordHash() - Checks a password with a hash using bcrypt"
+	log.Debug("WEBSERVER:   GUTS     " + s)
+
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+
+	s = "END    checkPasswordHash() - Checks a password with a hash using bcrypt"
+	log.Debug("WEBSERVER:   GUTS     " + s)
+
+	return err == nil
 
 }

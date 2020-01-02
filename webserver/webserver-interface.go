@@ -25,46 +25,38 @@ func GetPassword() passwordStruct {
 
 }
 
-// WritePasswordFile - Writes the password to file (AES-256 encryption) and puts in struct
-func WritePasswordFile(nodeName string, password string) string {
+// WritePasswordFile - Writes the password hash to a file and puts in struct
+func WritePasswordFile(nodeName string, passwordString string) {
 
-	s := "START  WritePasswordFile() - Writes the password to file (AES-256 encryption) and puts in struct"
+	s := "START  WritePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
 
-	thePassword := writePasswordFile(nodeName, password)
-	showPassword := thePassword
-	showPassword.Password = showPassword.Password[0:1] + "..."
+	writePasswordFile(nodeName, passwordString)
 
-	s = "Congrats, you created your Password (-loglevel trace to display)"
+	s = "Congrats, you created your password hash (-loglevel trace to display)"
 	log.Info("WEBSERVER:   I/F             " + s)
-	js, _ := json.MarshalIndent(showPassword, "", "    ")
+	js, _ := json.MarshalIndent(password, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
-	s = "END    WritePasswordFile() - Writes the password to file (AES-256 encryption) and puts in struct"
+	s = "END    WritePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
-
-	return thePassword.Password
 
 }
 
-// ReadPasswordFile - Reads the password from a file (AES-256 decrypt) and puts in struct
-func ReadPasswordFile(nodeName string) string {
+// ReadPasswordFile - Reads the password hash from a file and puts in struct
+func ReadPasswordFile(nodeName string) {
 
-	s := "START  ReadPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	s := "START  ReadPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
 
-	thePassword := readPasswordFile(nodeName)
-	showPassword := thePassword
-	showPassword.Password = showPassword.Password[0:1] + "..."
+	readPasswordFile(nodeName)
 
-	s = "Congrats, you loaded your old Password from a file (-loglevel trace to display)"
+	s = "Congrats, you loaded your password hash from a file (-loglevel trace to display)"
 	log.Info("WEBSERVER:   I/F             " + s)
-	js, _ := json.MarshalIndent(showPassword, "", "    ")
+	js, _ := json.MarshalIndent(password, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
-	s = "END    ReadPasswordFile() - Reads the password from a file (AES-256 decrypt) and puts in struct"
+	s = "END    ReadPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
-
-	return thePassword.Password
 
 }

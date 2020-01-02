@@ -52,11 +52,18 @@ Documentation and reference,
 
 ## IMPORTANT
 
-Your private keys are kept in `/wallet` and your passwords are
-kept in `/credentials`.  The `.gitignore`
-file does ignore them, but just be aware were they live.
-Just in case, I encode your password file with AES-256
-for good measure.
+Your secrets keys are kept in `/credentials` in .json files.
+These file are `.gitignored`.
+But if they did make there way onto git you are still protected as follows,
+
+* Password File
+  * Password hashing using bcrypt
+  * Your hash is kept in the password file
+* Wallet File
+  * Private and Public Key
+  * The Private Key is Encrypted using AES-256 with your password as your key
+
+If you loose your password, say goodbye to your wallet (i.e. jeffCoins).
 
 ## PREREQUISITES
 
@@ -67,6 +74,7 @@ go get -u -v github.com/gorilla/mux
 go get -u -v github.com/sirupsen/logrus
 go get -u -v github.com/pkg/errors
 go get -u -v github.com/satori/go.uuid
+go get -u -v golang.org/x/crypto/bcrypt
 ```
 
 ## BUILDING BLOCKS
@@ -79,6 +87,8 @@ This project was built from some of my other projects,
     [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
   * The ecdsa signature verification from my
     [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
+  * The Wallet Private Key is encrypted using
+    [aes-256-gcm](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/symmetric-cryptography/aes-256-gcm)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
@@ -86,6 +96,8 @@ This project was built from some of my other projects,
   [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
 * The **WEBSERVER** (GUI & REST JSON API) is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
+  * The password is hashed and checked using
+    [bcrypt-password-hashing](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/hashing/bcrypt-password-hashing)
 * Other projects I used are my
   [errors](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/errors),
   [logrus](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/logrus),
@@ -128,6 +140,7 @@ jeffCoin uses the following technology,
 * ECDSA Digital Signature Verification
 * Mining uses Proof of Work (PoW)
 * Transaction as stored using an unspent transaction output model
+* Password hashing and storage using bcrypt
 
 What jeffCoin does not have,
 
