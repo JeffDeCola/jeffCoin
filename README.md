@@ -57,10 +57,11 @@ These file are `.gitignored`.
 But if they did make there way onto git you are still protected as follows,
 
 * Password File
+  * Where your password hash is stored
   * Password hashing using bcrypt
-  * Your hash is kept in the password file
 * Wallet File
-  * Private and Public Key
+  * 
+  wPrivate and Public Key
   * The Private Key is Encrypted using AES-256 with your password as your key
 
 If you loose your password, say goodbye to your wallet (i.e. jeffCoins).
