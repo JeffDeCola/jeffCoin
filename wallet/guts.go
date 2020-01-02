@@ -61,11 +61,12 @@ func makeWallet(nodeName string, password string) walletStruct {
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
 	// Create keyText from password
-	keyText := sha256.Sum256([]byte(password))
+	keyByte32 := sha256.Sum256([]byte(password))
+	keyByte := keyByte32[:]
 
 	// ENCRYPT privateKeyHex using key
 	// keyText := "myverystrongpasswordo32bitlength"
-	keyByte := []byte(keyText)
+	// keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
 	privateKeyHexEncrypted := encryptAES(keyByte, privateKeyHex, additionalData)
 
@@ -102,11 +103,12 @@ func readWalletFile(nodeName string, password string) walletStruct {
 	log.Info("WALLET:      GUTS            " + s)
 
 	// Create keyText from password
-	keyText := sha256.Sum256([]byte(password))
+	keyByte32 := sha256.Sum256([]byte(password))
+	keyByte := keyByte32[:]
 
 	// DECRYPT privateKeyHex using key
 	// keyText := "myverystrongpasswordo32bitlength"
-	keyByte := []byte(keyText)
+	// keyByte := []byte(keyText)
 	additionalData := "Jeff's additional data for authorization"
 	privateKeyHex := decryptAES(keyByte, walletStructEncrypted.PrivateKeyHex, additionalData)
 

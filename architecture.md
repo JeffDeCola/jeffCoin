@@ -485,9 +485,13 @@ type passwordStruct struct {
   * **getPassword()**
     _Gets the password_
   * **writePasswordFile()**
-    _Writes the password to file (AES-256 encryption) and puts in struct_
+    _Writes the password hash to a file and puts in struct_
   * **readPasswordFile()**
-    _Reads the password from a file (AES-256 decrypt) and puts in struct_
+    _Reads the password hash from a file and puts in struct_
+  * **hashPassword()**
+    _Hashes a password using bcrypt_
+  * **checkPasswordHash()**
+    _Checks a password with a hash using bcrypt_
 
 ### 5.1 GUI
 

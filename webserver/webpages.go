@@ -133,15 +133,15 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	passwordEntered := req.Form.Get("Password")
 
-	// GET PASSWORD
+	// GET PASSWORD STRUCT
 	thePassword := GetPassword()
 
-    // GET THIS NODE
-    thisNode := routingnode.GetThisNode()
-    
-	// COMPARE PASSWORDS
+	// GET THIS NODE
+	thisNode := routingnode.GetThisNode()
+
+	// CHECK PASSWORD WITH A HASH USING bcrypt
 	doesItMatch := "Your password is incorrect, try again"
-	if passwordEntered == thePassword.Password {
+	if checkPasswordHash(passwordEntered, thePassword.PasswordHash) {
 		doesItMatch = "Your password is valid"
 
 		// CREATE A RANDOM TOKEN - Universally Unique Identifier (UUID) and store in sessionTokenString
@@ -150,7 +150,7 @@ func validateHandler(res http.ResponseWriter, req *http.Request) {
 		sessionToken, err := uuid.NewV4()
 		checkErr(err)
 		sessionTokenString = sessionToken.String()
-        sessionTokenString = "jeffCoin-" + sessionTokenString
+		sessionTokenString = "jeffCoin-" + sessionTokenString
 
 		// SET COOKIE ON CLIENT CALLED jeffCoin_session_token
 		// Good for 1 hour
@@ -215,7 +215,7 @@ func logoutHandler(res http.ResponseWriter, req *http.Request) {
 	sessionToken, err := uuid.NewV4()
 	checkErr(err)
 	sessionTokenString = sessionToken.String()
-    sessionTokenString = "jeffCoin-" + sessionTokenString
+	sessionTokenString = "jeffCoin-" + sessionTokenString
 
 	// GET THIS NODE
 	//thisNode := routingnode.GetThisNode()

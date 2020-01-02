@@ -4,9 +4,9 @@ package webserver
 
 // PASSWORDS **************************************************************************************************************
 
-// passwordStruct is your password
+// passwordStruct is your password hash
 type passwordStruct struct {
-	Password string `json:"password"`
+	PasswordHash string `json:"passwordhash"`
 }
 
 // password - The Password
