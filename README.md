@@ -21,11 +21,11 @@ To dive right in, head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run)
 
 Table of Contents,
 
-* [IMPORTANT](https://github.com/JeffDeCola/jeffCoin#important)
 * [PREREQUISITES](https://github.com/JeffDeCola/jeffCoin#prerequisites)
 * [BUILDING BLOCKS](https://github.com/JeffDeCola/jeffCoin#building-blocks)
 * [OVERVIEW](https://github.com/JeffDeCola/jeffCoin#overview)
 * [SOFTWARE ARCHITECTURE](https://github.com/JeffDeCola/jeffCoin#software-architecture)
+* [YOUR PASSWORD & KEYS](https://github.com/JeffDeCola/jeffCoin#your-password--keys)
 * [RUN](https://github.com/JeffDeCola/jeffCoin#run)
   * [GENESIS NODE](https://github.com/JeffDeCola/jeffCoin#genesis-node)
   * [ADDING NEW NODES](https://github.com/JeffDeCola/jeffCoin#adding-new-nodes)
