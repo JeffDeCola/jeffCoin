@@ -272,22 +272,22 @@ the Network to validate the transactions and reach consensus.
   Is this Node on GCE
 * `-genesis`
   Create your first Node
-* `-nodehttpport` _string_
-  Node Web Port (default "2001")
-* `-nodeip` string
-  Node IP (default "127.0.0.1")
 * `-loglevel` _string_
   LogLevel (info, debug or trace) (default "info")
 * `-networkip` _string_
   Network IP (default "127.0.0.1")
 * `-networktcpport` _string_
   Network TCP Port (default "3000")
+* `-nodehttpport` _string_
+  Node Web Port (default "2001")
+* `-nodeip` string
+  Node IP (default "127.0.0.1")
 * `-nodename` _string_
   Node Name (default "Jeff")
-* `-nodetcpport` _string_
-  Node TCP Port (default "3001")
 * `-nodepassword` _string_
   Set/Reset your Password
+* `-nodetcpport` _string_
+  Node TCP Port (default "3001")
 * `-testblockchain`
   Loads the blockchain with test data (SEE BELOW)  
 * `-v`

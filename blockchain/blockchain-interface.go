@@ -313,18 +313,18 @@ func ProcessTxRequestMessage(txRequestMessageSigned string) string {
 	s = "Received transaction message from/to: (-loglevel trace to display)"
 	log.Trace("\n\nFROM: " + trms.TxRequestMessage.SourceAddress + "\nTO: " + fmt.Sprint(trms.TxRequestMessage.Destinations) + "\n\n")
 
-	// CREATE SIG BASED ON PRIVATE KEY - USED TO CREATE TEST-DATA
-	//gotWallet := wallet.GetWallet()
-	//sourceAddress := gotWallet.JeffCoinAddress
+	/* // CREATE SIG BASED ON PRIVATE KEY - USED TO CREATE TEST-DATA
+	gotWallet := wallet.GetWallet()
+	sourceAddress := gotWallet.JeffCoinAddress
 	// GET ENCODED KEYS FROM wallet
-	//privateKeyHex := gotWallet.PrivateKeyHex
+	privateKeyHex := gotWallet.PrivateKeyHex
 	// Make a long string - Remove /n and whitespace
-	//txRequestMessageStruct := trms.TxRequestMessage
-	//txRequestMessage, _ := json.Marshal(txRequestMessageStruct)
-	//signature := wallet.CreateSignature(privateKeyHex, string(txRequestMessage))
-	//fmt.Printf("\n\n%v\n\n", sourceAddress)
-	//fmt.Printf("\n\n%v\n\n", signature)
-	//time.Sleep(100000 * time.Second)
+	txRequestMessageStruct := trms.TxRequestMessage
+	txRequestMessage, _ := json.Marshal(txRequestMessageStruct)
+	signature := wallet.CreateSignature(privateKeyHex, string(txRequestMessage))
+	fmt.Printf("\n\n%v\n\n", sourceAddress)
+	fmt.Printf("\n\n%v\n\n", signature)
+	time.Sleep(100000 * time.Second) */
 
 	// PROCESS
 	status := trms.processTxRequestMessage()

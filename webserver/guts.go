@@ -75,7 +75,10 @@ func readPasswordFile(nodeName string, passwordString string) passwordStruct {
 	// CHECK HASH
 	status := checkPasswordHash(passwordString, password.PasswordHash)
 	if !status {
-		s = "Your password " + passwordString + " did not pass check hash in filename" + filename
+		s = "Your password did not pass check hash in filename" + filename
+		log.Fatal("WEBSERVER:   GUTS            " + s)
+	} else {
+		s = "Your password passed check hash in filename" + filename
 		log.Info("WEBSERVER:   GUTS            " + s)
 	}
 
