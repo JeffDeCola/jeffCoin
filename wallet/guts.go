@@ -46,7 +46,7 @@ func getWallet() walletStruct {
 }
 
 // makeWallet - Creates the wallet and writes to file (Keys and jeffCoin Address)
-func makeWallet(nodeName string, password string) walletStruct {
+func makeWallet(nodeName string, passwordString string) walletStruct {
 
 	s := "START  makeWallet() - Creates the wallet and writes to file (Keys and jeffCoin Address)"
 	log.Debug("WALLET:      GUTS     " + s)
@@ -57,11 +57,11 @@ func makeWallet(nodeName string, password string) walletStruct {
 	// GENERATE JEFFCOIN ADDRESS
 	jeffCoinAddressHex := generatejeffCoinAddress(publicKeyHex)
 
-	// LOAD KEYS & JEFFCOIN ADDRESS IN WALLET
+	// LOAD KEYS & JEFFCOIN ADDRESS IN WALLET STRUCT
 	wallet = walletStruct{privateKeyHex, publicKeyHex, jeffCoinAddressHex}
 
-	// Create keyText from password
-	keyByte32 := sha256.Sum256([]byte(password))
+	// Create keyText from passwordString
+	keyByte32 := sha256.Sum256([]byte(passwordString))
 	keyByte := keyByte32[:]
 
 	// ENCRYPT privateKeyHex using key
@@ -88,7 +88,7 @@ func makeWallet(nodeName string, password string) walletStruct {
 }
 
 // readWalletFile - Reads the wallet from a file and puts in struct
-func readWalletFile(nodeName string, password string) walletStruct {
+func readWalletFile(nodeName string, passwordString string) walletStruct {
 
 	s := "START  readWalletFile() - Reads the wallet from a file and puts in struct"
 	log.Debug("WALLET:      GUTS     " + s)
@@ -102,8 +102,8 @@ func readWalletFile(nodeName string, password string) walletStruct {
 	s = "Read wallet from " + filename
 	log.Info("WALLET:      GUTS            " + s)
 
-	// Create keyText from password
-	keyByte32 := sha256.Sum256([]byte(password))
+	// Create keyText from passwordString
+	keyByte32 := sha256.Sum256([]byte(passwordString))
 	keyByte := keyByte32[:]
 
 	// DECRYPT privateKeyHex using key

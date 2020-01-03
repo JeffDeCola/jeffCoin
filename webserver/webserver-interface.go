@@ -31,11 +31,11 @@ func WritePasswordFile(nodeName string, passwordString string) {
 	s := "START  WritePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
 
-	writePasswordFile(nodeName, passwordString)
+	thePassword := writePasswordFile(nodeName, passwordString)
 
 	s = "Congrats, you created your password hash (-loglevel trace to display)"
 	log.Info("WEBSERVER:   I/F             " + s)
-	js, _ := json.MarshalIndent(password, "", "    ")
+	js, _ := json.MarshalIndent(thePassword, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    WritePasswordFile() - Writes the password hash to a file and puts in struct"
@@ -44,16 +44,16 @@ func WritePasswordFile(nodeName string, passwordString string) {
 }
 
 // ReadPasswordFile - Reads the password hash from a file and puts in struct
-func ReadPasswordFile(nodeName string) {
+func ReadPasswordFile(nodeName string, passwordString string) {
 
 	s := "START  ReadPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   I/F      " + s)
 
-	readPasswordFile(nodeName)
+	thePassword := readPasswordFile(nodeName, passwordString)
 
 	s = "Congrats, you loaded your password hash from a file (-loglevel trace to display)"
 	log.Info("WEBSERVER:   I/F             " + s)
-	js, _ := json.MarshalIndent(password, "", "    ")
+	js, _ := json.MarshalIndent(thePassword, "", "    ")
 	log.Trace("\n\n" + string(js) + "\n\n")
 
 	s = "END    ReadPasswordFile() - Reads the password hash from a file and puts in struct"

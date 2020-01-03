@@ -185,7 +185,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename Founders \
        -nodetcpport 3000 \
-       -password fpw
+       -nodepassword fpw
 ```
 
 This will created the first Node (the Founders node) in the Network.
@@ -215,7 +215,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename Jeff \
        -nodetcpport 3001 \
-       -password jpw
+       -nodepassword jpw
 ```
 
 Why stop, might as well add a third Node,
@@ -229,7 +229,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename Matt \
        -nodetcpport 3002 \
-       -password mpw
+       -nodepassword mpw
 ```
 
 ### LOGGING
@@ -286,7 +286,7 @@ the Network to validate the transactions and reach consensus.
   Node Name (default "Jeff")
 * `-nodetcpport` _string_
   Node TCP Port (default "3001")
-* `-password` _string_
+* `-nodepassword` _string_
   Set/Reset your Password
 * `-testblockchain`
   Loads the blockchain with test data (SEE BELOW)  
@@ -312,7 +312,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename Jills-Wallet \
        -nodetcpport 3005 \
-       -password jpw \
+       -nodepassword jpw \
        -wallet
 ```
 
@@ -360,7 +360,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename MockFounders \
        -nodetcpport 3000 \
-       -password mfpw \
+       -nodepassword mfpw \
        -testblockchain
 ```
 
@@ -411,7 +411,7 @@ go run jeffCoin.go \
        -nodeip 35.203.189.193 \
        -nodename Founders \
        -nodetcpport 3334 \
-       -password fpw
+       -nodepassword fpw
 ```
 
 Add another node (not at gce) is as simple as connecting to it,
@@ -425,7 +425,7 @@ go run jeffCoin.go \
        -nodeip 127.0.0.1 \
        -nodename Jill \
        -nodetcpport 3003 \
-       -password jpw
+       -nodepassword jpw
 ```
 
 I have a gce build example

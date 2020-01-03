@@ -34,7 +34,7 @@ func getPassword() passwordStruct {
 }
 
 // writePasswordFile - Writes the password hash to a file and puts in struct
-func writePasswordFile(nodeName string, passwordString string) {
+func writePasswordFile(nodeName string, passwordString string) passwordStruct {
 
 	s := "START  writePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
@@ -55,10 +55,12 @@ func writePasswordFile(nodeName string, passwordString string) {
 	s = "END    writePasswordFile() - Writes the password hash to a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
 
+	return password
+
 }
 
 // readPasswordFile - Reads the password hash from a file and puts in struct
-func readPasswordFile(nodeName string) {
+func readPasswordFile(nodeName string, passwordString string) passwordStruct {
 
 	s := "START  readPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
@@ -70,8 +72,17 @@ func readPasswordFile(nodeName string) {
 	s = "Read password from " + filename
 	log.Info("WEBSERVER:   GUTS            " + s)
 
+	// CHECK HASH
+	status := checkPasswordHash(passwordString, password.PasswordHash)
+	if !status {
+		s = "Your password " + passwordString + " did not pass check hash in filename" + filename
+		log.Info("WEBSERVER:   GUTS            " + s)
+	}
+
 	s = "END    readPasswordFile() - Reads the password hash from a file and puts in struct"
 	log.Debug("WEBSERVER:   GUTS     " + s)
+
+	return password
 
 }
 
