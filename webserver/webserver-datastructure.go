@@ -6,7 +6,7 @@ package webserver
 
 // passwordStruct is your password hash
 type passwordStruct struct {
-	PasswordHash string `json:"passwordhash"`
+	PasswordHash string `json:"passwordHash"`
 }
 
 // password - The Password

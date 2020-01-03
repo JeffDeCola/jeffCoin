@@ -22,13 +22,13 @@ import (
 )
 
 const (
-	toolVersion = "1.3.3"
+	toolVersion = "1.3.4"
 )
 
 var genesisPtr, testblockchainPtr, gcePtr, walletPtr *bool
 var nodeNamePtr, nodeIPPtr, nodeHTTPPortPtr, nodeTCPPortPtr *string
 var networkIPPtr, networkTCPPortPtr *string
-var passwordPtr *string
+var nodePasswordPtr *string
 
 func checkErr(err error) {
 	if err != nil {
@@ -163,7 +163,7 @@ func init() {
 	// YOUR NODE TCP PORT
 	nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
 	// PASSWORD
-	passwordPtr = flag.String("password", "yourpassword", "Set/Reset your Password")
+	nodePasswordPtr = flag.String("nodepassword", "yourpassword", "Set/Reset your Password")
 	// TEST FLAG
 	testblockchainPtr = flag.Bool("testblockchain", false, "Loads the blockchain with test data")
 	// VERSION FLAG
@@ -192,6 +192,11 @@ func init() {
 		os.Exit(0)
 	}
 
+	// MUST HAVE A PASSWORD
+	if *nodePasswordPtr == "yourpassword" {
+		log.Error("You must supply a Node Password")
+		os.Exit(0)
+	}
 }
 
 func main() {
@@ -246,25 +251,37 @@ func main() {
 	}
 	// ERASE -------------------------------------
 
-	// CHECK IF SET PASSWORD - MUST DO THIS BEFORE WALLET
-	// If default, see if you already have a password
-	if *passwordPtr == "yourpassword" {
-		// Check if you have a password in file
-		if _, err := os.Stat("credentials/" + *nodeNamePtr + "-password-hash.json"); err == nil {
-			// Read password hash from a file and put in struct
-			s := "READ existing password hash from a file and put in struct"
-			log.Info("MAIN:                        " + s)
-			webserver.ReadPasswordFile(*nodeNamePtr)
-		} else {
-			fmt.Println("Please use a password")
-			os.Exit(0)
-		}
+	// DO YOU HAVE A PASSWORD HASH FILE
+	if _, err := os.Stat("credentials/" + *nodeNamePtr + "-password-hash.json"); err == nil {
+		// Read password hash from a file and put in struct
+		// Will also check password hash
+		s := "READ existing password hash from a file and put in struct"
+		log.Info("MAIN:                        " + s)
+		webserver.ReadPasswordFile(*nodeNamePtr, *nodePasswordPtr)
 	} else {
 		// Write the password hash to a file and put in struct
 		s := "Writes the password hash to a file"
 		log.Info("MAIN:                        " + s)
-		webserver.WritePasswordFile(*nodeNamePtr, *passwordPtr)
+		webserver.WritePasswordFile(*nodeNamePtr, *nodePasswordPtr)
 	}
+
+	// DO YOU HAVE A WALLET FILE
+	if _, err := os.Stat("credentials/" + *nodeNamePtr + "-wallet-encrypted.json"); err == nil {
+		// READ existing wallet from a file (Keys and jeffCoin Address) and put in struct
+		// Will also decrypt encrypted Private Key in file
+		s := "READ existing wallet from a file (Keys and jeffCoin Address) and put in struct"
+		log.Info("MAIN:                        " + s)
+		wallet.ReadWalletFile(*nodeNamePtr, *nodePasswordPtr)
+	} else {
+		// GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)
+		// Will also encrypt Private Key for file
+		s := "GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)"
+		log.Info("MAIN:                        " + s)
+		wallet.GenesisWallet(*nodeNamePtr, *nodePasswordPtr)
+	}
+
+	// DESTROY PASSWORD PTR
+	*nodePasswordPtr = &s
 
 	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
@@ -308,22 +325,6 @@ func main() {
 		ToolVersion:    toolVersion,
 	}
 	myNode.LoadThisNode()
-
-	// DO YOU ALREADY HAVE A WALLET - MUST HAVE PASSWORD SET
-	var jeffCoinAddress string
-	if _, err := os.Stat("credentials/" + *nodeNamePtr + "-wallet-encrypted.json"); err == nil {
-		// READ existing wallet from a file (Keys and jeffCoin Address) and put in struct
-		s = "READ existing wallet from a file (Keys and jeffCoin Address) and put in struct"
-		log.Info("MAIN:                        " + s)
-		jeffCoinAddress = wallet.ReadWalletFile(*nodeNamePtr, *passwordPtr)
-	} else {
-		// GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)
-		s = "GENESIS wallet - Creates the wallet and write to file (Keys and jeffCoin Address)"
-		log.Info("MAIN:                        " + s)
-		jeffCoinAddress = wallet.GenesisWallet(*nodeNamePtr, *passwordPtr)
-	}
-	s = "Not using jeffCoinAddress " + jeffCoinAddress
-	log.Info("MAIN:                        " + s)
 
 	// CREATE GENESIS NODE OR A NEW NODE
 	// Do not start if wallet only
