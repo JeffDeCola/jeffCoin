@@ -72,13 +72,13 @@ This project was built from some of my other projects,
     [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
   * The ecdsa signature verification from my
     [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
-  * The Wallet Private Key is encrypted using
-    [aes-256-gcm](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/symmetric-cryptography/aes-256-gcm)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
 * The **WALLET** for generating keys and creating the jeffCoin address
   is built from my
   [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
+  * The Wallet Private Key is encrypted using
+    [aes-256-gcm](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/symmetric-cryptography/aes-256-gcm)
 * The **WEBSERVER** (GUI & REST JSON API) is built from my
   [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
   * The password is hashed and checked using
@@ -120,6 +120,7 @@ jeffCoin uses the following technology,
 * A Webserver with both a GUI and a REST API
 * A TCP Server for inter-node communication
 * ECDSA Private & Public Key generation
+* Private Key AES-256 encryption for storage
 * Creates a jeffCoin Address from the ECDSA Public Key
   _(Just like bitcoin)_ currently not being used
 * ECDSA Digital Signature Verification
