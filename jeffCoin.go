@@ -160,10 +160,10 @@ func init() {
 	nodeIPPtr = flag.String("nodeip", "127.0.0.1", "Node IP")
 	// NODE NAME
 	nodeNamePtr = flag.String("nodename", "Jeff", "Node Name")
-	// YOUR NODE TCP PORT
-	nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
 	// PASSWORD
 	nodePasswordPtr = flag.String("nodepassword", "yourpassword", "Set/Reset your Password")
+	// YOUR NODE TCP PORT
+	nodeTCPPortPtr = flag.String("nodetcpport", "3001", "Node TCP Port")
 	// TEST FLAG
 	testblockchainPtr = flag.Bool("testblockchain", false, "Loads the blockchain with test data")
 	// VERSION FLAG
@@ -212,41 +212,32 @@ func main() {
 			PublicKeyHex    string `json:"publicKeyHex"`
 			JeffCoinAddress string `json:"jeffCoinAddress"`
 		}
-
 		var walletStruct erasewalletStruct
-
 		// READ WALLET STRUCT TO JSON FILE
-		filename := "wallet/" + *nodeNamePtr + "-wallet.json"
+		filename := "wallet/" + *nodeNamePtr + "-wallet-encrypted.json"
 		filedata, _ := ioutil.ReadFile(filename)
 		_ = json.Unmarshal([]byte(filedata), &walletStruct)
 		s := "Read wallet from " + filename
 		log.Info("WALLET:      GUTS            " + s)
-
 		js, _ := json.MarshalIndent(walletStruct, "", "    ")
 		log.Info("\n\n" + string(js) + "\n\n")
-
 		// ENCRYPT privateKeyHex using key
 		keyText := "myverystrongpasswordo32bitlength"
 		keyByte := []byte(keyText)
 		additionalData := "Jeff's additional data for authorization"
-
 		privateKeyHexEncrypted := wallet.EncryptAES(keyByte, walletStruct.PrivateKeyHex, additionalData)
 		publicKeyHex := walletStruct.PublicKeyHex
 		jeffCoinAddressHex := walletStruct.JeffCoinAddress
-
 		// ENCRYPTED STRUCT FOR FILE
 		walletStructEncrypted := erasewalletStruct{privateKeyHexEncrypted, publicKeyHex, jeffCoinAddressHex}
-
 		js, _ = json.MarshalIndent(walletStructEncrypted, "", "    ")
 		log.Info("\n\n" + string(js) + "\n\n")
-
 		// WRITE WALLET STRUCT TO JSON FILE
 		filedata, _ = json.MarshalIndent(walletStructEncrypted, "", " ")
 		filename = "wallet/" + *nodeNamePtr + "-wallet.json"
 		_ = ioutil.WriteFile(filename, filedata, 0644)
 		s = "Wrote wallet to " + filename
 		log.Info("WALLET:      GUTS            " + s)
-
 		os.Exit(0)
 	}
 	// ERASE -------------------------------------
@@ -280,8 +271,8 @@ func main() {
 		wallet.GenesisWallet(*nodeNamePtr, *nodePasswordPtr)
 	}
 
-	// DESTROY PASSWORD PTR
-	*nodePasswordPtr = &s
+	// ERASE PASSWORD
+	*nodePasswordPtr = "erase"
 
 	// START WEBSERVER (HTTP SERVER)
 	s := "START WEBSERVER (HTTP SERVER)"
