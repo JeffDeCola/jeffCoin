@@ -6,8 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"path"
-	"runtime"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -112,25 +110,6 @@ func masterFlowControl(genesis bool) {
 
 	}
 
-}
-
-// ContextHook ...
-type ContextHook struct{}
-
-// Levels ...
-func (hook ContextHook) Levels() []log.Level {
-	return log.AllLevels
-}
-
-// Fire ...
-func (hook ContextHook) Fire(entry *log.Entry) error {
-	if pc, file, line, ok := runtime.Caller(10); ok {
-		funcName := runtime.FuncForPC(pc).Name()
-
-		entry.Data["source"] = fmt.Sprintf("%s:%v:%s", path.Base(file), line, path.Base(funcName))
-	}
-
-	return nil
 }
 
 func init() {
