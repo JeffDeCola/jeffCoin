@@ -62,7 +62,7 @@ func checkErr(err error) {
 
 // MINING ************************************************************************************************************
 
-func mineBlock() {
+func mineLockedBlock() {
 
 	// GET THE BLOCK TO MINE - lockedBlock
 	// Already have lockedBlock
@@ -75,12 +75,16 @@ func mineBlock() {
 
 	// powStruct := &proofOfWorkStruct{&lockedBlock, targetHash}
 
-	// MINE - FIND THE NONCE
-	foundNonce, hashHex := FindTheNonce(&lockedBlock, targetHash)
+	// MINE - FIND THE NONCE and return hash
+	foundNonce, hashHex, iterations := findTheNonce(&lockedBlock, targetHash)
 
 	fmt.Printf("The nonce is %d\n", foundNonce)
-	fmt.Printf("The hash is %v   %v\n", hashHex, len(hashHex))
+	fmt.Printf("The hash is %v (%v bytes)\n", hashHex, len(hashHex))
+	fmt.Printf("This took %v iterations \n", iterations)
 
+	status := verifyTheNonce(&lockedBlock, targetHash, hashHex, foundNonce)
+
+	fmt.Println("Verification status", status)
 	fmt.Printf("The binary is\n")
 	// JUST THE BINARY OF THE BEGINING
 	//hashByte, _ := hex.DecodeString(hashHex)
@@ -103,11 +107,12 @@ func mineBlock() {
 }
 
 // FindTheNonce - Find the nonce so you have the correct number of leading 0s (difficulty)
-func FindTheNonce(block *blockStruct, targetHash *big.Int) (int, string) {
+func findTheNonce(block *blockStruct, targetHash *big.Int) (int, string, int) {
 
 	var hashInt big.Int
 	var hashByte [32]byte
 	nonce := 0
+	i := 0
 
 	// START AT nonce 0 and increment until you find the correct number of leading 0s
 	for nonce < math.MaxInt64 {
@@ -115,6 +120,7 @@ func FindTheNonce(block *blockStruct, targetHash *big.Int) (int, string) {
 		// GET DATA WITH INSERTED NONCE & HASH
 		data := prepareData(block, targetHash, nonce)
 		hashByte = sha256.Sum256([]byte(data))
+		fmt.Println(hex.EncodeToString(hashByte[:]))
 
 		// fmt.Printf("\n The nonce is: %v", nonce)
 		// fmt.Printf("\n The hash is: %x", hash)
@@ -126,17 +132,39 @@ func FindTheNonce(block *blockStruct, targetHash *big.Int) (int, string) {
 		} else {
 			nonce++
 		}
+		i++
+
 	}
 
 	hashHex := hex.EncodeToString(hashByte[:])
 
-	return nonce, hashHex
+	return nonce, hashHex, i
+
+}
+
+func verifyTheNonce(block *blockStruct, targetHash *big.Int, verifyHash string, nonce int) bool {
+
+	// GET DATA WITH INSERTED NONCE & HASH
+	data := prepareData(block, targetHash, nonce)
+	hashByte := sha256.Sum256([]byte(data))
+	fmt.Println(hex.EncodeToString(hashByte[:]))
+
+	// HASH
+	hashByte = sha256.Sum256([]byte(data))
+	hashHex := hex.EncodeToString(hashByte[:])
+
+	// COMPARE HASH
+	if hashHex == verifyHash {
+		return true
+	}
+
+	return false
 
 }
 
 func prepareData(block *blockStruct, targetHash *big.Int, nonce int) string {
 
-	// GET ALL THE TRANSACTIONS
+	// GET ALL THE TRANSACTIONS/DATA
 	transactionBytes := []byte{}
 	for _, transaction := range block.Transactions {
 		transactionBytes, _ = json.Marshal(transaction)
@@ -173,12 +201,12 @@ func main() {
     }`
 
 	// Place data in struct
-	transactionByte := []byte(firstTransaction)
+	firstTransactionByte := []byte(firstTransaction)
 	var theTransactionStruct transactionStruct
-	err := json.Unmarshal(transactionByte, &theTransactionStruct)
+	err := json.Unmarshal(firstTransactionByte, &theTransactionStruct)
 	checkErr(err)
 
-	// Place data in slice
+	// Place transaction in slice
 	var transactionSlice []transactionStruct
 	transactionSlice = append(transactionSlice, theTransactionStruct)
 
@@ -186,7 +214,7 @@ func main() {
 	lockedBlock.Timestamp = t.String()
 	lockedBlock.Transactions = transactionSlice
 	lockedBlock.PrevHash = lockedBlock.Hash
-	lockedBlock.Difficulty = 20
+	lockedBlock.Difficulty = 16
 	lockedBlock.Hash = ""
 	lockedBlock.Nonce = ""
 
@@ -194,6 +222,6 @@ func main() {
 	// s := string(js)
 	// fmt.Printf("The lockBlock is:\n%v", s)
 
-	mineBlock()
+	mineLockedBlock()
 
 }
