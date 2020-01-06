@@ -19,17 +19,17 @@ Table of contents,
 
 ## ARCHITECTURE OVERVIEW
 
-The following illustration shows how the code is broken up into five main areas,
+The following illustration shows how the code is divided into five main areas,
 
 ![IMAGE - jeffCoin-architecture - IMAGE](docs/pics/jeffCoin-architecture.jpg)
 
 ## 1. BLOCKCHAIN
 
-The blockchain section is the heart of the entire design. It will keep the
+The blockchain is the heart of the entire design. It will keep the
 transactions secure. A transaction is a transfer of value (jeffCoins) between
-jeffCoin Addresses.
+jeffCoin Addresses (Currently using Public Key).
 Like bitcoin, the value (jeffCoins) is contained in the ledger.
-The wallets just hold the public/private keys to request a transaction.
+The wallets just hold the Public/Private Keys to request a transaction.
 
 This blockchain section has two main parts, the blockchain and the transactions
 (the data on the blockchain).
@@ -140,7 +140,8 @@ This illustration may help,
 Transaction are at the heart of jeffCoin, allowing the transfer of value (jeffCoins)
 from one jeffCoin Address to another.
 A transaction request comes from the wallet which holds
-the private key. All transaction requests are broadcast to the entire Network
+the private key. The Private Key is needed to create a signature.
+All transaction requests are broadcast to the entire Network
 before it is validated. Each Node does its own Proof of Work (PoW).
 
 The transactions are stored in the block using the
@@ -148,7 +149,7 @@ The transactions are stored in the block using the
 Basically a chain of ledger transactions.
 
 This was built using my
-ecdsa signature verification from
+ECDSA signature verification from
 [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
 and the transaction ledger was built from my
 [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger).
@@ -209,7 +210,7 @@ type destinationStruct struct {
 
 This illustration shows transaction requests, verification for that request
 and addition onto the pendingBlock. A transaction is never valid until
-the transaction is added onto the blockchain.
+it is added to the blockchain.
 
 ![IMAGE - transaction-request-message-flow - IMAGE](docs/pics/transaction-request-message-flow.jpg)
 
@@ -221,7 +222,8 @@ The miner section has the following features,
   pendingBlock into lockedBlock
 * Performs the `mining (poW)` on the lockedBlocked
 * Difficulty is how many zero are needed at the beginning of the hash
-* When block is solved, broadcast block to entire Network to check for `consensus`
+* Mining is finding the nonce that creates the hash with the leading zeros
+* When a block is solved, it is broadcast to entire Network to check for `consensus`
 
 **[MINER-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/miner/miner-datastructures.go)**
 
@@ -326,7 +328,7 @@ type nodeStruct struct {
 
 ### 3.2 TCP REQUESTS & HANDLERS
 
-Incoming requests to the TCP server from other Nodes or TCP connection.
+Incoming requests to the TCP Server from other Nodes or TCP connection.
 
 An illustration of client-server handshakes,
 
@@ -363,14 +365,14 @@ An illustration of client-server handshakes,
 
 ## 4. WALLET
 
-The wallet section holds the Public Key, the Private Key and the jeffCoin Address.
+The wallet holds the Public Key, the Private Key and the jeffCoin Address.
 Like bitcoin, wallets do not have or hold any jeffCoins.
 The jeffCoins are in the blockchain transactions (ledger).
 
 Generating keys and creating the jeffCoin address is built from my
 [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey).
 
-Your wallet will be saved in the following file based on your nodename,
+Your wallet will be saved in the following .json file based on your nodeName,
 `/wallet/{nodename}-wallet.json`.
 
 **[WALLET-DATASTRUCTURES](https://github.com/JeffDeCola/jeffCoin/blob/master/wallet/wallet-datastructures.go)**

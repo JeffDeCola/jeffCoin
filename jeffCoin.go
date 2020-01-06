@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	toolVersion = "1.3.4"
+	toolVersion = "1.3.5"
 )
 
 var genesisPtr, testblockchainPtr, gcePtr, walletPtr *bool
@@ -210,11 +210,13 @@ func main() {
 		wallet.GenesisWallet(*nodeNamePtr, *nodePasswordPtr)
 	}
 
-	// ERASE PASSWORD
-	*nodePasswordPtr = "erase"
+	// "DESTROY" PASSWORD
+	*nodePasswordPtr = "destroy"
+	s := "Node Password destroyed"
+	log.Info("MAIN:                        " + s)
 
 	// START WEBSERVER (HTTP SERVER)
-	s := "START WEBSERVER (HTTP SERVER)"
+	s = "START WEBSERVER (HTTP SERVER)"
 	log.Info("MAIN:                        " + s)
 	if *gcePtr {
 		go webserver.StartHTTPServer("0.0.0.0", *nodeHTTPPortPtr)

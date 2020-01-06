@@ -10,7 +10,7 @@
 [![Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 
-_A cryptocurrency (transaction based data) built on decentralized
+_A cryptocurrency (transaction based data) built on distributed decentralized
 multi-node P2P open Network using a sha256 Proof of Work (PoW) **blockchain**
 with a REST JSON API and a TCP Server to communicate between
 the Nodes over IP._
@@ -68,9 +68,9 @@ This project was built from some of my other projects,
 
 * The **BLOCKCHAIN** is built from my
   [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-  * The **BLOCKCHAIN TRANSACTIONS** is built from my
+  * The **BLOCKCHAIN TRANSACTIONS** are built from my
     [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
-  * The ecdsa signature verification from my
+  * The ECDSA signature verification from my
     [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
 * The **ROUTINGNODE** (TCP Server) is built from my
   [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
@@ -93,7 +93,7 @@ projects.
 ## OVERVIEW
 
 `jeffCoin` (JEFF) is my interpretation of a transaction based (ledger) using a blockchain.
-This is a work in progress I feel can be used as a foundation to
+This is a work in progress I feel can be used as a foundation for
 build bigger and better things.
 
 The following illustration shows the jeffCoin network of nodes,
@@ -116,7 +116,8 @@ jeffCoin uses the following technology,
 
 * Written in golang
 * Implements a blockchain using a sha256 hash
-* A decentralized multi-node P2P architecture maintaining a Network of Nodes
+* A distributed decentralized multi-node P2P architecture maintaining
+  a Network of Nodes
 * A Webserver with both a GUI and a REST API
 * A TCP Server for inter-node communication
 * ECDSA Private & Public Key generation
@@ -154,15 +155,15 @@ I divided the software into 5 sections,
 
 ## YOUR PASSWORD & KEYS
 
-Your secrets keys are kept in `/credentials` in .json files.
+Your secrets are kept in `/credentials` in .json files.
 These file are `.gitignored`.
 But if they did make there way onto git you are still protected as follows,
 
 * Password File
-  * Where your password hash is stored
+  * Stores your password hash
   * Password hashing using bcrypt
 * Wallet File
-  * Where your Private and Public ECDSA Key are stored
+  * Stores your Private and Public ECDSA Key
   * The Private Key is Encrypted using AES-256 with your password as your key
 
 This illustration may help,
@@ -189,10 +190,11 @@ go run jeffCoin.go \
        -nodepassword fpw
 ```
 
-This will created the first Node (the Founders node) in the Network.
+This will created the first Node (the Founders Node) in the Network.
 It will also create a wallet and password file and save the credentials
-in `/wallet` and `/password` respectively.  Not to worry, I encrypt
-the secrets using AES-256. I also `.gitignore` them.
+in `/wallet` and `/password` respectively.  Not to worry, the password
+is password hashed with bcrypt and your Wallet Private Key is encrypted
+using AES-256. I also `.gitignore` them.
 
 Note that the node has an IP address and port for both HTTP and TCP.
 For this example I use the localhost or 127.0.0.1. But obviously,
@@ -248,7 +250,7 @@ The GUI for the three nodes you just created are,
 **/**
 [127.0.0.1:2002](http://127.0.0.1:2002/)
 
-The main page will list the various API commands.
+The API page will list the various API commands.
 For example, to show a particular block,
 
 [127.0.0.1:2000/showblock/0](http://127.0.0.1:2000/showblock/0)
@@ -258,7 +260,8 @@ For example, to show a particular block,
 Each Node has it's own wallet, so now you can send jeffCoins/Value.
 To do this, use the Webserver and API.
 You will notice only the Founders have jeffCoins to send.
-So Jeff or Matt will not be able to send coins at this point.
+So Jeff or Matt will not be able to send coins until the
+Founder gives them some.
 
 Send some coins from the Founders to Jeff or Matt and note they are pending.
 That's because they are not validated.  Like bitcoin, you will need
@@ -317,7 +320,7 @@ go run jeffCoin.go \
        -wallet
 ```
 
-The Node name is the same as the Wallet name.
+The Node and Wallet name are the same.
 
 ## RUN (OPTIONAL)
 
