@@ -62,33 +62,46 @@ go get -u -v github.com/satori/go.uuid
 go get -u -v golang.org/x/crypto/bcrypt
 ```
 
+## SOFTWARE STACK
+
+* **GUI** - golang HTML package
+* **Routing & REST API framework** - golang gorilla/mux package
+* **Inter Node Communication** - golang TCP package
+* **Backend** - golang
+* **Database** - N/A
+
 ## BUILDING BLOCKS
 
 This project was built from some of my other projects,
 
-* The **BLOCKCHAIN** is built from my
-  [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
-  * The **BLOCKCHAIN TRANSACTIONS** are built from my
+* **BLOCKCHAIN**
+  * The blockchain built from my
+    [single-node-blockchain-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/single-node-blockchain-with-REST)
+  * **BLOCKCHAIN TRANSACTIONS** are built from my
     [bitcoin-ledger](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/bitcoin-ledger)
-  * The ECDSA signature verification from my
+  * The ECDSA signature verification built from my
     [ecdsa-digital-signature](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/asymmetric-cryptography/ecdsa-digital-signature)
-* The **ROUTINGNODE** (TCP Server) is built from my
-  [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
-* The **WALLET** for generating keys and creating the jeffCoin address
-  is built from my
-  [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
+* **ROUTINGNODE**
+  * The TCP Server built from my
+    [simple-tcp-ip-server](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-tcp-ip-server)
+* **WALLET**
+  * Generating keys and creating the jeffCoin address
+    is built from my
+    [create-bitcoin-address-from-ecdsa-publickey](https://github.com/JeffDeCola/my-go-examples/tree/master/blockchain/create-bitcoin-address-from-ecdsa-publickey)
   * The Wallet Private Key is encrypted using
     [aes-256-gcm](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/symmetric-cryptography/aes-256-gcm)
-* The **WEBSERVER** (GUI & REST JSON API) is built from my
-  [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
+* **WEBSERVER**
+  * The GUI & REST JSON API is built from my
+    [simple-webserver-with-REST](https://github.com/JeffDeCola/my-go-examples/tree/master/api/simple-webserver-with-REST)
   * The password is hashed and checked using
     [bcrypt-password-hashing](https://github.com/JeffDeCola/my-go-examples/tree/master/cryptography/hashing/bcrypt-password-hashing)
-* Other projects I used are my
-  [errors](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/errors),
-  [logrus](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/logrus),
-  and
-  [flag](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/flag)
-projects.
+* **OTHER**
+  * I also use my
+    [errors](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/errors),
+    [logrus](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/logrus),
+    and
+    [flag](https://github.com/JeffDeCola/my-go-examples/tree/master/packages/flag)
+    projects
 
 ## OVERVIEW
 
@@ -159,10 +172,10 @@ Your secrets are kept in `/credentials` in .json files.
 These file are `.gitignored`.
 But if they did make there way onto git you are still protected as follows,
 
-* Password File
+* **Password File**
   * Stores your password hash
   * Password hashing using bcrypt
-* Wallet File
+* **Wallet File**
   * Stores your Private and Public ECDSA Key
   * The Private Key is Encrypted using AES-256 with your password as your key
 
@@ -270,34 +283,34 @@ the Network to validate the transactions and reach consensus.
 
 ### SWITCHES (REFERENCE)
 
-  `-h` prints the following,
+  **`-h`** prints the following,
   
-* `-gce`
-  Is this Node on GCE
-* `-genesis`
+* **`-gce`**
+  Is this Node on Google Compute Engine _(See below)_
+* **`-genesis`**
   Create your first Node
-* `-loglevel` _string_
+* **`-loglevel`** _string_
   LogLevel (info, debug or trace) (default "info")
-* `-networkip` _string_
+* **`-networkip`** _string_
   Network IP (default "127.0.0.1")
-* `-networktcpport` _string_
+* **`-networktcpport`** _string_
   Network TCP Port (default "3000")
-* `-nodehttpport` _string_
+* **`-nodehttpport`** _string_
   Node Web Port (default "2001")
-* `-nodeip` string
+* **`-nodeip`** string
   Node IP (default "127.0.0.1")
-* `-nodename` _string_
+* **`-nodename`** _string_
   Node Name (default "Jeff")
-* `-nodepassword` _string_
+* **`-nodepassword`** _string_
   Set/Reset your Password
-* `-nodetcpport` _string_
+* **`-nodetcpport`** _string_
   Node TCP Port (default "3001")
-* `-testblockchain`
-  Loads the blockchain with test data (SEE BELOW)  
-* `-v`
+* **`-testblockchain`**
+  Loads the blockchain with test data _(See below)_  
+* **`-v`**
   prints current version
-* -`wallet`
-  Only the wallet and webserver (GUI/API)
+* **-`wallet`**
+  Only the wallet and webserver GUI/API _(See below)_
 
 ## RUN (WALLET ONLY)
 
