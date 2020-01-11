@@ -64,11 +64,16 @@ go get -u -v golang.org/x/crypto/bcrypt
 
 ## SOFTWARE STACK
 
-* **GUI** - golang HTML package
-* **Routing & REST API framework** - golang gorilla/mux package
-* **Inter Node Communication** - golang TCP package
-* **Backend** - golang
-* **Database** - N/A
+* **GUI**
+  _golang net/http package_
+* **Routing & REST API framework**
+  _golang gorilla/mux package_
+* **Inter Node Communication**
+  _golang TCP package_
+* **Backend**
+  _golang_
+* **Database**
+  _N/A_
 
 ## BUILDING BLOCKS
 
@@ -107,9 +112,9 @@ This project was built from some of my other projects,
 
 `jeffCoin` (JEFF) is my interpretation of a transaction based (ledger) using a blockchain.
 This is a work in progress I feel can be used as a foundation for
-build bigger and better things.
+building bigger and better things.
 
-The following illustration shows the jeffCoin network of nodes,
+The following illustration shows the jeffCoin Network of Nodes,
 
 ![IMAGE - the-jeffcoin-network - IMAGE](docs/pics/the-jeffcoin-network.jpg)
 
