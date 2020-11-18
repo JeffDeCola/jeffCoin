@@ -1,15 +1,21 @@
-// CONCOURSE
+# CONCOURSE
 .credentials.yml
 
-// Ignore all binaries, but not build.sh
+# GO
+coverage.out
+
+# macOS
+.DS_Store
+
+# Ignore all binaries, but not build.sh
 **/bin/hello-go
 
-// Ignore test coverage
+# Ignore test coverage
 **/test/test_coverage.txt
 
-// Ignore binary used for build
+# Ignore binary used for build
 **/build-push/hello-go
 
-// Ignore passwords and wallets except the mock ones
+# Ignore passwords and wallets except the mock ones
 /credentials/*.json
 !/credentials/Mock*.json
