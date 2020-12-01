@@ -1,5 +1,5 @@
 #!/bin/sh
-# jeffCoin readme-github-pages.sh
+# jeffcoin readme-github-pages.sh
 
 echo " "
 
@@ -17,14 +17,14 @@ else
     echo " "
 fi
 
-echo "The goal is to git clone /jeffCoin to /jeffCoin-updated"
+echo "The goal is to git clone /jeffcoin to /jeffcoin-updated"
 echo "Then script will edit the /docs/_includes/README.md for GITHUB WEBPAGES"
 echo "Finally push the changes in /docs/_includes/README.md to github"
 echo " "
 
 echo "At start, you should be in a /tmp/build/xxxxx directory with two folders:"
-echo "   /jeffCoin"
-echo "   /jeffCoin-updated (created in task-build-push.yml task file)"
+echo "   /jeffcoin"
+echo "   /jeffcoin-updated (created in task-build-push.yml task file)"
 echo " "
 
 echo "pwd is: $PWD"
@@ -34,12 +34,12 @@ echo "List whats in the current directory"
 ls -la
 echo " "
 
-echo "git clone jeffCoin to jeffCoin-updated"
-git clone jeffCoin jeffCoin-updated
+echo "git clone jeffcoin to jeffcoin-updated"
+git clone jeffcoin jeffcoin-updated
 echo " "
 
-echo "cd jeffCoin-updated"
-cd jeffCoin-updated
+echo "cd jeffcoin-updated"
+cd jeffcoin-updated
 echo " "
 
 echo "List whats in the current directory"
