@@ -1,4 +1,4 @@
-# jeffCoin task-readme-github-pages.yml
+# jeffcoin task-readme-github-pages.yml
 
 platform: linux
 
@@ -9,11 +9,11 @@ image_resource:
     tag: 1.7.1
 
 inputs:
-- name: jeffCoin
+- name: jeffcoin
 
 outputs:
-- name: jeffCoin-updated
+- name: jeffcoin-updated
 
 run:
-  path: ./jeffCoin/ci/scripts/readme-github-pages.sh
+  path: ./jeffcoin/ci/scripts/readme-github-pages.sh
   # args: [-debug]

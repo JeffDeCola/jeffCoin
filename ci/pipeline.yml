@@ -1,74 +1,74 @@
-# jeffCoin pipeline.yml
+# jeffcoin pipeline.yml
 
 jobs:
 
 - name: job-readme-github-pages
   plan:
-  - get: jeffCoin
+  - get: jeffcoin
     trigger: true
   - put: resource-slack-alert
     params:
       channel: '#jeff-builds'
-      text: "From jeffCoin: STARTED job-readme-github-pages in concourse ci."
+      text: "From jeffcoin: STARTED job-readme-github-pages in concourse ci."
   - put: resource-repo-status
-    params: { state: "pending", description: "STARTED job-readme-github-pages in concourse ci.", commit: "jeffCoin" }
+    params: { state: "pending", description: "STARTED job-readme-github-pages in concourse ci.", commit: "jeffcoin" }
   - task: task-readme-github-pages
-    file: jeffCoin/ci/tasks/task-readme-github-pages.yml
+    file: jeffcoin/ci/tasks/task-readme-github-pages.yml
     on_success:
       do:
-      - put: jeffCoin
+      - put: jeffcoin
         params:
-          repository: jeffCoin-updated  
+          repository: jeffcoin-updated  
       - put: resource-slack-alert
         params:
           channel: '#jeff-builds'
-          text: "From jeffCoin: PASSED job-readme-github-pages in concourse ci."
+          text: "From jeffcoin: PASSED job-readme-github-pages in concourse ci."
       - put: resource-repo-status
-        params: { state: "success", description: "PASSED job-readme-github-pages in concourse ci", commit: "jeffCoin" }
+        params: { state: "success", description: "PASSED job-readme-github-pages in concourse ci", commit: "jeffcoin" }
     on_failure:
       do:
       - put: resource-slack-alert
         params:
           channel: '#jeff-builds'
-          text: "From jeffCoin: FAILED job-readme-github-pages in concourse ci."
+          text: "From jeffcoin: FAILED job-readme-github-pages in concourse ci."
       - put: resource-repo-status
-        params: { state: "failure", description: "FAILED job-readme-github-pages in concourse ci", commit: "jeffCoin" }
+        params: { state: "failure", description: "FAILED job-readme-github-pages in concourse ci", commit: "jeffcoin" }
 
 - name: job-unit-tests
   plan:
-  - get: jeffCoin
+  - get: jeffcoin
     trigger: true
     passed: [job-readme-github-pages]
   - put: resource-slack-alert
     params:
       channel: '#jeff-builds'
-      text: "From jeffCoin: STARTED job-unit-tests in concourse ci."
+      text: "From jeffcoin: STARTED job-unit-tests in concourse ci."
   - put: resource-repo-status
-    params: { state: "pending", description: "STARTED job-unit-tests in concourse ci.", commit: "jeffCoin" }
+    params: { state: "pending", description: "STARTED job-unit-tests in concourse ci.", commit: "jeffcoin" }
   - task: task-unit-tests
-    file: jeffCoin/ci/tasks/task-unit-tests.yml
+    file: jeffcoin/ci/tasks/task-unit-tests.yml
     on_success:
       do:
-      - put: jeffCoin
+      - put: jeffcoin
         params:
-          repository: jeffCoin  
+          repository: jeffcoin  
       - put: resource-slack-alert
         params:
           channel: '#jeff-builds'
           text_file: coverage-results/test_coverage.txt
           text: |
-            From jeffCoin: PASSED job-unit-tests in concourse ci. 
+            From jeffcoin: PASSED job-unit-tests in concourse ci. 
             $TEXT_FILE_CONTENT
       - put: resource-repo-status
-        params: { state: "success", description: "PASSED job-unit-tests in concourse ci", commit: "jeffCoin" }
+        params: { state: "success", description: "PASSED job-unit-tests in concourse ci", commit: "jeffcoin" }
     on_failure:
       do:
       - put: resource-slack-alert
         params:
           channel: '#jeff-builds'
-          text: "From jeffCoin: FAILED job-unit-tests in concourse ci."
+          text: "From jeffcoin: FAILED job-unit-tests in concourse ci."
       - put: resource-repo-status
-        params: { state: "failure", description: "FAILED job-unit-tests in concourse ci.", commit: "jeffCoin" }
+        params: { state: "failure", description: "FAILED job-unit-tests in concourse ci.", commit: "jeffcoin" }
 
 resource_types:
 
@@ -85,11 +85,11 @@ resource_types:
 
 resources:
 
-- name: jeffCoin
+- name: jeffcoin
   type: git
   source:
-    #uri: https://github.com/jeffdecola/jeffCoin
-    uri: git@github.com:jeffdecola/jeffCoin.git
+    #uri: https://github.com/jeffdecola/jeffcoin
+    uri: git@github.com:jeffdecola/jeffcoin.git
     branch: master
     private_key: {{git_private_key}}
 - name: resource-slack-alert
@@ -99,5 +99,5 @@ resources:
 - name: resource-repo-status 
   type: github-status
   source:
-    repository: jeffdecola/jeffCoin 
+    repository: jeffdecola/jeffcoin 
     access_token: {{repo_github_token}}

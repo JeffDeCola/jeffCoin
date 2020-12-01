@@ -1,4 +1,4 @@
-# jeffCoin task-unit-tests.yml
+# jeffcoin task-unit-tests.yml
 
 platform: linux
 
@@ -9,11 +9,11 @@ image_resource:
     tag: 1.7.1
 
 inputs:
-- name: jeffCoin
+- name: jeffcoin
 
 outputs:
 - name: coverage-results
 
 run:
-  path: ./jeffCoin/ci/scripts/unit-tests.sh
+  path: ./jeffcoin/ci/scripts/unit-tests.sh
   # args: [-debug]
