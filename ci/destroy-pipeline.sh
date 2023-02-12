@@ -1,4 +1,9 @@
 #!/bin/bash
 # jeffCoin destroy-pipeline.sh
 
-fly -t ci destroy-pipeline --pipeline jeffcoin
+echo " "
+echo "Destroy pipeline on target jeffs-ci-target which is team jeffs-ci-team"
+fly --target jeffs-ci-target \
+    destroy-pipeline \
+    --pipeline jeffCoin
+echo " "
