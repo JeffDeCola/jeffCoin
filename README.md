@@ -291,8 +291,8 @@ the Network to validate the transactions and reach consensus.
 
 ### SWITCHES (REFERENCE)
 
-  **`-h`** prints the following,
-  
+**`-h`** prints the following,
+
 * **`-gce`**
   Is this Node on Google Compute Engine _(See below)_
 * **`-genesis`**
@@ -314,7 +314,7 @@ the Network to validate the transactions and reach consensus.
 * **`-nodetcpport`** _string_
   Node TCP Port (default "3001")
 * **`-testblockchain`**
-  Loads the blockchain with test data _(See below)_  
+  Loads the blockchain with test data _(See below)_
 * **`-v`**
   prints current version
 * **-`wallet`**
