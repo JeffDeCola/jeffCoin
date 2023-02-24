@@ -4,7 +4,7 @@
 *** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
 ```
 
-[![Tag Latest](https://badgen.net/github/tag/JeffDeCola/jeffCoin)](https://github.com/JeffDeCola/jeffCoin/tags)
+[![Tag Latest](https://img.shields.io/github/v/tag/jeffdecola/jeffCoin)](https://github.com/JeffDeCola/jeffCoin/tags)
 [![Go Reference](https://pkg.go.dev/badge/github.com/JeffDeCola/jeffCoin.svg)](https://pkg.go.dev/github.com/JeffDeCola/jeffCoin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/JeffDeCola/jeffCoin)](https://goreportcard.com/report/github.com/JeffDeCola/jeffCoin)
 [![codeclimate Maintainability](https://api.codeclimate.com/v1/badges/0c7cf619a01dd65fc06b/maintainability)](https://codeclimate.com/github/JeffDeCola/jeffCoin/maintainability)
