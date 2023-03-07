@@ -1,9 +1,5 @@
 # jeffCoin
 
-```text
-*** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
-```
-
 [![Tag Latest](https://img.shields.io/github/v/tag/jeffdecola/jeffCoin)](https://github.com/JeffDeCola/jeffCoin/tags)
 [![Go Reference](https://pkg.go.dev/badge/github.com/JeffDeCola/jeffCoin.svg)](https://pkg.go.dev/github.com/JeffDeCola/jeffCoin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/JeffDeCola/jeffCoin)](https://goreportcard.com/report/github.com/JeffDeCola/jeffCoin)
@@ -11,6 +7,10 @@
 [![codeclimate Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg)](http://jeffdecola.mit-license.org)
 [![jeffdecola.com](https://img.shields.io/badge/website-jeffdecola.com-blue)](https://jeffdecola.com)
+
+```text
+*** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
+```
 
 _A cryptocurrency (transaction based data) built on distributed decentralized
 multi-node P2P open Network using a sha256 Proof of Work (PoW) **blockchain**
