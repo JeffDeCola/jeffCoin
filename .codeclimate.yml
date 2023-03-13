@@ -37,3 +37,4 @@ plugins:
 # - <pattern>
 exclude_patterns:
 - "docs/"
+- "**/*_test.go"
