@@ -2,6 +2,7 @@
 
 platform: linux
 
+# DOCKER BASE IMAGE FOR TASKS (BASED ON APLPINE, A SMALLER LINUX DISTRIBUTION)
 image_resource:
   type: docker-image
   source:
