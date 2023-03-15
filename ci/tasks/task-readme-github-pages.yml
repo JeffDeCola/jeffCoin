@@ -10,10 +10,10 @@ image_resource:
     tag: 1.20.1
 
 inputs:
-- name: jeffcoin
+  - name: jeffcoin
 
 outputs:
-- name: jeffcoin-updated
+  - name: jeffcoin-updated
 
 run:
   path: ./jeffcoin/ci/scripts/readme-github-pages.sh
