@@ -13,7 +13,7 @@ The concourse
 [pipeline.yml](https://github.com/JeffDeCola/jeffcoin/blob/master/ci/pipeline.yml)
 shows the entire ci flow. Visually, it looks like,
 
-![IMAGE - jeffcoin concourse ci pipeline - IMAGE](docs/pics/jeffcoin-pipeline.jpg)
+![IMAGE - jeffcoin concourse ci pipeline - IMAGE](docs/pics/jeffCoin-pipeline.jpg)
 
 ## JOBS, TASKS AND RESOURCE TYPES
 
@@ -37,7 +37,7 @@ The concourse `resources types` are,
   [docker image](https://hub.docker.com/r/cfcommunity/slack-notification-resource)
   that will notify slack on your progress
 * `resource-repo-status` uses a resource type
-  [docker image](https://hub.docker.com/r/dpb587/github-status-resource)
+  [docker image](https://hub.docker.com/r/jeffdecola/github-status-resource-clone)
   that will update your git status for that particular commit
 
 For more information on using concourse for continuous integration,
