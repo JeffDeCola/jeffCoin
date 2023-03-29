@@ -11,7 +11,7 @@ I use concourse to automate,
 
 The concourse
 [pipeline.yml](https://github.com/JeffDeCola/jeffcoin/blob/master/ci/pipeline.yml)
-shows the entire ci flow. Visually, it looks like,
+shows the entire ci flow,
 
 ![IMAGE - jeffcoin concourse ci pipeline - IMAGE](docs/pics/jeffCoin-pipeline.jpg)
 
