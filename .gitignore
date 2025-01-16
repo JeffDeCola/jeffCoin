@@ -1,8 +1,7 @@
-# CONCOURSE
-.credentials.yml
+# golang-jeffCoin.gitignore
 
-# GO
-coverage.out
+# CONCOURSE SECRETS
+.credentials.yml
 
 # macOS
 .DS_Store
@@ -10,14 +9,11 @@ coverage.out
 # WINDOWS
 *.jpg:Zone.Identifier
 
-# Ignore all binaries, but not build.sh
-**/bin/hello-go
+# RUN (BINARIES)
+# **/bin/?????
 
-# Ignore test coverage
+# TEST
 **/test/test_coverage.txt
-
-# Ignore binary used for build
-**/build-push/hello-go
 
 # Ignore passwords and wallets except the mock ones
 /credentials/*.json
