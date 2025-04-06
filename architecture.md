@@ -1,8 +1,11 @@
 # jeffCoin ARCHITECTURE
 
-_This readme describes the software architecture and functions/methods of jeffCoin._
+[![jeffdecola.com](https://img.shields.io/badge/website-jeffdecola.com-blue)](https://jeffdecola.com)
+[![MIT License](https://img.shields.io/:license-mit-blue.svg)](https://jeffdecola.mit-license.org)
 
-Table of contents,
+_The software architecture and functions/methods of jeffCoin._
+
+Table of Contents
 
 * [ARCHITECTURE OVERVIEW](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#architecture-overview)
 * [1. BLOCKCHAIN](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#1-blockchain)
@@ -17,11 +20,16 @@ Table of contents,
   * [5.1 GUI](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#51-gui)
   * [5.2 REST API](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md#52-rest-api)
 
+Documentation and Reference
+
+* [jeffCoin](https://github.com/JeffDeCola/jeffCoin)
+  main page
+
 ## ARCHITECTURE OVERVIEW
 
 The following illustration shows how the code is divided into five main areas,
 
-![IMAGE - jeffCoin-architecture - IMAGE](docs/pics/jeffCoin-architecture.jpg)
+![IMAGE - jeffCoin-architecture - IMAGE](docs/pics/jeffCoin-architecture.svg)
 
 ## 1. BLOCKCHAIN
 
@@ -63,7 +71,7 @@ The states of a block are,
 
 This illustration may help,
 
-![IMAGE - pendingBlock-lockedBlock-and-blockchain-flow - IMAGE](docs/pics/pendingBlock-lockedBlock-and-blockchain-flow.jpg)
+![IMAGE - pendingBlock-lockedBlock-and-blockchain-flow - IMAGE](docs/pics/pendingBlock-lockedBlock-and-blockchain-flow.svg)
 
 **[BLOCKCHAIN-INTERFACE FUNCTIONS](https://github.com/JeffDeCola/jeffCoin/blob/master/blockchain/blockchain-interface.go)**
 
@@ -212,7 +220,7 @@ This illustration shows transaction requests, verification for that request
 and addition onto the pendingBlock. A transaction is never valid until
 it is added to the blockchain.
 
-![IMAGE - transaction-request-message-flow - IMAGE](docs/pics/transaction-request-message-flow.jpg)
+![IMAGE - transaction-request-message-flow - IMAGE](docs/pics/transaction-request-message-flow.svg)
 
 ## 2. MINER
 
@@ -247,7 +255,7 @@ type tbd struct {
   * **tbd()**
     _tbd_
 
-![IMAGE - mining-control-and-consensus-flow - IMAGE](docs/pics/mining-control-and-consensus-flow.jpg)
+![IMAGE - mining-control-and-consensus-flow - IMAGE](docs/pics/mining-control-and-consensus-flow.svg)
 
 ## 3. ROUTINGNODE
 
@@ -332,13 +340,14 @@ Incoming requests to the TCP Server from other Nodes or TCP connection.
 
 An illustration of client-server handshakes,
 
-![IMAGE - tcp-client-server-handshake - IMAGE](docs/pics/tcp-client-server-handshake.jpg)
+![IMAGE - tcp-client-server-handshake - IMAGE](docs/pics/tcp-client-server-handshake.svg)
 
 **[HANDLERS](https://github.com/JeffDeCola/jeffCoin/blob/master/routingnode/handlers.go)**
 
 * FROM BLOCKCHAIN I/F
   * **handleSendBlockchain()**
-    _SEND-BLOCKCHAIN (**SBC**)- Sends the blockchain and pendingBlock to another Node_
+    _SEND-BLOCKCHAIN (**SBC**)- Sends the blockchain and
+    pendingBlock to another Node_
 * FROM ROUTINGNODE I/F
   * **handleBroadcastAddNewNode()**
     _BROADCAST-ADD-NEW-NODE (**BANN**) - Adds a Node to the nodeList_
