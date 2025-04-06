@@ -1,12 +1,12 @@
 # jeffCoin
 
 [![Tag Latest](https://img.shields.io/github/v/tag/jeffdecola/jeffCoin)](https://github.com/JeffDeCola/jeffCoin/tags)
+[![jeffdecola.com](https://img.shields.io/badge/website-jeffdecola.com-blue)](https://jeffdecola.com)
+[![MIT License](https://img.shields.io/:license-mit-blue.svg)](https://jeffdecola.mit-license.org)
 [![Go Reference](https://pkg.go.dev/badge/github.com/JeffDeCola/jeffCoin.svg)](https://pkg.go.dev/github.com/JeffDeCola/jeffCoin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/JeffDeCola/jeffCoin)](https://goreportcard.com/report/github.com/JeffDeCola/jeffCoin)
 [![codeclimate Maintainability](https://api.codeclimate.com/v1/badges/0c7cf619a01dd65fc06b/maintainability)](https://codeclimate.com/github/JeffDeCola/jeffCoin/maintainability)
 [![codeclimate Issue Count](https://codeclimate.com/github/JeffDeCola/jeffCoin/badges/issue_count.svg)](https://codeclimate.com/github/JeffDeCola/jeffCoin/issues)
-[![MIT License](https://img.shields.io/:license-mit-blue.svg)](https://jeffdecola.mit-license.org)
-[![jeffdecola.com](https://img.shields.io/badge/website-jeffdecola.com-blue)](https://jeffdecola.com)
 
 ```text
 *** THE REPO IS UNDER CONSTRUCTION - CHECK BACK SOON ***
@@ -15,11 +15,11 @@
 _A cryptocurrency (transaction based data) built on distributed decentralized
 multi-node P2P open Network using a sha256 Proof of Work (PoW) **blockchain**
 with a REST JSON API and a TCP Server to communicate between
-the Nodes over IP._
+the Nodes over IP. Or more simply, **a distributed decentralized public ledger.**_
 
-Or more simply, **a distributed decentralized public ledger.**
+Dive In
 
-To dive right in, head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run).
+* Head down to [RUN](https://github.com/JeffDeCola/jeffCoin#run)
 
 Table of Contents
 
@@ -46,7 +46,7 @@ Documentation and Reference
 * [blockchain-cheat-sheet](https://github.com/JeffDeCola/my-cheat-sheets/tree/master/software/development/software-architectures/blockchain/blockchain-cheat-sheet)
 * I got a lot of inspiration
   [here](https://github.com/nosequeldeebee/blockchain-tutorial)
-* My software architecture is located in
+* software architecture is located in
   [architecture.md](https://github.com/JeffDeCola/jeffCoin/blob/master/architecture.md)
 * This repos
   [github webpage](https://jeffdecola.github.io/jeffCoin/)
@@ -119,7 +119,7 @@ building bigger and better things.
 
 The following illustration shows the jeffCoin Network of Nodes,
 
-![IMAGE - the-jeffcoin-network - IMAGE](docs/pics/the-jeffcoin-network.jpg)
+![IMAGE - the-jeffcoin-network - IMAGE](docs/pics/the-jeffcoin-network.svg)
 
 Coins (a.k.a jeffCoins) are minted as follows,
 
@@ -189,7 +189,7 @@ But if they did make there way onto git you are still protected as follows,
 
 This illustration may help,
 
-![IMAGE - password-and-key-flow - IMAGE](docs/pics/password-and-key-flow.jpg)
+![IMAGE - password-and-key-flow - IMAGE](docs/pics/password-and-key-flow.svg)
 
 ## RUN
 
